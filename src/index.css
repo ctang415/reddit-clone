@@ -1,0 +1,66 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.nav-bar {
+    height: 3em;
+}
+
+.body {
+    min-height: 100vh;
+    background-color: #DAE0E6;
+}
+
+.modal {  
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 2vh;
+    background-color: white;
+    color: black;
+    margin: 2.7% auto; /* 15% from the top and centered */
+    height: 90vh;
+    width: 28%; /* Could be more or less, depending on screen size */
+    font-size: 0.7em;
+    gap: 1.5vh;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    align-items: center;
+}
+
+form > input {
+    padding: 0.9em;
+    border-radius: 2em;
+    width: 70%;
+    border: none;
+    background-color: #DAE0E6;
+}
+
+
+
+.login-button {
+    color: white;
+    background-color: #ff4500;
+    width:75%;
+    padding: 0.9em;
+    border-radius: 2em;
+    border: none;
+    font-weight: bold;
+}
