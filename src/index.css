@@ -27,40 +27,77 @@
 .modal-text {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    border-radius: 2vh;
+    border-radius: 1em;
     background-color: white;
     color: black;
     margin: 2.7% auto; /* 15% from the top and centered */
-    height: 90vh;
-    width: 28%; /* Could be more or less, depending on screen size */
+    height: 57em;
+    width: 36em; /* Could be more or less, depending on screen size */
     font-size: 0.7em;
-    gap: 1.5vh;
+    gap: 1.5em;
+    box-shadow: 2px 8px 16px 0 rgba(0, 0, 0, 0.5);
+}
+
+.modal-text-top {
+    display: flex;
+    flex-direction: column;
+    margin: auto 15%;
+}
+
+#modal-text-header {
+    font-size: 1.5em;
+    font-weight: 500;
+}
+
+#modal-close-button {
+    cursor: pointer;
+    color: grey;
+    font-size: 1.5em;
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 0.7em;
+}
+
+.modal-links {
+    cursor: pointer;
+    color: rgb(0, 123, 255);
+    font-weight: bold;
+    text-decoration: underline;
 }
 
 form {
     display: flex;
     flex-direction: column;
     gap: 1em;
-    align-items: center;
+    margin: auto 15%;
 }
 
 form > input {
+    color: black;
     padding: 0.9em;
     border-radius: 2em;
-    width: 70%;
+    width: 90%;
     border: none;
-    background-color: #DAE0E6;
+    background-color: #f5f6f7;
 }
-
-
 
 .login-button {
     color: white;
     background-color: #ff4500;
-    width:75%;
+    width: 100%;
     padding: 0.9em;
     border-radius: 2em;
     border: none;
     font-weight: bold;
+}
+
+.forgot-user-links {
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+}
+
+#modal-links-dot {
+    color: rgb(0, 123, 255);
+    font-size: 0.3em;
 }

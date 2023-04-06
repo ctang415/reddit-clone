@@ -15,7 +15,7 @@ const Header = () => {
     const auth = getAuth(app);
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
-
+/*
     createUserWithEmailAndPassword (auth, email, password)
     .then((userCredential) => {
     // Signed in 
@@ -50,7 +50,7 @@ const Header = () => {
         // ...
     }
     });
-
+*/
 /*
 getAuth()
 .createUser({
@@ -94,6 +94,7 @@ onAuthStateChanged(getAuth(), authStateObserver);
 
     const [ modalIsTrue, setModalIsTrue ] = useState(false)
     const handleClick = (e) => {
+        e.preventDefault()
         setModalIsTrue(true)
     }
 
@@ -101,7 +102,7 @@ onAuthStateChanged(getAuth(), authStateObserver);
         <nav className="nav-bar">
             <span>freddit</span>
             <input type="search"></input>
-            <Modal modalIsTrue={modalIsTrue} createUserWithEmailAndPassword={createUserWithEmailAndPassword} 
+            <Modal modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} createUserWithEmailAndPassword={createUserWithEmailAndPassword} 
             signInWithEmailAndPassword={signInWithEmailAndPassword} />
             <button onClick={handleClick}>Log In</button>
         </nav>
