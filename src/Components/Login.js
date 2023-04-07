@@ -56,8 +56,8 @@ const Login = ( {signInWithEmailAndPassword, setSignUp, login, setLogin, setForg
             <span className="modal-divider-text">OR</span>
             </div>
             <form>
-                <input type="text"></input>
-                <input type="password"></input>
+                <input type="text" placeholder="Username"></input>
+                <input type="password" placeholder="Password"></input>
                 <span className="modal-text-box">
                     Forget your <span className="modal-links" onClick={displayForgotUser}>username</span> or <span className="modal-links" onClick={displayForgotPassword}>password</span> ?
                 </span>

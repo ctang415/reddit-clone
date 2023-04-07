@@ -11,11 +11,12 @@ import {
 
 
 const Signup = ( { setSignUp, signUp, setLogin} ) => {
-    const [ email, setEmail ] = useState("")
+    const [ email, setEmail ] = useState(false)
     const [ password, setPassword ] = useState("")
     const auth = getAuth()
 
-    const createUser = () => {
+    const createUser = (e) => {
+        e.preventDefault()
         createUserWithEmailAndPassword(auth, email, password)
     }
 
@@ -34,7 +35,7 @@ const Signup = ( { setSignUp, signUp, setLogin} ) => {
                 </div>
                 <form>
                     <input type="email"></input>
-                    <button type="submit" onSubmit={(e) => createUser} className="login-button">Continue</button>
+                    <button type="submit" onSubmit={() => createUser} className={ email ? "login-button" : "login-button-false"} >Continue</button>
                     <span>Already a fredditor? <span className="modal-links" onClick={displayLogin}>Log In</span></span>
                 </form>
             </div>

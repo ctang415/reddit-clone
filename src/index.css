@@ -5,7 +5,23 @@
 }
 
 .nav-bar {
+    display: flex;
+    flex-direction: row;
     height: 3em;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-bar > input {
+    border-radius: 2em;
+    height: 70%;
+    width: 50%;
+    background-color:#f5f6f7;
+    border: none;
+}
+
+#nav-bar-input {
+    padding: 1em;
 }
 
 .body {
@@ -142,14 +158,45 @@ form > input {
     border-color: #cdd9e3;
 }
 
+.header-login-button {
+    color: white;
+    background-color:rgb(35, 109, 244);
+    height: 70%;
+    width: 8.5em;
+    border-radius: 2em;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.header-login-button:hover {
+    background-color:rgb(53, 118, 237);
+}
+
 .login-button {
     color: white;
-    background-color: #ff4500;
+    background-color: #e23c00;
     width: 100%;
     padding: 0.9em;
     border-radius: 2em;
     border: none;
     font-weight: bold;
+    cursor: pointer;
+}
+
+.login-button-false {
+    color: white;
+    opacity: 0.5;
+    background-color: #e23c00;
+    width: 100%;
+    padding: 0.9em;
+    border-radius: 2em;
+    border: none;
+    font-weight: bold;
+}
+
+.login-button:hover {
+    background-color: #e73e00;
 }
 
 .forgot-user-links {

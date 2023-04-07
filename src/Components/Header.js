@@ -86,10 +86,10 @@ onAuthStateChanged(getAuth(), authStateObserver);
     return (
         <nav className="nav-bar">
             <span>freddit</span>
-            <input type="search"></input>
+            <input id="nav-bar-input" type="search" placeholder="Search Freddit"></input>
             <Modal modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} 
             />
-            <button onClick={handleClick}>Log In</button>
+            <button className="header-login-button" onClick={handleClick}>Log In</button>
         </nav>
     )
 }
