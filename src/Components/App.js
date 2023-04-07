@@ -6,10 +6,9 @@ import Header from './Header';
 import Home from './Home';
 
 function App() {
-  // Signs-out of Friendly Chat.
+
   useEffect(() => {
     const signOutUser = () => {
-      // Sign out of Firebase.
       signOut(getAuth());
     }
     signOutUser()

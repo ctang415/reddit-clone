@@ -17,20 +17,24 @@ const ForgotPassword = ( {forgotPassword, setForgotPassword, setLogin, setSignUp
         setForgotUser(true)
     }
 
+    const handleReset = (e) => {
+        e.preventDefault()
+    }
+
     if (forgotPassword) {
         return (
-            <div>
+            <div className="modal-pop-ups">
                 <div className="modal-text-top">
                     <span id="modal-text-header">Reset your password</span>
-                    <span>Tell us the email address associated with your Freddit account, and we'll send you an email with your username.</span>
+                    <span id="modal-text-agreement">Tell us the email address associated with your Freddit account, and we'll send you an email with your username.</span>
                 </div>
                 <form>
-                    <input type="text"></input>
-                    <input type="email"></input>
+                    <input type="text" placeholder="Username" required></input>
+                    <input type="email" placeholder="Email" required></input>
                     <span>
                         Forget your <span className="modal-links" onClick={displayForgotUser}>username</span> ?
                     </span>
-                    <button type="submit" className="login-button">Reset password</button>
+                    <button type="submit" onSubmit={handleReset} className="login-button">Reset password</button>
                     <span>
                         Don't have an email or need assistance logging in? <span className="modal-links">Get Help</span>
                     </span>

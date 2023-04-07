@@ -19,8 +19,6 @@ const Modal = ( {modalIsTrue, setModalIsTrue } ) => {
     const [ signUp, setSignUp ] = useState(false)
     const [ forgotUser, setForgotUser ] = useState(false)
     const [ forgotPassword, setForgotPassword ] = useState(false)
-    const [ email, setEmail ] = useState("")
-    const [ password, setPassword ] = useState("")
 
     const closeModal = (e) => {
         setModalIsTrue(false)
@@ -34,15 +32,19 @@ const Modal = ( {modalIsTrue, setModalIsTrue } ) => {
         return (
             <div className="modal">
                 <div className="modal-text">
-                    <div onClick={closeModal} id="modal-close-button">
-                        X
+                    <div className="modal-close-div">
+                        <div onClick={closeModal} id="modal-close-button">
+                            X
+                        </div>
                     </div>
                     <Login 
                     setSignUp={setSignUp} setLogin={setLogin} login={login}
                     setForgotUser={setForgotUser} setForgotPassword={setForgotPassword}
+                    setModalIsTrue={setModalIsTrue}
                     />
                     <Signup
                     setLogin={setLogin} signUp={signUp} setSignUp={setSignUp} 
+                    setModalIsTrue={setModalIsTrue}
                     />
                     <ForgotUser 
                     setLogin={setLogin} setSignUp={setSignUp}

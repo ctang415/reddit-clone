@@ -12,16 +12,20 @@ const ForgotUser = ( { setSignUp, setLogin, forgotUser, setForgotUser } ) => {
         setSignUp(true)
     }
 
+    const handleButton = (e) => {
+        e.preventDefault()
+    }
+
     if (forgotUser) {
         return (
-            <div>
+            <div className="modal-pop-ups">
                 <div className="modal-text-top">
                     <span id="modal-text-header">Recover your username</span>
-                    <span>Tell us the email address associated with your Freddit account, and we'll send you an email with your username.</span>
+                    <span id="modal-text-agreement">Tell us the email address associated with your Freddit account, and we'll send you an email with your username.</span>
                 </div>
                 <form>
-                    <input type="email"></input>
-                    <button type="submit" className="login-button">Email Me</button>
+                    <input type="email" placeholder="Email" required></input>
+                    <button type="submit" onSubmit={handleButton} className="login-button">Email Me</button>
                     <span>
                         Don't have an email or need assistance logging in? <span className="modal-links">Get Help</span>
                     </span>

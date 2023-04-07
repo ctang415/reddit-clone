@@ -41,8 +41,6 @@
 }
 
 .modal-text {
-    display: flex;
-    flex-direction: column;
     border-radius: 1em;
     background-color: white;
     color: black;
@@ -52,6 +50,13 @@
     font-size: 0.7em;
     gap: 1.5em;
     box-shadow: 2px 8px 16px 0 rgba(0, 0, 0, 0.5);
+
+}
+
+.modal-pop-ups {
+    display: flex;
+    flex-direction: column;
+    margin: 10% auto;
 }
 
 .modal-text-top {
@@ -74,13 +79,31 @@
     padding-bottom: 3em;
 }
 
+.modal-close-div {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+#modal-text-span {
+    padding-bottom: 2em;
+}
+
+.modal-arrow-div {
+    display: flex;
+    padding-bottom: 5em;
+}
+
 #modal-close-button {
     cursor: pointer;
     color: grey;
     font-size: 1.5em;
-    display: flex;
-    flex-direction: row-reverse;
     padding: 0.7em;
+}
+
+#modal-arrow-button {
+    cursor: pointer;
+    color: grey;
+    font-size: 2em;
 }
 
 .modal-links {
@@ -143,7 +166,7 @@
 form {
     display: flex;
     flex-direction: column;
-    gap: 1em;
+    gap: 2em;
     margin: auto 15%;
 }
 

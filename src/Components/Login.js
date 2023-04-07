@@ -11,7 +11,7 @@ import {
   } from 'firebase/auth';
 import { app } from "../firebase-config";
 
-const Login = ( {signInWithEmailAndPassword, setSignUp, login, setLogin, setForgotUser, setForgotPassword} ) => {
+const Login = ( {signInWithEmailAndPassword, setSignUp, login, setLogin, setForgotUser, setForgotPassword, setModalIsTrue} ) => {
     const auth = getAuth();
 
     const displaySignUp = (e) => {
@@ -44,9 +44,13 @@ const Login = ( {signInWithEmailAndPassword, setSignUp, login, setLogin, setForg
         await signInWithPopup(auth, provider);
       }
 
+      const handleSubmit = (e) => {
+        e.preventDefault()
+      }
+
     if (login) {
         return (
-            <div>
+            <div className="modal-pop-ups">
                 <div className="modal-text-top">
                 <span id="modal-text-header">Log In</span>
                 <span id="modal-text-agreement">By continuing, you agree are setting up a Freddit account and agree to our User Agreement and Privacy Policy.</span>
@@ -56,13 +60,13 @@ const Login = ( {signInWithEmailAndPassword, setSignUp, login, setLogin, setForg
             <span className="modal-divider-text">OR</span>
             </div>
             <form>
-                <input type="text" placeholder="Username"></input>
-                <input type="password" placeholder="Password"></input>
+                <input type="text" placeholder="Username" required></input>
+                <input type="password" placeholder="Password" required></input>
                 <span className="modal-text-box">
                     Forget your <span className="modal-links" onClick={displayForgotUser}>username</span> or <span className="modal-links" onClick={displayForgotPassword}>password</span> ?
                 </span>
                 <div className="modal-text-buttons">
-                <button type="submit" onSubmit={(e) => signInWithEmailAndPassword} className="login-button">Log In</button>
+                <button type="submit" onSubmit={handleSubmit} className="login-button">Log In</button>
                 </div>
                 <span>New to Freddit? <span className="modal-links" onClick={displaySignUp}>Sign up</span></span>
             </form>
