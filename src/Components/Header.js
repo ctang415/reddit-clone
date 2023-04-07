@@ -1,20 +1,7 @@
 import React, { useState } from "react";
-import {
-    getAuth,
-    onAuthStateChanged,
-    GoogleAuthProvider,
-    signInWithPopup,
-    signOut,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword
-  } from 'firebase/auth';
-import { app } from "../firebase-config";
 import Modal from "./Modal";
 
 const Header = () => {
-    const auth = getAuth(app);
-    const [ email, setEmail ] = useState("")
-    const [ password, setPassword ] = useState("")
 /*
     createUserWithEmailAndPassword (auth, email, password)
     .then((userCredential) => {
@@ -50,8 +37,7 @@ const Header = () => {
         // ...
     }
     });
-*/
-/*
+
 getAuth()
 .createUser({
   email: 'user@example.com',
@@ -69,8 +55,7 @@ getAuth()
 .catch((error) => {
   console.log('Error creating new user:', error);
 });
-*/
-/*
+
 async function signIn() {
   // Sign in Firebase using popup auth and Google as the identity provider.
   var provider = new GoogleAuthProvider();
@@ -102,8 +87,8 @@ onAuthStateChanged(getAuth(), authStateObserver);
         <nav className="nav-bar">
             <span>freddit</span>
             <input type="search"></input>
-            <Modal modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} createUserWithEmailAndPassword={createUserWithEmailAndPassword} 
-            signInWithEmailAndPassword={signInWithEmailAndPassword} />
+            <Modal modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} 
+            />
             <button onClick={handleClick}>Log In</button>
         </nav>
     )

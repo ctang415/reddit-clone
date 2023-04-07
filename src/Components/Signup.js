@@ -1,6 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
+import {
+    getAuth,
+    onAuthStateChanged,
+    GoogleAuthProvider,
+    signInWithPopup,
+    signOut,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword
+  } from 'firebase/auth';
 
-const Signup = ( {createUserWithEmailAndPassword, setSignUp, signUp, setLogin} ) => {
+
+const Signup = ( { setSignUp, signUp, setLogin} ) => {
+    const [ email, setEmail ] = useState("")
+    const [ password, setPassword ] = useState("")
+    const auth = getAuth()
+
+    const createUser = () => {
+        createUserWithEmailAndPassword(auth, email, password)
+    }
+
 
     const displayLogin = (e) => {
         setSignUp(false)
@@ -16,7 +34,7 @@ const Signup = ( {createUserWithEmailAndPassword, setSignUp, signUp, setLogin} )
                 </div>
                 <form>
                     <input type="email"></input>
-                    <button type="submit" onSubmit={(e) => createUserWithEmailAndPassword} className="login-button">Continue</button>
+                    <button type="submit" onSubmit={(e) => createUser} className="login-button">Continue</button>
                     <span>Already a fredditor? <span className="modal-links" onClick={displayLogin}>Log In</span></span>
                 </form>
             </div>

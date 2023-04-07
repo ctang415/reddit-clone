@@ -3,12 +3,24 @@ import ForgotPassword from "./ForgotPassword";
 import ForgotUser from "./ForgotUser";
 import Login from "./Login";
 import Signup from "./Signup";
+import {
+    getAuth,
+    onAuthStateChanged,
+    GoogleAuthProvider,
+    signInWithPopup,
+    signOut,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword
+  } from 'firebase/auth';
+import { app } from "../firebase-config";
 
-const Modal = ( {modalIsTrue, setModalIsTrue, createUserWithEmailAndPassword, signInWithEmailAndPassword } ) => {
+const Modal = ( {modalIsTrue, setModalIsTrue } ) => {
     const [ login, setLogin ] = useState(true)
     const [ signUp, setSignUp ] = useState(false)
     const [ forgotUser, setForgotUser ] = useState(false)
     const [ forgotPassword, setForgotPassword ] = useState(false)
+    const [ email, setEmail ] = useState("")
+    const [ password, setPassword ] = useState("")
 
     const closeModal = (e) => {
         setModalIsTrue(false)
@@ -26,12 +38,10 @@ const Modal = ( {modalIsTrue, setModalIsTrue, createUserWithEmailAndPassword, si
                         X
                     </div>
                     <Login 
-                    signInWithEmailAndPassword={signInWithEmailAndPassword}
                     setSignUp={setSignUp} setLogin={setLogin} login={login}
                     setForgotUser={setForgotUser} setForgotPassword={setForgotPassword}
                     />
-                    <Signup 
-                    createUserWithEmailAndPassword={createUserWithEmailAndPassword} 
+                    <Signup
                     setLogin={setLogin} signUp={signUp} setSignUp={setSignUp} 
                     />
                     <ForgotUser 

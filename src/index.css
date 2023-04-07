@@ -44,9 +44,18 @@
     margin: auto 15%;
 }
 
+.modal-text-top > span {
+    gap: 1em;
+}
+
 #modal-text-header {
     font-size: 1.5em;
     font-weight: 500;
+    padding-bottom: 0.5em;
+}
+
+#modal-text-agreement {
+    padding-bottom: 3em;
 }
 
 #modal-close-button {
@@ -65,6 +74,56 @@
     text-decoration: underline;
 }
 
+.modal-sign-in {
+    cursor: pointer;
+    width: 100%;
+    padding: 0.9em;
+    border-radius: 2em;
+    border: solid;
+    background-color: white;
+    border-color: #DAE0E6;
+}
+
+.modal-sign-in:hover {
+    background-color:rgb(243, 249, 255);
+}
+
+.modal-divider {
+    text-align: center;
+    color: grey;
+    font-weight: bold;
+    font-size: 1.08em;
+    padding: 2em;
+}
+
+.modal-divider-text {
+    display: flex;
+    flex-direction: row;
+}
+
+.modal-text-buttons {
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.modal-text-box {
+    padding-top:1em;
+}
+
+.modal-divider-text:before, .modal-divider-text:after{
+    content: "";
+    flex: 1 1;
+    border-bottom: 0.1em solid;
+    border-color:#DAE0E6;
+    margin: auto 11%;
+  }
+  .modal-divider-text:before {
+    margin-right: 1.5em;
+  }
+  .modal-divider-text:after {
+    margin-left: 1.5em;
+  }
+
 form {
     display: flex;
     flex-direction: column;
@@ -79,6 +138,8 @@ form > input {
     width: 90%;
     border: none;
     background-color: #f5f6f7;
+    border: solid;
+    border-color: #cdd9e3;
 }
 
 .login-button {
