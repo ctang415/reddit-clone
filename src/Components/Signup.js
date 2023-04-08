@@ -59,7 +59,7 @@ const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue} ) => {
     else {
         return (
             <CreateUser email={email} createUser={createUser} setCreateUser={setCreateUser}
-            setModalIsTrue={setModalIsTrue} setSignUp={setSignUp}
+            setModalIsTrue={setModalIsTrue} setSignUp={setSignUp} setLogin={setLogin}
             />
         )
     }

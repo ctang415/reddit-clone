@@ -163,6 +163,11 @@
     margin-left: 1.5em;
   }
 
+  #text-warning {
+    font-weight: bold;
+    color:grey;
+  }
+
 form {
     display: flex;
     flex-direction: column;

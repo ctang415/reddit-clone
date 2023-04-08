@@ -1,43 +1,57 @@
 import React, { useState } from "react";
 import Modal from "./Modal";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 
 const Header = () => {
+    const auth = getAuth();
 /*
-    createUserWithEmailAndPassword (auth, email, password)
-    .then((userCredential) => {
-    // Signed in 
-        const user = userCredential.user;
-    // ...
-    })
-    .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-    // ..
-    });
+    // Initialize firebase auth
+const initFirebaseAuth = () => {
+    onAuthStateChanged(getAuth(), authStateObserver);
+    };
 
-    signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    // ...
-    })
-    .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-    });
 
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-            const uid = user.uid;
-        // ...
-    } else {
-        // User is signed out
-        // ...
+const authStateObserver = (user) => {
+    if (user) { // User is signed in!
+      // Get the signed-in user's profile pic and name.
+      var profilePicUrl = getProfilePicUrl();
+      var userName = getUserName();
+  
+      // Set the user's profile pic and name.
+      userPicElement.style.backgroundImage = 'url(' + addSizeToGoogleProfilePic(profilePicUrl) + ')';
+      userNameElement.textContent = userName;
+  
+      // Show user's profile and sign-out button.
+      userNameElement.removeAttribute('hidden');
+      userPicElement.removeAttribute('hidden');
+      signOutButtonElement.removeAttribute('hidden');
+  
+      // Hide sign-in button.
+      signInButtonElement.setAttribute('hidden', 'true');
+  
+      // We save the Firebase Messaging Device token and enable notifications.
+      saveMessagingDeviceToken();
+    } else { // User is signed out!
+      // Hide user's profile and sign-out button.
+      userNameElement.setAttribute('hidden', 'true');
+      userPicElement.setAttribute('hidden', 'true');
+      signOutButtonElement.setAttribute('hidden', 'true');
+  
+      // Show sign-in button.
+      signInButtonElement.removeAttribute('hidden');
     }
-    });
+  }
 
+  function getProfilePicUrl() {
+    return getAuth().currentUser.photoURL || '/images/profile_placeholder.png';
+  }
+
+  function getUserName() {
+    return getAuth().currentUser.displayName;
+  }
+*/
+/*
 getAuth()
 .createUser({
   email: 'user@example.com',
@@ -55,26 +69,6 @@ getAuth()
 .catch((error) => {
   console.log('Error creating new user:', error);
 });
-
-async function signIn() {
-  // Sign in Firebase using popup auth and Google as the identity provider.
-  var provider = new GoogleAuthProvider();
-  await signInWithPopup(getAuth(), provider);
-}
-
-
-
-// Signs-out of Friendly Chat.
-function signOutUser() {
-// Sign out of Firebase.
-signOut(getAuth());
-}
-/*
-// Initialize firebase auth
-function initFirebaseAuth() {
-// Listen to auth state changes.
-onAuthStateChanged(getAuth(), authStateObserver);
-}
 */
 
     const [ modalIsTrue, setModalIsTrue ] = useState(false)

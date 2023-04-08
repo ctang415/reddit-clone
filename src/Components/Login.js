@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     getAuth,
     onAuthStateChanged,
@@ -13,6 +13,9 @@ import { app } from "../firebase-config";
 
 const Login = ( {signInWithEmailAndPassword, setSignUp, login, setLogin, setForgotUser, setForgotPassword, setModalIsTrue} ) => {
     const auth = getAuth();
+    const [ username, setUsername ] = useState("")
+    const [ email, setEmail ] = useState("")
+    const [ password, setPassword ] = useState("")
 
     const displaySignUp = (e) => {
         setSignUp(true)
@@ -43,9 +46,24 @@ const Login = ( {signInWithEmailAndPassword, setSignUp, login, setLogin, setForg
             prompt: 'select_account'})
         await signInWithPopup(auth, provider);
       }
+      
+      const signInWithEmail = () => {
+        signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+      });
+    }
 
       const handleSubmit = (e) => {
         e.preventDefault()
+        signInWithEmail()
+        setModalIsTrue(false)
       }
 
     if (login) {
@@ -60,8 +78,8 @@ const Login = ( {signInWithEmailAndPassword, setSignUp, login, setLogin, setForg
             <span className="modal-divider-text">OR</span>
             </div>
             <form>
-                <input type="text" placeholder="Username" required></input>
-                <input type="password" placeholder="Password" required></input>
+                <input type="text" placeholder="Username" onInput={(e) => setUsername(e.target.value)} required></input>
+                <input type="password" placeholder="Password" onInput={(e) => setPassword(e.target.value)} required></input>
                 <span className="modal-text-box">
                     Forget your <span className="modal-links" onClick={displayForgotUser}>username</span> or <span className="modal-links" onClick={displayForgotPassword}>password</span> ?
                 </span>

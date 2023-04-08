@@ -8,17 +8,39 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword
   } from 'firebase/auth';
+import { setDoc, doc } from "firebase/firestore";
+import { db } from "../firebase-config";
 
-  const CreateUser = ( {createUser, setSignUp, setCreateUser, email, setModalIsTrue }) => {
+  const CreateUser = ( {createUser, setSignUp, setCreateUser, email, setLogin, setModalIsTrue }) => {
     const [ username, setUsername ] = useState("")
     const [ password, setPassword ] = useState("")
     const auth = getAuth()
+
+    const createCollection = async () => {
+        await setDoc(doc(db, "users", username), {
+            email: email,
+            username: username,
+            avatar: "",
+            karma: "",
+            created: "",
+            posts: [],
+            comments: [],
+            joined: [],
+            upvoted: [],
+            downvoted: [],
+            dark: false
+        })
+    }
 
     const createAccount = (e) => {
         e.preventDefault()
         createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
+            setCreateUser(false)
+            setModalIsTrue(false)
+            setLogin(true)
+            createCollection()
             // ...
           })
           .catch((error) => {
@@ -26,9 +48,9 @@ import {
             const errorMessage = error.message;
             // ..
           });
-          setCreateUser(false)
-          setModalIsTrue(false)
     }
+
+    
 
     const returnToPage = (e) => {
         setCreateUser(false)
@@ -51,9 +73,10 @@ import {
                     </span>
                 </div>
                 <form onSubmit={createAccount}>
-                    <input type="text" placeholder="Username" onInput={(e) => setUsername(e.target.value) } required></input>
-                    <input type="password" placeholder="Password" onInput={ (e)=> setPassword(e.target.value) } required></input>
+                    <input type="text" placeholder="Username" minLength="3" maxLength="20" onInput={(e) => setUsername(e.target.value) } required></input>
+                    <input type="password" placeholder="Password" minLength="8" onInput={(e)=> setPassword(e.target.value) } required></input>
                     <button type="submit" className={ email ? "login-button" : "login-button-false"} >Continue</button>
+                    <span id="text-warning">*Please do not put your real information!*</span>
                 </form>
             </div>
         )
