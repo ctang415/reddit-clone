@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-
+import UserDrop from "./UserDrop";
 
 const Header = () => {
+    const [ modalIsTrue, setModalIsTrue ] = useState(false)
+    const [ drop, setDrop ] = useState(false)
     const auth = getAuth();
+    const user = auth.currentUser;
+    const [ myUser, setMyUser ] = useState([])
+    
+    useEffect(() => {
+        if (user !== null) {
+            setMyUser([user])
+        }
+    }, [user]);
+
 /*
-    // Initialize firebase auth
-const initFirebaseAuth = () => {
-    onAuthStateChanged(getAuth(), authStateObserver);
-    };
-
-
 const authStateObserver = (user) => {
     if (user) { // User is signed in!
       // Get the signed-in user's profile pic and name.
@@ -51,41 +56,62 @@ const authStateObserver = (user) => {
     return getAuth().currentUser.displayName;
   }
 */
-/*
-getAuth()
-.createUser({
-  email: 'user@example.com',
-  emailVerified: false,
-  phoneNumber: '+11234567890',
-  password: 'secretPassword',
-  displayName: 'John Doe',
-  photoURL: 'http://www.example.com/12345678/photo.png',
-  disabled: false,
-})
-.then((userRecord) => {
-  // See the UserRecord reference doc for the contents of userRecord.
-  console.log('Successfully created new user:', userRecord.uid);
-})
-.catch((error) => {
-  console.log('Error creating new user:', error);
-});
-*/
 
-    const [ modalIsTrue, setModalIsTrue ] = useState(false)
     const handleClick = (e) => {
         e.preventDefault()
-        setModalIsTrue(true)
+        if (!user) {
+            setModalIsTrue(true)
+            }
+        else {
+            setDrop(!drop)
+            console.log(user)
+        }
     }
 
-    return (
-        <nav className="nav-bar">
-            <span>freddit</span>
-            <input id="nav-bar-input" type="search" placeholder="Search Freddit"></input>
-            <Modal modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} 
-            />
-            <button className="header-login-button" onClick={handleClick}>Log In</button>
-        </nav>
-    )
+
+    if (!user) {
+        return (
+            <div>
+                <nav className="nav-bar">
+                    <span>freddit</span>
+                    <input id="nav-bar-input" type="search" placeholder="Search Freddit"></input>
+                    <Modal modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} 
+                    />
+                    <button className="header-login-button" onClick={handleClick}>Log In</button>
+                </nav>
+            </div>
+        )
+    } else {
+        return (
+        <div>
+        {myUser.map(user => {
+        return (
+            <nav key={user.displayName} className="nav-bar">
+                <span>freddit</span>
+                <input id="nav-bar-input" type="search" placeholder="Search Freddit"></input>
+            <div className="drop">
+                <div className="header-user-profile" onClick={handleClick}>
+                    <div className="user-right">
+                        <div className="user-avatar">
+                            <img id="nav-bar-image" src={user.photoURL}></img>
+                        </div> 
+                        <div className="user-info">
+                            <div className="user-info-name">{user.displayName}</div>
+                            <div id="karma">karma</div>
+                        </div>
+                    </div>
+                    <div className="user-drop">⌄</div> 
+                </div>
+                         <div>
+                <UserDrop drop={drop}/>
+                </div>
+                </div>
+            </nav>
+        )
+            })}
+            </div>
+        )
+    }
 }
 
 export default Header

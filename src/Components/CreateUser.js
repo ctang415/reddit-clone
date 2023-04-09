@@ -6,7 +6,8 @@ import {
     signInWithPopup,
     signOut,
     createUserWithEmailAndPassword,
-    signInWithEmailAndPassword
+    signInWithEmailAndPassword,
+    updateProfile
   } from 'firebase/auth';
 import { setDoc, doc } from "firebase/firestore";
 import { db } from "../firebase-config";
@@ -20,6 +21,7 @@ import { db } from "../firebase-config";
         await setDoc(doc(db, "users", username), {
             email: email,
             username: username,
+            id: auth.currentUser,
             avatar: "",
             karma: "",
             created: "",
@@ -41,16 +43,21 @@ import { db } from "../firebase-config";
             setModalIsTrue(false)
             setLogin(true)
             createCollection()
+            
             // ...
           })
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
             // ..
-          });
+          }).then(() => {
+            updateProfile(auth.currentUser, {
+                displayName: username, photoURL: "https://i.redd.it/jxhx462xs9r71.png"
+            })
+          })
     }
 
-    
+
 
     const returnToPage = (e) => {
         setCreateUser(false)

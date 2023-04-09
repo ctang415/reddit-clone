@@ -4,12 +4,23 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+body {
+    min-height: 100vh;
+}
+
 .nav-bar {
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    background-color: white;
+    width: 100%;
     display: flex;
     flex-direction: row;
     height: 3em;
     align-items: center;
     justify-content: space-between;
+    padding-left: 1em;
+    padding-right: 1em;
 }
 
 .nav-bar > input {
@@ -166,6 +177,77 @@
   #text-warning {
     font-weight: bold;
     color:grey;
+  }
+
+  .header-user-profile {
+    display: flex;
+    flex-direction: row;
+    height: 80%;
+    width: 12.5em;
+    justify-content: space-between;
+    border:0.08em white solid;
+
+  }
+
+  .header-user-profile:hover {
+    border: 0.08em solid;
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8em;
+    justify-content: center;
+  }
+
+  .user-drop {
+    font-size: 1.2em;
+  }
+
+  .user-right {
+    display: flex;
+  }
+
+  .user-info-name {
+    font-weight: bold;
+    overflow: hidden;
+  }
+
+  .user-avatar {
+    height: 2.4em;
+  }
+
+  #nav-bar-image {
+    height: 100%;
+  }
+
+  .nav-drop {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+  }
+
+  .drop {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav-drop > ul {
+    list-style: none;
+  }
+
+  .nav-drop > ul > li {
+    cursor: pointer;
+    padding: 0.7em;
+  }
+
+  .nav-drop > ul > li:hover {
+    background-color: #f5f6f7;
+  }
+
+  #karma {
+    color: grey;
+    font-weight: bold;
   }
 
 form {
