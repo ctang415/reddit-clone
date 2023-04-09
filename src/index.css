@@ -13,14 +13,12 @@ body {
     top: 0;
     z-index: 999;
     background-color: white;
-    width: 100%;
+    width: 100vw;
     display: flex;
     flex-direction: row;
     height: 3em;
     align-items: center;
     justify-content: space-between;
-    padding-left: 1em;
-    padding-right: 1em;
 }
 
 .nav-bar > input {
@@ -29,6 +27,10 @@ body {
     width: 50%;
     background-color:#f5f6f7;
     border: none;
+}
+
+.nav-bar > span {
+    padding-left: 1em;
 }
 
 #nav-bar-input {
@@ -230,6 +232,7 @@ body {
   .drop {
     display: flex;
     flex-direction: column;
+    padding-right: 1em;
   }
 
   .nav-drop > ul {
@@ -281,6 +284,13 @@ form > input {
 
 .header-login-button:hover {
     background-color:rgb(53, 118, 237);
+}
+
+.header-button {
+    display: flex;
+    align-items: center;
+    padding-right: 1em;
+    height: 100%;
 }
 
 .login-button {

@@ -21,9 +21,9 @@ import { db } from "../firebase-config";
         await setDoc(doc(db, "users", username), {
             email: email,
             username: username,
-            id: auth.currentUser,
+            id: "",
             avatar: "",
-            karma: "",
+            karma: 0,
             created: "",
             posts: [],
             comments: [],
@@ -43,7 +43,6 @@ import { db } from "../firebase-config";
             setModalIsTrue(false)
             setLogin(true)
             createCollection()
-            
             // ...
           })
           .catch((error) => {
