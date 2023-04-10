@@ -1,30 +1,26 @@
 import React, { useState } from "react";
 import {
-    getAuth,
     onAuthStateChanged,
     GoogleAuthProvider,
     signInWithPopup,
-    signOut,
     createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
     updateProfile
   } from 'firebase/auth';
 import { setDoc, doc } from "firebase/firestore";
-import { db } from "../firebase-config";
+import { auth, db } from "../firebase-config";
+
 
   const CreateUser = ( {createUser, setSignUp, setCreateUser, email, setLogin, setModalIsTrue }) => {
     const [ username, setUsername ] = useState("")
     const [ password, setPassword ] = useState("")
-    const auth = getAuth()
-
+    
     const createCollection = async () => {
         await setDoc(doc(db, "users", username), {
             email: email,
             username: username,
-            id: "",
-            avatar: "",
+            id: auth.currentUser.uid,
             karma: 0,
-            created: "",
+            created: auth.currentUser.metadata.createdAt,
             posts: [],
             comments: [],
             joined: [],
@@ -44,19 +40,17 @@ import { db } from "../firebase-config";
             setLogin(true)
             createCollection()
             // ...
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // ..
           }).then(() => {
             updateProfile(auth.currentUser, {
                 displayName: username, photoURL: "https://i.redd.it/jxhx462xs9r71.png"
             })
           })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // ..
+          })
     }
-
-
 
     const returnToPage = (e) => {
         setCreateUser(false)

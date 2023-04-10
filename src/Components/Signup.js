@@ -10,12 +10,12 @@ import {
     signInWithEmailAndPassword,
     signInWithRedirect
   } from 'firebase/auth';
+import { auth } from "../firebase-config";
 
 const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue} ) => {
     const [ email, setEmail ] = useState("")
     const [ createUser, setCreateUser ] = useState(false)
-
-    const auth = getAuth();
+    
 
     const signInWithGoogle = async () => {
         // Sign in Firebase using popup auth and Google as the identity provider.

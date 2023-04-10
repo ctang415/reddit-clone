@@ -1,16 +1,17 @@
-import { getAuth, signOut } from "firebase/auth";
-import React, { useState } from "react";
+import { signOut } from "firebase/auth";
+import React, { useEffect, useState } from "react";
+import { auth } from "../firebase-config";
+import CommunityModal from "./CommunityModal";
 
-const UserDrop = ( {drop, setDrop, setModalIsTrue} ) => {
-    const [ userSettings, setUserSettings ] = useState(["My Stuff", "Online Status", "Profile", "Style Avatar", 
-    "User Settings", "View Options", "Dark Mode", "Create a Community", "Advertise"])
-
-    const auth = getAuth()
+const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser} ) => {
+    const [ communityModal, setCommunityModal ] = useState(false)
+    const [ userSettings, setUserSettings ] = useState([])
 
     const handleLogOut = (e) => {
         e.preventDefault()
-        setDrop(!drop)
+        setDrop(false)
         setModalIsTrue(false)
+        setMyUser([])
         signOut(auth).then(() => {
             // Sign-out successful.
           }).catch((error) => {
@@ -18,16 +19,27 @@ const UserDrop = ( {drop, setDrop, setModalIsTrue} ) => {
           })
     } 
 
+    useEffect(() => {
+        const data = 
+        [
+            {name: "Online Status", method: function handleOnline() { console.log('handleOnline')}}, 
+            {name: "Profile", method: function handleProfile() { console.log('handleprofile')} }, 
+            {name: "Dark Mode", method: function handleDarkMode() {console.log('handledarkmode')}}, 
+            {name: "Create a Community", method: function handleCreateCommunity() {console.log('createcommunity')}},
+            {name: "Log Out", method: handleLogOut }
+        ]
+        setUserSettings(data)
+    }, [])
+
     if (drop) {
             return (
                 <nav className="nav-drop">
                     <ul>
                     {userSettings.map(item => {
                         return (
-                            <li key={item}>{item}</li>
+                            <li key={item.name} onClick={item.method}>{item.name}</li>
                         )
                     })}
-                    <li onClick={handleLogOut}>Log Out</li>
                     </ul>
                 </nav>
             )

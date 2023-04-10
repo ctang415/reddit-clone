@@ -1,20 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-    getAuth,
     onAuthStateChanged,
     GoogleAuthProvider,
     signInWithPopup,
-    signOut,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    signInWithRedirect
+    signInWithRedirect,
+    signInWithEmailAndPassword
   } from 'firebase/auth';
-import { app } from "../firebase-config";
+import { auth, db } from "../firebase-config";
+import { doc, getDoc } from "firebase/firestore";
 
-const Login = ( {signInWithEmailAndPassword, setSignUp, login, setLogin, setForgotUser, setForgotPassword, setModalIsTrue} ) => {
-    const auth = getAuth();
+const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, setModalIsTrue} ) => {
     const [ username, setUsername ] = useState("")
-    const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
 
     const displaySignUp = (e) => {
@@ -47,24 +43,24 @@ const Login = ( {signInWithEmailAndPassword, setSignUp, login, setLogin, setForg
         await signInWithPopup(auth, provider);
       }
       
-      const signInWithEmail = () => {
-        signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
+      const signIn =  async () => {
+            const docRef = doc(db, "users", username)
+            const docSnap = await getDoc(docRef);
+            const data = docSnap.data()
+            signInWithEmailAndPassword(auth, data.email, password).then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
         // ...
       })
-      .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-      });
     }
-
       const handleSubmit = (e) => {
         e.preventDefault()
-        signInWithEmail()
-        setModalIsTrue(false)
+        signIn()
+        if (auth.currentUser) {
+            setModalIsTrue(false)
+        }
       }
+
 
     if (login) {
         return (
@@ -77,14 +73,14 @@ const Login = ( {signInWithEmailAndPassword, setSignUp, login, setLogin, setForg
             <div className="modal-divider">
             <span className="modal-divider-text">OR</span>
             </div>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <input type="text" placeholder="Username" onInput={(e) => setUsername(e.target.value)} required></input>
                 <input type="password" placeholder="Password" onInput={(e) => setPassword(e.target.value)} required></input>
                 <span className="modal-text-box">
                     Forget your <span className="modal-links" onClick={displayForgotUser}>username</span> or <span className="modal-links" onClick={displayForgotPassword}>password</span> ?
                 </span>
                 <div className="modal-text-buttons">
-                <button type="submit" onSubmit={handleSubmit} className="login-button">Log In</button>
+                <button type="submit" className="login-button">Log In</button>
                 </div>
                 <span>New to Freddit? <span className="modal-links" onClick={displaySignUp}>Sign up</span></span>
             </form>

@@ -40,7 +40,7 @@ const Modal = ( {modalIsTrue, setModalIsTrue } ) => {
                     <Login 
                     setSignUp={setSignUp} setLogin={setLogin} login={login}
                     setForgotUser={setForgotUser} setForgotPassword={setForgotPassword}
-                    setModalIsTrue={setModalIsTrue}
+                    setModalIsTrue={setModalIsTrue} 
                     />
                     <Signup
                     setLogin={setLogin} signUp={signUp} setSignUp={setSignUp} 

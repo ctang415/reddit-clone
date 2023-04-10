@@ -185,14 +185,15 @@ body {
     display: flex;
     flex-direction: row;
     height: 80%;
-    width: 12.5em;
-    justify-content: space-between;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
     border:0.08em white solid;
-
   }
 
   .header-user-profile:hover {
-    border: 0.08em solid;
+    border: 0.08em solid #cdd9e3;
+    border-radius: 0.2em;
+    cursor: pointer;
   }
 
   .user-info {
@@ -200,6 +201,7 @@ body {
     flex-direction: column;
     font-size: 0.8em;
     justify-content: center;
+
   }
 
   .user-drop {
@@ -211,8 +213,15 @@ body {
   }
 
   .user-info-name {
+    display: flex;
     font-weight: bold;
+    width: 80%;
+  }
+
+  .user-info-name > span {
     overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   .user-avatar {
@@ -227,16 +236,23 @@ body {
     display: flex;
     flex-direction: column;
     background-color: white;
+    border: 0.08em solid #cdd9e3;
+    border-radius: 0.2em;
+    font-size: 0.9em;
+    width: 15em;
   }
 
   .drop {
-    display: flex;
-    flex-direction: column;
     padding-right: 1em;
+    display: inline-block;
+    vertical-align: top;
   }
 
   .nav-drop > ul {
     list-style: none;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
   }
 
   .nav-drop > ul > li {
@@ -251,6 +267,11 @@ body {
   #karma {
     color: grey;
     font-weight: bold;
+  }
+
+  .drop-down-bar {
+    position: fixed;
+    padding-top: 0.2em;
   }
 
 form {
