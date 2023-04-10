@@ -3,16 +3,16 @@ import React, { useEffect, useState } from "react";
 import { auth } from "../firebase-config";
 import CommunityModal from "./CommunityModal";
 
-const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser} ) => {
+const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData } ) => {
     const [ communityModal, setCommunityModal ] = useState(false)
     const [ userSettings, setUserSettings ] = useState([])
 
     const handleLogOut = (e) => {
         e.preventDefault()
-        setDrop(false)
-        setModalIsTrue(false)
-        setMyUser([])
         signOut(auth).then(() => {
+            setDrop(false)
+            setModalIsTrue(false)
+            setMyUser([])
             // Sign-out successful.
           }).catch((error) => {
             // An error happened.

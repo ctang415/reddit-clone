@@ -37,6 +37,11 @@ body {
     padding: 1em;
 }
 
+#nav-bar-input-login {
+  padding: 1em;
+  width: 35%;
+}
+
 .body {
     min-height: 100vh;
     background-color: #DAE0E6;
@@ -184,7 +189,6 @@ body {
   .header-user-profile {
     display: flex;
     flex-direction: row;
-    height: 80%;
     padding-left: 0.5em;
     padding-right: 0.5em;
     border:0.08em white solid;
@@ -196,12 +200,59 @@ body {
     cursor: pointer;
   }
 
+  /* logged in nav bar */
+
+  .header-user-profile-login {
+    display: flex;
+    flex-direction: row;
+    padding-right: 0.5em;
+    border:0.08em white solid;
+    width: 15em;
+    justify-content: space-between;
+  }
+
+  .header-user-profile-login:hover {
+    border: 0.08em solid #cdd9e3;
+    border-radius: 0.2em;
+    cursor: pointer;
+  }
+
+  .user-info-name-login {
+    display: flex;
+    font-weight: bold;
+    padding: 0.5em;
+  }
+
+  .user-left {
+    display: flex;
+  }
+
+  .drop-login {
+    padding-right: 1em;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .nav-login-left {
+    display: flex;
+    padding-left: 1em;
+    align-items: center;
+    gap: 2em;
+  }
+
+  .user-drop-left {
+    font-size: 1.2em;
+  }
+
+  /* end of logged in */
+
+
   .user-info {
     display: flex;
     flex-direction: column;
     font-size: 0.8em;
     justify-content: center;
-
+    width: 12em;
   }
 
   .user-drop {

@@ -1,25 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import UserDrop from "./UserDrop";
-import { auth } from "../firebase-config";
+import { auth, db } from "../firebase-config";
+import { doc, getDoc } from "firebase/firestore";
+import CommunitiesDrop from "./CommunitiesDrop";
 
-const Header = () => {
+const Header = ( { userData, setUserData }) => {
     const [ modalIsTrue, setModalIsTrue ] = useState(false)
     const [ drop, setDrop ] = useState(false)
-    const user = auth.currentUser;
     const [ myUser, setMyUser ] = useState([])
-    
-    useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                setMyUser([user])
-              // User is signed in, see docs for a list of available properties
-              // https://firebase.google.com/docs/reference/js/firebase.User
-              // ...
-            }
-        })
-    }, [myUser]); 
+    const [ communityDrop, setCommunityDrop ] = useState(false)
+
+    const user = auth.currentUser;
 
     const handleClick = (e) => {
         e.preventDefault()
@@ -28,9 +21,31 @@ const Header = () => {
             } else {
             setDrop(!drop)
             console.log(user)
-
         }
     }
+
+    const handleCommunityClick = (e) => {
+        e.preventDefault()
+            setCommunityDrop(!communityDrop)
+    }
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setMyUser([user])
+                const getUserInfo =  async () => {
+                    const docRef = doc(db, "users", user.displayName)
+                    const docSnap = await getDoc(docRef)
+                    const data = docSnap.data()
+                    setUserData([data])
+                    console.log(userData)
+                }
+                getUserInfo()
+            }
+        })
+    }, [setMyUser]); 
+
+
  
     if (!user) {
         return (
@@ -50,34 +65,52 @@ const Header = () => {
         return ( 
             myUser.map(user => {
                 return (
-                    <nav key={user.displayName} className="nav-bar">
-                        <span>freddit</span>
-                        <input id="nav-bar-input" type="search" placeholder="Search Freddit"></input>
-                        <div className="drop">
-                            <div className="header-user-profile" onClick={handleClick}>
-                                <div className="user-right">
-                                    <div className="user-avatar">
-                                        <img id="nav-bar-image" src={user.photoURL} alt="Snoo character"></img>
-                                    </div> 
-                                    <div className="user-info">
-                                        <div className="user-info-name">
-                                            <span>{user.displayName}</span>
+                    userData.map(data => { 
+                        return (
+                            <nav key={user.displayName} className="nav-bar">
+                                <div className="nav-login-left">
+                                    <span>freddit</span>
+                                    <div className="drop-login">
+                                        <div className="header-user-profile-login" onClick={handleCommunityClick}>
+                                            <div className="user-left">
+                                                <div className="user-info-name-login">
+                                                    <span>Home</span>
+                                                </div>
+                                            </div>
+                                            <div className="user-drop-left">⌄</div> 
                                         </div>
-                                        <div id="karma">
-                                            <span>karma</span>
-                                        </div>
+                                        <div className="drop-down-bar">
+                                        <CommunitiesDrop userData={userData} communityDrop={communityDrop} setCommunityDrop={setCommunityDrop} />
+                                    </div>
                                     </div>
                                 </div>
-                                <div className="user-drop">⌄</div> 
-                            </div>
-                            <div className="drop-down-bar">
-                                <UserDrop setMyUser={setMyUser} drop={drop} setDrop={setDrop} setModalIsTrue={setModalIsTrue}/>
-                            </div>
-                        </div>
-                    </nav>
+                                <input id="nav-bar-input-login" type="search" placeholder="Search Freddit"></input>
+                                <div className="drop">
+                                    <div className="header-user-profile" onClick={handleClick}>
+                                        <div className="user-right">
+                                            <div className="user-avatar">
+                                                <img id="nav-bar-image" src={user.photoURL} alt="Snoo character"></img>
+                                            </div> 
+                                            <div className="user-info">
+                                                <div className="user-info-name">
+                                                    <span>{user.displayName}</span>
+                                                </div>
+                                                <div id="karma">
+                                                    <span>{data.karma} karma</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="user-drop">⌄</div> 
+                                    </div>
+                                    <div className="drop-down-bar">
+                                        <UserDrop userData={userData} setMyUser={setMyUser} drop={drop} setDrop={setDrop} setModalIsTrue={setModalIsTrue}/>
+                                    </div>
+                                </div>
+                            </nav>
+                        )
+                    })
                 )
             })
-
         )
     }
 }
