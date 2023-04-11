@@ -3,8 +3,7 @@ import React, { useEffect, useState } from "react";
 import { auth } from "../firebase-config";
 import CommunityModal from "./CommunityModal";
 
-const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData } ) => {
-    const [ communityModal, setCommunityModal ] = useState(false)
+const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData, setCommunityModal, communityModal } ) => {
     const [ userSettings, setUserSettings ] = useState([])
 
     const handleLogOut = (e) => {
@@ -25,7 +24,7 @@ const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData } ) => {
             {name: "Online Status", method: function handleOnline() { console.log('handleOnline')}}, 
             {name: "Profile", method: function handleProfile() { console.log('handleprofile')} }, 
             {name: "Dark Mode", method: function handleDarkMode() {console.log('handledarkmode')}}, 
-            {name: "Create a Community", method: function handleCreateCommunity() {console.log('createcommunity')}},
+            {name: "Create a Community", method: function handleCreateCommunity() {setCommunityModal(!communityModal)}},
             {name: "Log Out", method: handleLogOut }
         ]
         setUserSettings(data)

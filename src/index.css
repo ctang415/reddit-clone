@@ -11,7 +11,7 @@ body {
 .nav-bar {
     position: fixed;
     top: 0;
-    z-index: 999;
+    z-index: 99;
     background-color: white;
     width: 100vw;
     display: flex;
@@ -207,12 +207,23 @@ body {
     flex-direction: row;
     padding-right: 0.5em;
     border:0.08em white solid;
-    width: 15em;
     justify-content: space-between;
   }
 
   .header-user-profile-login:hover {
     border: 0.08em solid #cdd9e3;
+    border-radius: 0.2em;
+    cursor: pointer;
+  }
+
+  .header-user-profile-login-true {
+    display: flex;
+    flex-direction: row;
+    padding-right: 0.5em;
+    justify-content: space-between;
+    border-top: 0.08em solid #cdd9e3;
+    border-left: 0.08em solid #cdd9e3;
+    border-right: 0.08em solid #cdd9e3;
     border-radius: 0.2em;
     cursor: pointer;
   }
@@ -231,6 +242,7 @@ body {
     padding-right: 1em;
     display: inline-block;
     vertical-align: top;
+    width: 15em;
   }
 
   .nav-login-left {
@@ -242,6 +254,38 @@ body {
 
   .user-drop-left {
     font-size: 1.2em;
+  }
+
+  .drop-down-bar-community {
+    position: fixed;
+    width:15em;
+  }
+
+  .nav-drop-community {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-left: 0.08em solid #cdd9e3;
+    border-right: 0.08em solid #cdd9e3;
+    border-bottom: 0.08em solid #cdd9e3;
+    border-radius: 0.1em;
+    font-size: 0.9em;
+  }
+
+  .nav-drop-community > ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .nav-drop-community > ul > li {
+    cursor: pointer;
+    padding: 0.7em;
+  }
+
+  .nav-drop-community > ul > li:hover {
+    background-color: #f5f6f7;
   }
 
   /* end of logged in */
@@ -283,6 +327,12 @@ body {
     height: 100%;
   }
 
+  .drop {
+    padding-right: 1em;
+    display: inline-block;
+    vertical-align: top;
+  }
+
   .nav-drop {
     display: flex;
     flex-direction: column;
@@ -293,11 +343,6 @@ body {
     width: 15em;
   }
 
-  .drop {
-    padding-right: 1em;
-    display: inline-block;
-    vertical-align: top;
-  }
 
   .nav-drop > ul {
     list-style: none;
@@ -400,4 +445,184 @@ form > input {
 #modal-links-dot {
     color: rgb(0, 123, 255);
     font-size: 0.3em;
+}
+/* community modal */
+
+.modal-close-community-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1em;
+}
+
+.modal-community {  
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.8); /* Black w/ opacity */
+}
+
+.modal-text-community {
+  border-radius: 0.5em;
+  background-color: white;
+  color: black;
+  margin: 8.5% auto; 
+  height: 45.5em;
+  width: 44.5em;
+  font-size: 0.7em;
+  gap: 1.5em;
+  box-shadow: 2px 8px 16px 0 rgba(0, 0, 0, 0.5);
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.community-name > p {
+  color: grey;
+}
+
+.community-header > span {
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+.community-name > div > span {
+  padding-bottom: 1em;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  padding-left: 0.5em;
+}
+
+.fix-text {
+  font-size: 1.2em;
+  position: fixed;
+  color: grey;
+}
+
+.my-input {
+  border: solid rgb(225, 233, 241);
+  width: 100%;
+  margin-left:-0.5em;
+  border-radius: 0.5em;
+  padding-top: 1em;
+  padding-left: 1.5em;
+  padding-bottom: 1em;
+}
+
+.modal-divider-text-community {
+  display: flex;
+  flex-direction: row;
+  content: "";
+  border-bottom: 0.1em solid;
+  border-color:#DAE0E6;
+}
+
+.community-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  height: 10%;
+  gap: 1em;
+}
+
+.community-create-button {
+  color: white;
+  background-color:rgb(35, 109, 244);
+  height: 70%;
+  width: 12.5em;
+  border-radius: 2em;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.community-create-button:hover {
+  background-color:rgb(53, 118, 237);
+}
+
+.community-cancel-button {
+  border: solid rgb(35, 109, 244);
+  color: rgb(35, 109, 244);
+  background-color: #f5f6f7;
+  height: 70%;
+  width: 6.5em;
+  border-radius: 2em;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.community-cancel-button:hover {
+  border: solid rgb(35, 109, 244);
+  background-color:#eceeef;
+}
+
+.community-header {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.community-header-radio > span {
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+.community-header-radio {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+
+}
+
+.radios {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+}
+
+.radios > span {
+  color: grey;
+}
+
+.community-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+#adult {
+  font-size: 1.2em;
+}
+
+#nsfw {
+  font-size: 1em;
+  font-weight: bold;
+  border: solid;
+  background-color: rgb(249, 58, 58);
+  padding: 0.15em;
+  border-radius: 0.3em;
+  color: white;
 }

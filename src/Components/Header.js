@@ -5,12 +5,14 @@ import UserDrop from "./UserDrop";
 import { auth, db } from "../firebase-config";
 import { doc, getDoc } from "firebase/firestore";
 import CommunitiesDrop from "./CommunitiesDrop";
+import CommunityModal from "./CommunityModal";
 
 const Header = ( { userData, setUserData }) => {
     const [ modalIsTrue, setModalIsTrue ] = useState(false)
     const [ drop, setDrop ] = useState(false)
     const [ myUser, setMyUser ] = useState([])
     const [ communityDrop, setCommunityDrop ] = useState(false)
+    const [ communityModal, setCommunityModal ] = useState(false)
 
     const user = auth.currentUser;
 
@@ -67,46 +69,51 @@ const Header = ( { userData, setUserData }) => {
                 return (
                     userData.map(data => { 
                         return (
-                            <nav key={user.displayName} className="nav-bar">
-                                <div className="nav-login-left">
-                                    <span>freddit</span>
-                                    <div className="drop-login">
-                                        <div className="header-user-profile-login" onClick={handleCommunityClick}>
-                                            <div className="user-left">
-                                                <div className="user-info-name-login">
-                                                    <span>Home</span>
+                            <div>
+                                <nav key={user.displayName} className="nav-bar">
+                                    <div className="nav-login-left">
+                                        <span>freddit</span>
+                                        <div className="drop-login">
+                                            <div className={communityDrop ? "header-user-profile-login-true" : "header-user-profile-login" } onClick={handleCommunityClick}>
+                                                <div className="user-left">
+                                                    <div className="user-info-name-login">
+                                                        <span>Home</span>
+                                                    </div>
+                                                </div>
+                                                <div className="user-drop-left">⌄</div> 
+                                            </div>
+                                            <div className="drop-down-bar-community">
+                                                <CommunitiesDrop userData={userData} communityDrop={communityDrop} setCommunityDrop={setCommunityDrop} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input id="nav-bar-input-login" type="search" placeholder="Search Freddit"></input>
+                                    <div className="drop">
+                                        <div className="header-user-profile" onClick={handleClick}>
+                                            <div className="user-right">
+                                                <div className="user-avatar">
+                                                    <img id="nav-bar-image" src={user.photoURL} alt="Snoo character"></img>
+                                                </div> 
+                                                <div className="user-info">
+                                                    <div className="user-info-name">
+                                                        <span>{user.displayName}</span>
+                                                    </div>
+                                                    <div id="karma">
+                                                        <span>{data.karma} karma</span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div className="user-drop-left">⌄</div> 
+                                            <div className="user-drop">⌄</div> 
                                         </div>
                                         <div className="drop-down-bar">
-                                        <CommunitiesDrop userData={userData} communityDrop={communityDrop} setCommunityDrop={setCommunityDrop} />
-                                    </div>
-                                    </div>
-                                </div>
-                                <input id="nav-bar-input-login" type="search" placeholder="Search Freddit"></input>
-                                <div className="drop">
-                                    <div className="header-user-profile" onClick={handleClick}>
-                                        <div className="user-right">
-                                            <div className="user-avatar">
-                                                <img id="nav-bar-image" src={user.photoURL} alt="Snoo character"></img>
-                                            </div> 
-                                            <div className="user-info">
-                                                <div className="user-info-name">
-                                                    <span>{user.displayName}</span>
-                                                </div>
-                                                <div id="karma">
-                                                    <span>{data.karma} karma</span>
-                                                </div>
-                                            </div>
+                                            <UserDrop userData={userData} setMyUser={setMyUser} drop={drop} setDrop={setDrop} setModalIsTrue={setModalIsTrue}
+                                            communityModal={communityModal} setCommunityModal={setCommunityModal} 
+                                            />
                                         </div>
-                                        <div className="user-drop">⌄</div> 
                                     </div>
-                                    <div className="drop-down-bar">
-                                        <UserDrop userData={userData} setMyUser={setMyUser} drop={drop} setDrop={setDrop} setModalIsTrue={setModalIsTrue}/>
-                                    </div>
-                                </div>
-                            </nav>
+                                </nav>
+                                <CommunityModal communityModal={communityModal} setCommunityModal={setCommunityModal} />
+                            </div>
                         )
                     })
                 )

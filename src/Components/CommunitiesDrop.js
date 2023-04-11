@@ -10,7 +10,7 @@ const CommunitiesDrop = ( { communityDrop, setCommunityDrop, userData } ) => {
 
     if (communityDrop) {
             return (
-                <nav className="nav-drop">
+                <nav className="nav-drop-community">
                     <ul>
                     {communities.map(item => {
                         return (
