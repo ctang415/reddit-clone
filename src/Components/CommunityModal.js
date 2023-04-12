@@ -1,11 +1,13 @@
 import { doc, setDoc } from "firebase/firestore";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const CommunityModal = ( {communityModal, setCommunityModal}) => {
-    const [ communityInformation, setCommunityInformation ] = useState({ name: "", posts: [], about: "" })
+    const [ communityInformation, setCommunityInformation ] = useState(null)
     const [ communityName, setCommunityName ] = useState("")
+    const [ radioValue, setRadioValue ] = useState('public')
     const [ isChecked, setIsChecked ] = useState(false)
-    const [ characters, setCharacters ] = useState(21)
+    const [ characters, setCharacters ] = useState(21) 
+    const [ charactersZero, setCharactersZero ] = useState(false)
 
     const handleChange = (e) => {
         e.preventDefault()
@@ -16,6 +18,10 @@ const CommunityModal = ( {communityModal, setCommunityModal}) => {
         if (e.target.value.length < 22 && characters >= 0 ) {
             setCharacters( 21 - e.target.value.length )
         } 
+    }
+
+    const handleRadio = (e) => {
+        setRadioValue(e.target.value)
     }
 
     const handleCheck = (e) => {
@@ -30,7 +36,17 @@ const CommunityModal = ( {communityModal, setCommunityModal}) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         setCommunityModal(!communityModal)
+        setCommunityInformation( { name: communityName, posts: [], about: "", type: radioValue, adult: isChecked} )
     }
+
+    useEffect(() => {
+        if (characters === 0) {
+            setCharactersZero(true)
+        } else {
+            setCharactersZero(false)
+        }
+        console.log(communityInformation)
+    }, [characters])
 
     if (communityModal) {
         return (
@@ -55,25 +71,25 @@ const CommunityModal = ( {communityModal, setCommunityModal}) => {
                             <p>Community names including capitalization cannot be changed, must be between 3-21 characters, and can only contain letters, numbers, or underscores.</p>
                             <div class="input-container">
                             <span class="fix-text">f/</span>
-                            <input type="text" className="my-input" maxLength="21" onInput={handleCharacters} onChange={handleChange} pattern="[a-zA-Z0-9]" required></input>
+                            <input type="text" className="my-input" maxLength="21" onInput={handleCharacters} onChange={handleChange} pattern={'^[a-zA-Z0-9_]*$'} required></input>
                             </div>
-                            <p>{characters} Characters remaining</p>
+                            <p className={ charactersZero ? "input-container-p" : "input-container-p-false" }>{characters} Characters remaining</p>
                         </div>
                         <div className="community-type">
                             <div className="community-header-radio">
                                 <span>Community type</span>
                              <div className="radios">
-                                <input type="radio" name="communityType" id="public" value="public" checked></input>
+                                <input type="radio" name="communityType" id="public" value="public" onChange={handleRadio} defaultChecked></input>
                                 <label for="public">Public</label>
                                 <span>Anyone can view, post, and comment to this community</span>
                             </div>
                             <div className="radios">
-                                <input type="radio" name="communityType" id="restricted" value="restricted"></input>
+                                <input type="radio" name="communityType" id="restricted" value="restricted" onChange={handleRadio}></input>
                                 <label for="restricted">Restricted</label>
                                 <span>Anyone can view this community, but only approved users can post</span>
                                 </div>
                                 <div className="radios">
-                                <input type="radio" name="communityType" id="private" value="private"></input>
+                                <input type="radio" name="communityType" id="private" value="private" onChange={handleRadio}></input>
                                 <label for="private">Private</label>
                                 <span>Only approved users can view and submit to this community</span>
                                 </div>

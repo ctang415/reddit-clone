@@ -531,6 +531,10 @@ form > input {
   padding-bottom: 1em;
 }
 
+.input-container-p {
+  color: red !important;
+}
+
 .modal-divider-text-community {
   display: flex;
   flex-direction: row;

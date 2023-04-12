@@ -69,7 +69,7 @@ const Header = ( { userData, setUserData }) => {
                 return (
                     userData.map(data => { 
                         return (
-                            <div>
+                            <div key={data.displayName}>
                                 <nav key={user.displayName} className="nav-bar">
                                     <div className="nav-login-left">
                                         <span>freddit</span>
