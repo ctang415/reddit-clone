@@ -3,16 +3,6 @@ import ForgotPassword from "./ForgotPassword";
 import ForgotUser from "./ForgotUser";
 import Login from "./Login";
 import Signup from "./Signup";
-import {
-    getAuth,
-    onAuthStateChanged,
-    GoogleAuthProvider,
-    signInWithPopup,
-    signOut,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword
-  } from 'firebase/auth';
-import { app } from "../firebase-config";
 
 const Modal = ( {modalIsTrue, setModalIsTrue } ) => {
     const [ login, setLogin ] = useState(true)

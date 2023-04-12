@@ -495,18 +495,28 @@ form > input {
   font-weight: bold;
 }
 
-.community-name > div > span {
+.community-header-name > span {
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+.community-header-name {
   padding-bottom: 1em;
+}
+
+.community-name > p {
+  padding-bottom: 2em;
 }
 
 .input-container {
   display: flex;
   align-items: center;
   padding-left: 0.5em;
+  padding-bottom: 1em;
 }
 
 .fix-text {
-  font-size: 1.2em;
+  font-size: 1.25em;
   position: fixed;
   color: grey;
 }
@@ -514,10 +524,10 @@ form > input {
 .my-input {
   border: solid rgb(225, 233, 241);
   width: 100%;
-  margin-left:-0.5em;
+  margin-left:-0.75em;
   border-radius: 0.5em;
   padding-top: 1em;
-  padding-left: 1.5em;
+  padding-left: 2em;
   padding-bottom: 1em;
 }
 

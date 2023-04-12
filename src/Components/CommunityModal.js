@@ -1,6 +1,8 @@
+import { doc, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
 
 const CommunityModal = ( {communityModal, setCommunityModal}) => {
+    const [ communityInformation, setCommunityInformation ] = useState({ name: "", posts: [], about: "" })
     const [ communityName, setCommunityName ] = useState("")
     const [ isChecked, setIsChecked ] = useState(false)
     const [ characters, setCharacters ] = useState(21)
@@ -9,35 +11,51 @@ const CommunityModal = ( {communityModal, setCommunityModal}) => {
         e.preventDefault()
         setCommunityName(e.target.value)
     }
+    
+    const handleCharacters = (e) => {
+        if (e.target.value.length < 22 && characters >= 0 ) {
+            setCharacters( 21 - e.target.value.length )
+        } 
+    }
 
     const handleCheck = (e) => {
         setIsChecked(!isChecked)
+    }
+
+    const handleModal = (e) => {
+        setCommunityModal(!communityModal)
+        setCharacters(21)
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        setCommunityModal(!communityModal)
     }
 
     if (communityModal) {
         return (
             <div className="modal-community">
                 <div>
-                <form className="modal-text-community">
+                <form className="modal-text-community" onSubmit={handleSubmit}>
                 <div>
                     <div className="modal-close-community-div">
                         <div className="community-header">
                             <span>Create a community</span>
                         </div>
                         <div id="modal-close-button">
-                            <span>X</span>
+                            <span onClick={handleModal}>X</span>
                         </div>
                     </div>
                         <span className="modal-divider-text-community"></span>
                     </div>
                         <div className="community-name">
-                            <div className="community-header">
+                            <div className="community-header-name">
                                 <span>Name</span>
                             </div>
-                            <p>Community names including capitalization cannot be changed.</p>
+                            <p>Community names including capitalization cannot be changed, must be between 3-21 characters, and can only contain letters, numbers, or underscores.</p>
                             <div class="input-container">
-                            <span class="fix-text">r/</span>
-                            <input type="text" className="my-input" maxLength="21" onChange={handleChange} required></input>
+                            <span class="fix-text">f/</span>
+                            <input type="text" className="my-input" maxLength="21" onInput={handleCharacters} onChange={handleChange} pattern="[a-zA-Z0-9]" required></input>
                             </div>
                             <p>{characters} Characters remaining</p>
                         </div>
@@ -72,13 +90,12 @@ const CommunityModal = ( {communityModal, setCommunityModal}) => {
                         </div>
                         <div className="community-buttons">
                      
-                                <button className="community-cancel-button">
+                                <button className="community-cancel-button" onClick={handleModal}>
                                     Cancel
                                 </button>
                                 <button type="submit" className="community-create-button">
                                     Create Community
                                 </button>
-                      
                         </div>
                         </form>
                 </div>
