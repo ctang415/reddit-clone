@@ -21,6 +21,7 @@ const App = () => {
       <Header userData={userData} setUserData={setUserData} />
       <Routes>
         <Route path="/" exact element={<Home userData={userData} setUserData={setUserData} />}/>
+        <Route path="/f/:id" />
       </Routes>
     </div>
   );

@@ -112,7 +112,7 @@ const Header = ( { userData, setUserData }) => {
                                         </div>
                                     </div>
                                 </nav>
-                                <CommunityModal communityModal={communityModal} setCommunityModal={setCommunityModal} />
+                                <CommunityModal communityModal={communityModal} userData={userData} setCommunityModal={setCommunityModal} />
                             </div>
                         )
                     })

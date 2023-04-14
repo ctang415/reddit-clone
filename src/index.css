@@ -5,7 +5,8 @@
 }
 
 body {
-    min-height: 100vh;
+  background-color: #DAE0E6;
+  min-height: 400vh;
 }
 
 .nav-bar {
@@ -16,7 +17,7 @@ body {
     width: 100vw;
     display: flex;
     flex-direction: row;
-    height: 3em;
+    height: 3.5em;
     align-items: center;
     justify-content: space-between;
 }
@@ -42,11 +43,6 @@ body {
   width: 35%;
 }
 
-.body {
-    min-height: 100vh;
-    background-color: #DAE0E6;
-}
-
 .modal {  
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -68,7 +64,6 @@ body {
     font-size: 0.7em;
     gap: 1.5em;
     box-shadow: 2px 8px 16px 0 rgba(0, 0, 0, 0.5);
-
 }
 
 .modal-pop-ups {
@@ -535,6 +530,10 @@ form > input {
   color: red !important;
 }
 
+.input-empty {
+  display: none;
+}
+
 .modal-divider-text-community {
   display: flex;
   flex-direction: row;
@@ -639,4 +638,231 @@ label {
   padding: 0.15em;
   border-radius: 0.3em;
   color: white;
+}
+
+/* community modal end */
+
+.community-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.community-header-top {
+  height: 8.4em;
+  background-color: #33a8ff;
+}
+
+.community-header-bottom {
+  height: 6.2em;
+  background-color: white;
+}
+
+.community-body {
+  padding-top: 1.5em;
+  display: grid;
+  grid-template-columns: 40em 20em;
+  margin: auto 16%;
+  gap: 1.5em;
+}
+
+.community-body-left {
+  display: flex;
+  flex-direction: column;
+  grid-column: 1;
+}
+
+.community-body-right {
+  grid-column: 2;
+}
+
+.post {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  border-radius: 0.2em;
+  border: 1px solid #cdd9e3;
+  cursor: pointer;
+  max-height:40em;
+}
+
+.post:hover {
+  border: 1px solid darkgrey;
+}
+
+.post-left {
+  background-color:#f5f6f7;
+}
+
+.post-right {
+  padding: 0.3em;
+}
+
+
+.post-right > ul {
+  display: flex;
+  flex-direction: row;
+  font-weight: bold;
+  color: grey;
+}
+
+.post-right > ul > li {
+  list-style-type: none;
+  font-size: 0.7em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.post-right > ul > li:hover {
+  background-color: #dfe5eb;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.post-media-true {
+  display: inline;
+  font-size: 0.85em;
+}
+
+.post-media-false, .post-pinned-true {
+  display: none;
+}
+
+.post-pinned-false {
+  padding-bottom: 1em;
+  font-size: 0.5em;
+  font-weight: bold;
+  color: grey;
+}
+
+.post-pinned-author {
+  font-size: 0.7em;
+  color: grey;
+}
+
+.community-info, .community-mod, .community-rules {
+  background: white;
+  border-radius: 0.2em;
+  border: 1px solid #cdd9e3;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.community-info-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.community-info-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+#community-dots {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+#community-dots:hover {
+  background-color: #dfe5eb;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+.community-info-text {
+  font-size: 0.9em;
+}
+
+.community-rules-false {
+  display: none;
+}
+
+.community-rules > ol {
+  font-size: 0.8em;
+  padding-left: 1.3em;
+}
+
+.community-rules > ol > li {
+  cursor: pointer;
+}
+
+.community-rules > ol > li > div {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+}
+
+.community-rules > ol > li > div > p {
+  font-size: 1.2em;
+}
+
+.dropbox-true {
+  display: flex;
+}
+
+.dropbox-false {
+  display: none;
+}
+
+.community-divider-text {
+  display: flex;
+  flex-direction: row;
+  content: "";
+  border-bottom: 0.1em solid;
+  border-color:#DAE0E6;
+  padding-top: 0.7em;
+}
+
+.community-filters {
+  background-color: white;
+}
+
+.community-filters > ul {
+  display: flex;
+  list-style: none;
+  padding: 0.5em;
+}
+
+.community-filters > ul > li {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-left: 1em;
+  padding-right: 1em;
+  font-weight: bold;
+  color: grey;
+}
+
+.community-filters > ul > li:hover {
+  border-radius: 1em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-left: 1em;
+  padding-right: 1em;
+  background-color: #eceeef;
+}
+
+.community-body-left {
+  gap: 1em;
+}
+
+.community-post {
+  background-color: white;
+  padding: 0.5em;
+  display: flex;
+}
+
+.community-post > input {
+  padding: 0.5em;
+  width: 60%;
 }

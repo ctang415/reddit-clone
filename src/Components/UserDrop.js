@@ -15,7 +15,12 @@ const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData, setCommu
           }).catch((error) => {
             // An error happened.
           })
-    } 
+    }
+
+    const handleCreateCommunity = () => {
+        setCommunityModal(!communityModal) 
+        setDrop(false)
+    }
 
     useEffect(() => {
         const data = 
@@ -23,7 +28,7 @@ const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData, setCommu
             {name: "Online Status", method: function handleOnline() { console.log('handleOnline')}}, 
             {name: "Profile", method: function handleProfile() { console.log('handleprofile')} }, 
             {name: "Dark Mode", method: function handleDarkMode() {console.log('handledarkmode')}}, 
-            {name: "Create a Community", method: function handleCreateCommunity() {setCommunityModal(!communityModal); setDrop(!drop)}},
+            {name: "Create a Community", method: handleCreateCommunity },
             {name: "Log Out", method: handleLogOut }
         ]
         setUserSettings(data)

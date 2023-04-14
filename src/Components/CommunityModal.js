@@ -1,13 +1,14 @@
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { db } from "../firebase-config";
 
-const CommunityModal = ( {communityModal, setCommunityModal}) => {
-    const [ communityInformation, setCommunityInformation ] = useState(null)
+const CommunityModal = ( {communityModal, setCommunityModal, userData}) => {
     const [ communityName, setCommunityName ] = useState("")
     const [ radioValue, setRadioValue ] = useState('public')
     const [ isChecked, setIsChecked ] = useState(false)
     const [ characters, setCharacters ] = useState(21) 
     const [ charactersZero, setCharactersZero ] = useState(false)
+    const [ communityExists, setCommunityExists ] = useState(false)
 
     const handleChange = (e) => {
         e.preventDefault()
@@ -31,12 +32,31 @@ const CommunityModal = ( {communityModal, setCommunityModal}) => {
     const handleModal = (e) => {
         setCommunityModal(!communityModal)
         setCharacters(21)
+        setCommunityExists(false)
     }
+
+    const createCommunity = async () => {
+        await setDoc(doc(db, "communities", communityName), 
+        {
+                name: communityName, created: "", moderators: [userData[0].username], 
+                posts: [], about: "", icon: "", type: radioValue, adult: isChecked 
+        })
+    }
+
+    const checkIfExists = async () => {
+        const docRef = doc(db, "communities", communityName)
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            setCommunityExists(true)
+          } else {
+            setCommunityModal(!communityModal)
+            createCommunity()
+            };
+        }
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        setCommunityModal(!communityModal)
-        setCommunityInformation( { name: communityName, posts: [], about: "", type: radioValue, adult: isChecked} )
+        checkIfExists()
     }
 
     useEffect(() => {
@@ -45,53 +65,57 @@ const CommunityModal = ( {communityModal, setCommunityModal}) => {
         } else {
             setCharactersZero(false)
         }
-        console.log(communityInformation)
+    }, [characters])
+
+    useEffect(() => {
+        setCommunityExists(false)
     }, [characters])
 
     if (communityModal) {
         return (
             <div className="modal-community">
                 <div>
-                <form className="modal-text-community" onSubmit={handleSubmit}>
-                <div>
-                    <div className="modal-close-community-div">
-                        <div className="community-header">
-                            <span>Create a community</span>
+                    <form className="modal-text-community" onSubmit={handleSubmit}>
+                        <div>
+                            <div className="modal-close-community-div">
+                                <div className="community-header">
+                                    <span>Create a community</span>
+                                </div>
+                                <div id="modal-close-button">
+                                    <span onClick={handleModal}>X</span>
+                                </div>
+                            </div>
+                            <span className="modal-divider-text-community"></span>
                         </div>
-                        <div id="modal-close-button">
-                            <span onClick={handleModal}>X</span>
-                        </div>
-                    </div>
-                        <span className="modal-divider-text-community"></span>
-                    </div>
                         <div className="community-name">
                             <div className="community-header-name">
                                 <span>Name</span>
                             </div>
                             <p>Community names including capitalization cannot be changed, must be between 3-21 characters, and can only contain letters, numbers, or underscores.</p>
-                            <div class="input-container">
-                            <span class="fix-text">f/</span>
-                            <input type="text" className="my-input" maxLength="21" onInput={handleCharacters} onChange={handleChange} pattern={'^[a-zA-Z0-9_]*$'} required></input>
+                            <div className="input-container">
+                                <span className="fix-text">f/</span>
+                                <input type="text" className="my-input" maxLength="21" onInput={handleCharacters} onChange={handleChange} pattern={'^[a-zA-Z0-9_]*$'} required></input>
                             </div>
                             <p className={ charactersZero ? "input-container-p" : "input-container-p-false" }>{characters} Characters remaining</p>
+                            <span className={ communityExists ? "input-container-p" : "input-empty" }>Sorry, f/{communityName} is taken. Try another.</span>
                         </div>
                         <div className="community-type">
                             <div className="community-header-radio">
                                 <span>Community type</span>
-                             <div className="radios">
-                                <input type="radio" name="communityType" id="public" value="public" onChange={handleRadio} defaultChecked></input>
-                                <label for="public">Public</label>
-                                <span>Anyone can view, post, and comment to this community</span>
-                            </div>
-                            <div className="radios">
-                                <input type="radio" name="communityType" id="restricted" value="restricted" onChange={handleRadio}></input>
-                                <label for="restricted">Restricted</label>
-                                <span>Anyone can view this community, but only approved users can post</span>
+                                <div className="radios">
+                                    <input type="radio" name="communityType" id="public" value="public" onChange={handleRadio} defaultChecked></input>
+                                    <label htmlFor="public">Public</label>
+                                    <span>Anyone can view, post, and comment to this community</span>
                                 </div>
                                 <div className="radios">
-                                <input type="radio" name="communityType" id="private" value="private" onChange={handleRadio}></input>
-                                <label for="private">Private</label>
-                                <span>Only approved users can view and submit to this community</span>
+                                    <input type="radio" name="communityType" id="restricted" value="restricted" onChange={handleRadio}></input>
+                                    <label htmlFor="restricted">Restricted</label>
+                                    <span>Anyone can view this community, but only approved users can post</span>
+                                </div>
+                                <div className="radios">
+                                    <input type="radio" name="communityType" id="private" value="private" onChange={handleRadio}></input>
+                                    <label htmlFor="private">Private</label>
+                                    <span>Only approved users can view and submit to this community</span>
                                 </div>
                             </div>
                         </div>
@@ -100,12 +124,11 @@ const CommunityModal = ( {communityModal, setCommunityModal}) => {
                                 <span>Adult content</span>
                             </div>
                             <div className="checkbox">
-                            <input type="checkbox" onChange={handleCheck}></input>
-                            <span id="nsfw">NSFW</span> <span id="adult">18+ year old community</span>
+                                <input type="checkbox" onChange={handleCheck}></input>
+                                <span id="nsfw">NSFW</span> <span id="adult">18+ year old community</span>
                             </div>
                         </div>
                         <div className="community-buttons">
-                     
                                 <button className="community-cancel-button" onClick={handleModal}>
                                     Cancel
                                 </button>
@@ -113,7 +136,7 @@ const CommunityModal = ( {communityModal, setCommunityModal}) => {
                                     Create Community
                                 </button>
                         </div>
-                        </form>
+                    </form>
                 </div>
             </div>
         )
