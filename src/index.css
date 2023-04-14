@@ -657,6 +657,20 @@ label {
   background-color: white;
 }
 
+.community-header-info {
+  display: flex;
+  flex-direction: column;
+  margin: auto 16%;
+}
+
+.community-header-info-subtitle {
+  display: flex;
+}
+
+.community-header-info > div {
+  display: flex;
+}
+
 .community-body {
   padding-top: 1.5em;
   display: grid;
@@ -856,13 +870,18 @@ label {
   gap: 1em;
 }
 
-.community-post {
+.community-post-true {
   background-color: white;
   padding: 0.5em;
   display: flex;
+  justify-content: center
 }
 
-.community-post > input {
+.community-post-true > input {
   padding: 0.5em;
-  width: 60%;
+  width: 70%;
+}
+
+.community-post-false {
+  display: none;
 }

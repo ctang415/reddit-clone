@@ -1,8 +1,9 @@
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../firebase-config";
+import { collection, getDocs, or, query, where } from "firebase/firestore";
 
-const CommunityModal = ( {communityModal, setCommunityModal, userData}) => {
+const CommunityModal = ( {communityModal, setCommunityModal, userData, setCommunityData, communityData}) => {
     const [ communityName, setCommunityName ] = useState("")
     const [ radioValue, setRadioValue ] = useState('public')
     const [ isChecked, setIsChecked ] = useState(false)
@@ -36,11 +37,24 @@ const CommunityModal = ( {communityModal, setCommunityModal, userData}) => {
     }
 
     const createCommunity = async () => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const today  = new Date();
         await setDoc(doc(db, "communities", communityName), 
         {
-                name: communityName, created: "", moderators: [userData[0].username], 
+                name: communityName, created: today.toLocaleDateString("en-US", options), moderators: [userData[0].username], 
                 posts: [], about: "", icon: "", type: radioValue, adult: isChecked 
         })
+    }
+    
+    const getCommunities = async () => {
+        const communitiesRef = collection(db, "communities");
+        const q = query(communitiesRef,  or( where("type", "==", "public"), 
+        where("type", "==", "private"), where("type", "==", "restricted") ))
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          setCommunityData([doc.data()])  
+          console.log(doc.id, " => ", doc.data());
+        });
     }
 
     const checkIfExists = async () => {
@@ -51,6 +65,7 @@ const CommunityModal = ( {communityModal, setCommunityModal, userData}) => {
           } else {
             setCommunityModal(!communityModal)
             createCommunity()
+            getCommunities()
             };
         }
 

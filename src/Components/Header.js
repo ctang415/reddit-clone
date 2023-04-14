@@ -7,7 +7,7 @@ import { doc, getDoc } from "firebase/firestore";
 import CommunitiesDrop from "./CommunitiesDrop";
 import CommunityModal from "./CommunityModal";
 
-const Header = ( { userData, setUserData }) => {
+const Header = ( { userData, setUserData, communityData, setCommunityData }) => {
     const [ modalIsTrue, setModalIsTrue ] = useState(false)
     const [ drop, setDrop ] = useState(false)
     const [ myUser, setMyUser ] = useState([])
@@ -112,7 +112,10 @@ const Header = ( { userData, setUserData }) => {
                                         </div>
                                     </div>
                                 </nav>
-                                <CommunityModal communityModal={communityModal} userData={userData} setCommunityModal={setCommunityModal} />
+                                <CommunityModal 
+                                communityData={communityData} setCommunityData={setCommunityData} 
+                                communityModal={communityModal} userData={userData} setCommunityModal={setCommunityModal} 
+                                />
                             </div>
                         )
                     })

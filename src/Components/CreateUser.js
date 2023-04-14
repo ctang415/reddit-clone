@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import {
-    onAuthStateChanged,
-    GoogleAuthProvider,
-    signInWithPopup,
     createUserWithEmailAndPassword,
     updateProfile
   } from 'firebase/auth';
@@ -15,12 +12,14 @@ import { auth, db } from "../firebase-config";
     const [ password, setPassword ] = useState("")
     
     const createCollection = async () => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const today  = new Date();
         await setDoc(doc(db, "users", username), {
             email: email,
             username: username,
             id: auth.currentUser.uid,
             karma: 0,
-            created: auth.currentUser.metadata.createdAt,
+            created: today.toLocaleDateString("en-US", options),
             posts: [],
             comments: [],
             joined: [],
