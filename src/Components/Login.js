@@ -12,6 +12,8 @@ import { doc, getDoc } from "firebase/firestore";
 const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, setModalIsTrue} ) => {
     const [ username, setUsername ] = useState("")
     const [ password, setPassword ] = useState("")
+    const [ passwordError, setPasswordError ] = useState(false)
+    const [ userError, setUserError ] = useState(false)
 
     const displaySignUp = (e) => {
         setSignUp(true)
@@ -47,18 +49,27 @@ const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, 
             const docRef = doc(db, "users", username)
             const docSnap = await getDoc(docRef);
             const data = docSnap.data()
-            signInWithEmailAndPassword(auth, data.email, password).then((userCredential) => {
+            if (data === undefined) {
+                setUserError(true)
+            } else {
+                signInWithEmailAndPassword(auth, data.email, password).then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
         // ...
+      }).catch((error) => {
+        setPasswordError(true)
       })
     }
+    }
+    
       const handleSubmit = (e) => {
         e.preventDefault()
         signIn()
         if (auth.currentUser) {
             setModalIsTrue(false)
         }
+        setUserError(false)
+        setPassword(false)
       }
 
 
@@ -74,8 +85,10 @@ const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, 
             <span className="modal-divider-text">OR</span>
             </div>
             <form onSubmit={handleSubmit}>
-                <input type="text" placeholder="Username" onInput={(e) => setUsername(e.target.value)} required></input>
-                <input type="password" placeholder="Password" onInput={(e) => setPassword(e.target.value)} required></input>
+                <input type="text" name="username" id="username" placeholder="Username" onInput={(e) => setUsername(e.target.value)} required></input>
+                <span htmlFor="username" className={ userError ? "password-error-true" : "password-error-false"}>Username does not exist</span>
+                <input type="password" name="password" id="password" placeholder="Password" onInput={(e) => setPassword(e.target.value)} required></input>
+                <span htmlFor="password" className={ passwordError ? "password-error-true" : "password-error-false"}>Password is incorrect</span>
                 <span className="modal-text-box">
                     Forget your <span className="modal-links" onClick={displayForgotUser}>username</span> or <span className="modal-links" onClick={displayForgotPassword}>password</span> ?
                 </span>

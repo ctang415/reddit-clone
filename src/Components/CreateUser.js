@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     createUserWithEmailAndPassword,
     updateProfile
   } from 'firebase/auth';
 import { setDoc, doc } from "firebase/firestore";
 import { auth, db } from "../firebase-config";
+import Profile from  '../Assets/snoo.png'
 
-
-  const CreateUser = ( {createUser, setSignUp, setCreateUser, email, setLogin, setModalIsTrue }) => {
+const CreateUser = ( {createUser, setSignUp, setCreateUser, email, setLogin, setModalIsTrue }) => {
     const [ username, setUsername ] = useState("")
     const [ password, setPassword ] = useState("")
     
@@ -18,7 +18,7 @@ import { auth, db } from "../firebase-config";
             email: email,
             username: username,
             id: auth.currentUser.uid,
-            karma: 0,
+            karma: 1,
             created: today.toLocaleDateString("en-US", options),
             posts: [],
             comments: [],
@@ -31,18 +31,18 @@ import { auth, db } from "../firebase-config";
 
     const createAccount = (e) => {
         e.preventDefault()
-        createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
-            // Signed in 
-            const user = userCredential.user;
+        createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {       
+            const user = userCredential.user;     
+            updateProfile(user, {
+            displayName: username, photoURL: Profile
+        }).then(() => {
+            user.reload()
+            })
             setCreateUser(false)
             setModalIsTrue(false)
             setLogin(true)
             createCollection()
             // ...
-          }).then(() => {
-            updateProfile(auth.currentUser, {
-                displayName: username, photoURL: "https://i.redd.it/jxhx462xs9r71.png"
-            })
           })
           .catch((error) => {
             const errorCode = error.code;
@@ -55,6 +55,7 @@ import { auth, db } from "../firebase-config";
         setCreateUser(false)
         setSignUp(true)
     }
+
 
     if (createUser) {
         return (
@@ -72,8 +73,8 @@ import { auth, db } from "../firebase-config";
                     </span>
                 </div>
                 <form onSubmit={createAccount}>
-                    <input type="text" placeholder="Username" minLength="3" maxLength="20" onInput={(e) => setUsername(e.target.value) } required></input>
-                    <input type="password" placeholder="Password" minLength="8" onInput={(e)=> setPassword(e.target.value) } required></input>
+                    <input type="text" placeholder="Username" minLength="3" maxLength="20" onInput={(e) => setUsername(e.target.value) } pattern={'^[a-zA-Z0-9](?!.*--)[a-zA-Z0-9-_]*[a-zA-Z0-9]$'} required></input>
+                    <input type="password" placeholder="Password" minLength="8" maxLength="16" onInput={(e)=> setPassword(e.target.value) } required></input>
                     <button type="submit" className={ email ? "login-button" : "login-button-false"} >Continue</button>
                     <span id="text-warning">*Please do not put your real information!*</span>
                 </form>

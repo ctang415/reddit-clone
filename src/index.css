@@ -159,7 +159,7 @@ body {
 }
 
 .modal-text-box {
-    padding-top:1em;
+    padding-top:0.5em;
 }
 
 .modal-divider-text:before, .modal-divider-text:after{
@@ -534,6 +534,15 @@ form > input {
   display: none;
 }
 
+.password-error-true {
+  display: inline;
+  color: red;
+}
+
+.password-error-false {
+  display: none;
+}
+
 .modal-divider-text-community {
   display: flex;
   flex-direction: row;
@@ -674,7 +683,7 @@ label {
 .community-body {
   padding-top: 1.5em;
   display: grid;
-  grid-template-columns: 40em 20em;
+  grid-template-columns: 2fr 1fr;
   margin: auto 16%;
   gap: 1.5em;
 }

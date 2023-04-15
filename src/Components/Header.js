@@ -34,7 +34,7 @@ const Header = ( { userData, setUserData, communityData, setCommunityData }) => 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                setMyUser([user])
+                setMyUser([user]) 
                 const getUserInfo =  async () => {
                     const docRef = doc(db, "users", user.displayName)
                     const docSnap = await getDoc(docRef)
@@ -45,7 +45,7 @@ const Header = ( { userData, setUserData, communityData, setCommunityData }) => 
                 getUserInfo()
             }
         })
-    }, [setMyUser]); 
+    }, [myUser]); 
 
 
  

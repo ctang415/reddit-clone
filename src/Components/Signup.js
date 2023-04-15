@@ -8,20 +8,55 @@ import {
     signOut,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    signInWithRedirect
+    signInWithRedirect,
+    updateProfile
   } from 'firebase/auth';
-import { auth } from "../firebase-config";
+import { auth, db } from "../firebase-config";
+import { doc, setDoc } from "firebase/firestore";
 
 const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue} ) => {
     const [ email, setEmail ] = useState("")
+    const [ username, setUsername ] = useState('')
     const [ createUser, setCreateUser ] = useState(false)
+
+    const createCollection = async () => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const today  = new Date();
+        await setDoc(doc(db, "users", username), {
+            email: email,
+            username: username,
+            id: auth.currentUser.uid,
+            karma: 1,
+            created: today.toLocaleDateString("en-US", options),
+            posts: [],
+            comments: [],
+            joined: [],
+            upvoted: [],
+            downvoted: [],
+            dark: false
+        }).then(() => {
+            updateProfile(auth.currentUser, {
+                displayName: username, photoURL: "https://i.redd.it/jxhx462xs9r71.png"
+            })
+          })
+    }
 
     const signInWithGoogle = async () => {
         // Sign in Firebase using popup auth and Google as the identity provider.
         var provider = new GoogleAuthProvider();
         provider.setCustomParameters({
             prompt: 'select_account'})
-        await signInWithPopup(auth, provider);
+        await signInWithPopup(auth, provider).then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            console.log(credential)
+            const token = credential.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+            console.log(user)
+            // IdP data available using getAdditionalUserInfo(result)
+            // ...
+        })
       }
 
     const displayLogin = (e) => {
