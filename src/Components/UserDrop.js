@@ -2,7 +2,7 @@ import { signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { auth } from "../firebase-config";
 
-const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData, setCommunityModal, communityModal } ) => {
+const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData, setCommunityModal, communityModal, } ) => {
     const [ userSettings, setUserSettings ] = useState([])
 
     const handleLogOut = (e) => {
@@ -19,7 +19,7 @@ const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData, setCommu
 
     const handleCreateCommunity = () => {
         setCommunityModal(!communityModal) 
-        setDrop(false)
+        setDrop(false) 
     }
 
     useEffect(() => {
@@ -32,7 +32,7 @@ const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData, setCommu
             {name: "Log Out", method: handleLogOut }
         ]
         setUserSettings(data)
-    }, [])
+    }, [setUserSettings])
 
     if (drop) {
             return (

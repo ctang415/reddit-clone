@@ -13,7 +13,7 @@ const Header = ( { userData, setUserData, communityData, setCommunityData }) => 
     const [ myUser, setMyUser ] = useState([])
     const [ communityDrop, setCommunityDrop ] = useState(false)
     const [ communityModal, setCommunityModal ] = useState(false)
-
+    const [ googleUser, setGoogleUser ] = useState(false)
     const user = auth.currentUser;
 
     const handleClick = (e) => {
@@ -22,55 +22,51 @@ const Header = ( { userData, setUserData, communityData, setCommunityData }) => 
             setModalIsTrue(!modalIsTrue)
             } else {
             setDrop(!drop)
-            console.log(user)
         }
     }
 
     const handleCommunityClick = (e) => {
         e.preventDefault()
-            setCommunityDrop(!communityDrop)
+        if (communityDrop) {
+            setCommunityDrop(false)
+        } else {
+            setCommunityDrop(true)
+        }
     }
-
-    useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                setMyUser([user]) 
-                const getUserInfo =  async () => {
-                    const docRef = doc(db, "users", user.displayName)
-                    const docSnap = await getDoc(docRef)
-                    const data = docSnap.data()
-                    setUserData([data])
-                    console.log(userData)
-                }
-                getUserInfo()
-            }
-        })
-    }, [myUser]); 
-
-
  
+    useEffect(() => { 
+        onAuthStateChanged(auth, (user) => {
+        if (user) {
+            const getUserInfo = async () => {
+                const docRef = doc(db, "users", user.displayName)
+                const docSnap = await getDoc(docRef)
+                const data = docSnap.data()
+                setUserData([data])
+            }
+            getUserInfo()
+        }
+    })}, [user]);
+    
     if (!user) {
         return (
             <div className="header">
                 <nav className="nav-bar">
                     <span>freddit</span>
                     <input id="nav-bar-input" type="search" placeholder="Search Freddit"></input>
-                    <Modal modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} 
+                    <Modal modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} googleUser={googleUser} setGoogleUser={setGoogleUser}
                     />
                     <div className="header-button">
                         <button className="header-login-button" onClick={handleClick}>Log In</button>
                     </div>
                 </nav>
-            </div>
+            </div> 
         )
-    } else {
+    } else { 
         return ( 
-            myUser.map(user => {
-                return (
                     userData.map(data => { 
                         return (
                             <div key={data.displayName}>
-                                <nav key={user.displayName} className="nav-bar">
+                                <nav className="nav-bar">
                                     <div className="nav-login-left">
                                         <span>freddit</span>
                                         <div className="drop-login">
@@ -86,7 +82,7 @@ const Header = ( { userData, setUserData, communityData, setCommunityData }) => 
                                                 <CommunitiesDrop userData={userData} communityDrop={communityDrop} setCommunityDrop={setCommunityDrop} />
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> 
                                     <input id="nav-bar-input-login" type="search" placeholder="Search Freddit"></input>
                                     <div className="drop">
                                         <div className="header-user-profile" onClick={handleClick}>
@@ -107,7 +103,7 @@ const Header = ( { userData, setUserData, communityData, setCommunityData }) => 
                                         </div>
                                         <div className="drop-down-bar">
                                             <UserDrop userData={userData} setMyUser={setMyUser} drop={drop} setDrop={setDrop} setModalIsTrue={setModalIsTrue}
-                                            communityModal={communityModal} setCommunityModal={setCommunityModal} 
+                                            communityModal={communityModal} setCommunityModal={setCommunityModal}
                                             />
                                         </div>
                                     </div>
@@ -117,8 +113,6 @@ const Header = ( { userData, setUserData, communityData, setCommunityData }) => 
                                 communityModal={communityModal} userData={userData} setCommunityModal={setCommunityModal} 
                                 />
                             </div>
-                        )
-                    })
                 )
             })
         )

@@ -425,6 +425,7 @@ form > input {
     border-radius: 2em;
     border: none;
     font-weight: bold;
+    pointer-events: none;
 }
 
 .login-button:hover {

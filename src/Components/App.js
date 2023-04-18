@@ -20,7 +20,7 @@ const App = () => {
       setCommunityData([doc.data()])  
       console.log(doc.id, " => ", doc.data());
     });
-}
+  }
 
   useEffect(() => {
     const signOutUser = () => { 
@@ -31,8 +31,7 @@ const App = () => {
 
   useEffect(() => {
     getCommunities() 
-    console.log(communityData)
-  }, [])
+  }, [setCommunityData])
 
   return (
     <div>

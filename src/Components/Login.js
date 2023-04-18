@@ -4,12 +4,16 @@ import {
     GoogleAuthProvider,
     signInWithPopup,
     signInWithRedirect,
-    signInWithEmailAndPassword
+    signInWithEmailAndPassword,
+    updateProfile,
+    getAdditionalUserInfo,
+    reload
   } from 'firebase/auth';
 import { auth, db } from "../firebase-config";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, query, setDoc, where } from "firebase/firestore";
+import Profile from  '../Assets/snoo.png'
 
-const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, setModalIsTrue} ) => {
+const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, setModalIsTrue, googleUser, setGoogleUser } ) => {
     const [ username, setUsername ] = useState("")
     const [ password, setPassword ] = useState("")
     const [ passwordError, setPasswordError ] = useState(false)
@@ -29,20 +33,73 @@ const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, 
         setLogin(false)
         setForgotPassword(true)
     }
+
+    const createCollection = async () => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const today  = new Date();
+        await setDoc(doc(db, "users", auth.currentUser.email), {
+            email: auth.currentUser.email,
+            username: auth.currentUser.email,
+            id: auth.currentUser.uid,
+            karma: 1,
+            created: today.toLocaleDateString("en-US", options),
+            posts: [],
+            comments: [],
+            joined: [],
+            upvoted: [],
+            downvoted: [],
+            dark: false
+        })
+    }
     
     const signInWithGoogle = async () => {
         // Sign in Firebase using popup auth and Google as the identity provider.
         var provider = new GoogleAuthProvider();
         provider.setCustomParameters({
             prompt: 'select_account'})
-        await signInWithPopup(auth, provider);
+        await signInWithPopup(auth, provider).then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+            if (getAdditionalUserInfo(result).isNewUser) {
+                setGoogleUser(true)
+                createCollection().then( async () => {
+                    await updateProfile(user, {
+                        displayName: user.email, photoURL: Profile
+                    })
+                    console.log('update profile')
+                }).then( async () => {
+                 await reload(auth.currentUser).then(() =>{
+                        console.log('profile reloaded')
+                    })
+            })
+            }
+        })
       }
 
       const signInWithRedirect = async () => {
         var provider = new GoogleAuthProvider();
         provider.setCustomParameters({
             prompt: 'select_account'})
-        await signInWithPopup(auth, provider);
+        await signInWithPopup(auth, provider).then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+            setGoogleUser(user.uid)
+            if (getAdditionalUserInfo(result).isNewUser) {
+                createCollection().then(() => {
+                    updateProfile(user, {
+                        displayName: user.email, photoURL: Profile
+                    })
+                }).then(() => {
+                reload(auth.currentUser); 
+            })
+            }
+        })
       }
       
       const signIn =  async () => {
@@ -71,7 +128,6 @@ const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, 
         setUserError(false)
         setPassword(false)
       }
-
 
     if (login) {
         return (

@@ -4,7 +4,7 @@ import ForgotUser from "./ForgotUser";
 import Login from "./Login";
 import Signup from "./Signup";
 
-const Modal = ( {modalIsTrue, setModalIsTrue } ) => {
+const Modal = ( {modalIsTrue, setModalIsTrue, setGoogleUser, googleUser } ) => {
     const [ login, setLogin ] = useState(true)
     const [ signUp, setSignUp ] = useState(false)
     const [ forgotUser, setForgotUser ] = useState(false)
@@ -30,11 +30,11 @@ const Modal = ( {modalIsTrue, setModalIsTrue } ) => {
                     <Login 
                     setSignUp={setSignUp} setLogin={setLogin} login={login}
                     setForgotUser={setForgotUser} setForgotPassword={setForgotPassword}
-                    setModalIsTrue={setModalIsTrue} 
+                    setModalIsTrue={setModalIsTrue} googleUser={googleUser} setGoogleUser={setGoogleUser}
                     />
                     <Signup
                     setLogin={setLogin} signUp={signUp} setSignUp={setSignUp} 
-                    setModalIsTrue={setModalIsTrue}
+                    setModalIsTrue={setModalIsTrue} googleUser={googleUser} setGoogleUser={setGoogleUser}
                     />
                     <ForgotUser 
                     setLogin={setLogin} setSignUp={setSignUp}

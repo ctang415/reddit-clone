@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import {
     createUserWithEmailAndPassword,
+    reload,
     updateProfile
   } from 'firebase/auth';
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../firebase-config";
 import Profile from  '../Assets/snoo.png'
 
 const CreateUser = ( {createUser, setSignUp, setCreateUser, email, setLogin, setModalIsTrue }) => {
     const [ username, setUsername ] = useState("")
     const [ password, setPassword ] = useState("")
+    const [ alreadyExists, setAlreadyExists ] = useState(false)
     
     const createCollection = async () => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -29,15 +31,19 @@ const CreateUser = ( {createUser, setSignUp, setCreateUser, email, setLogin, set
         })
     }
 
-    const createAccount = (e) => {
+    const createAccount = async (e) => {
         e.preventDefault()
-        createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {       
+        const docRef = doc(db, "users", username)
+        const docSnap = await getDoc(docRef);
+        const data = docSnap.data()
+        if (data === undefined) {
+        createUserWithEmailAndPassword(auth, email, password).then(async (userCredential) => {       
             const user = userCredential.user;     
-            updateProfile(user, {
+            await updateProfile(user, {
             displayName: username, photoURL: Profile
-        }).then(() => {
-            user.reload()
-            })
+        }).then( async () => {
+             await reload(auth.currentUser)
+    })
             setCreateUser(false)
             setModalIsTrue(false)
             setLogin(true)
@@ -49,9 +55,15 @@ const CreateUser = ( {createUser, setSignUp, setCreateUser, email, setLogin, set
             const errorMessage = error.message;
             // ..
           })
+        }
+        else {
+            setAlreadyExists(true)
+            console.log('username already exists')
+        }
     }
 
     const returnToPage = (e) => {
+        setAlreadyExists(false)
         setCreateUser(false)
         setSignUp(true)
     }
@@ -74,6 +86,7 @@ const CreateUser = ( {createUser, setSignUp, setCreateUser, email, setLogin, set
                 </div>
                 <form onSubmit={createAccount}>
                     <input type="text" placeholder="Username" minLength="3" maxLength="20" onInput={(e) => setUsername(e.target.value) } pattern={'^[a-zA-Z0-9](?!.*--)[a-zA-Z0-9-_]*[a-zA-Z0-9]$'} required></input>
+                    <span className={alreadyExists ? "password-error-true" : "password-error-false"}>Username already exists</span>
                     <input type="password" placeholder="Password" minLength="8" maxLength="16" onInput={(e)=> setPassword(e.target.value) } required></input>
                     <button type="submit" className={ email ? "login-button" : "login-button-false"} >Continue</button>
                     <span id="text-warning">*Please do not put your real information!*</span>

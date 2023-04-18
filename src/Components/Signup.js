@@ -9,12 +9,15 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     signInWithRedirect,
-    updateProfile
+    updateProfile,
+    getAdditionalUserInfo,
+    reload
   } from 'firebase/auth';
 import { auth, db } from "../firebase-config";
-import { doc, setDoc } from "firebase/firestore";
+import { collection, doc, getDocs, query, setDoc, where } from "firebase/firestore";
+import Profile from  '../Assets/snoo.png'
 
-const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue} ) => {
+const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue, googleUser, setGoogleUser } ) => {
     const [ email, setEmail ] = useState("")
     const [ username, setUsername ] = useState('')
     const [ createUser, setCreateUser ] = useState(false)
@@ -22,9 +25,9 @@ const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue} ) => {
     const createCollection = async () => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const today  = new Date();
-        await setDoc(doc(db, "users", username), {
-            email: email,
-            username: username,
+        await setDoc(doc(db, "users", auth.currentUser.email), {
+            email: auth.currentUser.email,
+            username: auth.currentUser.email,
             id: auth.currentUser.uid,
             karma: 1,
             created: today.toLocaleDateString("en-US", options),
@@ -34,11 +37,7 @@ const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue} ) => {
             upvoted: [],
             downvoted: [],
             dark: false
-        }).then(() => {
-            updateProfile(auth.currentUser, {
-                displayName: username, photoURL: "https://i.redd.it/jxhx462xs9r71.png"
-            })
-          })
+        })
     }
 
     const signInWithGoogle = async () => {
@@ -53,9 +52,19 @@ const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue} ) => {
             const token = credential.accessToken;
             // The signed-in user info.
             const user = result.user;
-            console.log(user)
-            // IdP data available using getAdditionalUserInfo(result)
-            // ...
+            if (getAdditionalUserInfo(result).isNewUser) {
+                setGoogleUser(true)
+                createCollection().then( async () => {
+                    await updateProfile(user, {
+                        displayName: user.email, photoURL: Profile
+                    })
+                    console.log('update profile')
+                }).then( async () => {
+                   await reload(auth.currentUser).then(() =>{
+                        console.log('profile reloaded')
+                    })
+            })
+            }
         })
       }
 
