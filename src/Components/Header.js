@@ -14,6 +14,8 @@ const Header = ( { userData, setUserData, communityData, setCommunityData }) => 
     const [ communityDrop, setCommunityDrop ] = useState(false)
     const [ communityModal, setCommunityModal ] = useState(false)
     const [ googleUser, setGoogleUser ] = useState(false)
+    const [ myData, setMyData ] = useState([])
+    
     const user = auth.currentUser;
 
     const handleClick = (e) => {
@@ -36,15 +38,16 @@ const Header = ( { userData, setUserData, communityData, setCommunityData }) => 
  
     useEffect(() => { 
         onAuthStateChanged(auth, (user) => {
-        if (user) {
-            const getUserInfo = async () => {
-                const docRef = doc(db, "users", user.displayName)
-                const docSnap = await getDoc(docRef)
-                const data = docSnap.data()
-                setUserData([data])
-            }
+            if (user) {
+                const getUserInfo = async () => {
+                    const docRef = doc(db, "users", user.displayName)
+                    const docSnap = await getDoc(docRef)
+                    const data = docSnap.data()
+                    setUserData([data])
+                    console.log(userData)
+                } 
             getUserInfo()
-        }
+            } 
     })}, [user]);
     
     if (!user) {
@@ -61,11 +64,12 @@ const Header = ( { userData, setUserData, communityData, setCommunityData }) => 
                 </nav>
             </div> 
         )
-    } else { 
+    } 
+    else { 
         return ( 
-                    userData.map(data => { 
-                        return (
-                            <div key={data.displayName}>
+                userData.map(data => { 
+                    return (
+                        <div key={user.displayName}>
                                 <nav className="nav-bar">
                                     <div className="nav-login-left">
                                         <span>freddit</span>

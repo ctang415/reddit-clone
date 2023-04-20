@@ -64,17 +64,15 @@ const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, 
             // The signed-in user info.
             const user = result.user;
             if (getAdditionalUserInfo(result).isNewUser) {
-                setGoogleUser(true)
                 createCollection().then( async () => {
                     await updateProfile(user, {
                         displayName: user.email, photoURL: Profile
+                    }).then( async () => {
+                        await reload(auth.currentUser)
+                    }).then (() => {
+                        setGoogleUser(true)
                     })
-                    console.log('update profile')
-                }).then( async () => {
-                 await reload(auth.currentUser).then(() =>{
-                        console.log('profile reloaded')
-                    })
-            })
+                })
             }
         })
       }

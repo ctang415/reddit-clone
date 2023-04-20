@@ -5,7 +5,6 @@ import {
     onAuthStateChanged,
     GoogleAuthProvider,
     signInWithPopup,
-    signOut,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     signInWithRedirect,
@@ -14,7 +13,7 @@ import {
     reload
   } from 'firebase/auth';
 import { auth, db } from "../firebase-config";
-import { collection, doc, getDocs, query, setDoc, where } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import Profile from  '../Assets/snoo.png'
 
 const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue, googleUser, setGoogleUser } ) => {
@@ -53,17 +52,15 @@ const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue, googleUser, setG
             // The signed-in user info.
             const user = result.user;
             if (getAdditionalUserInfo(result).isNewUser) {
-                setGoogleUser(true)
-                createCollection().then( async () => {
+                createCollection().then(async () => {
                     await updateProfile(user, {
                         displayName: user.email, photoURL: Profile
+                    }).then ( async () => {
+                        await reload(auth.currentUser)
+                    }).then (() => {
+                        setGoogleUser(true)
                     })
-                    console.log('update profile')
-                }).then( async () => {
-                   await reload(auth.currentUser).then(() =>{
-                        console.log('profile reloaded')
-                    })
-            })
+                })
             }
         })
       }

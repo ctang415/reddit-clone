@@ -2,6 +2,7 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../firebase-config";
 import { collection, getDocs, or, query, where } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 const CommunityModal = ( {communityModal, setCommunityModal, userData, setCommunityData, communityData}) => {
     const [ communityName, setCommunityName ] = useState("")
@@ -10,6 +11,8 @@ const CommunityModal = ( {communityModal, setCommunityModal, userData, setCommun
     const [ characters, setCharacters ] = useState(21) 
     const [ charactersZero, setCharactersZero ] = useState(false)
     const [ communityExists, setCommunityExists ] = useState(false)
+    const navigate = useNavigate();
+
 
     const handleChange = (e) => {
         e.preventDefault()
@@ -66,6 +69,7 @@ const CommunityModal = ( {communityModal, setCommunityModal, userData, setCommun
             setCommunityModal(!communityModal)
             createCommunity()
             getCommunities()
+            navigate(`f/${communityName}`);
             };
         }
 

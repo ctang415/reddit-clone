@@ -7,6 +7,7 @@
 body {
   background-color: #DAE0E6;
   min-height: 400vh;
+  padding-top: 3.5em;
 }
 
 .nav-bar {
@@ -658,12 +659,12 @@ label {
 }
 
 .community-header-top {
-  height: 8.4em;
+  height: 4.9em;
   background-color: #33a8ff;
 }
 
 .community-header-bottom {
-  height: 6.2em;
+  height: 6.25em;
   background-color: white;
 }
 
@@ -790,6 +791,19 @@ label {
   font-weight: bold;
 }
 
+.community-info-top-home > ul {
+  list-style-type: none;
+}
+
+.community-info-top-home {
+  cursor: pointer;
+}
+
+.community-info-sections {
+  display: flex;
+  justify-content: space-between;
+}
+
 #community-dots {
   padding-left: 0.5em;
   padding-right: 0.5em;
@@ -801,6 +815,7 @@ label {
   padding-left: 0.5em;
   padding-right: 0.5em;
   padding-bottom: 0.5em;
+  
 }
 
 .community-info-text {
@@ -835,7 +850,28 @@ label {
   display: flex;
 }
 
+.dropbox-true-home {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.35em;
+}
+
+.dropbox-true-home > div {
+  font-size: 0.7em;
+  margin-right: 2em;
+}
+
+.dropbox-true-home > div:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .dropbox-false {
+  display: none;
+}
+
+.dropbox-false-home {
   display: none;
 }
 
@@ -893,5 +929,13 @@ label {
 }
 
 .community-post-false {
+  display: none;
+}
+
+.community-button-true {
+  display: inline;
+}
+
+.community-button-false {
   display: none;
 }

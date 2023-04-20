@@ -8,7 +8,7 @@ import Home from './Home';
 import { collection, getDocs, or, query, where } from "firebase/firestore";
 
 const App = () => {
-  const [ userData, setUserData ] = useState([])
+  const [ userData, setUserData ] = useState([ {karma: 1}])
   const [ communityData, setCommunityData ] = useState([])
 
   const getCommunities = async () => {
@@ -17,7 +17,7 @@ const App = () => {
     where("type", "==", "private"), where("type", "==", "restricted") ))
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      setCommunityData([doc.data()])  
+      setCommunityData(prev => [...prev, doc.data()])  
       console.log(doc.id, " => ", doc.data());
     });
   }
