@@ -6,6 +6,7 @@ import CommunityPage from './CommunityPage';
 import Header from './Header';
 import Home from './Home';
 import { collection, getDocs, or, query, where } from "firebase/firestore";
+import CreatePost from './CreatePost';
 
 const App = () => {
   const [ userData, setUserData ] = useState([ {karma: 1}])
@@ -39,6 +40,7 @@ const App = () => {
       <Routes>
         <Route path="/" exact element={<Home userData={userData} setUserData={setUserData} />}/>
         <Route path="/f/:id" element={<CommunityPage userData={userData} setUserData={setUserData} />}/>
+        <Route path="/f/:id/submit" element={<CreatePost />} />
       </Routes>
     </div>
   );

@@ -28,7 +28,11 @@ body {
     height: 70%;
     width: 50%;
     background-color:#f5f6f7;
-    border: none;
+    border: solid rgb(240, 239, 239);
+}
+
+.nav-bar > input:hover {
+  border: solid #2286d2;
 }
 
 .nav-bar > span {
@@ -386,7 +390,7 @@ form > input {
 
 .header-login-button {
     color: white;
-    background-color:rgb(35, 109, 244);
+    background-color:#2286d2;
     height: 70%;
     width: 8.5em;
     border-radius: 2em;
@@ -395,8 +399,30 @@ form > input {
     cursor: pointer;
 }
 
+.create-button {
+  display: flex;
+  justify-content: center;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.community-post-button {
+  color: white;
+  background-color:#2286d2;
+  height: 2.5em;
+  width: 90%;
+  border-radius: 2em;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.community-post-button:hover {
+  background-color:#3e91d1;
+}
+
 .header-login-button:hover {
-    background-color:rgb(53, 118, 237);
+    background-color:#3e91d1;
 }
 
 .header-button {
@@ -659,6 +685,7 @@ label {
 }
 
 .community-header-top {
+  cursor: pointer;
   height: 4.9em;
   background-color: #33a8ff;
 }
@@ -674,8 +701,22 @@ label {
   margin: auto 16%;
 }
 
+.community-header-info-title{
+  display: flex;
+  align-items: center;
+}
+
+.community-header-buttons {
+  padding-left: 1.5em;
+  gap: 0.5em;
+  display: flex;
+  flex-direction: row;
+  height: 2em;
+}
+
 .community-header-info-subtitle {
   display: flex;
+  color: grey;
 }
 
 .community-header-info > div {
@@ -772,10 +813,40 @@ label {
   background: white;
   border-radius: 0.2em;
   border: 1px solid #cdd9e3;
-  padding-top: 1em;
-  padding-bottom: 1em;
-  padding-left: 1em;
-  padding-right: 1em;
+}
+
+.community-info-home {
+  background: white;
+  border-radius: 0.2em;
+  border: 1px solid #cdd9e3;
+}
+
+#arrow {
+  font-size: 1em;
+}
+
+.community-mod > p {
+  font-size: 0.7em;
+  max-height: 6em;
+  padding: 1em;
+}
+
+.community-mod > h5 {
+  padding: 1em;
+  background-color: #2286d2;
+  color: white;
+}
+
+.community-info-top, .community-info-text, .community-rules, .dropbox-true {
+  padding: 1em;
+}
+
+.moderators-true {
+  display: flex;
+}
+
+.moderators-false {
+  display:none;
 }
 
 .community-info-bar {
@@ -785,27 +856,37 @@ label {
 }
 
 .community-info-top {
+  background-color: #2286d2;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-weight: bold;
 }
 
-.community-info-top-home > ul {
+.community-info-top-home > ul > li {
   list-style-type: none;
+  border-bottom: 1px solid rgb(215, 215, 215);
 }
 
 .community-info-sections {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  
+  align-items: center;
+  cursor: pointer;
+  padding: 1em;
 }
 
 #community-dots {
+  display: flex;
   padding-left: 0.5em;
   padding-right: 0.5em;
   padding-bottom: 0.5em;
+}
+
+#community-dots-false {
+  display: none;
 }
 
 #community-dots:hover {
@@ -813,7 +894,6 @@ label {
   padding-left: 0.5em;
   padding-right: 0.5em;
   padding-bottom: 0.5em;
-  
 }
 
 .community-info-text {
@@ -848,23 +928,23 @@ label {
   display: flex;
 }
 
-.dropbox-true-home {
-
-}
-
 .list {
   display:flex;
   flex-wrap: wrap;
 }
 
+.dropbox-true-home {
+  padding-left: 1em;
+  padding-bottom: 0.7em;
+}
+
 .dropbox-true-home > div {
   font-size: 0.7em;
   margin-right: 2em;
-
+  cursor: pointer;
 }
 
 .dropbox-true-home > div:hover {
-  cursor: pointer;
   text-decoration: underline;
 }
 
@@ -875,6 +955,21 @@ label {
 .community-divider-text {
   display: flex;
   flex-direction: row;
+  content: "";
+  border-bottom: 0.1em solid;
+  border-color:#DAE0E6;
+  padding-top: 0.7em;
+}
+
+.community-divide {
+  display: flex;
+  justify-content: center;
+}
+
+.community-divider-text-info {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
   content: "";
   border-bottom: 0.1em solid;
   border-color:#DAE0E6;
@@ -917,12 +1012,22 @@ label {
   background-color: white;
   padding: 0.5em;
   display: flex;
-  justify-content: center
+  justify-content: center;
+  height: 2.5em;
+}
+
+#community-input-img {
+  height: 100%;
 }
 
 .community-post-true > input {
   padding: 0.5em;
-  width: 70%;
+  width: 90%;
+  border:solid gainsboro;
+}
+
+.community-post-true > input:hover {
+  border: solid #2286d2;
 }
 
 .community-post-false {
@@ -930,9 +1035,61 @@ label {
 }
 
 .community-button-true {
-  display: inline;
+  color:white;
+  background-color: #2286d2;
+  height: 100%;
+  border: none;
+  width: 8.5em;
+  border-radius: 2em;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.community-button-true:hover {
+  background-color: #3e91d1;
+}
+
+.community-button-true-joined:hover {
+  background-color:#f1f4f7;
+}
+
+.community-button-true-joined {
+  color:#2286d2;
+  border: solid #2286d2;
+  background-color: white;
+  height: 100%;
+  width: 8.5em;
+  border-radius: 2em;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .community-button-false {
   display: none;
+}
+
+#mod-home {
+  font-size: 0.7em;
+}
+
+.top-button {
+  display: flex;
+  justify-content: center;
+}
+
+.back-to-top {
+  color: white;
+  background-color:#2286d2;
+  height: 3em;
+  width: 9em;
+  border-radius: 2em;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  position: fixed;
+  bottom: 1em;
+}
+
+.back-to-top:hover {
+  background-color: #3e91d1;
 }

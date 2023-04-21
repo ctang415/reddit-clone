@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { auth } from "../firebase-config";
 import Dropdown from "./Dropdown";
 
-const CommunityInformation = ( {firebaseCommunityData, params }) => {
+const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost }) => {
     const [ rules, setRules ] = useState(false)
     const [ dropBox, setDropBox ] = useState(false)
     const [ popularCommunities, setPopularCommunities ] = useState([])
+    const params = useParams();
+    const user = auth.currentUser;
 
     const handleDrop = () => {
         setDropBox(!dropBox)
@@ -48,11 +52,18 @@ const CommunityInformation = ( {firebaseCommunityData, params }) => {
             <div className="community-info">
                 <div className="community-info-top">
                     <h5>About Community</h5>
-                    <h5 id="community-dots">...</h5>
+                    <h5 id={ user ? "community-dots" : "community-dots-false"}>...</h5>
                 </div>
                 <div className="community-info-text">
                     <p>Text about section</p>
                     <p>Created {data.created}</p>
+               
+                </div>
+                <div className="community-divide">
+                <div className={isLoggedIn ? "community-divider-text-info" : "community-button-false"}></div>
+                </div>
+                <div className={ isLoggedIn ? "create-button" : "community-button-false"}>
+                    <button className={isLoggedIn ? "community-post-button" : "community-button-false"} onClick={createNewPost}>Create Post</button>
                 </div>
             </div>
             <div className={ rules ? "community-rules": "community-rules-false"}>
@@ -70,8 +81,12 @@ const CommunityInformation = ( {firebaseCommunityData, params }) => {
             </div>
             <div className="community-mod">
                 <h5>Moderators</h5>
-                <span>{data.moderators}</span>
+                <p className={ isLoggedIn ? "moderators-true" : "moderators-false"}>u/{data.moderators}</p>
+                <p className={ isLoggedIn ? "moderators-false" : "moderators-true"}>Moderator list hidden.</p>
             </div>
+            <div className="top-button">
+                    <button className="back-to-top" onClick={(e) => window.scrollTo({ top:0, behavior:'auto'}) }>Back to Top</button>
+                </div>
         </div>
             )
         })
@@ -79,15 +94,15 @@ const CommunityInformation = ( {firebaseCommunityData, params }) => {
     } else {
         return (
             <div className="community-info-bar">
-                <div className="community-info">
+                <div className="community-info-home">
                     <div className="community-info-top-home">
                         <ul>
                             {popularCommunities.map(item => {
                                 return (
                                     <li className={item.header} key={item.header} onClick={handleCommunityDrop}>
                                         <div className="community-info-sections">
-                                            <h6 >{item.header}</h6>
-                                            <h6> ⌄</h6>
+                                            <h6>{item.header}</h6>
+                                            <h6 id="arrow"> ⌄</h6>
                                         </div>
                                         <div className="list">
                                         {item.list.map( x => {
@@ -101,6 +116,9 @@ const CommunityInformation = ( {firebaseCommunityData, params }) => {
                             })}
                         </ul>
                     </div>
+                </div>
+                <div className="top-button">
+                    <button className="back-to-top" onClick={(e) => window.scrollTo({ top:0, behavior:'auto'}) }>Back to Top</button>
                 </div>
             </div>
         )
