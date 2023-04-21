@@ -12,6 +12,10 @@ const CommunityInformation = ( {firebaseCommunityData, params }) => {
 
     const handleCommunityDrop = (e) => {
         const newCom = popularCommunities.map(x => {
+            if (x.drop === true) {
+                x.drop = !x.drop
+                return x
+            }
             if (x.header === e.currentTarget.className) {
                 x.drop = !x.drop
                 return x
@@ -20,7 +24,6 @@ const CommunityInformation = ( {firebaseCommunityData, params }) => {
     }
     )
         setPopularCommunities(newCom)
-        console.log(popularCommunities)
     }
 
     useEffect(() => {
@@ -36,7 +39,6 @@ const CommunityInformation = ( {firebaseCommunityData, params }) => {
         "femalefashionadvice", "frugalmalefashion", "curlyhair", "poshmark"], drop: false } ]
         setPopularCommunities(communityList)
     }, [])
-
 
     if (params.id) {
     return (
