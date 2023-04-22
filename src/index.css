@@ -914,6 +914,18 @@ label {
   flex-wrap: wrap;
 }
 
+.side-bar-dropbox-true-home {
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.7em;
+  padding-bottom: 0.7em;
+  cursor: pointer;
+}
+
+.side-bar-dropbox-true-home:hover {
+  background-color: #f5f6f6;
+}
+
 .dropbox-true-home {
   padding-left: 1em;
   padding-bottom: 0.7em;
@@ -1208,4 +1220,123 @@ label {
 
 #freddit-logo {
   height: 80%;
+}
+
+.community-page-logged-out {
+  display: flex;
+  flex-direction: column;
+}
+
+.side-bar {
+  position:fixed;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 18.5%;
+  background-color: white;
+  border-top: solid #eceeef;
+}
+
+.side-bar-top {
+  display: flex;
+  height: 28em;
+  flex-direction: column;
+  overflow: scroll;
+}
+
+.side-bar-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.side-bar-text {
+  padding: 1.2em;
+  font-size: 0.9em;
+}
+
+.community-body-logged-out {
+  padding-top: 1.5em;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  margin-right: 7%;
+  gap: 1.5em;
+}
+
+.community-body-left-logged-out {
+  display: flex;
+  flex-direction: column;
+  grid-column: 2;
+}
+
+.community-body-right-logged-out {
+  grid-column: 3;
+}
+
+.side-bar-divider {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  content: "";
+  border-bottom: 0.1em solid;
+  border-color:#DAE0E6;
+  padding-top: 0.7em;
+}
+
+.join-button {
+  color: white;
+  background-color:#2286d2;
+  height: 3.5em;
+  width: 90%;
+  border-radius: 2em;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.join-button:hover {
+  background-color: #3e91d1;
+}
+
+.side-bar-list > li {
+  padding-bottom: 0.5em;
+  list-style: none;
+}
+
+.side-bar-list-top, .side-bar-list-bottom {
+  padding: 0.5em;
+  font-size: 0.9em;
+}
+
+.side-bar-list-top > div {
+  padding-bottom: 0.5em;
+  padding: 1.2em;
+  cursor: pointer;
+}
+
+.side-bar-list-top > div:hover {
+  background-color: #f5f6f6;
+}
+
+.side-bar-list-top > h6 {
+  padding: 1.2em;
+  padding-bottom: 1em;
+  color: grey;
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 1.2em;
+}
+
+.list-item:hover {
+  background-color: #f5f6f6;
+}
+
+.side-bar-list-item {
+  display: flex;
+  flex-direction: column;
+  padding-left: 3em;
 }

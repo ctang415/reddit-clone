@@ -32,7 +32,7 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
 
     useEffect(() => {
         const communityList = [ {header: "POPULAR COMMUNITIES", list: ["AskReddit", "NoStupidQuestions", "DestinyTheGame", 
-        "explainlikeimfive", "AskMen", "leagueoflegends", "Minecraft"], drop: false}, {header: "GAMING", list: ["StardewValley", 
+        "explainlikeimfive", "AskMen", "leagueoflegends", "Minecraft"], drop: true}, {header: "GAMING", list: ["StardewValley", 
         "FortniteCompetitive", "Warframe", "totalwar", "Fallout", "RocketLeague", "fo76", "yugioh", "eu4"], drop: false}, {
         header: "SPORTS", list: ["running", "soccer", "bjj", "MMA", "hockey", "formula1", "CFB", "barstoolsports", "airsoft", 
         "rugbyunion", "golf", "MTB", "cycling"], drop: false}, {header: "TV", list: ["Naruto", "BokuNoHeroAcademia", "marvelstudios", 
@@ -57,7 +57,6 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
                 <div className="community-info-text">
                     <p>Text about section</p>
                     <p>Created {data.created}</p>
-               
                 </div>
                 <div className="community-divide">
                 <div className={ isLoggedIn ? "community-divider-text-info" : "community-button-false"}></div>
