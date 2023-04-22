@@ -6,6 +6,8 @@ import { auth, db } from "../firebase-config";
 import { doc, getDoc } from "firebase/firestore";
 import CommunitiesDrop from "./CommunitiesDrop";
 import CommunityModal from "./CommunityModal";
+import Freddit from "../Assets/freddit.jpeg"
+import { Link } from "react-router-dom";
 
 const Header = ( { userData, setUserData, communityData, setCommunityData }) => {
     const [ modalIsTrue, setModalIsTrue ] = useState(false)
@@ -54,7 +56,12 @@ const Header = ( { userData, setUserData, communityData, setCommunityData }) => 
         return (
             <div className="header">
                 <nav className="nav-bar">
-                    <span>freddit</span>
+                    <Link to="/" style={{ textDecoration: 'none' }}>
+                        <div className="logo">
+                            <img id="freddit-logo" src={Freddit} alt="Green snoo Logo"></img>
+                            <div>freddit</div>
+                        </div>
+                    </Link>
                     <input id="nav-bar-input" type="search" placeholder="Search Freddit"></input>
                     <Modal modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} googleUser={googleUser} setGoogleUser={setGoogleUser}
                     />
@@ -72,7 +79,13 @@ const Header = ( { userData, setUserData, communityData, setCommunityData }) => 
                         <div key={user.displayName}>
                                 <nav className="nav-bar">
                                     <div className="nav-login-left">
-                                        <span>freddit</span>
+                                    <Link to="/" style={{ textDecoration: 'none' }}>
+                                        <div className="logo">
+                                            <img id="freddit-logo" src={Freddit} alt="Green snoo Logo"></img>
+                                            <div>freddit</div>
+                                        </div>
+                                    </Link>
+                                        <div>freddit</div>
                                         <div className="drop-login">
                                             <div className={communityDrop ? "header-user-profile-login-true" : "header-user-profile-login" } onClick={handleCommunityClick}>
                                                 <div className="user-left">

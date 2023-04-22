@@ -558,17 +558,16 @@ form > input {
   color: red !important;
 }
 
-.input-empty {
+.input-empty, .password-error-false, .community-button-false, 
+.community-post-false, .dropbox-false, .community-rules-false, 
+#community-dots-false, .moderators-false, .post-media-false, 
+.post-pinned-true {
   display: none;
 }
 
 .password-error-true {
   display: inline;
   color: red;
-}
-
-.password-error-false {
-  display: none;
 }
 
 .modal-divider-text-community {
@@ -638,7 +637,6 @@ label {
   display: flex;
   flex-direction: column;
   gap: 1em;
-
 }
 
 .radios {
@@ -763,7 +761,6 @@ label {
   padding: 0.3em;
 }
 
-
 .post-right > ul {
   display: flex;
   flex-direction: row;
@@ -791,10 +788,6 @@ label {
 .post-media-true {
   display: inline;
   font-size: 0.85em;
-}
-
-.post-media-false, .post-pinned-true {
-  display: none;
 }
 
 .post-pinned-false {
@@ -845,10 +838,6 @@ label {
   display: flex;
 }
 
-.moderators-false {
-  display:none;
-}
-
 .community-info-bar {
   display: flex;
   flex-direction: column;
@@ -885,10 +874,6 @@ label {
   padding-bottom: 0.5em;
 }
 
-#community-dots-false {
-  display: none;
-}
-
 #community-dots:hover {
   background-color: #dfe5eb;
   padding-left: 0.5em;
@@ -898,10 +883,6 @@ label {
 
 .community-info-text {
   font-size: 0.9em;
-}
-
-.community-rules-false {
-  display: none;
 }
 
 .community-rules > ol {
@@ -948,10 +929,6 @@ label {
   text-decoration: underline;
 }
 
-.dropbox-false {
-  display: none;
-}
-
 .community-divider-text {
   display: flex;
   flex-direction: row;
@@ -974,6 +951,25 @@ label {
   border-bottom: 0.1em solid;
   border-color:#DAE0E6;
   padding-top: 0.7em;
+}
+
+.community-header-divider {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  content: "";
+  border-bottom: 0.08em solid;
+  border-color:white;
+}
+
+.community-post-divider {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  content: "";
+  border-bottom: 0.08em solid;
+  border-color: rgb(213, 213, 213);
+  padding-bottom: 0.8em;
 }
 
 .community-filters {
@@ -1030,10 +1026,6 @@ label {
   border: solid #2286d2;
 }
 
-.community-post-false {
-  display: none;
-}
-
 .community-button-true {
   color:white;
   background-color: #2286d2;
@@ -1064,10 +1056,6 @@ label {
   cursor: pointer;
 }
 
-.community-button-false {
-  display: none;
-}
-
 #mod-home {
   font-size: 0.7em;
 }
@@ -1092,4 +1080,132 @@ label {
 
 .back-to-top:hover {
   background-color: #3e91d1;
+}
+
+.community-post-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#community-draft {
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+  font-size: 0.7em;
+  color: #2286d2;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #DAE0E6;
+  border-radius: 2em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+}
+
+#community-draft:hover {
+  background-color: rgb(191, 191, 191);
+}
+
+#community-draft > div {
+  padding: 0.2em;
+  color: white;
+  font-weight: 100;
+  background-color: grey;
+}
+
+.community-post {
+  background-color: white;
+}
+
+.community-post > form {
+  margin: 0;
+}
+
+.community-post-options > ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  border-bottom: solid rgb(213, 213, 213);
+}
+
+.community-post-section {
+  display: flex;
+  flex-direction: column;
+  padding-left: 1em;
+  padding-right: 1em;
+  gap: 0.5em;
+}
+
+.community-post-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5em;
+}
+
+.community-post-title > input {
+  width: 95%;
+  border: solid rgb(213, 213, 213);
+  padding: 1em;
+}
+
+.community-post-buttons {
+  display: flex;
+  gap: 1em;
+  padding-top: 0.8em;
+  justify-content: flex-end;
+}
+
+#community-save-button {
+  color:#2286d2;
+  background-color: white;
+  height: 2.5em;
+  width: 20%;
+  border-radius: 2em;
+  border: solid #2286d2;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#community-save-button:hover {
+  background-color: #eceeef;
+}
+
+#community-post-button:hover {
+  background-color:#3e91d1;
+}
+
+#community-post-button {
+  color: white;
+  background-color: #2286d2;
+  height: 2.5em;
+  width: 20%;
+  border-radius: 2em;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.community-post-bottom {
+  height: 3.5em;
+  background-color: #eceeef;
+}
+
+.logo {
+  display: flex;
+  padding-left: 1em;
+  height: 3em;
+  gap: 0.5em;
+  align-items: center;
+  color: black;
+  font-size: 1.2em;
+}
+
+#freddit-logo {
+  height: 80%;
 }

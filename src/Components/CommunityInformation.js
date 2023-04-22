@@ -52,7 +52,7 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
             <div className="community-info">
                 <div className="community-info-top">
                     <h5>About Community</h5>
-                    <h5 id={ user ? "community-dots" : "community-dots-false"}>...</h5>
+                    <h5 id={ isLoggedIn ? "community-dots" : "community-dots-false"}>...</h5>
                 </div>
                 <div className="community-info-text">
                     <p>Text about section</p>
@@ -60,7 +60,7 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
                
                 </div>
                 <div className="community-divide">
-                <div className={isLoggedIn ? "community-divider-text-info" : "community-button-false"}></div>
+                <div className={ isLoggedIn ? "community-divider-text-info" : "community-button-false"}></div>
                 </div>
                 <div className={ isLoggedIn ? "create-button" : "community-button-false"}>
                     <button className={isLoggedIn ? "community-post-button" : "community-button-false"} onClick={createNewPost}>Create Post</button>
