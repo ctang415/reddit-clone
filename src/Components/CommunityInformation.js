@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { auth } from "../firebase-config";
+import CommunityModal from "./CommunityModal";
 import Dropdown from "./Dropdown";
 
-const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost }) => {
+const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost, communityModal, setCommunityModal, drop, setDrop }) => {
     const [ rules, setRules ] = useState(false)
     const [ dropBox, setDropBox ] = useState(false)
     const [ popularCommunities, setPopularCommunities ] = useState([])
+    const [ baseSubmit, setBaseSubmit ] = useState(true)
+    const [ communityRules, setCommunityRules ] = useState([])
     const params = useParams();
     const user = auth.currentUser;
 
@@ -25,9 +28,13 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
                 return x
         }
         return x
-    }
-    )
+    })
         setPopularCommunities(newCom)
+    }
+
+    const handleCreateCommunity = () => {
+        setCommunityModal(!communityModal) 
+        setDrop(false) 
     }
 
     useEffect(() => {
@@ -42,6 +49,25 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
         "EatCheapAndHealthy", "loseit"], drop: false}, {header: "FASHION", list: ["MakeupAddiction", "Watches", "BeautyGuruChatter", 
         "femalefashionadvice", "frugalmalefashion", "curlyhair", "poshmark"], drop: false } ]
         setPopularCommunities(communityList)
+    }, [])
+
+    useEffect(() => {
+        const listOfRules = [ 
+            {rule: 'Remember the human'}, 
+            {rule: 'Behave like you would in real life'},
+            {rule: 'Look for the original source of content'}, 
+            {rule: 'Search for duplicates before posting'},
+            {rule: 'Read the community\'s rules'}
+        ]
+        setCommunityRules(listOfRules)
+    }, [])
+
+    useEffect(() => {
+        if (window.location.pathname !== '/submit') {
+            setBaseSubmit(false)
+        } else {
+            setBaseSubmit(true)
+        }
     }, [])
 
     if (params.id) {
@@ -95,7 +121,40 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
             <div className="community-info-bar">
                 <div className="community-info-home">
                     <div className="community-info-top-home">
-                        <ul>
+                        <div className={user ? null : "input-empty"}>
+                        <div className={ baseSubmit ? "community-info-home-logged" : "input-empty" }>
+                            <h4>Posting to Freddit</h4>
+                            <span className="community-divider-text"></span>
+                            <ol>
+                                {communityRules.map(rule => {
+                                    return (
+                                        <li>
+                                            {rule.rule}
+                                            <span className="community-divider-text"></span>
+                                        </li>
+                                   
+                                    )
+                                })}
+                            </ol>
+                        </div>
+                        </div>
+                        <div className={ user ? null : "input-empty"}>
+                            <div className={ baseSubmit ? "input-empty" : null }>
+                            <div className="community-info-home-logged">
+                                <h4>Home</h4>
+                                <p className="community-info-home-logged-text">Your personal Reddit frontpage. Come here to check in with your favorite communities.</p>
+                            </div>
+                            <span className="community-divider-text"></span>
+                            <div className="community-info-buttons">
+                                <Link to="/submit">
+                                    <button className="community-post-button">Create Post</button>
+                                </Link>
+                                <button onClick={handleCreateCommunity} id="community-create-button">Create Community</button>
+                            </div>
+                            <CommunityModal communityModal={communityModal} setCommunityModal={setCommunityModal}/>
+                            </div>
+                        </div>
+                        <ul className={ user ? "input-empty" : "community-header" }>
                             {popularCommunities.map(item => {
                                 return (
                                     <li className={item.header} key={item.header} onClick={handleCommunityDrop}>

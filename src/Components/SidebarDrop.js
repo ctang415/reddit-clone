@@ -5,7 +5,7 @@ const SidebarDrop = ( {item, x} ) => {
     if (item.drop === true) {
         return (
             <div className="side-bar-dropbox-true-home">
-                <div>
+                <div className="side-bar-dropbox-list">
                     {x}
                 </div>
             </div>

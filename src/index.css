@@ -729,11 +729,21 @@ label {
   gap: 1.5em;
 }
 
+.community-body-submit {
+  padding-top: 1.5em;
+  display: grid;
+  grid-template-columns: 2.4fr 1fr;
+  margin: auto 13%;
+  gap: 1.5em;
+}
+
 .community-body-left {
   display: flex;
   flex-direction: column;
   grid-column: 1;
+  gap: 1em;
 }
+
 
 .community-body-right {
   grid-column: 2;
@@ -1012,9 +1022,6 @@ label {
   background-color: #eceeef;
 }
 
-.community-body-left {
-  gap: 1em;
-}
 
 .community-post-true {
   background-color: white;
@@ -1066,6 +1073,29 @@ label {
   border-radius: 2em;
   font-weight: bold;
   cursor: pointer;
+}
+
+.community-info-home-logged {
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+}
+
+.community-info-home-logged > ol {
+  padding-left: 1em;
+  font-size: 0.9em;
+}
+
+.community-info-home-logged > ol > li {
+  padding-top: 1em;
+}
+
+.community-info-home-logged > h4 {
+  padding-bottom: 0.5em;
+}
+
+.community-info-home-logged-text {
+  font-size: 0.8em;
 }
 
 #mod-home {
@@ -1140,9 +1170,19 @@ label {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  padding-top: 1em;
-  padding-bottom: 1em;
+  text-align: center;
   border-bottom: solid rgb(213, 213, 213);
+}
+
+.community-post-options > ul > li {
+  padding: 1em;
+  width: 100%;
+  color: grey;
+  cursor: pointer;
+}
+
+.community-post-options > ul > li:hover {
+  background-color: rgb(235, 242, 247);
 }
 
 .community-post-section {
@@ -1156,14 +1196,24 @@ label {
 .community-post-title {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
   gap: 0.5em;
 }
 
 .community-post-title > input {
   width: 95%;
   border: solid rgb(213, 213, 213);
+  height: 1em;
+}
+
+#community-post-inputs {
   padding: 1em;
+  border-radius: 0.3em;
+}
+
+#community-post-inputs:focus {
+  outline: none !important;
+  border-color: rgb(63, 63, 63);
 }
 
 .community-post-buttons {
@@ -1177,7 +1227,7 @@ label {
   color:#2286d2;
   background-color: white;
   height: 2.5em;
-  width: 20%;
+  width: 8em;
   border-radius: 2em;
   border: solid #2286d2;
   font-weight: bold;
@@ -1196,11 +1246,38 @@ label {
   color: white;
   background-color: #2286d2;
   height: 2.5em;
-  width: 20%;
+  width: 8em;
   border-radius: 2em;
   border: none;
   font-weight: bold;
   cursor: pointer;
+}
+
+#community-create-button {
+  color:#2286d2;
+  background-color: white;
+  border: solid #2286d2;
+  height: 2.5em;
+  width: 90%;
+  border-radius: 2em;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.community-info-buttons {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  align-items: center;
+}
+
+.community-info-buttons > a {
+  display: flex;
+  text-decoration: none;
+  justify-content: center;
+  width: 100%;
 }
 
 .community-post-bottom {
@@ -1267,6 +1344,7 @@ label {
   display: flex;
   flex-direction: column;
   grid-column: 2;
+  gap: 1em;
 }
 
 .community-body-right-logged-out {
@@ -1338,5 +1416,84 @@ label {
 .side-bar-list-item {
   display: flex;
   flex-direction: column;
+}
+
+.side-bar-dropbox-list {
   padding-left: 3em;
+}
+
+.editor-container {
+  width: 43.5em;
+}
+
+.editor-container-link > input:focus {
+  border-radius: 0.3em;
+  outline: none !important;
+  border-color: rgb(63, 63, 63);
+}
+
+.editor-container-image {
+  border: dotted rgb(191, 191, 191);
+  width: 43.5em;
+  height: 10em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.editor-container-link  {
+  display: flex;
+  justify-content: center;
+  width: 99%;
+  height: 2em;
+}
+
+.editor-container-link > input {
+  padding-left: 1em;
+  border-radius: 0.3em;
+  border: solid rgb(213, 213, 213);
+  width: 100%;
+  height: 100%;
+}
+
+
+#files {
+  display: none;
+}
+
+.btn {
+  border: solid #2286d2;
+  background-color: white;
+  color: #2286d2;
+  font-size: 0.9em;
+  border-radius: 2em;
+  display: inline-block;
+  padding: 0.5em 1.5em;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: rgb(240, 239, 239);
+}
+
+.inputs-poll {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1em;
+}
+
+.inputs-poll > input {
+  width: 90%;
+  padding: 0.5em;
+}
+
+.inputs-poll-section {
+  padding-top: 1em;
+  display: flex;
+  flex-direction: row;
+}
+
+.inputs-poll-tips {
+  font-size: 0.7em;
 }

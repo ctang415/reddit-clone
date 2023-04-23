@@ -9,12 +9,10 @@ import CommunityModal from "./CommunityModal";
 import Freddit from "../Assets/freddit.jpeg"
 import { Link } from "react-router-dom";
 
-const Header = ( { userData, setUserData, communityData, setCommunityData }) => {
+const Header = ( { userData, setUserData, communityData, setCommunityData, communityModal, setCommunityModal, setDrop, drop }) => {
     const [ modalIsTrue, setModalIsTrue ] = useState(false)
-    const [ drop, setDrop ] = useState(false)
     const [ myUser, setMyUser ] = useState([])
     const [ communityDrop, setCommunityDrop ] = useState(false)
-    const [ communityModal, setCommunityModal ] = useState(false)
     const [ googleUser, setGoogleUser ] = useState(false)
     const [ myData, setMyData ] = useState([])
     
@@ -85,7 +83,6 @@ const Header = ( { userData, setUserData, communityData, setCommunityData }) => 
                                             <div>freddit</div>
                                         </div>
                                     </Link>
-                                        <div>freddit</div>
                                         <div className="drop-login">
                                             <div className={communityDrop ? "header-user-profile-login-true" : "header-user-profile-login" } onClick={handleCommunityClick}>
                                                 <div className="user-left">

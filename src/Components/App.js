@@ -10,7 +10,9 @@ import CreatePost from './CreatePost';
 
 const App = () => {
   const [ userData, setUserData ] = useState([ {karma: 1}])
+  const [ communityModal, setCommunityModal ] = useState(false)
   const [ communityData, setCommunityData ] = useState([])
+  const [ drop, setDrop ] = useState(false)
 
   const getCommunities = async () => {
     const communitiesRef = collection(db, "communities");
@@ -36,11 +38,19 @@ const App = () => {
 
   return (
     <div>
-      <Header communityData={communityData} setCommunityData={setCommunityData} userData={userData} setUserData={setUserData} />
+      <Header 
+      communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
+      communityData={communityData} setCommunityData={setCommunityData} userData={userData} setUserData={setUserData} 
+      />
       <Routes>
-        <Route path="/" exact element={<Home userData={userData} setUserData={setUserData} />}/>
-        <Route path="/f/:id" element={<CommunityPage userData={userData} setUserData={setUserData} />}/>
+        <Route path="/" exact element={<Home userData={userData} setUserData={setUserData} 
+        communityModal={communityModal} setDrop={setDrop} drop={drop}
+        setCommunityModal={setCommunityModal} />}/>
+        <Route path="/f/:id" element={<CommunityPage userData={userData} setUserData={setUserData} 
+        communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
+        />}/>
         <Route path="/f/:id/submit" element={<CreatePost />} />
+        <Route path="/submit" element={<CreatePost />} />
       </Routes>
     </div>
   );

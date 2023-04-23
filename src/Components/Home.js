@@ -1,11 +1,13 @@
 import React from "react";
 import CommunityPage from "./CommunityPage";
 
-const Home = ({communityData, setCommunityData}) => {
+const Home = ({communityData, setCommunityData, communityModal, setCommunityModal, setDrop, drop}) => {
 
     return (
         <div className="body">
-            <CommunityPage/>
+            <CommunityPage setCommunityModal={setCommunityModal} communityModal={communityModal} 
+            setDrop={setDrop} drop={drop}
+            />
         </div>
     )
 }
