@@ -1503,3 +1503,59 @@ label {
 .inputs-poll-tips {
   font-size: 0.7em;
 }
+
+.policy-section {
+  top: 0;
+  position: sticky;
+  display: flex;
+  font-size: 0.8em;
+  color: grey;
+  flex-direction: column;
+  margin-left: 1em;
+  gap: 1em;
+  margin-right: 1em;
+}
+
+.policy-section-true {
+  top: 0;
+  position: sticky;
+  display: flex;
+  font-size: 0.8em;
+  color: black;
+  border-radius: 0.2em;
+  border-color: solid 2px #eceeef;
+  flex-direction: column;
+  gap: 1em;
+  padding: 1em;
+  background-color: white;
+}
+
+.policy-bar-divider-true {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  content: "";
+  border-bottom: 0.05em solid;
+  border-color: #cdd9e3;
+}
+
+.policy-top {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.policy-top > div > ul  {
+  list-style: none;
+  cursor: pointer;
+}
+
+.policy-bar-divider {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  content: "";
+  border-bottom: 0.05em solid;
+  border-color: white;
+}

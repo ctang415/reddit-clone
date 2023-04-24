@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { auth } from "../firebase-config";
 import CommunityModal from "./CommunityModal";
 import Dropdown from "./Dropdown";
+import Policy from "./Policy";
 
 const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost, communityModal, setCommunityModal, drop, setDrop }) => {
     const [ rules, setRules ] = useState(false)
@@ -109,6 +110,7 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
                 <p className={ isLoggedIn ? "moderators-true" : "moderators-false"}>u/{data.moderators}</p>
                 <p className={ isLoggedIn ? "moderators-false" : "moderators-true"}>Moderator list hidden.</p>
             </div>
+            <Policy/>
             <div className="top-button">
                     <button className="back-to-top" onClick={(e) => window.scrollTo({ top:0, behavior:'auto'}) }>Back to Top</button>
                 </div>
@@ -175,6 +177,7 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
                         </ul>
                     </div>
                 </div>
+                <Policy/>
                 <div className="top-button">
                     <button className="back-to-top" onClick={(e) => window.scrollTo({ top:0, behavior:'auto'}) }>Back to Top</button>
                 </div>

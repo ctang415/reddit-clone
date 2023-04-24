@@ -70,7 +70,7 @@ const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, 
                     }).then( async () => {
                         await reload(auth.currentUser)
                     }).then (() => {
-                        setGoogleUser(true)
+                        
                     })
                 })
             }
@@ -139,9 +139,9 @@ const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, 
             <span className="modal-divider-text">OR</span>
             </div>
             <form onSubmit={handleSubmit}>
-                <input type="text" name="username" id="username" placeholder="Username" onInput={(e) => setUsername(e.target.value)} required></input>
+                <input type="text" name="username" placeholder="Username" onInput={(e) => setUsername(e.target.value)} required></input>
                 <span htmlFor="username" className={ userError ? "password-error-true" : "password-error-false"}>Username does not exist</span>
-                <input type="password" name="password" id="password" placeholder="Password" onInput={(e) => setPassword(e.target.value)} required></input>
+                <input type="password" name="password" placeholder="Password" onInput={(e) => setPassword(e.target.value)} required></input>
                 <span htmlFor="password" className={ passwordError ? "password-error-true" : "password-error-false"}>Password is incorrect</span>
                 <span className="modal-text-box">
                     Forget your <span className="modal-links" onClick={displayForgotUser}>username</span> or <span className="modal-links" onClick={displayForgotPassword}>password</span> ?
