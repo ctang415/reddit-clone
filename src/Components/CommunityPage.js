@@ -4,10 +4,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import CommunityInformation from "./CommunityInformation";
+import Modal from "./Modal";
 import Post from "./Post";
 import SidebarDrop from "./SidebarDrop";
 
-const CommunityPage = ({communityModal, setCommunityModal, drop, setDrop} ) => {
+const CommunityPage = ( {communityModal, setCommunityModal, drop, setDrop, modalIsTrue, setModalIsTrue, setJoin, join} ) => {
     const [ firebaseCommunityData, setFirebaseCommunityData] = useState([])
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const [ sideBarCommunities, setSideBarCommunities] = useState([])
@@ -21,6 +22,16 @@ const CommunityPage = ({communityModal, setCommunityModal, drop, setDrop} ) => {
             setText("Leave")
         } else {
             setText("Joined")
+        }
+    }
+
+    const handleClick = (e) => {
+        e.preventDefault()
+        if (!user) {
+            setModalIsTrue(!modalIsTrue)
+            setJoin(true)
+            } else {
+            setDrop(!drop)
         }
     }
 
@@ -129,7 +140,8 @@ const CommunityPage = ({communityModal, setCommunityModal, drop, setDrop} ) => {
                 <div className="community-body-right">
                     <CommunityInformation 
                     communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
-                    createNewPost={createNewPost} isLoggedIn={isLoggedIn} firebaseCommunityData={firebaseCommunityData} setFirebaseCommunityData={setFirebaseCommunityData} 
+                    createNewPost={createNewPost} isLoggedIn={isLoggedIn} firebaseCommunityData={firebaseCommunityData} 
+                    setFirebaseCommunityData={setFirebaseCommunityData} 
                     />
                 </div>
             </div>
@@ -173,7 +185,12 @@ const CommunityPage = ({communityModal, setCommunityModal, drop, setDrop} ) => {
                 <div className="side-bar-bottom">
                     <div className="side-bar-divider"></div>
                     <div className="side-bar-text">Create an account to follow your favorite communities and start taking part in conversations.</div>
-                    <button className="join-button">Join Freddit</button>
+                    <button className="join-button" onClick={handleClick}>Join Freddit</button>
+                    <Modal 
+                    modalIsTrue={modalIsTrue}
+                    setModalIsTrue={setModalIsTrue}
+                    join={join} setJoin={setJoin} 
+                    />
                 </div>
             </div>
             <div className={ isLoggedIn ? "community-body" : "community-body-logged-out"}>
@@ -199,7 +216,8 @@ const CommunityPage = ({communityModal, setCommunityModal, drop, setDrop} ) => {
             <div className={ isLoggedIn ? "community-body-right" : "community-body-right-logged-out"}>
                 <CommunityInformation 
                 communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
-                firebaseCommunityData={firebaseCommunityData} setFirebaseCommunityData={setFirebaseCommunityData} />
+                firebaseCommunityData={firebaseCommunityData} setFirebaseCommunityData={setFirebaseCommunityData} 
+                />
             </div>
         </div>
     </div>

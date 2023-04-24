@@ -9,8 +9,7 @@ import CommunityModal from "./CommunityModal";
 import Freddit from "../Assets/freddit.jpeg"
 import { Link } from "react-router-dom";
 
-const Header = ( { userData, setUserData, communityData, setCommunityData, communityModal, setCommunityModal, setDrop, drop }) => {
-    const [ modalIsTrue, setModalIsTrue ] = useState(false)
+const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUserData, communityData, setCommunityData, communityModal, setCommunityModal, setDrop, drop }) => {
     const [ myUser, setMyUser ] = useState([])
     const [ communityDrop, setCommunityDrop ] = useState(false)
     const [ googleUser, setGoogleUser ] = useState(false)
@@ -61,7 +60,9 @@ const Header = ( { userData, setUserData, communityData, setCommunityData, commu
                         </div>
                     </Link>
                     <input id="nav-bar-input" type="search" placeholder="Search Freddit"></input>
-                    <Modal modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} googleUser={googleUser} setGoogleUser={setGoogleUser}
+                    <Modal 
+                    modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} googleUser={googleUser} setGoogleUser={setGoogleUser}
+                    join={join} setJoin={setJoin}
                     />
                     <div className="header-button">
                         <button className="header-login-button" onClick={handleClick}>Log In</button>

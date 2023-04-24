@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ForgotPassword from "./ForgotPassword";
 import ForgotUser from "./ForgotUser";
 import Login from "./Login";
 import Signup from "./Signup";
 
-const Modal = ( {modalIsTrue, setModalIsTrue, setGoogleUser, googleUser } ) => {
+const Modal = ( {modalIsTrue, setModalIsTrue, setGoogleUser, googleUser, join, setJoin } ) => {
     const [ login, setLogin ] = useState(true)
     const [ signUp, setSignUp ] = useState(false)
     const [ forgotUser, setForgotUser ] = useState(false)
@@ -16,7 +16,15 @@ const Modal = ( {modalIsTrue, setModalIsTrue, setGoogleUser, googleUser } ) => {
         setSignUp(false)
         setForgotUser(false)
         setForgotUser(false)
+        setJoin(false)
     }
+
+    useEffect( () => {
+        if (join === true) {
+            setLogin(false)
+            setSignUp(true)
+        }
+    }, [join])
 
     if (modalIsTrue)
         return (

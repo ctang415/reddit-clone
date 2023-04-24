@@ -11,8 +11,10 @@ import CreatePost from './CreatePost';
 const App = () => {
   const [ userData, setUserData ] = useState([ {karma: 1}])
   const [ communityModal, setCommunityModal ] = useState(false)
+  const [ modalIsTrue, setModalIsTrue ] = useState(false)
   const [ communityData, setCommunityData ] = useState([])
   const [ drop, setDrop ] = useState(false)
+  const [ join, setJoin ] = useState(false)
 
   const getCommunities = async () => {
     const communitiesRef = collection(db, "communities");
@@ -39,16 +41,27 @@ const App = () => {
   return (
     <div>
       <Header 
+      modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue}
       communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
       communityData={communityData} setCommunityData={setCommunityData} userData={userData} setUserData={setUserData} 
+      join={join} setJoin={setJoin}
       />
       <Routes>
-        <Route path="/" exact element={<Home userData={userData} setUserData={setUserData} 
-        communityModal={communityModal} setDrop={setDrop} drop={drop}
-        setCommunityModal={setCommunityModal} />}/>
-        <Route path="/f/:id" element={<CommunityPage userData={userData} setUserData={setUserData} 
+        <Route path="/" exact element={
+        <Home 
+        userData={userData} setUserData={setUserData} 
+        communityModal={communityModal} setDrop={setDrop} drop={drop} modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue}
+        setCommunityModal={setCommunityModal} join={join} setJoin={setJoin} 
+        />}
+        />
+        <Route path="/f/:id" element={
+        <CommunityPage 
+        modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue}
+        userData={userData} setUserData={setUserData} 
         communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
-        />}/>
+        join={join} setJoin={setJoin}
+        />}
+        />
         <Route path="/f/:id/submit" element={<CreatePost />} />
         <Route path="/submit" element={<CreatePost />} />
       </Routes>

@@ -1,3 +1,4 @@
+import { Switch } from "@mui/material";
 import { signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { auth } from "../firebase-config";
@@ -22,14 +23,25 @@ const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData, setCommu
         setDrop(false) 
     }
 
+    const handleCheck = (e) => {
+        const newData = userSettings.map(setting => {
+            if (setting.name === e.currentTarget.id) {
+                setting.checked = !setting.checked
+                return setting
+            }
+            return setting
+        })
+        setUserSettings(newData)
+    }
+
     useEffect(() => {
         const data = 
         [
-            {name: "Online Status", method: function handleOnline() { console.log('handleOnline')}}, 
-            {name: "Profile", method: function handleProfile() { console.log('handleprofile')} }, 
-            {name: "Dark Mode", method: function handleDarkMode() {console.log('handledarkmode')}}, 
-            {name: "Create a Community", method: handleCreateCommunity },
-            {name: "Log Out", method: handleLogOut }
+            {name: "Online Status", switch: true, checked: true }, 
+            {name: "Profile", switch: false, method: function handleProfile() { console.log('handleprofile')} }, 
+            {name: "Dark Mode", switch: true, checked: false }, 
+            {name: "Create a Community", switch: false, method: handleCreateCommunity },
+            {name: "Log Out", switch: false, method: handleLogOut }
         ]
         setUserSettings(data)
     }, [setUserSettings])
@@ -40,7 +52,16 @@ const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData, setCommu
                     <ul>
                     {userSettings.map(item => {
                         return (
-                            <li key={item.name} onClick={item.method}>{item.name}</li>
+                            <li key={item.name} onClick={item.method}>{item.name}
+                            <div id={item.name} className={ item.switch ? "user-left" : "input-empty"}>
+                            <Switch 
+                            id={item.name}
+                            checked={item.checked}
+                            onChange={handleCheck} 
+                            />
+                            </div>
+                            </li>
+                            
                         )
                     })}
                     </ul>
