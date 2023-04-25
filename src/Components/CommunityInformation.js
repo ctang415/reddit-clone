@@ -20,14 +20,14 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
 
     const handleCommunityDrop = (e) => {
         const newCom = popularCommunities.map(x => {
-            if (x.drop === true) {
+            if ((x.drop === true) && (e.target.className !== 'dropbox-true-home') && (e.target.className !== 'list') && (e.target.className !== 'dropbox-true-home-list')) {
                 x.drop = !x.drop
                 return x
             }
-            if (x.header === e.currentTarget.className) {
+            if ((x.header === e.currentTarget.className) && (e.target.className !== 'dropbox-true-home') && (e.target.className !== 'list') && (e.target.className !== 'dropbox-true-home-list')) {
                 x.drop = !x.drop
                 return x
-        }
+            }
         return x
     })
         setPopularCommunities(newCom)
@@ -64,7 +64,7 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
     }, [])
 
     useEffect(() => {
-        if (window.location.pathname !== '/submit') {
+        if ( !(window.location.pathname.match('/submit')) || !(window.location.pathname.match(`${params.id}/submit`))) {
             setBaseSubmit(false)
         } else {
             setBaseSubmit(true)
@@ -105,7 +105,7 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
                     <span className="community-divider-text"></span>
                 </ol>
             </div>
-            <div className="community-mod">
+            <div className={ baseSubmit ? "input-empty" : "community-mod"} >
                 <h5>Moderators</h5>
                 <p className={ isLoggedIn ? "moderators-true" : "moderators-false"}>u/{data.moderators}</p>
                 <p className={ isLoggedIn ? "moderators-false" : "moderators-true"}>Moderator list hidden.</p>
@@ -123,7 +123,7 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
             <div className="community-info-bar">
                 <div className="community-info-home">
                     <div className="community-info-top-home">
-                        <div className={user ? null : "input-empty"}>
+                        <div className={ user ? null : "input-empty"}>
                         <div className={ baseSubmit ? "community-info-home-logged" : "input-empty" }>
                             <h4>Posting to Freddit</h4>
                             <span className="community-divider-text"></span>

@@ -1,4 +1,4 @@
-import { getAuth, signOut } from 'firebase/auth';
+import { signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { Link, Route, Routes } from 'react-router-dom';
 import { auth, db } from '../firebase-config';
@@ -7,9 +7,10 @@ import Header from './Header';
 import Home from './Home';
 import { collection, getDocs, or, query, where } from "firebase/firestore";
 import CreatePost from './CreatePost';
+import ProfilePage from './ProfilePage';
 
 const App = () => {
-  const [ userData, setUserData ] = useState([ {karma: 1}])
+  const [ userData, setUserData ] = useState([])
   const [ communityModal, setCommunityModal ] = useState(false)
   const [ modalIsTrue, setModalIsTrue ] = useState(false)
   const [ communityData, setCommunityData ] = useState([])
@@ -35,7 +36,7 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    getCommunities() 
+    getCommunities()
   }, [setCommunityData])
 
   return (
@@ -62,8 +63,10 @@ const App = () => {
         join={join} setJoin={setJoin}
         />}
         />
-        <Route path="/f/:id/submit" element={<CreatePost />} />
+        <Route path="/f/:id/submit" element={
+        <CreatePost />} />
         <Route path="/submit" element={<CreatePost />} />
+        <Route path="/users/:id" element={ <ProfilePage />} />
       </Routes>
     </div>
   );

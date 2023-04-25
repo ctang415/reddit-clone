@@ -6,7 +6,7 @@ const Policy = () => {
 
         return (
             <div className={ user ? "policy-section-true" : "policy-section"}>
-                <div className="policy-top">
+                <div className={ user ? "policy-top-true" : "policy-top"}>
                     <div className="policy-left">
                         <ul>
                             <li>

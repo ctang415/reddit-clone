@@ -55,6 +55,10 @@ const CommunityPage = ( {communityModal, setCommunityModal, drop, setDrop, modal
         navigate('submit')
     }
 
+    useEffect(() => {
+        document.title = `${params.id}`
+    }, [])
+
     useEffect (() => {
         if (params.id !== undefined) {
         const getCommunity = async () => {
@@ -167,7 +171,7 @@ const CommunityPage = ( {communityModal, setCommunityModal, drop, setDrop, modal
                                     <li className={item.header} onClick={handleCommunityDrop}>
                                         <div className="list-item">
                                             <div>{item.header}</div>    
-                                            <p>⌄</p>
+                                            <div>⌄</div>
                                         </div>
                                         <div className="side-bar-list-item">
                                         {item.list.map( x => {

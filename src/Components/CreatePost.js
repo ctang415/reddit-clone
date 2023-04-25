@@ -9,7 +9,8 @@ import 'react-quill/dist/quill.snow.css';
 const CreatePost = () => {
     const [ firebaseCommunityData, setFirebaseCommunityData] = useState([])
     const [ post, setPost ] = useState([ {title: '', post: '', author: '', votes: 1, date: '', comments: [] }])
-    const [ value, setValue ] = useState('');
+    const [ value, setValue ] = useState('')
+    const [ title, setTitle ] = useState('')
     const [ image, setImage ] = useState(null)
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const [ postSelect, setPostSelect ] = useState(true)
@@ -28,8 +29,9 @@ const CreatePost = () => {
         ]
     }
 
-    const createNewPost = () => {
-        
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        console.log(title)
     }
 /*
     const uploadImage = (e) => {
@@ -99,18 +101,18 @@ const CreatePost = () => {
                     </div>
                 </div>
                 <div className="community-header-divider"></div>
-                <div>
-                    <input type="text"></input>
+                <div className="community-search">
+                    <input type="text" defaultValue={`f/${params.id}`}></input>
                 </div>
                 <div className="community-post">
-                    <form>
+                    <form onSubmit={handleSubmit}>
                     <div className="community-post-options">
                         <ul>
                             <li onClick={handlePost}>
                                 Post
                             </li>
                             <li onClick={handleImage}>
-                                Images
+                                Image & Video
                             </li>
                             <li onClick={handleLink}>
                                 Link
@@ -121,14 +123,15 @@ const CreatePost = () => {
                         </ul>
                     </div>
                     <div className="community-post-section">
+            
                     <div className="community-post-title">
-                        <input type="text" id="community-post-inputs" maxLength="300" placeholder="Title"></input>
+                        <input type="text" id="community-post-inputs" maxLength="300" placeholder="Title" onChange={setTitle}></input>
                         <div className={ postSelect ? "editor-container": "input-empty" }>
                             <ReactQuill theme="snow" modules={modules} value={value} onChange={setValue} >
                             </ReactQuill>
                         </div>
                         <div className={ imageSelect ? "editor-container-image" : "input-empty"}>
-                            <label for="files" class="btn">Upload</label>
+                            <label htmlFor="files" className="btn">Upload</label>
                             <input id="files" type="file"/>
                         </div>
                         <div className={ linkSelect ? "editor-container-link" : "input-empty"}>
@@ -162,6 +165,7 @@ const CreatePost = () => {
                             </div>
                         </div>
                     </div>
+            
                     <div className="community-post-divider"></div>
          
                     <div className="community-post-buttons">
@@ -175,15 +179,12 @@ const CreatePost = () => {
                 </div>
             </div>
             <div className="community-body-right">
-            <CommunityInformation firebaseCommunityData={firebaseCommunityData} setFirebaseCommunityData={setFirebaseCommunityData} />
+            <CommunityInformation 
+            firebaseCommunityData={firebaseCommunityData} setFirebaseCommunityData={setFirebaseCommunityData} />
             </div>
         </div>
     </div>
     )
-    } else {
-        return (
-            <div>NOTHING</div>
-        )
     }
 }
 

@@ -1,10 +1,13 @@
 import { Switch } from "@mui/material";
 import { signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase-config";
+
 
 const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData, setCommunityModal, communityModal, } ) => {
     const [ userSettings, setUserSettings ] = useState([])
+    const navigate = useNavigate()
 
     const handleLogOut = (e) => {
         e.preventDefault()
@@ -34,11 +37,15 @@ const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData, setCommu
         setUserSettings(newData)
     }
 
+    const handleProfile = () => {
+        navigate(`users/${userData.displayName}`)
+    }
+
     useEffect(() => {
         const data = 
         [
             {name: "Online Status", switch: true, checked: true }, 
-            {name: "Profile", switch: false, method: function handleProfile() { console.log('handleprofile')} }, 
+            {name: "Profile", switch: false, method: handleProfile }, 
             {name: "Dark Mode", switch: true, checked: false }, 
             {name: "Create a Community", switch: false, method: handleCreateCommunity },
             {name: "Log Out", switch: false, method: handleLogOut }
