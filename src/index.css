@@ -1584,3 +1584,112 @@ label {
 .policy-left > ul > li , .policy-right > ul > li {
   padding: 0.2em
 }
+
+.profile-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: solid 0.1px rgb(191, 191, 191);
+  height: 2.5em;
+  background-color: white;
+}
+
+.profile-page > ul {
+  display: flex;
+  flex-direction: row;
+  font-size: 0.75em;
+  gap: 2em;
+  list-style: none;
+  font-weight: bold;
+}
+
+.profile-page > ul > li {
+  cursor: pointer;
+}
+
+.profile-info-top {
+  padding: 1em;
+  height: 3.5em;
+  background-color: #33a8ff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.profile-info-text {
+  padding: 1em;
+  display: flex;
+  gap: 0.5em;
+  flex-direction: column;
+  text-align: center;
+}
+
+.profile-info-subtext {
+  display: flex;
+  font-size: 0.8em;
+  gap: 5.5em;
+  text-align: start;
+}
+
+.avatar-button {
+  color: white;
+  background-color:#FF4300;
+  height: 2.5em;
+  width: 100%;
+  border-radius: 2em;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.subtext-bold {
+  font-weight: bold;
+}
+
+.search-btn {
+  border: solid #2286d2;
+  background-color: white;
+  color: #2286d2;
+  font-size: 0.9em;
+  border-radius: 2em;
+  display: inline-block;
+  padding: 0.5em 1.5em;
+  cursor: pointer;
+}
+
+.community-user-button {
+  color: white;
+  background-color:#2286d2;
+  height: 2.5em;
+  width: 40%;
+  border-radius: 2em;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.community-user-button:hover {
+  background-color: #3e91d1;
+}
+
+.create-button {
+  display: flex;
+  justify-content: center;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  gap: 1em;
+}
+
+.profile-avatar {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  height: 12em;
+  width: auto;
+}
+
+.profile-avatar > img {
+  height: 100%;
+}

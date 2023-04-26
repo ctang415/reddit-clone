@@ -9,11 +9,14 @@ import CommunityModal from "./CommunityModal";
 import Freddit from "../Assets/freddit.jpeg"
 import { Link } from "react-router-dom";
 
+
 const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUserData, communityData, setCommunityData, communityModal, setCommunityModal, setDrop, drop }) => {
     const [ myUser, setMyUser ] = useState([])
     const [ communityDrop, setCommunityDrop ] = useState(false)
     const [ googleUser, setGoogleUser ] = useState(false)
+    const [ communitySearch, setCommunitySearch ] = useState(false)
     const [ myData, setMyData ] = useState([])
+
     
     const user = auth.currentUser;
 
@@ -34,6 +37,14 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
             setCommunityDrop(true)
         }
     }
+
+    useEffect( () => {
+        if (window.location.pathname.indexOf('/f/') > -1) {
+            setCommunitySearch(true)
+        } else {
+            setCommunitySearch(false)
+        }
+    }, [])
  
     useEffect(() => { 
         onAuthStateChanged(auth, (user) => {
@@ -43,7 +54,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                     const docSnap = await getDoc(docRef)
                     const data = docSnap.data()
                     setUserData([data])
-                    console.log(userData)
+                    console.log(userData) 
                 } 
             getUserInfo()
             } 
@@ -59,6 +70,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                             <div>freddit</div>
                         </div>
                     </Link>
+                    <div className={ communitySearch ? "search-btn" : "input-empty "}>{window.location.pathname.substring(1)}</div>
                     <input id="nav-bar-input" type="search" placeholder="Search Freddit"></input>
                     <Modal 
                     modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} googleUser={googleUser} setGoogleUser={setGoogleUser}

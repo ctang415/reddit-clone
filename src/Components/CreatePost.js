@@ -8,10 +8,10 @@ import 'react-quill/dist/quill.snow.css';
 
 const CreatePost = () => {
     const [ firebaseCommunityData, setFirebaseCommunityData] = useState([])
-    const [ post, setPost ] = useState([ {title: '', post: '', author: '', votes: 1, date: '', comments: [] }])
+    const [ post, setPost ] = useState([])
     const [ value, setValue ] = useState('')
     const [ title, setTitle ] = useState('')
-    const [ image, setImage ] = useState(null)
+    const [ media, setMedia ] = useState(false)
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const [ postSelect, setPostSelect ] = useState(true)
     const [ imageSelect, setImageSelect ] = useState(false)
@@ -31,8 +31,16 @@ const CreatePost = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(title)
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const today  = new Date();
+        const myDate = today.toLocaleDateString("en-US", options)
+        setPost( [ {title: title, content: value, media: { image: '', uploaded: false}, author: user.displayName, votes: 1, date: myDate, comments: []} ] )
+        console.log(post)
     }
+
+    const onChange = (content, delta, source, editor ) => {
+        setValue(editor.getHTML());
+      };
 /*
     const uploadImage = (e) => {
         getBase64(e.target.files[0]).then(file => setImage({ image: file })) 
@@ -77,7 +85,7 @@ const CreatePost = () => {
             }
         getCommunity()
         }
-    })
+    }, [])
 
     useEffect(() => {
         if (!user) {
@@ -125,9 +133,10 @@ const CreatePost = () => {
                     <div className="community-post-section">
             
                     <div className="community-post-title">
-                        <input type="text" id="community-post-inputs" maxLength="300" placeholder="Title" onChange={setTitle}></input>
+                        <input type="text" id="community-post-inputs" maxLength="300" placeholder="Title" onChange={ (e) => setTitle(e.target.value)}></input>
                         <div className={ postSelect ? "editor-container": "input-empty" }>
-                            <ReactQuill theme="snow" modules={modules} value={value} onChange={setValue} >
+                            <ReactQuill 
+                            theme="snow" modules={modules} value={value} placeholder={'Text (Optional)'} onChange={ onChange} >
                             </ReactQuill>
                         </div>
                         <div className={ imageSelect ? "editor-container-image" : "input-empty"}>
@@ -135,10 +144,11 @@ const CreatePost = () => {
                             <input id="files" type="file"/>
                         </div>
                         <div className={ linkSelect ? "editor-container-link" : "input-empty"}>
-                            <input type="url" placeholder="Url"></input>
+                            <input type="text" placeholder="Url" name="url"></input>
                         </div>
                         <div className={ pollSelect ? "editor-container" : "input-empty"}>
-                            <ReactQuill theme="snow" modules={modules} value={value} onChange={setValue} >
+                            <ReactQuill 
+                            theme="snow" modules={modules} value={value} placeholder={'Text (Optional)'} onChange={ value => setValue(value)} >
                             </ReactQuill>
                             <div className="inputs-poll-section">
                                 <div className="inputs-poll">
@@ -178,6 +188,16 @@ const CreatePost = () => {
                     </form>
                 </div>
             </div>
+
+            {post.map(item => {
+                return (
+                    <div >
+                        {item.title}
+                        {item.content}
+                    </div>
+                )
+            })}
+   
             <div className="community-body-right">
             <CommunityInformation 
             firebaseCommunityData={firebaseCommunityData} setFirebaseCommunityData={setFirebaseCommunityData} />

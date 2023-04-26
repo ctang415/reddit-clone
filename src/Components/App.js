@@ -16,7 +16,7 @@ const App = () => {
   const [ communityData, setCommunityData ] = useState([])
   const [ drop, setDrop ] = useState(false)
   const [ join, setJoin ] = useState(false)
-
+ 
   const getCommunities = async () => {
     const communitiesRef = collection(db, "communities");
     const q = query(communitiesRef,  or( where("type", "==", "public"), 
@@ -55,7 +55,7 @@ const App = () => {
         setCommunityModal={setCommunityModal} join={join} setJoin={setJoin} 
         />}
         />
-        <Route path="/f/:id" element={
+        <Route path="/f/:id" exact element={
         <CommunityPage 
         modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue}
         userData={userData} setUserData={setUserData} 
@@ -66,7 +66,10 @@ const App = () => {
         <Route path="/f/:id/submit" element={
         <CreatePost />} />
         <Route path="/submit" element={<CreatePost />} />
-        <Route path="/users/:id" element={ <ProfilePage />} />
+        <Route path="/users/:id" element={ 
+        <ProfilePage 
+        userData={userData}
+        />} />
       </Routes>
     </div>
   );

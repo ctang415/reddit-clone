@@ -20,6 +20,7 @@ const CreateUser = ( {createUser, setSignUp, setCreateUser, email, setLogin, set
             email: email,
             username: username,
             id: auth.currentUser.uid,
+            avatar: Profile,
             karma: 1,
             created: today.toLocaleDateString("en-US", options),
             posts: [],
