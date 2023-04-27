@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase-config";
 
 
-const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData, setCommunityModal, communityModal, } ) => {
+const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData, setCommunityModal, communityModal, setLoggedIn } ) => {
     const [ userSettings, setUserSettings ] = useState([])
     const navigate = useNavigate()
 
@@ -14,6 +14,7 @@ const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData, setCommu
         signOut(auth).then(() => {
             setDrop(false)
             setModalIsTrue(false)
+            setLoggedIn(false)
             setMyUser([])
             // Sign-out successful.
           }).catch((error) => {

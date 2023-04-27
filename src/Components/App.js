@@ -28,14 +28,13 @@ const App = () => {
     });
   }
 
+
   useEffect(() => {
     const signOutUser = () => { 
       signOut(auth);
     }
     signOutUser() 
   }, [])
-
-
 
   useEffect(() => {
     getCommunities()

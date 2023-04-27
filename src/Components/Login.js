@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
 import {
-    onAuthStateChanged,
     GoogleAuthProvider,
     signInWithPopup,
-    signInWithRedirect,
     signInWithEmailAndPassword,
     updateProfile,
     getAdditionalUserInfo,
     reload
   } from 'firebase/auth';
 import { auth, db } from "../firebase-config";
-import { collection, doc, getDoc, getDocs, query, setDoc, where } from "firebase/firestore";
+import { doc, getDoc, setDoc, } from "firebase/firestore";
 import Profile from  '../Assets/snoo.png'
 
-const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, setModalIsTrue, googleUser, setGoogleUser } ) => {
+const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, setModalIsTrue, loggedIn, setLoggedIn } ) => {
     const [ username, setUsername ] = useState("")
     const [ password, setPassword ] = useState("")
     const [ passwordError, setPasswordError ] = useState(false)
@@ -70,32 +68,11 @@ const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, 
                     }).then( async () => {
                         await reload(auth.currentUser)
                     }).then (() => {
-                        
+                        setLoggedIn(true)
                     })
                 })
-            }
-        })
-      }
-
-      const signInWithRedirect = async () => {
-        var provider = new GoogleAuthProvider();
-        provider.setCustomParameters({
-            prompt: 'select_account'})
-        await signInWithPopup(auth, provider).then((result) => {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
-            // The signed-in user info.
-            const user = result.user;
-            setGoogleUser(user.uid)
-            if (getAdditionalUserInfo(result).isNewUser) {
-                createCollection().then(() => {
-                    updateProfile(user, {
-                        displayName: user.email, photoURL: Profile
-                    })
-                }).then(() => {
-                reload(auth.currentUser); 
-            })
+            } else {
+                    setLoggedIn(true)
             }
         })
       }
@@ -107,10 +84,11 @@ const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, 
             if (data === undefined) {
                 setUserError(true)
             } else {
-                signInWithEmailAndPassword(auth, data.email, password).then((userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
-        // ...
+                signInWithEmailAndPassword(auth, data.email, password).then( async (userCredential) => {
+                    await reload(auth.currentUser)
+
+      }).then(() => {
+        setLoggedIn(true)
       }).catch((error) => {
         setPasswordError(true)
       })

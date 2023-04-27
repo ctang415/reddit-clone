@@ -1,13 +1,8 @@
 import React, { useState } from "react";
 import CreateUser from "./CreateUser";
 import {
-    getAuth,
-    onAuthStateChanged,
     GoogleAuthProvider,
     signInWithPopup,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    signInWithRedirect,
     updateProfile,
     getAdditionalUserInfo,
     reload
@@ -16,7 +11,7 @@ import { auth, db } from "../firebase-config";
 import { doc, setDoc } from "firebase/firestore";
 import Profile from  '../Assets/snoo.png'
 
-const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue, googleUser, setGoogleUser } ) => {
+const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue, loggedIn, setLoggedIn } ) => {
     const [ email, setEmail ] = useState("")
     const [ username, setUsername ] = useState('')
     const [ createUser, setCreateUser ] = useState(false)
@@ -47,7 +42,6 @@ const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue, googleUser, setG
         await signInWithPopup(auth, provider).then((result) => {
             // This gives you a Google Access Token. You can use it to access the Google API.
             const credential = GoogleAuthProvider.credentialFromResult(result);
-            console.log(credential)
             const token = credential.accessToken;
             // The signed-in user info.
             const user = result.user;
@@ -57,11 +51,13 @@ const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue, googleUser, setG
                         displayName: user.email, photoURL: Profile
                     }).then ( async () => {
                         await reload(auth.currentUser)
-                    }).then (() => {
-                        setGoogleUser(true)
+                    }).then ( async () => {
+                        setLoggedIn(true) 
                     })
                 })
-            }
+            } else {
+                setLoggedIn(true)
+        }
         })
       }
 
