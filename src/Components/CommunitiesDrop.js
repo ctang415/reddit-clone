@@ -1,20 +1,27 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const CommunitiesDrop = ( { communityDrop, setCommunityDrop, userData } ) => {
-    const [ communities, setCommunities ] = useState(['one'])
+    const [ communities, setCommunities ] = useState(['one', 'two'])
 
     useEffect(() => {
-        const communityList = []
 
-    }, [])
+    }, [] )
 
     if (communityDrop) {
             return (
                 <nav className="nav-drop-community">
+                    <div>YOUR COMMUNITIES</div>
                     <ul>
                     {communities.map(item => {
                         return (
-                            <li key={item.name}>{item}</li>
+                            <div key={item}>
+                            <Link to={'f/'+ item} style={{ textDecoration: 'none', color: 'black'}}>
+                                <li key={item}>
+                                    {item}
+                                </li>
+                            </Link>
+                            </div>
                         )
                     })}
                     </ul>

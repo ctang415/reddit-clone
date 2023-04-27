@@ -8,11 +8,11 @@ import Modal from "./Modal";
 import Post from "./Post";
 import SidebarDrop from "./SidebarDrop";
 
-const CommunityPage = ( {communityModal, setCommunityModal, drop, setDrop, modalIsTrue, setModalIsTrue, setJoin, join} ) => {
+const CommunityPage = ( { communityModal, setCommunityModal, drop, setDrop, modalIsTrue, setModalIsTrue, setJoin, join} ) => {
     const [ firebaseCommunityData, setFirebaseCommunityData] = useState([])
-    const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const [ sideBarCommunities, setSideBarCommunities] = useState([])
     const [ text, setText ] =  useState("Joined")
+    const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const params = useParams()
     const navigate = useNavigate()
     const user = auth.currentUser;
@@ -51,9 +51,21 @@ const CommunityPage = ( {communityModal, setCommunityModal, drop, setDrop, modal
         setSideBarCommunities(newCom)
     }
 
+
     const createNewPost = () => {
         navigate('submit')
     }
+
+    useEffect(() => {
+        const communityList = [ 
+            {header: "Gaming", list: ["Valheim", "Genshin Impact", "MineCraft", "Pokimane", "Halo Infinite", "Path of Exile", "Escape from Tarkov", "Call of Duty: Warzone"], drop: false}, 
+            {header: "Sports", list: ["NFL", "NBA", "Atlanta Hawks", "Los Angeles Lakers", "Boston Celtics", "UFC", "Philadelphia 76ers"], drop: false}, 
+            {header: "Crypto", list: ["Cardano", "Dogecoin", "Algorand", "Bitcoin", "Litecoin"], drop: false},
+            {header: "Television", list: ["The Bachelor", "Wife Swap", "The Real Housewives of Atlanta", "Sister Wives", "90DayFiance", "Married at First Sight"], drop:false},
+            {header: "Celebrity", list: ["Kim Kardashian", "Doja Cat", "Henry Cavill", "Tom Hiddleston", "Keanu Reeves"], drop:false}
+         ]
+        setSideBarCommunities(communityList)
+      }, [])
 
     useEffect(() => {
         document.title = `${params.id}`
@@ -71,16 +83,6 @@ const CommunityPage = ( {communityModal, setCommunityModal, drop, setDrop, modal
 }
     }, [])
 
-    useEffect(() => {
-        const communityList = [ 
-            {header: "Gaming", list: ["Valheim", "Genshin Impact", "MineCraft", "Pokimane", "Halo Infinite", "Path of Exile", "Escape from Tarkov", "Call of Duty: Warzone"], drop: false}, 
-            {header: "Sports", list: ["NFL", "NBA", "Atlanta Hawks", "Los Angeles Lakers", "Boston Celtics", "UFC", "Philadelphia 76ers"], drop: false}, 
-            {header: "Crypto", list: ["Cardano", "Dogecoin", "Algorand", "Bitcoin", "Litecoin"], drop: false},
-            {header: "Television", list: ["The Bachelor", "Wife Swap", "The Real Housewives of Atlanta", "Sister Wives", "90DayFiance", "Married at First Sight"], drop:false},
-            {header: "Celebrity", list: ["Kim Kardashian", "Doja Cat", "Henry Cavill", "Tom Hiddleston", "Keanu Reeves"]}
-         ]
-        setSideBarCommunities(communityList)
-    }, [])
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
@@ -120,7 +122,7 @@ const CommunityPage = ( {communityModal, setCommunityModal, drop, setDrop, modal
             <div className="community-body">
                 <div className="community-body-left">
                     <div className={ isLoggedIn ? "community-post-true" : "community-post-false"}>
-                    <img id="community-input-img" src={ isLoggedIn ? user.photoURL : null } alt="User Icon"></img>
+                    <img id="community-input-img" src={ user ? user.photoURL : null} alt="User Icon"></img>
                         <input type="text" placeholder="Create Post" onClick={createNewPost}></input>
                     </div>
                     <div className="community-filters">
@@ -168,7 +170,7 @@ const CommunityPage = ( {communityModal, setCommunityModal, drop, setDrop, modal
                         <ul className="side-bar-list">
                             {sideBarCommunities.map(item => {
                                 return (
-                                    <li className={item.header} onClick={handleCommunityDrop}>
+                                    <li key={item.header} className={item.header} onClick={handleCommunityDrop}>
                                         <div className="list-item">
                                             <div>{item.header}</div>    
                                             <div>⌄</div>
@@ -199,6 +201,10 @@ const CommunityPage = ( {communityModal, setCommunityModal, drop, setDrop, modal
             </div>
             <div className={ isLoggedIn ? "community-body" : "community-body-logged-out"}>
                 <div className={isLoggedIn ? "community-body-left" : "community-body-left-logged-out"}>
+                <div className={ isLoggedIn ? "community-post-true" : "community-post-false"}>
+                    <img id="community-input-img" src={user ? user.photoURL : null} alt="User Icon"></img>
+                        <input type="text" placeholder="Create Post" onClick={createNewPost}></input>
+                    </div>
                     <div className="community-filters">
                         <ul>
                             <li>

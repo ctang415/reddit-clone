@@ -75,7 +75,7 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
     return (
         firebaseCommunityData.map(data => {
             return (
-        <div className="community-info-bar">
+        <div className="community-info-bar" key={data.created}>
             <div className="community-info">
                 <div className="community-info-top">
                     <h5>About Community</h5>
@@ -130,7 +130,7 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
                             <ol>
                                 {communityRules.map(rule => {
                                     return (
-                                        <li>
+                                        <li key={rule.rule}>
                                             {rule.rule}
                                             <span className="community-divider-text"></span>
                                         </li>

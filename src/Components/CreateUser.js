@@ -59,7 +59,6 @@ const CreateUser = ( {createUser, setSignUp, setCreateUser, email, setLogin, set
         }
         else {
             setAlreadyExists(true)
-            console.log('username already exists')
         }
     }
 

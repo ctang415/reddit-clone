@@ -35,6 +35,8 @@ const App = () => {
     signOutUser() 
   }, [])
 
+
+
   useEffect(() => {
     getCommunities()
   }, [setCommunityData])
@@ -45,7 +47,7 @@ const App = () => {
       modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue}
       communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
       communityData={communityData} setCommunityData={setCommunityData} userData={userData} setUserData={setUserData} 
-      join={join} setJoin={setJoin}
+      join={join} setJoin={setJoin} 
       />
       <Routes>
         <Route path="/" exact element={
@@ -64,11 +66,19 @@ const App = () => {
         />}
         />
         <Route path="/f/:id/submit" element={
-        <CreatePost />} />
-        <Route path="/submit" element={<CreatePost />} />
+        <CreatePost 
+        setDrop={setDrop} drop={drop}
+        communityModal={communityModal} setCommunityModal={setCommunityModal}
+        />} />
+        <Route path="/submit" element={
+        <CreatePost 
+        setDrop={setDrop} drop={drop}
+        communityModal={communityModal} setCommunityModal={setCommunityModal}
+        />} />
         <Route path="/users/:id" element={ 
         <ProfilePage 
-        userData={userData}
+        userData={userData} setDrop={setDrop} drop={drop}
+        modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} join={join} setJoin={setJoin}
         />} />
       </Routes>
     </div>

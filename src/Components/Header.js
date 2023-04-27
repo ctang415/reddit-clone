@@ -7,18 +7,18 @@ import { doc, getDoc } from "firebase/firestore";
 import CommunitiesDrop from "./CommunitiesDrop";
 import CommunityModal from "./CommunityModal";
 import Freddit from "../Assets/freddit.jpeg"
-import { Link } from "react-router-dom";
-
+import { Link, useLocation } from "react-router-dom";
 
 const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUserData, communityData, setCommunityData, communityModal, setCommunityModal, setDrop, drop }) => {
     const [ myUser, setMyUser ] = useState([])
     const [ communityDrop, setCommunityDrop ] = useState(false)
     const [ googleUser, setGoogleUser ] = useState(false)
-    const [ communitySearch, setCommunitySearch ] = useState(false)
     const [ myData, setMyData ] = useState([])
-
-    
+    const [ homeIsTrue, setHomeIsTrue ] = useState(true)
+    const [ communityIsTrue, setCommunityIsTrue ] = useState(false)
+    const [ submitIsTrue, setSubmitIsTrue ] = useState(false)
     const user = auth.currentUser;
+    const location = useLocation()
 
     const handleClick = (e) => {
         e.preventDefault()
@@ -38,13 +38,9 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
         }
     }
 
-    useEffect( () => {
-        if (window.location.pathname.indexOf('/f/') > -1) {
-            setCommunitySearch(true)
-        } else {
-            setCommunitySearch(false)
-        }
-    }, [])
+    useEffect(() => {
+        setUserData([{karma: 1}])
+    }, [setUserData])
  
     useEffect(() => { 
         onAuthStateChanged(auth, (user) => {
@@ -59,6 +55,22 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
             getUserInfo()
             } 
     })}, [user]);
+
+    useEffect(() => {
+        if (location.pathname.slice(-7) === '/submit') {
+            setHomeIsTrue(false)
+            setCommunityIsTrue(false)
+            setSubmitIsTrue(true)
+        } else if (location.pathname.indexOf('/f/') === 0 && location.pathname.slice(-13) !== 'submit/submit') {
+            setHomeIsTrue(false)
+            setSubmitIsTrue(false)
+            setCommunityIsTrue(true)
+        } else {
+            setCommunityIsTrue(false)
+            setSubmitIsTrue(false)
+            setHomeIsTrue(true)
+        }
+    }, [location.pathname])
     
     if (!user) {
         return (
@@ -70,7 +82,6 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                             <div>freddit</div>
                         </div>
                     </Link>
-                    <div className={ communitySearch ? "search-btn" : "input-empty "}>{window.location.pathname.substring(1)}</div>
                     <input id="nav-bar-input" type="search" placeholder="Search Freddit"></input>
                     <Modal 
                     modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} googleUser={googleUser} setGoogleUser={setGoogleUser}
@@ -85,8 +96,6 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
     } 
     else { 
         return ( 
-                userData.map(data => { 
-                    return (
                         <div key={user.displayName}>
                                 <nav className="nav-bar">
                                     <div className="nav-login-left">
@@ -100,7 +109,9 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                                             <div className={communityDrop ? "header-user-profile-login-true" : "header-user-profile-login" } onClick={handleCommunityClick}>
                                                 <div className="user-left">
                                                     <div className="user-info-name-login">
-                                                        <span>Home</span>
+                                                        <p className={ homeIsTrue ? "user-left" : "input-empty" }>Home</p>
+                                                        <p className={ communityIsTrue ? "user-left" : "input-empty" }>{location.pathname.substring(1)}</p>
+                                                        <p className={ submitIsTrue ? "user-left" : "input-empty"}>Create Post</p>
                                                     </div>
                                                 </div>
                                                 <div className="user-drop-left">⌄</div> 
@@ -122,7 +133,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                                                         <span>{user.displayName}</span>
                                                     </div>
                                                     <div id="karma">
-                                                        <span>{data.karma} karma</span>
+                                                        <span>{ userData ? userData[0].karma : 2} karma</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -140,8 +151,6 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                                 communityModal={communityModal} userData={userData} setCommunityModal={setCommunityModal} 
                                 />
                             </div>
-                )
-            })
         )
     }
 }

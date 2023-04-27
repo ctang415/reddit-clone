@@ -6,7 +6,7 @@ import CommunityInformation from "./CommunityInformation";
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-const CreatePost = () => {
+const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
     const [ firebaseCommunityData, setFirebaseCommunityData] = useState([])
     const [ post, setPost ] = useState([])
     const [ value, setValue ] = useState('')
@@ -20,7 +20,20 @@ const CreatePost = () => {
     const params = useParams()
     const navigate = useNavigate()
     const user = auth.currentUser;
+    const options = {
+        modules: {
+            toolbar: [
+                ['bold', 'italic', 'link', 'strike', { 'script': 'super' }],
+                [ {header: 2},  { 'list': 'bullet'}, { 'list': 'ordered' }, 'blockquote', 'code' ],
+                [ 'image', 'video']
+                ]
+        },
+        placeholder: 'Text (Optional)',
+        theme: 'snow'
+    }
+    let quill = new Quill('#editor-container', options);
 
+    
     const modules = { 
         toolbar: [
         ['bold', 'italic', 'link', 'strike', { 'script': 'super' }],
@@ -38,13 +51,26 @@ const CreatePost = () => {
         console.log(post)
     }
 
-    const onChange = (content, delta, source, editor ) => {
-        setValue(editor.getHTML());
+    const onChange = () => {
+        let Delta = Quill.import('delta');
+        // Store accumulated changes
+            let change = new Delta();
+            quill.on('text-change', function(delta) {
+            change = change.compose(delta);
+            setValue(change)
+            
+            }); 
+ 
       };
-/*
+/* 
     const uploadImage = (e) => {
         getBase64(e.target.files[0]).then(file => setImage({ image: file })) 
     }
+         <div className={ postSelect ? "editor-container": "input-empty" }>
+                            <ReactQuill 
+                            theme="snow" modules={modules} value={value} placeholder={'Text (Optional)'} onChange={ onChange} >
+                            </ReactQuill>
+                        </div>
 */
 
     const handlePost = () => {
@@ -94,6 +120,7 @@ const CreatePost = () => {
     }, [user])
 
 
+
     if (user) {
         return (
         <div className="community-page">
@@ -134,10 +161,8 @@ const CreatePost = () => {
             
                     <div className="community-post-title">
                         <input type="text" id="community-post-inputs" maxLength="300" placeholder="Title" onChange={ (e) => setTitle(e.target.value)}></input>
-                        <div className={ postSelect ? "editor-container": "input-empty" }>
-                            <ReactQuill 
-                            theme="snow" modules={modules} value={value} placeholder={'Text (Optional)'} onChange={ onChange} >
-                            </ReactQuill>
+                        <div id="editor-container">
+
                         </div>
                         <div className={ imageSelect ? "editor-container-image" : "input-empty"}>
                             <label htmlFor="files" className="btn">Upload</label>
@@ -191,7 +216,7 @@ const CreatePost = () => {
 
             {post.map(item => {
                 return (
-                    <div >
+                    <div className="ql-editor" >
                         {item.title}
                         {item.content}
                     </div>
@@ -200,7 +225,9 @@ const CreatePost = () => {
    
             <div className="community-body-right">
             <CommunityInformation 
-            firebaseCommunityData={firebaseCommunityData} setFirebaseCommunityData={setFirebaseCommunityData} />
+            firebaseCommunityData={firebaseCommunityData} setFirebaseCommunityData={setFirebaseCommunityData} 
+            communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
+            />
             </div>
         </div>
     </div>
