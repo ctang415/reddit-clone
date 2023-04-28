@@ -1,6 +1,6 @@
 import { signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { auth, db } from '../firebase-config';
 import CommunityPage from './CommunityPage';
 import Header from './Header';
@@ -22,13 +22,11 @@ const App = () => {
     const communitiesRef = collection(db, "communities");
     const q = query(communitiesRef,  or( where("type", "==", "public"), 
     where("type", "==", "private"), where("type", "==", "restricted") ))
-    const querySnapshot = await getDocs(q);
+    const querySnapshot = await getDocs(q)
     querySnapshot.forEach((doc) => {
       setCommunityData(prev => [...prev, doc.data()])  
-      console.log(doc.id, " => ", doc.data());
     });
   }
-
 
   useEffect(() => {
     const signOutUser = () => { 
@@ -54,7 +52,7 @@ const App = () => {
         <Home 
         userData={userData} setUserData={setUserData} 
         communityModal={communityModal} setDrop={setDrop} drop={drop} modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue}
-        setCommunityModal={setCommunityModal} join={join} setJoin={setJoin} 
+        setCommunityModal={setCommunityModal} join={join} setJoin={setJoin} communityData={communityData}
         />}
         />
         <Route path="/f/:id" exact element={
@@ -62,7 +60,7 @@ const App = () => {
         modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue}
         userData={userData} setUserData={setUserData} 
         communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
-        join={join} setJoin={setJoin}
+        join={join} setJoin={setJoin} communityData={communityData}
         />}
         />
         <Route path="/f/:id/submit" element={
@@ -70,12 +68,12 @@ const App = () => {
         setDrop={setDrop} drop={drop}
         communityModal={communityModal} setCommunityModal={setCommunityModal}
         />} />
-        <Route path="/submit" element={
+        <Route path="/submit" exact element={
         <CreatePost 
         setDrop={setDrop} drop={drop}
         communityModal={communityModal} setCommunityModal={setCommunityModal}
         />} />
-        <Route path="/users/:id" element={ 
+        <Route path="/users/:id" exact element={ 
         <ProfilePage 
         userData={userData} setDrop={setDrop} drop={drop}
         modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} join={join} setJoin={setJoin}

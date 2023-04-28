@@ -13,7 +13,7 @@ const Home = ({communityData, setCommunityData, modalIsTrue,
             <CommunityPage 
             setCommunityModal={setCommunityModal} communityModal={communityModal} 
             setDrop={setDrop} drop={drop} modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue}
-            join={join} setJoin={setJoin} 
+            join={join} setJoin={setJoin} communityData={communityData}
             />
         </div>
     )

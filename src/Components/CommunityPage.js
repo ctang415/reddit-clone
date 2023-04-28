@@ -4,15 +4,17 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import CommunityInformation from "./CommunityInformation";
+import Error from "./Error";
 import Modal from "./Modal";
 import Post from "./Post";
 import SidebarDrop from "./SidebarDrop";
 
-const CommunityPage = ( { communityModal, setCommunityModal, drop, setDrop, modalIsTrue, setModalIsTrue, setJoin, join} ) => {
+const CommunityPage = ( {communityData, communityModal, setCommunityModal, drop, setDrop, modalIsTrue, setModalIsTrue, setJoin, join} ) => {
     const [ firebaseCommunityData, setFirebaseCommunityData] = useState([])
     const [ sideBarCommunities, setSideBarCommunities] = useState([])
     const [ text, setText ] =  useState("Joined")
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
+    const [ page, setPage ] = useState(true)
     const params = useParams()
     const navigate = useNavigate()
     const user = auth.currentUser;
@@ -72,12 +74,17 @@ const CommunityPage = ( { communityModal, setCommunityModal, drop, setDrop, moda
     }, [])
 
     useEffect (() => {
-        if (params.id !== undefined) {
+        if (params.id !== undefined ) {
         const getCommunity = async () => {
         const docRef = doc(db, "communities", params.id)
         const docSnap = await getDoc(docRef);
         const data = docSnap.data()
-        setFirebaseCommunityData([data])
+        if (data === undefined) { 
+            setPage(false)
+        } else {
+            setFirebaseCommunityData([data])
+            setPage(true)
+        }
     }
     getCommunity()
 }
@@ -94,69 +101,72 @@ const CommunityPage = ( { communityModal, setCommunityModal, drop, setDrop, moda
         })
     }, [user])
 
-    if (params.id) {
+    if (params.id && page === false) {
         return (
-        firebaseCommunityData.map(data => {
-            return (
-        <div className="community-page">
-            <Link to="">
-                <div className="community-header-top">
-                </div>
-            </Link>
-            <div className="community-header-bottom">
-                <div className="community-header-info">
-                    <div className="community-header-info-title">
-                        <img alt="Community Icon"></img>
-                        <h1>{params.id}</h1>
-                        <div className="community-header-buttons">
-                        <button className={ isLoggedIn ? "community-button-true" : "community-button-false" }>Join</button>
-                        <button onMouseOver={setButtonText} onMouseLeave={setButtonText} className={ isLoggedIn ? "community-button-true-joined" : "community-button-false" }>{text}</button>
-                        <button className={ isLoggedIn ? "community-button-true-joined" : "community-button-false" }>Alert</button>
+            <Error/>
+        )
+    } else if (params.id) {
+        return (
+            firebaseCommunityData.map(data => {
+                return (
+                    <div className="community-page">
+                        <Link to="">
+                            <div className="community-header-top"></div>
+                        </Link>
+                        <div className="community-header-bottom">
+                            <div className="community-header-info">
+                                <div className="community-header-info-title">
+                                    <img alt="Community Icon"></img>
+                                    <h1>{params.id}</h1>
+                                    <div className="community-header-buttons">
+                                        <button className={ isLoggedIn ? "community-button-true" : "community-button-false" }>Join</button>
+                                        <button onMouseOver={setButtonText} onMouseLeave={setButtonText} className={ isLoggedIn ? "community-button-true-joined" : "community-button-false" }>{text}</button>
+                                          <button className={ isLoggedIn ? "community-button-true-joined" : "community-button-false" }>Alert</button>
+                                   </div>
+                                </div>
+                                <div className="community-header-info-subtitle">
+                                    f/{params.id}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="community-body">
+                            <div className="community-body-left">
+                                <div className={ isLoggedIn ? "community-post-true" : "community-post-false"}>
+                                    <img id="community-input-img" src={ user ? user.photoURL : null} alt="User Icon"></img>
+                                    <input type="text" placeholder="Create Post" onClick={createNewPost}></input>
+                                </div>
+                                <div className="community-filters">
+                                    <ul>
+                                        <li>
+                                          Hot
+                                        </li>
+                                        <li>
+                                            New
+                                        </li>
+                                        <li>
+                                            Top
+                                        </li>
+                                        <li>
+                                            ...
+                                        </li>
+                                    </ul>
+                                </div>
+                                <Post />
+                            </div>
+                            <div className="community-body-right">
+                                <CommunityInformation 
+                                    communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
+                                    createNewPost={createNewPost} isLoggedIn={isLoggedIn} firebaseCommunityData={firebaseCommunityData} 
+                                    setFirebaseCommunityData={setFirebaseCommunityData} 
+                                />
+                            </div>
                         </div>
                     </div>
-                    <div className="community-header-info-subtitle">
-                        f/{params.id}
-                    </div>
-                </div>
-            </div>
-            <div className="community-body">
-                <div className="community-body-left">
-                    <div className={ isLoggedIn ? "community-post-true" : "community-post-false"}>
-                    <img id="community-input-img" src={ user ? user.photoURL : null} alt="User Icon"></img>
-                        <input type="text" placeholder="Create Post" onClick={createNewPost}></input>
-                    </div>
-                    <div className="community-filters">
-                        <ul>
-                            <li>
-                                Hot
-                            </li>
-                            <li>
-                                New
-                            </li>
-                            <li>
-                                Top
-                            </li>
-                            <li>
-                                ...
-                            </li>
-                        </ul>
-                    </div>
-                    <Post />
-                </div>
-                <div className="community-body-right">
-                    <CommunityInformation 
-                    communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
-                    createNewPost={createNewPost} isLoggedIn={isLoggedIn} firebaseCommunityData={firebaseCommunityData} 
-                    setFirebaseCommunityData={setFirebaseCommunityData} 
-                    />
-                </div>
-            </div>
-        </div>
-    )
-})
-    )   
-} else {
-    return (
+                )
+            })
+        ) 
+    } else {
+        return (
         <div className="community-page-logged-out">
             <div className={isLoggedIn ? "input-empty" : "side-bar" }>
                 <div className="side-bar-top">
