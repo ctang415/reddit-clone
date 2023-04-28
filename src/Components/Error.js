@@ -1,11 +1,12 @@
 import React from "react";
+import ErrorPic from '../Assets/404.png'
 
 const Error = () => {
     return (
-        <div>
-            <p>Sorry, there aren't any communities on Freddit with that name.</p>
-            <p>This community may have been banned or the community name is incorrect.</p>
-            <button>GO HOME</button>
+        <div className="community-error-page">
+            <img id="error-image" src={ErrorPic} alt="Error"></img>
+            <h4>page not found</h4>
+            <p>the page you requested does not exist.</p>
         </div>
     )
 }

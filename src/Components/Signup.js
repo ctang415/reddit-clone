@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CreateUser from "./CreateUser";
 import {
     GoogleAuthProvider,
-    signInWithPopup,
+    signInWithPopup, 
     updateProfile,
     getAdditionalUserInfo,
     reload
@@ -10,18 +10,28 @@ import {
 import { auth, db } from "../firebase-config";
 import { doc, setDoc } from "firebase/firestore";
 import Profile from  '../Assets/snoo.png'
+import { generateUsername } from 'friendly-username-generator';
 
 const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue, loggedIn, setLoggedIn } ) => {
     const [ email, setEmail ] = useState("")
-    const [ username, setUsername ] = useState('')
     const [ createUser, setCreateUser ] = useState(false)
+    const [ generatedUser, setGeneratedUser] = useState('')
+
+    useEffect(() => {
+        const options = {
+          useHyphen: false,
+          useRandomNumber: true
+        }
+          setGeneratedUser(generateUsername(options) )
+  
+      }, [])
 
     const createCollection = async () => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const today  = new Date();
-        await setDoc(doc(db, "users", auth.currentUser.email), {
+        await setDoc(doc(db, "users", generatedUser), {
             email: auth.currentUser.email,
-            username: auth.currentUser.email,
+            username: generatedUser,
             id: auth.currentUser.uid,
             karma: 1,
             created: today.toLocaleDateString("en-US", options),
@@ -41,14 +51,14 @@ const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue, loggedIn, setLog
             prompt: 'select_account'})
         await signInWithPopup(auth, provider).then((result) => {
             // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
+            // const credential = GoogleAuthProvider.credentialFromResult(result);
+            // const token = credential.accessToken;
             // The signed-in user info.
             const user = result.user;
             if (getAdditionalUserInfo(result).isNewUser) {
                 createCollection().then(async () => {
                     await updateProfile(user, {
-                        displayName: user.email, photoURL: Profile
+                        displayName: generatedUser, photoURL: Profile
                     }).then ( async () => {
                         await reload(auth.currentUser)
                     }).then ( async () => {

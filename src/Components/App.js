@@ -8,6 +8,7 @@ import Home from './Home';
 import { collection, getDocs, or, query, where } from "firebase/firestore";
 import CreatePost from './CreatePost';
 import ProfilePage from './ProfilePage';
+import Error from './Error';
 
 const App = () => {
   const [ userData, setUserData ] = useState([])
@@ -16,7 +17,7 @@ const App = () => {
   const [ communityData, setCommunityData ] = useState([])
   const [ drop, setDrop ] = useState(false)
   const [ join, setJoin ] = useState(false)
- 
+
   const getCommunities = async () => {
     const communitiesRef = collection(db, "communities");
     const q = query(communitiesRef,  or( where("type", "==", "public"), 
@@ -79,6 +80,7 @@ const App = () => {
         userData={userData} setDrop={setDrop} drop={drop}
         modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} join={join} setJoin={setJoin}
         />} />
+        <Route path="*" element={<Error/>} />
       </Routes>
     </div>
   );

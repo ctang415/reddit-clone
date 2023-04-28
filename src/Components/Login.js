@@ -10,12 +10,22 @@ import {
 import { auth, db } from "../firebase-config";
 import { doc, getDoc, setDoc, } from "firebase/firestore";
 import Profile from  '../Assets/snoo.png'
+import { generateUsername } from 'friendly-username-generator';
 
 const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, setModalIsTrue, loggedIn, setLoggedIn } ) => {
     const [ username, setUsername ] = useState("")
     const [ password, setPassword ] = useState("")
     const [ passwordError, setPasswordError ] = useState(false)
     const [ userError, setUserError ] = useState(false)
+    const [ generatedUser, setGeneratedUser] = useState('')
+
+    useEffect(() => {
+        const options = {
+          useHyphen: false,
+          useRandomNumber: true
+        }
+          setGeneratedUser(generateUsername(options) )
+      }, [])
 
     const displaySignUp = (e) => {
         setSignUp(true)
@@ -35,9 +45,9 @@ const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, 
     const createCollection = async () => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const today  = new Date();
-        await setDoc(doc(db, "users", auth.currentUser.email), {
+        await setDoc(doc(db, "users", generatedUser), {
             email: auth.currentUser.email,
-            username: auth.currentUser.email,
+            username: generatedUser,
             id: auth.currentUser.uid,
             karma: 1,
             created: today.toLocaleDateString("en-US", options),
@@ -57,14 +67,14 @@ const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, 
             prompt: 'select_account'})
         await signInWithPopup(auth, provider).then((result) => {
             // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
+            // const credential = GoogleAuthProvider.credentialFromResult(result);
+            // const token = credential.accessToken;
             // The signed-in user info.
             const user = result.user;
             if (getAdditionalUserInfo(result).isNewUser) {
                 createCollection().then( async () => {
                     await updateProfile(user, {
-                        displayName: user.email, photoURL: Profile
+                        displayName: generatedUser, photoURL: Profile
                     }).then( async () => {
                         await reload(auth.currentUser)
                     }).then (() => {
