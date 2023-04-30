@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import parse from 'html-react-parser';
+import * as sanitizeHtml from 'sanitize-html';
 
 const Post = () => {
     const [ media, setMedia ] = useState(false)
@@ -6,6 +8,7 @@ const Post = () => {
 
         return (
             <div className="post">
+                
                 <div className="post-left">
                     <div className="post-votes">
                         Votes
@@ -34,5 +37,11 @@ const Post = () => {
         )
 
 }
+
+/*
+    <div>
+            {parse(`${media}`)}
+        </div>
+        */
 
 export default Post
