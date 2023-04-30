@@ -1,18 +1,27 @@
 import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { useQuill } from "react-quilljs";
 import { useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import CommunityInformation from "./CommunityInformation";
-import ReactQuill, { Quill } from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import TextDisplay from "./TextDisplay";
+import TextEditor from "./TextEditor";
+import MagicUrl from 'quill-magic-url'
+import { Quill } from "react-quill";
+import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
+import parse from 'html-react-parser';
+
+Quill.register('modules/magicUrl', MagicUrl)
 
 const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
     const [ firebaseCommunityData, setFirebaseCommunityData] = useState([])
     const [ post, setPost ] = useState([])
     const [ value, setValue ] = useState('')
+    const [ html, setHtml ] = useState('')
     const [ title, setTitle ] = useState('')
     const [ media, setMedia ] = useState(false)
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
+    const [ editor, setEditor ] = useState(false)
     const [ postSelect, setPostSelect ] = useState(true)
     const [ imageSelect, setImageSelect ] = useState(false)
     const [ linkSelect, setLinkSelect ] = useState(false)
@@ -20,48 +29,60 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
     const params = useParams()
     const navigate = useNavigate()
     const user = auth.currentUser;
-    const options = {
-        modules: {
-            toolbar: [
-                ['bold', 'italic', 'link', 'strike', { 'script': 'super' }],
-                [ {header: 2},  { 'list': 'bullet'}, { 'list': 'ordered' }, 'blockquote', 'code' ],
-                [ 'image', 'video']
-                ]
-        },
-        placeholder: 'Text (Optional)',
-        theme: 'snow'
-    }
-    let quill = new Quill('#editor-container', options);
 
-    
-    const modules = { 
+    const modules = {
         toolbar: [
-        ['bold', 'italic', 'link', 'strike', { 'script': 'super' }],
-        [ {header: 2},  { 'list': 'bullet'}, { 'list': 'ordered' }, 'blockquote', 'code' ],
-        [ 'image', 'video']
-        ]
+            ['bold', 'italic', 'link', 'strike', { 'script': 'super' }],
+            [ {header: 2},  { 'list': 'bullet'}, { 'list': 'ordered' }, 'blockquote', 'code' ],
+            [ 'image', 'video']
+            ],
+            magicUrl: true,
     }
+
+    const formats = ['bold', 'italic', 'strike', 'list', 'header', 'link', 'image', 'video', 'script', 'blockquote', 'code']
+    const placeholder = 'Text (Optional)'
+    const theme =  'snow'
+
+    const module = {
+        toolbar: [
+            ['bold', 'italic', 'link', 'strike', { 'script': 'super' }],
+            [ {header: 2},  { 'list': 'bullet'}, { 'list': 'ordered' }, 'blockquote', 'code' ],
+            [ 'image', 'video']
+            ], 
+        readOnly: true,
+    }
+
+    const { quill, quillRef } = useQuill({theme, modules, formats, placeholder});
+    
+    const { quillRead } = useQuill({theme, module, formats, placeholder});
+
+
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const today  = new Date();
         const myDate = today.toLocaleDateString("en-US", options)
-        setPost( [ {title: title, content: value, media: { image: '', uploaded: false}, author: user.displayName, votes: 1, date: myDate, comments: []} ] )
+        setPost( [ {title: title, content: { html: html, delta: value }, media: { image: '', uploaded: false}, author: user.displayName, votes: 1, date: myDate, comments: []} ] )
         console.log(post)
-    }
 
-    const onChange = () => {
-        let Delta = Quill.import('delta');
-        // Store accumulated changes
-            let change = new Delta();
-            quill.on('text-change', function(delta) {
-            change = change.compose(delta);
-            setValue(change)
-            
-            }); 
- 
-      };
+        let parse = JSON.parse(post[0].content.delta)
+        console.log(parse.ops)
+
+        var deltaOps =  [
+            {insert: "Hello\n"},
+            {insert: "This is colorful", attributes: {color: '#f00'}}
+        ];
+        
+        var cfg = {};
+        
+        var converter = new QuillDeltaToHtmlConverter(parse.ops, cfg);
+        
+        var html = converter.convert(); 
+        setMedia(html)
+        console.log(html)
+    }
 /* 
     const uploadImage = (e) => {
         getBase64(e.target.files[0]).then(file => setImage({ image: file })) 
@@ -119,7 +140,11 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
         } 
     }, [user])
 
-
+    useEffect(() => {
+        setTimeout(() => {
+            setEditor(true)
+        }, 1000);
+    }, [])
 
     if (user) {
         return (
@@ -160,22 +185,19 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
                     <div className="community-post-section">
             
                     <div className="community-post-title">
-                        <input type="text" id="community-post-inputs" maxLength="300" placeholder="Title" onChange={ (e) => setTitle(e.target.value)}></input>
-                        <div id="editor-container">
-
-                        </div>
+                        <input type="text" id="community-post-inputs" maxLength="300" placeholder="Title" onChange={ (e) => setTitle(e.target.value)} required></input>
                         <div className={ imageSelect ? "editor-container-image" : "input-empty"}>
                             <label htmlFor="files" className="btn">Upload</label>
                             <input id="files" type="file"/>
                         </div>
                         <div className={ linkSelect ? "editor-container-link" : "input-empty"}>
-                            <input type="text" placeholder="Url" name="url"></input>
+                            <input type="url" placeholder="Url" name="url"></input>
                         </div>
-                        <div className={ pollSelect ? "editor-container" : "input-empty"}>
-                            <ReactQuill 
-                            theme="snow" modules={modules} value={value} placeholder={'Text (Optional)'} onChange={ value => setValue(value)} >
-                            </ReactQuill>
-                            <div className="inputs-poll-section">
+                        <div className={ postSelect || pollSelect ? "editor-container" : "input-empty"}>
+                        {editor ? <TextEditor 
+                        quillRef={quillRef}
+                        quill={quill} html={html} setHtml={setHtml} value={value} setValue={setValue} />  : null }
+                            <div className={ pollSelect ? "inputs-poll-section" : 'input-empty'}>
                                 <div className="inputs-poll">
                                     <input type="text" placeholder="Option 1"></input>
                                     <input type="text" placeholder="Option 2"></input>
@@ -201,11 +223,14 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
                         </div>
                     </div>
             
+
+               
+                    <div className="community-post-button-section">
                     <div className="community-post-divider"></div>
-         
-                    <div className="community-post-buttons">
+                        <div className="community-post-buttons">
                         <button id="community-save-button">Save Draft</button>
                         <button id="community-post-button">Post</button>
+                        </div>
                     </div>
                     </div>
                     <div className="community-post-bottom">
@@ -218,10 +243,12 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
                 return (
                     <div className="ql-editor" >
                         {item.title}
-                        {item.content}
+                        {item.content.delta}
                     </div>
                 )
             })}
+
+        {parse(`${media}`)}
    
             <div className="community-body-right">
             <CommunityInformation 

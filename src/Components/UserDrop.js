@@ -16,6 +16,7 @@ const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData, setCommu
             setModalIsTrue(false)
             setLoggedIn(false)
             setMyUser([])
+            window.scrollTo({ top:0, behavior:'auto'})
             // Sign-out successful.
           }).catch((error) => {
             // An error happened.

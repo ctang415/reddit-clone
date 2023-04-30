@@ -47,9 +47,9 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
  
     useEffect( () => { 
         if (user && loggedIn) {
-                getUserInfo().then( () => {
-                    setLoaded(true)
-                    console.log('no listener')
+            getUserInfo().then( () => {
+                setLoaded(true)
+                window.scrollTo({ top:0, behavior:'auto'})
             })
         }
     }, [user]); 

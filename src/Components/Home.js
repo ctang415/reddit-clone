@@ -4,9 +4,10 @@ import CommunityPage from "./CommunityPage";
 const Home = ({communityData, setCommunityData, modalIsTrue, 
     setModalIsTrue, communityModal, setCommunityModal, setDrop, drop, setJoin, join}) => {
 
-        useEffect(() => {
-            document.title = 'Freddit - Jump into Anything'
-        }, [])
+    useEffect(() => {
+        document.title = 'Freddit - Jump into Anything'
+        window.scrollTo({ top:0, behavior:'auto'})
+    }, [])
 
     return (
         <div className="body">
