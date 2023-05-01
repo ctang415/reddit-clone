@@ -694,7 +694,7 @@ label {
 
 /* community modal end */
 
-.community-page {
+.community-page, .community-page-logged-out {
   display: flex;
   flex-direction: column;
 }
@@ -730,9 +730,21 @@ label {
   margin: auto 16%;
 }
 
-.community-header-info-title{
+.community-header-info-logged-out {
+  display: flex;
+  flex-direction: column;
+  margin: auto 25%;
+}
+
+.community-header-info-title {
   display: flex;
   align-items: center;
+  gap: 1em;
+
+}
+
+.community-header-info-title > img {
+  height: 4em;
 }
 
 .community-header-buttons {
@@ -746,6 +758,7 @@ label {
 .community-header-info-subtitle {
   display: flex;
   color: grey;
+  margin: auto 5.2em;
 }
 
 .community-header-info > div {
@@ -795,12 +808,24 @@ label {
   border: 1px solid darkgrey;
 }
 
+.post-votes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4em;
+}
+
 .post-left {
   background-color:#f5f6f7;
 }
 
 .post-right {
-  padding: 0.3em;
+  padding-top: 0.5em;
+  padding-left: 0.5em;
+  padding-bottom: 0.2em;
+  display: flex;
+  flex-direction: column;
 }
 
 .post-right > ul {
@@ -811,12 +836,33 @@ label {
 }
 
 .post-right > ul > li {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5em;
   list-style-type: none;
   font-size: 0.7em;
   padding-left: 0.5em;
   padding-right: 0.5em;
   padding-top: 1em;
   padding-bottom: 1em;
+}
+
+.post-right > ul > li > img {
+  height: 1.5em;
+}
+
+.post-right > h3 {
+  padding-top: 0.2em;
+  padding-bottom: 0.5em;
+}
+
+.post-votes > img {
+  height: 1.5em;
+}
+
+.post-votes > img:hover {
+  background-color: #dfe5eb;
 }
 
 .post-right > ul > li:hover {
@@ -830,6 +876,7 @@ label {
 .post-media-true {
   display: inline;
   font-size: 0.85em;
+  padding-bottom: 0.2em;
 }
 
 .post-pinned-false {
@@ -1348,11 +1395,6 @@ label {
 
 #freddit-logo {
   height: 80%;
-}
-
-.community-page-logged-out {
-  display: flex;
-  flex-direction: column;
 }
 
 .side-bar {
