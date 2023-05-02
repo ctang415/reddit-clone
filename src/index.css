@@ -202,6 +202,23 @@ body {
 
   /* logged in nav bar */
 
+  .header-user-profile-icons > ul {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    align-items: center;
+    gap: 1em;
+    list-style: none;
+  }
+
+  .header-user-profile-icons > ul > li {
+    cursor: pointer;
+  }
+
+  .header-user-profile-icons > ul > li > img {
+    height: 2em;
+  }
+
   .header-user-profile-login {
     display: flex;
     flex-direction: row;
@@ -789,10 +806,42 @@ label {
   width: 100%;
 }
 
-
 .community-body-right {
   grid-column: 2;
 }
+
+.empty-post {
+  display: flex;
+  flex-direction: column;
+  height: 94em;
+  text-align: center;
+  background-color: #eceeef;
+}
+
+.empty-post-logged-in {
+  display: flex;
+  flex-direction: column;
+  height: 94em;
+  text-align: center;
+  background-color: #eceeef;
+}
+
+.empty-post-logged-in > div {
+  gap: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10% auto;
+}
+
+.empty-post > div {
+  gap: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 25% auto;
+}
+
 
 .post {
   display: flex;
@@ -801,7 +850,9 @@ label {
   border-radius: 0.2em;
   border: 1px solid #cdd9e3;
   cursor: pointer;
-  max-height:40em;
+  max-height:16.5em;
+  overflow: hidden;
+  width: 100%;
 }
 
 .post:hover {
@@ -1084,12 +1135,17 @@ label {
 }
 
 .community-filters > ul > li {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   padding-left: 1em;
   padding-right: 1em;
   font-weight: bold;
   color: grey;
+  gap: 0.5em;
 }
 
 .community-filters > ul > li:hover {
@@ -1099,6 +1155,10 @@ label {
   padding-left: 1em;
   padding-right: 1em;
   background-color: #eceeef;
+}
+
+.community-filters > ul > li > img {
+  height: 1.5em;
 }
 
 
@@ -1133,6 +1193,44 @@ label {
   border-radius: 2em;
   font-weight: bold;
   cursor: pointer;
+}
+
+.empty-post-add {
+  color:white;
+  background-color: #2286d2;
+  height: 2.5em;
+  border: none;
+  width: 15em;
+  border-radius: 2em;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.empty-post-discover > p {
+  margin: auto 10%;
+  font-weight: bolder;
+}
+
+.empty-post-discover-add {
+  color:white;
+  background-color: #2286d2;
+  height: 3em;
+  border: none;
+  width: 22em;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.empty-post-discover > img {
+  height: 15em;
+}
+
+.empty-post-discover-add:hover {
+  background-color: #3e91d1;
+}
+
+.empty-post-add:hover {
+  background-color: #3e91d1;
 }
 
 .community-button-true:hover {
@@ -1333,7 +1431,7 @@ label {
 }
 
 #community-save-button:hover {
-  background-color: #eceeef;
+  background-color: #f5f6f7;
 }
 
 #community-post-button:hover {
@@ -1360,6 +1458,10 @@ label {
   border-radius: 2em;
   font-weight: bold;
   cursor: pointer;
+}
+
+#community-create-button:hover {
+  background-color:#f1f4f7;
 }
 
 .community-info-buttons {
@@ -1428,7 +1530,7 @@ label {
 .community-body-logged-out {
   padding-top: 1.5em;
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: 1fr 1.9fr 0.9fr;
   margin-right: 7%;
   gap: 1.5em;
 }

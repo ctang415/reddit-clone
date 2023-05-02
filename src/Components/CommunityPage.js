@@ -9,6 +9,9 @@ import Modal from "./Modal";
 import Post from "./Post";
 import SidebarDrop from "./SidebarDrop";
 import CommunityIcon from "../Assets/communityicon.png"
+import Hot from "../Assets/hot.png"
+import New from "../Assets/new.png"
+import Top from "../Assets/top.png"
 
 const CommunityPage = ( {communityData, communityModal, setCommunityModal, drop, setDrop, modalIsTrue, setModalIsTrue, setJoin, join} ) => {
     const [ firebaseCommunityData, setFirebaseCommunityData] = useState([])
@@ -53,7 +56,6 @@ const CommunityPage = ( {communityData, communityModal, setCommunityModal, drop,
     )
         setSideBarCommunities(newCom)
     }
-
 
     const createNewPost = () => {
         navigate('submit')
@@ -101,6 +103,11 @@ const CommunityPage = ( {communityData, communityModal, setCommunityModal, drop,
             }
         })
     }, [user])
+
+    useEffect(() => {
+
+        console.log(communityData)
+    }, [])
 
     if (params.id && page === false) {
         return (
@@ -194,7 +201,9 @@ const CommunityPage = ( {communityData, communityModal, setCommunityModal, drop,
                                     </ul>
                                 </div>
                                 <Post firebaseCommunityData={firebaseCommunityData} 
-                                    setFirebaseCommunityData={setFirebaseCommunityData} />
+                                    setFirebaseCommunityData={setFirebaseCommunityData} 
+                                    createNewPost={createNewPost} isLoggedIn={isLoggedIn}
+                                    />
                             </div>
                             <div className={ isLoggedIn ? "community-body-right" : "community-body-right-logged-out"}>
                                 <CommunityInformation 
@@ -261,12 +270,15 @@ const CommunityPage = ( {communityData, communityModal, setCommunityModal, drop,
                     <div className="community-filters">
                         <ul>
                             <li>
+                                <img src={Hot} alt="Hot icon"/>
                                 Hot
                             </li>
                             <li>
+                            <img src={New} alt="New icon"/>
                                 New
                             </li>
                             <li>
+                            <img src={Top} alt="Top icon"/>
                                 Top
                             </li>
                             <li>
@@ -275,7 +287,10 @@ const CommunityPage = ( {communityData, communityModal, setCommunityModal, drop,
                         </ul>
                     </div>
                 <Post firebaseCommunityData={firebaseCommunityData} 
-                                    setFirebaseCommunityData={setFirebaseCommunityData}  />
+                setFirebaseCommunityData={setFirebaseCommunityData}  
+                createNewPost={createNewPost} isLoggedIn={isLoggedIn}
+                communityData={communityData}
+                />
             </div>
             <div className={ isLoggedIn ? "community-body-right" : "community-body-right-logged-out"}>
                 <CommunityInformation 

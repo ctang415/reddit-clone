@@ -7,7 +7,11 @@ import { doc, getDoc } from "firebase/firestore";
 import CommunitiesDrop from "./CommunitiesDrop";
 import CommunityModal from "./CommunityModal";
 import Freddit from "../Assets/freddit.jpeg"
-import { Link, useLocation } from "react-router-dom";
+import Post from "../Assets/plus.png"
+import Message from "../Assets/message.png"
+import Moderation from "../Assets/moderation.png"
+import Notification from "../Assets/notification.png"
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUserData, communityData, setCommunityData, communityModal, setCommunityModal, setDrop, drop }) => {
     const [ myUser, setMyUser ] = useState([])
@@ -19,6 +23,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
     const [ loaded, setLoaded ] = useState(false)
     const user = auth.currentUser;
     const location = useLocation()
+    const navigate = useNavigate()
 
     const handleClick = (e) => {
         e.preventDefault()
@@ -35,6 +40,10 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
         } else {
             setCommunityDrop(true)
         }
+    }
+
+    const createNewPost = () => {
+        navigate('submit')
     }
 
     const getUserInfo = async () => {
@@ -119,6 +128,14 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                                         </div>
                                     </div> 
                                     <input id="nav-bar-input-login" type="search" placeholder="Search Freddit"></input>
+                                    <div className="header-user-profile-icons">
+                                        <ul>
+                                            <li><img src={Moderation} alt="Mod icon"/></li>
+                                            <li><img src={Message} alt="Message icon"/></li>
+                                            <li><img src={Notification} alt="Notification icon"/></li>
+                                            <li onClick={createNewPost}><img src={Post} alt="Post icon"/></li>
+                                        </ul>
+                                    </div>
                                     <div className="drop">
                                         <div className="header-user-profile" onClick={handleClick}>
                                             <div className="user-right">
