@@ -4,10 +4,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase-config";
 
-
 const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData, setCommunityModal, communityModal, setLoggedIn } ) => {
     const [ userSettings, setUserSettings ] = useState([])
     const navigate = useNavigate()
+    const user = auth.currentUser
 
     const handleLogOut = (e) => {
         e.preventDefault()
@@ -40,7 +40,7 @@ const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData, setCommu
     }
 
     const handleProfile = () => {
-        navigate(`users/${userData[0].username}`)
+        navigate(`users/${user.displayName}`)
     }
 
     useEffect(() => {

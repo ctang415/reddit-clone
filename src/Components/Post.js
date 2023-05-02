@@ -8,18 +8,29 @@ import Share from "../Assets/share.png"
 import Save from "../Assets/save.png"
 import Discover from "../Assets/discover.png"
 import { auth } from "../firebase-config";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
-const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, isLoggedIn, communityData }) => {
+
+const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, isLoggedIn, communityData, profileData }) => {
     const [ post, setPost ] = useState([])
     const [ sanitizedPost, setSanitizedPost] = useState([])
     const [ allPosts, setAllPosts ] = useState([])
+    const [ myPosts, setMyPosts ] = useState([])
     const params = useParams()
-
+    const user = auth.currentUser
+    const location = useLocation()
+/*
     useEffect(() => {
         firebaseCommunityData.map((data) => {
             data.posts.map(post => setPost(prev => [...prev, post])) 
         }) 
+    }, [])
+*/
+    useEffect(() => {
+        if (isLoggedIn) {
+            setMyPosts(user.posts)
+        }
+        console.log(location.pathname)
     }, [])
 
     /*
@@ -39,7 +50,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
 */
     /*
     useEffect(() => {
-        if(params.id === undefined) {
+        if(location.pathname === '/' ) {
             communityData.forEach(element => {
                 setAllPosts( allPosts => [...allPosts, element.posts])
             });  
@@ -47,6 +58,8 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
         console.log(allPosts)
     }, [])
     */
+
+
 
     if (post.length === 0 && isLoggedIn ) {
         return (

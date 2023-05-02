@@ -59,6 +59,8 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
                 const docRef = doc(db, "communities", params.id)
                 console.log(params.id)
                 await updateDoc(docRef, {posts: arrayUnion({title: title, content: { html: newHtml, delta: value }, author: user.displayName, votes: 1, date: myDate, comments: []}) })
+                const userRef = doc(db, "users", user.displayName)
+                await updateDoc(userRef, {posts:  arrayUnion({title: title, content: { html: newHtml, delta: value }, author: user.displayName, votes: 1, date: myDate, comments: []})})
             } else {
                 console.log('PLEASE SELECT A COMMUNITY')
             }

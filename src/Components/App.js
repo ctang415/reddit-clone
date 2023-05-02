@@ -74,7 +74,7 @@ const App = () => {
         setDrop={setDrop} drop={drop}
         communityModal={communityModal} setCommunityModal={setCommunityModal}
         />} />
-        <Route path="/users/:id" exact element={ 
+        <Route path="/users/:id" element={ 
         <ProfilePage 
         userData={userData} setDrop={setDrop} drop={drop}
         modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} join={join} setJoin={setJoin}

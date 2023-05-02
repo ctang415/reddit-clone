@@ -4,10 +4,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import Modal from "./Modal";
-import Post from "./Post";
+import ProfilePosts from "./ProfilePosts";
 import SidebarDrop from "./SidebarDrop";
 
-const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, join, setJoin } ) => {
+const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, join, setJoin, firebaseCommunityData } ) => {
     const profileNav = ['OVERVIEW', 'POSTS', 'COMMENTS', 'HISTORY', 'SAVED', 'HIDDEN', 'UPVOTED', 'DOWNVOTED', 'AWARDS RECEIVED', 'AWARDS GIVEN']
     const [ profileData, setProfileData ] = useState([{created: 'unknown', karma: 'unknown'}]) 
     const navigate = useNavigate()
@@ -78,6 +78,10 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
             }
         })
     }, [user])
+
+    useEffect(() => {
+        document.title = `${params.id} (u/${params.id})`
+    }, [])
     
     if (!user) {
         return (
@@ -157,7 +161,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                                 </li>
                             </ul>
                         </div>
-                        <Post />
+                        <ProfilePosts />
                     </div>
                     <div className="community-body-right-logged-out">
                         <div className="community-info-bar">
@@ -222,7 +226,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                                 </li>
                             </ul>
                         </div>
-                        <Post />
+                        <ProfilePosts profileData={profileData} />
                     </div>
                     <div className="community-body-right">
                     <div className="community-info-bar">
@@ -291,7 +295,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                                 </li>
                             </ul>
                         </div>
-                        <Post />
+                        <ProfilePosts />
                     </div>
                     <div className="community-body-right">
                     <div className="community-info-bar">

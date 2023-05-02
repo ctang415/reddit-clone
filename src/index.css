@@ -1892,3 +1892,118 @@ code {
     font-family: courier, monospace;
     padding: 0 3px;
 }
+
+.profile-post-top {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  color: grey;
+  border-top-left-radius: 0.2em;
+  border-top-right-radius: 0.2em;
+  border: 1px solid #cdd9e3;
+  font-size: 0.8em;
+  justify-content: space-around;
+  padding: 1em;
+}
+
+.profile-post-top  > a {
+  text-decoration: none;
+}
+
+.profile-post-top:hover {
+  border: 1px solid grey;
+}
+
+.profile-post-username {
+  color: #2286d2;
+  cursor: pointer;
+}
+
+.profile-post-username:hover {
+  text-decoration: underline;
+}
+
+.profile-post-title {
+  color: black;
+  cursor: pointer;
+}
+
+.profile-post-community-name {
+  color:black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.profile-post-community-name:hover {
+  text-decoration: underline;
+}
+
+.profile-post-poster {
+  cursor: pointer;
+}
+
+.profile-post-poster:hover {
+  text-decoration: underline;
+}
+
+.profile-post-bottom {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-post-poster-information {
+  display: flex;
+  flex-direction: row;
+  color: grey;
+}
+
+.profile-post-title {
+  color: black;
+  cursor: pointer;
+}
+
+.profile-post-title:hover {
+  text-decoration: underline;
+}
+
+.profile-post-bottom {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid white;
+  border-left: 1px solid #cdd9e3;
+  border-right: 1px solid #cdd9e3;
+  border-bottom: 1px solid #cdd9e3;
+  border-bottom-left-radius: 0.2em;
+  border-bottom-right-radius: 0.2em;
+  padding-left: 0.5em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.profile-post-bottom > div { 
+  background-color: rgb(215, 226, 237);
+  margin: auto 2%;
+  padding: 0.4em;
+}
+.profile-post-bottom:hover {
+  border: 1px solid grey;
+}
+
+.profile-post-bottom > div > ul {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  gap: 1em;
+}
+
+.profile-post-bottom > div > ul > li {
+  cursor: pointer;
+}
+
+.profile-post {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 0.2em;
+  width: 100%;
+}
