@@ -163,12 +163,14 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                         </div>
                         <ProfilePosts />
                     </div>
+                    {profileData.map((item) => {
+                        return(
                     <div className="community-body-right-logged-out">
                         <div className="community-info-bar">
                             <div className="community-info">
                                 <div className="profile-info-top"></div>
                                 <div className="profile-avatar">
-                                    <img src={profileData[0].avatar} alt="Avatar"></img>
+                                    <img src={item.avatar} alt="Avatar"></img>
                                 </div>
                                 <div className="profile-info-text">
                                     <h3>{params.id}</h3>
@@ -177,11 +179,11 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                                     <div className="profile-info-subtext">
                                         <div>
                                             <p className="subtext-bold">Karma</p>
-                                            <p>{profileData[0].karma}</p>
+                                            <p>{item.karma}</p>
                                         </div>
                                         <div>
                                             <p className="subtext-bold">Cake Day</p>
-                                            <p>{profileData[0].created}</p>
+                                            <p>{item.created}</p>
                                         </div>
                                     </div> 
                                 </div>
@@ -191,6 +193,8 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                             </div>
                         </div>
                     </div>
+                        )
+                    })}
                 </div>
             </div>
         )
@@ -233,7 +237,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                 <div className="community-info">
                     <div className="profile-info-top"></div>
                     <div className="profile-avatar">
-                    <img src={userData[0].avatar} alt="Avatar"></img>
+                        <img src={userData[0].avatar} alt="Avatar"></img>
                     </div>
                     <div className="profile-info-text">
                         <h3>{params.id}</h3>

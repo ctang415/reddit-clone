@@ -18,7 +18,6 @@ const App = () => {
   const [ drop, setDrop ] = useState(false)
   const [ join, setJoin ] = useState(false)
 
-
   const getCommunities = async () => {
     const communitiesRef = collection(db, "communities");
     const q = query(communitiesRef,  or( where("type", "==", "public"), 

@@ -879,6 +879,28 @@ label {
   flex-direction: column;
 }
 
+.post-right-profile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.post-pinned-community {
+  font-size: 0.75em;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.post-pinned-community > a {
+  text-decoration: none;
+  color: black;
+}
+
+.post-pinned-community > a:hover {
+  text-decoration: underline;
+}
+
 .post-right > ul {
   display: flex;
   flex-direction: row;
@@ -940,6 +962,22 @@ label {
 .post-pinned-author {
   font-size: 0.7em;
   color: grey;
+  cursor: pointer;
+}
+
+.post-pinned-author > a {
+  text-decoration: none;
+  color: grey;
+}
+
+.post-pinned-author > a:hover {
+  text-decoration: underline;
+}
+
+.post-pinned-header {
+  font-size: 1.3em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
 }
 
 .community-info, .community-mod, .community-rules {
@@ -1904,6 +1942,7 @@ code {
   font-size: 0.8em;
   justify-content: space-around;
   padding: 1em;
+  cursor: pointer;
 }
 
 .profile-post-top  > a {
@@ -1946,11 +1985,6 @@ code {
   text-decoration: underline;
 }
 
-.profile-post-bottom {
-  display: flex;
-  flex-direction: column;
-}
-
 .profile-post-poster-information {
   display: flex;
   flex-direction: row;
@@ -1980,23 +2014,29 @@ code {
   padding-bottom: 1em;
 }
 
-.profile-post-bottom > div { 
-  background-color: rgb(215, 226, 237);
+.profile-post-bottom > a > div { 
+  background-color: rgb(232, 238, 244);
   margin: auto 2%;
   padding: 0.4em;
+  cursor: pointer;
 }
 .profile-post-bottom:hover {
   border: 1px solid grey;
 }
 
-.profile-post-bottom > div > ul {
+.profile-post-bottom > a {
+  text-decoration: none;
+  color: black;
+}
+
+.profile-post-bottom > a > div > ul {
   display: flex;
   flex-direction: row;
   list-style: none;
   gap: 1em;
 }
 
-.profile-post-bottom > div > ul > li {
+.profile-post-bottom > a > div > ul > li {
   cursor: pointer;
 }
 

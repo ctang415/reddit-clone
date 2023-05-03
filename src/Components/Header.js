@@ -53,6 +53,14 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
         setUserData([data])
         console.log(userData) 
     } 
+
+    useEffect(() => {
+        if (user) {
+            setLoggedIn(true)
+        } else {
+            setLoggedIn(false)
+        }
+    }, [user])
  
     useEffect( () => { 
         if (user && loggedIn) {
