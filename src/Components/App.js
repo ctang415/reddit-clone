@@ -9,9 +9,10 @@ import { collection, getDocs, or, query, where } from "firebase/firestore";
 import CreatePost from './CreatePost';
 import ProfilePage from './ProfilePage';
 import Error from './Error';
+import PostDetails from './PostDetails';
 
 const App = () => {
-  const [ userData, setUserData ] = useState([])
+  const [ userData, setUserData ] = useState([{ avatar: null, created: 'unknown', karma: 'unknown' }])
   const [ communityModal, setCommunityModal ] = useState(false)
   const [ modalIsTrue, setModalIsTrue ] = useState(false)
   const [ communityData, setCommunityData ] = useState([])
@@ -63,6 +64,13 @@ const App = () => {
         join={join} setJoin={setJoin} communityData={communityData}
         />}
         />
+        <Route path="/f/:id/comments/:id" element={
+        <PostDetails
+        modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue}
+        communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
+        join={join} setJoin={setJoin}
+        />}
+        />
         <Route path="/f/:id/submit" element={
         <CreatePost 
         setDrop={setDrop} drop={drop}
@@ -73,7 +81,7 @@ const App = () => {
         setDrop={setDrop} drop={drop}
         communityModal={communityModal} setCommunityModal={setCommunityModal}
         />} />
-        <Route path="/users/:id" element={ 
+        <Route path="/user/:id" element={ 
         <ProfilePage 
         userData={userData} setDrop={setDrop} drop={drop}
         modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} join={join} setJoin={setJoin}

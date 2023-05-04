@@ -4,6 +4,7 @@ import { auth } from "../firebase-config";
 import CommunityModal from "./CommunityModal";
 import Dropdown from "./Dropdown";
 import Policy from "./Policy";
+import CommunityIcon from "../Assets/communityicon.png"
 
 const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost, communityModal, setCommunityModal, drop, setDrop }) => {
     const [ rules, setRules ] = useState(false)
@@ -82,6 +83,10 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
                     <h5 id={ isLoggedIn ? "community-dots" : "community-dots-false"}>...</h5>
                 </div>
                 <div className="community-info-text">
+                    <div className="community-info-header-area">
+                        <img src={CommunityIcon} alt="Community Icon"/>
+                        <Link to={''}><h3>f/{data.name}</h3></Link>
+                    </div>
                     <p>Text about section</p>
                     <p>Created {data.created}</p>
                 </div>

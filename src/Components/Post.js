@@ -86,7 +86,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                             </div>
                         </div>
                         <div className="post-right">
-                            <p className="post-pinned-author">posted by u/{post.author}</p>
+                            <p className="post-pinned-author">Posted by u/{post.author}</p>
                             <h3>
                                 {post.title}
                             </h3>
@@ -127,7 +127,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                             </div>
                         </div>
                         <div className="post-right">
-                            <p className="post-pinned-author">posted by u/{post.author}</p>
+                            <p className="post-pinned-author">Posted by u/{post.author}</p>
                             <h3>
                                 {post.title}
                             </h3>
@@ -168,7 +168,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                                 </div>
                             </div>
                             <div className="post-right">
-                                <p className="post-pinned-author">posted by u/{post.author}</p>
+                                <p className="post-pinned-author">Posted by u/{post.author}</p>
                                 <h3>
                                     {post.title}
                                 </h3>
@@ -186,7 +186,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                     )
                 })
             )
-    } else if (location.pathname.indexOf('/users/') === 0 && userPosts.length !== 0) {
+    } else if (location.pathname.indexOf('/user/') === 0 && userPosts.length !== 0) {
         return (
             userPosts.map((post) => {
                 return ( 
@@ -199,7 +199,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                     </div>
                 </div>
                 <div className="post-right">
-                    <p className="post-pinned-author">posted by u/{post.author}</p>
+                    <p className="post-pinned-author">Posted by u/{post.author}</p>
                     <h3>
                         {post.title}
                     </h3>

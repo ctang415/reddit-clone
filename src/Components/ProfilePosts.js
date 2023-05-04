@@ -68,7 +68,7 @@ const ProfilePosts = ( ) => {
                         <div className="post-right">
                             <div className="post-right-profile">
                                 <p className="post-pinned-community"><Link to={`../f/${data.community}`}>f/{data.community}</Link></p>
-                                <p className="post-pinned-author">Posted by <Link to={`../users/${data.author}`}>u/{data.author}</Link></p>
+                                <p className="post-pinned-author">Posted by <Link to={`../user/${data.author}`}>u/{data.author}</Link></p>
                             </div>
                             <p className="post-pinned-header">
                                 {data.title}

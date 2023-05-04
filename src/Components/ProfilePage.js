@@ -70,13 +70,11 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
     }, [setProfileData])
 
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                setIsLoggedIn(true)
-            } else {
-                setIsLoggedIn(false)
-            }
-        })
+        if (user) {
+            setIsLoggedIn(true)
+        } else {
+            setIsLoggedIn(false)
+        }
     }, [user])
 
     useEffect(() => {
@@ -164,7 +162,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                         <ProfilePosts />
                     </div>
                     {profileData.map((item) => {
-                        return(
+                        return (
                     <div className="community-body-right-logged-out">
                         <div className="community-info-bar">
                             <div className="community-info">
