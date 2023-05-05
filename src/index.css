@@ -277,7 +277,6 @@ body {
     font-size: 1.2em;
   }
 
-
   .drop-down-bar-community {
     position: fixed;
     width:15em;
@@ -997,12 +996,18 @@ label {
   cursor: pointer;
 }
 
-.post-pinned-author > a {
+.post-detail-pinned-author {
+  font-size: 0.7em;
+  color: grey;
+}
+
+.post-pinned-author > a > span, 
+.post-detail-pinned-author > a   {
   text-decoration: none;
   color: grey;
 }
 
-.post-pinned-author > a:hover {
+.post-pinned-author > a:hover, .post-detail-pinned-author > a:hover {
   text-decoration: underline;
 }
 
@@ -1178,6 +1183,17 @@ label {
   border-bottom: 0.1em solid;
   border-color:#DAE0E6;
   padding-top: 0.7em;
+}
+
+.post-divider-text {
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+  content: "";
+  border-bottom: 0.1em solid;
+  border-color:#DAE0E6;
+  padding-top: 0.7em;
+  width: 85%;
 }
 
 .community-divide {
@@ -1703,6 +1719,24 @@ label {
   flex-direction: column;
 }
 
+.post-detail-drop {
+  margin-top: 1%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  color: grey;
+  list-style: none;
+  border: solid gainsboro;
+  width: 8em;
+  padding: 0.5em;
+  gap: 0.75em;
+  background-color: white;
+}
+
+#post-detail-selected {
+  color: rgb(0, 123, 255);
+}
+
 .side-bar-dropbox-list {
   padding-left: 3em;
 }
@@ -1715,6 +1749,21 @@ label {
   height: 10em;
   padding-bottom: 2em;
   width: 100%;
+}
+
+#editor-container-comment {
+  display: flex;
+  flex-direction: column-reverse; 
+  height: 10em;
+  margin: auto;
+  width: 85%;
+  border-top: solid rgb(213, 213, 213);
+}
+
+#editor-container-comment > div {
+  display: flex;
+  flex-direction: row;
+  padding-top: 0.5em;
 }
 
 .editor-container-link > input:focus {
@@ -2104,12 +2153,9 @@ code {
 .post-detail {
   display: flex;
   flex-direction: column;
-  background-color: white;
-  border-radius: 0.2em;
-  border: 1px solid #cdd9e3;
   height: 100%;
   width: 100%;
-  padding-left: 0.2em;
+  gap: 1em;
 }
 
 .verticalLine {
@@ -2121,8 +2167,48 @@ code {
   flex-direction: row;
 }
 
-.post-detail > div {
+.post-detail-upper {
   display: flex;
+  background-color: white;
+  flex-direction: row;
+  border-radius: 0.2em;
+  border: 1px solid #cdd9e3;
+}
+
+.post-detail-lower {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 0.2em;
+  border: 1px solid #cdd9e3;
+  padding-top: 1.5em;
+}
+
+.post-detail-lower > div, .post-divider-text > div {
+  padding-bottom: 0.75em;
+}
+
+#custom-button {
+  font-weight: bold;
+  color: white;
+  background-color: #2286d2;
+  border-radius: 1em;
+  border: 1px solid #2286d2;
+  width: 10em;
+}
+
+#custom-button:hover {
+  background-color: #3e91d1;
+}
+
+.post-divider-text > div {
+  font-size: 0.7em;
+  font-weight: bold;
+  color: rgb(0, 123, 255);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
 }
 
 .comment {
@@ -2157,7 +2243,6 @@ hr.vertical {
   list-style: none;
   align-items: center;
   gap: 0.1em;
-
 }
 
 .comment-right > ul > li > div {
@@ -2205,19 +2290,30 @@ hr.vertical {
   flex-direction: row;
   font-weight: bold;
   color: grey;
-  padding-bottom: 1.5em;
+  padding-bottom: 0.5em;
 }
 
 .comment-left-username {
   font-weight: bold;
   font-size: 0.7em;
   padding-top: 1em;
+  cursor: pointer;
+}
+
+.comment-left-username > a {
+  text-decoration: none;
+  color: black;
+}
+
+.comment-left-username > a:hover {
+  text-decoration: underline;
 }
 
 .comment-right > p {
   font-size: 0.8em;
 }
 
-.comment-left > img {
+.comment-left > a > img {
+  cursor: pointer;
   height: 2em;
 }

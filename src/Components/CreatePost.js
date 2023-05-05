@@ -9,7 +9,9 @@ import MagicUrl from 'quill-magic-url'
 import { Quill } from "react-quill";
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import * as sanitizeHtml from 'sanitize-html';
+import { nanoid } from 'nanoid'
 Quill.register('modules/magicUrl', MagicUrl)
+
 
 const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
     const [ firebaseCommunityData, setFirebaseCommunityData] = useState([])
@@ -58,9 +60,9 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
             if (params.id !== undefined ) {
                 const docRef = doc(db, "communities", params.id)
                 console.log(params.id)
-                await updateDoc(docRef, {posts: arrayUnion({title: title, content: { html: newHtml, delta: value }, author: user.displayName, votes: 1, date: myDate, comments: []}) })
+                await updateDoc(docRef, {posts: arrayUnion({title: title, content: { html: newHtml, delta: value }, author: user.displayName, id: nanoid(8), votes: 1, date: myDate, comments: []}) })
                 const userRef = doc(db, "users", user.displayName)
-                await updateDoc(userRef, {posts:  arrayUnion({community: params.id, poster: true, title: title, content: { html: newHtml, delta: value }, author: user.displayName, votes: 1, date: myDate, comments: []})})
+                await updateDoc(userRef, {posts:  arrayUnion({community: params.id, poster: true, title: title, content: { html: newHtml, delta: value }, author: user.displayName, id: nanoid(8), votes: 1, date: myDate, comments: []})})
             } else {
                 console.log('PLEASE SELECT A COMMUNITY')
             }

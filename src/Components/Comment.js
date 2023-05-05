@@ -3,16 +3,21 @@ import CommentIcon from "../Assets/comment.png"
 import Up from "../Assets/up.png"
 import Down from "../Assets/down.png"
 import Avatar from "../Assets/avatar.png"
+import { Link } from "react-router-dom";
 
 const Comment = () => {
     return (
         <div className="comment">
             <div className="comment-left">
-                <img src={Avatar} alt="Avatar" />
+                <Link to="">
+                    <img src={Avatar} alt="Avatar" />
+                </Link>
                 <hr className="vertical"></hr>
             </div>
             <div className="comment-right">
-                <div className="comment-left-username">COMMENTER</div>
+                <div className="comment-left-username">
+                    <Link to="">COMMENTER</Link>
+                </div>
                 <p>COMMENT TEXT</p>
                 <ul>
                     <div className="comment-votes">
