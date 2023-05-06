@@ -1,6 +1,6 @@
 import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import parse from 'html-react-parser';
 import * as sanitizeHtml from 'sanitize-html';
@@ -10,21 +10,23 @@ import Comment from "../Assets/comment.png"
 import Share from "../Assets/share.png"
 import Save from "../Assets/save.png"
 
+
 const ProfilePosts = ( ) => {
     const [ userInfo, setUserInfo ] = useState([])
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const [ edit, setEdit ] = useState(false)
     const params = useParams()
     const location = useLocation()
+    const navigate = useNavigate()
     const user = auth.currentUser
 
     const getUserInfo = async () => {
         const docRef = doc(db, "users", params.id)
         const docSnap = await getDoc(docRef)
-        const data = docSnap.data()
-        setUserInfo([data.posts])
-        console.log(userInfo)
-
+        const data = docSnap.data() 
+        setUserInfo(data.comments)
+        setUserInfo(prev => [...prev, data.posts[0]])  
+        console.log(userInfo) 
     }
   
     useEffect(() => {
@@ -48,16 +50,13 @@ const ProfilePosts = ( ) => {
             }
         } 
         console.log(userInfo ) 
-    }, [user])
-  
+    }, [user]) 
 
     return (
-        userInfo.map((info) => {
+        userInfo.map((data) => {
             return (
-                info.map((data) => {
-                    return (
                 <div>
-                    <div className={ info.poster ? "input-empty" : "post"}>
+                    <div className={ data.poster ? "post" : "input-empty"}>
                         <div className="post-left">
                             <div className="post-votes">
                                 <img src={Up} alt="Up arrow"></img>
@@ -68,10 +67,10 @@ const ProfilePosts = ( ) => {
                         <div className="post-right">
                             <div className="post-right-profile">
                                 <p className="post-pinned-community"><Link to={`../f/${data.community}`}>f/{data.community}</Link></p>
-                                <p className="post-pinned-author">Posted by <Link to={`../user/${data.author}`}>u/{data.author}</Link></p>
+                                <p className="post-pinned-author">Posted by <Link to={`../user/${params.id}`}>u/{params.id}</Link></p>
                             </div>
                             <Link to={`../f/${data.community}/comments/${data.id}`}>
-                                <p className="post-pinned-header">
+                                <p className="post-pinned-header"> 
                                     {data.title}
                                 </p>
                                 <div className="post-media-true">
@@ -79,30 +78,46 @@ const ProfilePosts = ( ) => {
                                 </div>
                             </Link>
                             <ul>
-                                <li><img src={Comment} alt="Comment bubble"/> {data.comments.length} Comments</li>
+                                <li><img src={Comment} alt="Comment bubble"/> {data.length} Comments</li> 
                                 <li><img src={Share} alt="Share button" /> Share</li>
                                 <li><img src={Save} alt="Save button" /> Save</li>
                                 <li>...</li>
                             </ul>
                         </div>
                     </div>
-                    <div className={info.poster ? "profile-post": "input-empty"}>
+                    <div className={data.poster ? "input-empty" : "profile-post" }>
                         <div className="profile-post-top">
-                        <Link to="">
-                            <p className="profile-post-username">USERNAME</p>
+                        <Link to={`../user/${data.username}`}>
+                            <p className="profile-post-username">{data.username}</p> 
                         </Link> commented on 
-                        <p className="profile-post-title">{info.title}</p> in *
-                        <p className="profile-post-community-name">{info.community}</p> * Posted by 
-                        <p className="profile-post-poster">{info.author}</p>
+                        <p className="profile-post-title">
+                            <Link to={`../f/${data.community}/comments/${data.id}`}>{data.title}</Link>
+                        </p> 
+                            in *
+                        <p className="profile-post-community-name">
+                            <Link to={`../f/${data.community}`}>
+                                {data.community}
+                            </Link>
+                            </p> 
+                                * Posted by 
+                        <p className="profile-post-poster">
+                        <Link to={`../user/${data.author}`}>
+                            {data.author}
+                        </Link>
+                        </p>
                     </div>
                     <div className="profile-post-bottom">
-                        <Link to="">
+                        <Link to={`../f/${data.community}/comments/${data.id}`}>
                             <div>
                                 <div className="profile-post-poster-information">
-                                    <p className="profile-post-title">USERNAME</p> 
-                                        # POINTS * # DAYS AGO
+                                       <div>
+                                        <Link to={""}>
+                                            {data.username}
+                                        </Link>
+                                        </div> 
+                                        {data.votes} POINTS * # DAYS AGO
                                 </div>
-                                <p>POST TEXT</p>
+                                <p>{parse(`${data.content.html}`)}</p>
                                 <ul>
                                     <li>Reply</li>
                                     <li>Share</li>
@@ -115,11 +130,10 @@ const ProfilePosts = ( ) => {
                     </div>
                 </div>
             </div>
-                    )
-                })
         )
     })
     )
+
 }
 
 export default ProfilePosts

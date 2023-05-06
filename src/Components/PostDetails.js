@@ -93,7 +93,9 @@ const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunity
         console.log(params.id)
     }, [user])
 
-
+    useEffect(() => {
+        window.scrollTo({ top:0, behavior:'auto'})
+    }, [])
 
     if (!pageExists && params.id) {
         return (

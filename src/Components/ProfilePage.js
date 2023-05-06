@@ -79,6 +79,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
 
     useEffect(() => {
         document.title = `${params.id} (u/${params.id})`
+        window.scrollTo({ top:0, behavior:'auto'})
     }, [])
     
     if (!user) {

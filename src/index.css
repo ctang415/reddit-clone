@@ -31,16 +31,8 @@ body {
     border: solid rgb(240, 239, 239);
 }
 
-.nav-bar > input:hover {
-  border: solid #2286d2;
-}
-
 .nav-bar > span {
     padding-left: 1em;
-}
-
-#nav-bar-input {
-    padding: 1em;
 }
 
 #nav-bar-input-login {
@@ -100,10 +92,6 @@ body {
 .modal-close-div {
     display: flex;
     flex-direction: row-reverse;
-}
-
-#modal-text-span {
-    padding-bottom: 2em;
 }
 
 .modal-arrow-div {
@@ -181,7 +169,7 @@ body {
     margin-left: 1.5em;
   }
 
-  #text-warning {
+  #text-warning, #karma {
     font-weight: bold;
     color:grey;
   }
@@ -211,9 +199,6 @@ body {
     list-style: none;
   }
 
-  .header-user-profile-icons > ul > li {
-    cursor: pointer;
-  }
 
   .header-user-profile-icons > ul > li > img {
     height: 2em;
@@ -251,14 +236,6 @@ body {
     padding: 0.5em;
   }
 
-  .user-info-name-login > p {
-    font-size: 0.8em;
-  }
-
-  .user-left {
-    display: flex;
-  }
-
   .drop-login {
     padding-right: 1em;
     display: inline-block;
@@ -273,13 +250,9 @@ body {
     gap: 2em;
   }
 
-  .user-drop-left {
-    font-size: 1.2em;
-  }
-
   .drop-down-bar-community {
     position: fixed;
-    width:15em;
+    width: 15em;
   }
 
   .nav-drop-community {
@@ -311,10 +284,6 @@ body {
     padding: 1em;
   }
 
-  .nav-drop-community > ul > div:hover {
-    background-color: #f5f6f7;
-  }
-
   /* end of logged in */
 
 
@@ -326,12 +295,8 @@ body {
     width: 12em;
   }
 
-  .user-drop {
+  .user-drop, .user-drop-left, .community-rules > ol > li > div > p, #adult {
     font-size: 1.2em;
-  }
-
-  .user-right {
-    display: flex;
   }
 
   .user-info-name {
@@ -350,7 +315,7 @@ body {
     height: 2.4em;
   }
 
-  #nav-bar-image {
+  #nav-bar-image, .profile-avatar > img, #community-input-img, .community-info-header-area > img  {
     height: 100%;
   }
 
@@ -370,7 +335,6 @@ body {
     width: 15em;
   }
 
-
   .nav-drop > ul {
     list-style: none;
     display: flex;
@@ -387,15 +351,6 @@ body {
   .nav-drop > ul > li {
     cursor: pointer;
     padding: 0.7em;
-  }
-
-  .nav-drop > ul > li:hover {
-    background-color: #f5f6f7;
-  }
-
-  #karma {
-    color: grey;
-    font-weight: bold;
   }
 
   .drop-down-bar {
@@ -432,13 +387,6 @@ form > input {
     cursor: pointer;
 }
 
-.create-button {
-  display: flex;
-  justify-content: center;
-  padding-top: 1em;
-  padding-bottom: 1em;
-}
-
 .community-post-button {
   color: white;
   background-color:#2286d2;
@@ -448,14 +396,6 @@ form > input {
   border: none;
   font-weight: bold;
   cursor: pointer;
-}
-
-.community-post-button:hover {
-  background-color:#3e91d1;
-}
-
-.header-login-button:hover {
-    background-color:#3e91d1;
 }
 
 .header-button {
@@ -542,16 +482,12 @@ form > input {
   justify-content: space-around;
 }
 
-.community-name > p {
+.community-name > p, .radios > span  {
   color: grey;
 }
 
-.community-header > span {
-  font-size: 1.4em;
-  font-weight: bold;
-}
-
-.community-header-name > span {
+.community-header > span, 
+.community-header-name > span, .community-header-radio > span{
   font-size: 1.4em;
   font-weight: bold;
 }
@@ -560,7 +496,7 @@ form > input {
   padding-bottom: 1em;
 }
 
-.community-name > p {
+.community-name > p, #modal-text-span  {
   padding-bottom: 2em;
 }
 
@@ -594,7 +530,7 @@ form > input {
 .input-empty, .password-error-false, .community-button-false, 
 .community-post-false, .dropbox-false, .community-rules-false, 
 #community-dots-false, .moderators-false, .post-media-false, 
-.post-pinned-true {
+.post-pinned-true, #files {
   display: none;
 }
 
@@ -651,51 +587,15 @@ form > input {
   background-color:#eceeef;
 }
 
-.community-header {
-  display: flex;
-  flex-direction: column;
-}
-
 label {
   font-size: 1.2em;
   font-weight: bold;
 }
 
-.community-header-radio > span {
-  font-size: 1.4em;
-  font-weight: bold;
-}
-
-.community-header-radio {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-}
-
-.radios {
+.radios, .checkbox {
   display: flex;
   gap: 1em;
   align-items: center;
-}
-
-.radios > span {
-  color: grey;
-}
-
-.community-filter {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-}
-
-.checkbox {
-  display: flex;
-  align-items: center;
-  gap: 1em;
-}
-
-#adult {
-  font-size: 1.2em;
 }
 
 #nsfw {
@@ -710,7 +610,7 @@ label {
 
 /* community modal end */
 
-.community-page, .community-page-logged-out {
+.community-page, .community-page-logged-out, .community-header {
   display: flex;
   flex-direction: column;
 }
@@ -727,7 +627,6 @@ label {
   width: 50%;
   height: 50%;
 }
-
 
 .community-header-top {
   cursor: pointer;
@@ -756,7 +655,6 @@ label {
   display: flex;
   align-items: center;
   gap: 1em;
-
 }
 
 .community-header-info-title > img {
@@ -775,10 +673,6 @@ label {
   display: flex;
   color: grey;
   margin: auto 5.2em;
-}
-
-.community-header-info > div {
-  display: flex;
 }
 
 .community-body {
@@ -841,7 +735,6 @@ label {
   margin: 25% auto;
 }
 
-
 .post {
   display: flex;
   flex-direction: row;
@@ -895,29 +788,18 @@ label {
   gap: 0.5em;
 }
 
-
 .post-pinned-community {
   font-size: 0.75em;
   font-weight: bold;
   cursor: pointer;
 }
 
-
-.post-pinned-community > a {
-  text-decoration: none;
-  color: black;
-}
-
-.post-pinned-community > a:hover {
-  text-decoration: underline;
-}
-
-.post-right > ul, .post-detail-right > ul {
+.post-right > ul, .post-detail-right > ul, .post-detail-left  {
   display: flex;
   flex-direction: row;
 }
 
-.post-right > ul > li > a {
+.post-right > ul > li > a, .profile-post-top  > a {
   text-decoration: none;
 }
 
@@ -949,10 +831,6 @@ label {
   gap: 0.3em;
 }
 
-.post-right > ul > li > img, .post-detail-right > ul > li > img, .post-right > ul > li > a > img {
-  height: 1.5em;
-}
-
 .post-detail-right > ul > div {
   gap: 0.5em;
 }
@@ -965,15 +843,6 @@ label {
 .post-votes > img, .post-detail-votes > img {
   height: 1.5em;
   cursor: pointer;
-}
-
-.post-votes > img:hover, .post-detail-votes > img:hover {
-  background-color: #dfe5eb;
-}
-
-.post-right > a {
-  text-decoration: none;
-  color: black;
 }
 
 .post-right > ul > li:hover, .post-detail-right > ul > li:hover {
@@ -990,16 +859,11 @@ label {
   font-size: 0.7em;
 }
 
-.post-detail-right > ul > div > img {
-  height: 1.5em;
-}
-
 .post-media-true {
   display: inline;
   font-size: 0.85em;
   padding-bottom: 0.2em;
 }
-
 
 .post-detail-media-true {
   display: inline;
@@ -1030,10 +894,6 @@ label {
 .post-detail-pinned-author > a   {
   text-decoration: none;
   color: grey;
-}
-
-.post-pinned-author > a:hover, .post-detail-pinned-author > a:hover {
-  text-decoration: underline;
 }
 
 .post-pinned-header {
@@ -1070,18 +930,12 @@ label {
   color: white;
 }
 
-.community-info-top, .community-info-text, .community-rules, .dropbox-true {
+.community-info-top, .community-info-text, .community-rules, .dropbox-true, #nav-bar-input {
   padding: 1em;
 }
 
-.moderators-true {
+.moderators-true, .community-header-info > div, .user-left, .dropbox-true, .user-right {
   display: flex;
-}
-
-.community-info-bar {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
 }
 
 .community-info-top {
@@ -1136,22 +990,9 @@ label {
   gap: 0.5em;
 }
 
-.community-info-header-area > a {
-  text-decoration: none;
-  color: black
-}
-
-.community-info-header-area > img {
-  height: 100%;
-}
-
 .community-rules > ol {
   font-size: 0.8em;
   padding-left: 1.3em;
-}
-
-.community-rules > ol > li {
-  cursor: pointer;
 }
 
 .community-rules > ol > li > div {
@@ -1159,14 +1000,6 @@ label {
   justify-content: space-between;
   flex-direction: row;
   align-items: center;
-}
-
-.community-rules > ol > li > div > p {
-  font-size: 1.2em;
-}
-
-.dropbox-true {
-  display: flex;
 }
 
 .list {
@@ -1182,7 +1015,7 @@ label {
   cursor: pointer;
 }
 
-.side-bar-dropbox-true-home:hover {
+.side-bar-dropbox-true-home:hover, .side-bar-list-top > div:hover, .list-item:hover {
   background-color: #f5f6f6;
 }
 
@@ -1197,9 +1030,6 @@ label {
   cursor: pointer;
 }
 
-.dropbox-true-home > div:hover {
-  text-decoration: underline;
-}
 
 .community-divider-text {
   display: flex;
@@ -1219,11 +1049,6 @@ label {
   border-color:#DAE0E6;
   padding-top: 0.7em;
   width: 85%;
-}
-
-.community-divide {
-  display: flex;
-  justify-content: center;
 }
 
 .community-divider-text-info {
@@ -1288,10 +1113,10 @@ label {
   background-color: #eceeef;
 }
 
-.community-filters > ul > li > img {
+.community-filters > ul > li > img, .post-detail-right > ul > div > img, .post-right > ul > li > img, 
+.post-detail-right > ul > li > img, .post-right > ul > li > a > img {
   height: 1.5em;
 }
-
 
 .community-post-true {
   background-color: white;
@@ -1301,17 +1126,13 @@ label {
   height: 2.5em;
 }
 
-#community-input-img {
-  height: 100%;
-}
-
 .community-post-true > input {
   padding: 0.5em;
   width: 90%;
   border:solid gainsboro;
 }
 
-.community-post-true > input:hover {
+.community-post-true > input:hover, .nav-bar > input:hover {
   border: solid #2286d2;
 }
 
@@ -1356,18 +1177,6 @@ label {
   height: 15em;
 }
 
-.empty-post-discover-add:hover {
-  background-color: #3e91d1;
-}
-
-.empty-post-add:hover {
-  background-color: #3e91d1;
-}
-
-.community-button-true:hover {
-  background-color: #3e91d1;
-}
-
 .community-button-true-joined:hover {
   background-color:#f1f4f7;
 }
@@ -1402,15 +1211,11 @@ label {
   padding-bottom: 0.5em;
 }
 
-.community-info-home-logged-text {
-  font-size: 0.8em;
-}
-
 #mod-home {
   font-size: 0.7em;
 }
 
-.top-button {
+.top-button, .community-divide {
   display: flex;
   justify-content: center;
 }
@@ -1426,10 +1231,6 @@ label {
   cursor: pointer;
   position: fixed;
   bottom: 1em;
-}
-
-.back-to-top:hover {
-  background-color: #3e91d1;
 }
 
 .community-post-header {
@@ -1470,7 +1271,7 @@ label {
   width: 100%;
 }
 
-.community-post > form {
+.community-post > form, .community-post-section > form  {
   margin: 0;
 }
 
@@ -1500,10 +1301,6 @@ label {
   padding-left: 1em;
   padding-right: 1em;
   gap: 0.5em;
-}
-
-.community-post-section > form {
-  margin: 0;
 }
 
 .community-post-title {
@@ -1561,11 +1358,11 @@ label {
   cursor: pointer;
 }
 
-#community-save-button:hover {
+#community-save-button:hover, .nav-drop > ul > li:hover,  .nav-drop-community > ul > div:hover {
   background-color: #f5f6f7;
 }
 
-#community-post-button:hover {
+#community-post-button:hover, .community-post-button:hover, .header-login-button:hover {
   background-color:#3e91d1;
 }
 
@@ -1647,12 +1444,6 @@ label {
   overflow: scroll;
 }
 
-.side-bar-bottom {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .side-bar-text {
   padding: 1.2em;
   font-size: 0.9em;
@@ -1698,10 +1489,6 @@ label {
   cursor: pointer;
 }
 
-.join-button:hover {
-  background-color: #3e91d1;
-}
-
 .side-bar-list > li {
   padding-bottom: 0.5em;
   list-style: none;
@@ -1718,10 +1505,6 @@ label {
   cursor: pointer;
 }
 
-.side-bar-list-top > div:hover {
-  background-color: #f5f6f6;
-}
-
 .side-bar-list-top > h6 {
   padding: 1.2em;
   padding-bottom: 1em;
@@ -1733,10 +1516,6 @@ label {
   justify-content: space-between;
   cursor: pointer;
   padding: 1.2em;
-}
-
-.list-item:hover {
-  background-color: #f5f6f6;
 }
 
 .side-bar-list-item {
@@ -1819,10 +1598,6 @@ label {
   border: solid rgb(213, 213, 213);
   width: 100%;
   height: 100%;
-}
-
-#files {
-  display: none;
 }
 
 .btn {
@@ -1911,12 +1686,12 @@ label {
   gap: 2em;
 }
 
-.policy-top-true > div > ul  {
-  list-style: none;
+.community-rules > ol > li, .header-user-profile-icons > ul > li, .profile-post-bottom > a > div > ul > li, 
+.profile-post-poster, .profile-page > ul > li {
   cursor: pointer;
 }
 
-.policy-top > div > ul  {
+.policy-top-true > div > ul, .policy-top > div > ul {
   list-style: none;
   cursor: pointer;
 }
@@ -1950,10 +1725,6 @@ label {
   gap: 2em;
   list-style: none;
   font-weight: bold;
-}
-
-.profile-page > ul > li {
-  cursor: pointer;
 }
 
 .profile-info-top {
@@ -2020,10 +1791,6 @@ label {
   cursor: pointer;
 }
 
-.community-user-button:hover {
-  background-color: #3e91d1;
-}
-
 .create-button {
   display: flex;
   justify-content: center;
@@ -2038,10 +1805,6 @@ label {
   justify-content: center;
   height: 12em;
   width: auto;
-}
-
-.profile-avatar > img {
-  height: 100%;
 }
 
 blockquote {
@@ -2067,30 +1830,13 @@ code {
   border-top-right-radius: 0.2em;
   border: 1px solid #cdd9e3;
   font-size: 0.8em;
-  justify-content: space-around;
+  justify-content: space-between;
   padding: 1em;
   cursor: pointer;
 }
 
-.profile-post-top  > a {
-  text-decoration: none;
-}
-
-.profile-post-top:hover {
-  border: 1px solid grey;
-}
-
 .profile-post-username {
   color: #2286d2;
-  cursor: pointer;
-}
-
-.profile-post-username:hover {
-  text-decoration: underline;
-}
-
-.profile-post-title {
-  color: black;
   cursor: pointer;
 }
 
@@ -2100,30 +1846,22 @@ code {
   cursor: pointer;
 }
 
-.profile-post-community-name:hover {
-  text-decoration: underline;
-}
-
-.profile-post-poster {
-  cursor: pointer;
-}
-
-.profile-post-poster:hover {
-  text-decoration: underline;
-}
-
 .profile-post-poster-information {
   display: flex;
   flex-direction: row;
   color: grey;
+  gap: 0.5em;
+  font-size: 0.8em;
 }
 
 .profile-post-title {
-  color: black;
   cursor: pointer;
+  color: black;
 }
 
-.profile-post-title:hover {
+.profile-post-title:hover, .profile-post-poster-information > div > a:hover,
+.profile-post-poster:hover, .profile-post-username:hover, .profile-post-community-name:hover, .dropbox-true-home > div:hover, .post-pinned-author > a:hover, .post-detail-pinned-author > a:hover, 
+.post-pinned-community > a:hover, .comment-left-username > a:hover  {
   text-decoration: underline;
 }
 
@@ -2147,13 +1885,15 @@ code {
   padding: 0.4em;
   cursor: pointer;
 }
-.profile-post-bottom:hover {
-  border: 1px solid grey;
+
+.profile-post-bottom > a > div > p {
+  font-size: 0.9em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
 }
 
-.profile-post-bottom > a {
-  text-decoration: none;
-  color: black;
+.profile-post-top:hover, .profile-post-bottom:hover {
+  border: 1px solid grey;
 }
 
 .profile-post-bottom > a > div > ul {
@@ -2161,10 +1901,7 @@ code {
   flex-direction: row;
   list-style: none;
   gap: 1em;
-}
-
-.profile-post-bottom > a > div > ul > li {
-  cursor: pointer;
+  font-size: 0.8em;
 }
 
 .profile-post {
@@ -2173,6 +1910,13 @@ code {
   background-color: white;
   border-radius: 0.2em;
   width: 100%;
+}
+
+.profile-post-title > a, .profile-post-community-name > a, .profile-post-poster > a, .profile-post-bottom > a, 
+.profile-post-poster-information > div > a, .community-info-header-area > a, .post-right > a, .post-pinned-community > a, 
+.comment-left-username > a  {
+  text-decoration: none;
+  color: black
 }
 
 .post-detail {
@@ -2185,11 +1929,6 @@ code {
 
 .verticalLine {
   border-left: solid black;
-}
-
-.post-detail-left {
-  display: flex;
-  flex-direction: row;
 }
 
 .post-detail-upper {
@@ -2233,7 +1972,8 @@ code {
   pointer-events: none;
 }
 
-#custom-button:hover {
+#custom-button:hover, .community-user-button:hover, .join-button:hover, .back-to-top:hover, .empty-post-discover-add:hover, .empty-post-add:hover, 
+.community-button-true:hover  {
   background-color: #3e91d1;
 }
 
@@ -2255,7 +1995,7 @@ code {
   padding-left: 0.5em;
 }
 
-.comment-left {
+.comment-left, .side-bar-bottom {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2270,10 +2010,10 @@ hr.vertical:hover {
   border: 1px solid #33a8ff;
 }
 
-.comment-right {
+.comment-right, .community-info-bar, .community-header-radio, .community-filter {
   display: flex;
   flex-direction: column;
-  gap: 2em;
+  gap: 1em;
 }
 
 .comment-right > ul {
@@ -2296,10 +2036,6 @@ hr.vertical:hover {
   gap: 0.3em;
 }
 
-.comment-right > ul > li > div:hover {
-  background-color: #dfe5eb;
-}
-
 .comment-right > ul > li > div > img {
   height: 1.3em;
 }
@@ -2320,7 +2056,8 @@ hr.vertical:hover {
   padding: 0.1em;
 }
 
-.comment-votes > img:hover {
+.comment-votes > img:hover, .comment-right > ul > li > div:hover, .post-votes > img:hover, 
+.post-detail-votes > img:hover  {
   background-color: #dfe5eb;
 } 
 
@@ -2339,16 +2076,7 @@ hr.vertical:hover {
   cursor: pointer;
 }
 
-.comment-left-username > a {
-  text-decoration: none;
-  color: black;
-}
-
-.comment-left-username > a:hover {
-  text-decoration: underline;
-}
-
-.comment-right > p {
+.comment-right > p, .user-info-name-login > p, .community-info-home-logged-text {
   font-size: 0.8em;
 }
 

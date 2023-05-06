@@ -71,7 +71,7 @@ const PostDetailsCard = ( {firebaseCommunityData}  ) => {
                 const createComment = () => {
                     const updatePost = firebaseCommunityData[0].posts.map(item => {
                         if (item.id === params.id) {
-                            item.comments = [...item.comments, { content: { html: newHtml, delta: value }, username: user.displayName, votes: 1, date: myDate }]
+                            item.comments = [...item.comments, { content: { html: newHtml, delta: value }, title: detail[0].title, community: firebaseCommunityData[0].name, author: detail[0].author, username: user.displayName, votes: 1, date: myDate }]
                             return item
                         }
                         return item
@@ -80,7 +80,7 @@ const PostDetailsCard = ( {firebaseCommunityData}  ) => {
                 }
                 createComment()
                 await updateDoc(docRef, {posts: newArray })
-                await updateDoc(userRef, {comments:  arrayUnion({ poster: false, content: { html: newHtml, delta: value }, id: params.id, votes: 1, date: myDate })})
+                await updateDoc(userRef, {comments:  arrayUnion({ poster: false, content: { html: newHtml, delta: value }, title: detail[0].title, community: firebaseCommunityData[0].name, author: detail[0].author, username: user.displayName, id: params.id, votes: 1, date: myDate })})
             }
         uploadComment()
         quill.setContents([])
