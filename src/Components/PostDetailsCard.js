@@ -13,8 +13,7 @@ import * as sanitizeHtml from 'sanitize-html';
 import { useQuill } from "react-quilljs";
 import { Link, useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
-import { arrayUnion, doc, query, updateDoc, where } from "firebase/firestore";
-import { nanoid } from 'nanoid'
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import parse from 'html-react-parser';
 
 Quill.register('modules/magicUrl', MagicUrl)
@@ -23,7 +22,7 @@ const PostDetailsCard = ( {firebaseCommunityData}  ) => {
     const [ drop, setDrop ] = useState(false)
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const [ value, setValue ] = useState('')
-    const [ detail, setDetail ] = useState([])
+    const [ detail, setDetail ] = useState([ { content: {html: '' }, votes: 'unknown',  comments: []  } ])
     const [ html, setHtml ] = useState('')
     const [ empty, setEmpty ] = useState(true)
     const [ newPosts, setNewPosts ] = useState([])
@@ -65,32 +64,26 @@ const PostDetailsCard = ( {firebaseCommunityData}  ) => {
             allowedSchemes: [ 'data', 'http', 'https']
         })
         const uploadComment = async () => {
-            if (params.id !== undefined ) {
-                const docRef = doc(db, "communities", params.id)
+                const docRef = doc(db, "communities", firebaseCommunityData[0].name)
 
                 const userRef = doc(db, "users", user.displayName)
-
+                let newArray;
                 const createComment = () => {
                     const updatePost = firebaseCommunityData[0].posts.map(item => {
                         if (item.id === params.id) {
-                            item.comments = { content: { html: newHtml, delta: value }, votes: 1, date: myDate }
+                            item.comments = [...item.comments, { content: { html: newHtml, delta: value }, username: user.displayName, votes: 1, date: myDate }]
                             return item
                         }
                         return item
                     })
-                    setNewPosts(updatePost)
+                    newArray = updatePost
                 }
                 createComment()
-
-                await updateDoc(docRef, {posts: newPosts })
-                
- 
-                await updateDoc(userRef, {comments:  arrayUnion({ poster: false, content: { html: newHtml, delta: value },  votes: 1, date: myDate })})
-            } else {
-                console.log('PLEASE SELECT A COMMUNITY')
+                await updateDoc(docRef, {posts: newArray })
+                await updateDoc(userRef, {comments:  arrayUnion({ poster: false, content: { html: newHtml, delta: value }, id: params.id, votes: 1, date: myDate })})
             }
-        } 
-        console.log(params.id)
+        uploadComment()
+        quill.setContents([])
     }
 
     useEffect(() => {
@@ -115,9 +108,14 @@ const PostDetailsCard = ( {firebaseCommunityData}  ) => {
         if (firebaseCommunityData[0] !== undefined) { 
             setDetail([firebaseCommunityData[0].posts.find( item => item.id === params.id)])
         }
-        console.log(firebaseCommunityData)
+        console.log(detail[0].comments)
     }, [firebaseCommunityData])
 
+    useEffect(() => {
+
+    }, [handleSubmit])
+
+    if (detail !== undefined) {
     return (
         detail.map( data => {
             return (
@@ -139,10 +137,10 @@ const PostDetailsCard = ( {firebaseCommunityData}  ) => {
                     </h3>
                     <div className="post-detail-media-true">
                         {parse(data.content.html)} 
-                    </div>
+                    </div> 
                     <ul>
                         <div>
-                            <img src={CommentIcon} alt="Comment bubble"/> {data.comments.length} Comments
+                            <img src={CommentIcon} alt="Comment bubble"/> { data.comments.length } Comments
                         </div>
                         <li><img src={Share} alt="Share button" /> Share</li>
                         <li><img src={Save} alt="Save button" /> Save</li>
@@ -170,12 +168,13 @@ const PostDetailsCard = ( {firebaseCommunityData}  ) => {
                         </ul>
                     </div>
                 </div>
-                <Comment/>
+                <Comment detail={detail} />
             </div>
         </div>
             )
         })
     )
+}
 }
 
 export default PostDetailsCard

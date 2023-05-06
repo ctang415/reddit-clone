@@ -155,7 +155,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                 <div>
                     <h4>There are no posts in this subfreddit</h4>
                     <p>Be the first to till this fertile land.</p>
-                    <button className="empty-post-add" onClick={createNewPost}> Add a post </button>
+                    <button className="empty-post-add" onClick={ isLoggedIn ? createNewPost : null}> Add a post </button>
                 </div>
             </div>
         )
