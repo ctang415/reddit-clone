@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Up from "../Assets/up.png"
 import Down from "../Assets/down.png"
 import CommentIcon from "../Assets/comment.png"
@@ -14,13 +14,19 @@ import { useQuill } from "react-quilljs";
 import { Link, useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import { arrayUnion, doc, query, updateDoc, where } from "firebase/firestore";
+import { nanoid } from 'nanoid'
+import parse from 'html-react-parser';
 
 Quill.register('modules/magicUrl', MagicUrl)
 
-const PostDetailsCard = () => {
+const PostDetailsCard = ( {firebaseCommunityData}  ) => {
     const [ drop, setDrop ] = useState(false)
+    const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const [ value, setValue ] = useState('')
+    const [ detail, setDetail ] = useState([])
     const [ html, setHtml ] = useState('')
+    const [ empty, setEmpty ] = useState(true)
+    const [ newPosts, setNewPosts ] = useState([])
     const params = useParams()
     const user = auth.currentUser
 
@@ -61,41 +67,83 @@ const PostDetailsCard = () => {
         const uploadComment = async () => {
             if (params.id !== undefined ) {
                 const docRef = doc(db, "communities", params.id)
-                console.log(params.id)
-                
-                await updateDoc(docRef, {posts: arrayUnion({ content: { html: newHtml, delta: value }, votes: 1, date: myDate }) })
-                
+
                 const userRef = doc(db, "users", user.displayName)
+
+                const createComment = () => {
+                    const updatePost = firebaseCommunityData[0].posts.map(item => {
+                        if (item.id === params.id) {
+                            item.comments = { content: { html: newHtml, delta: value }, votes: 1, date: myDate }
+                            return item
+                        }
+                        return item
+                    })
+                    setNewPosts(updatePost)
+                }
+                createComment()
+
+                await updateDoc(docRef, {posts: newPosts })
+                
+ 
                 await updateDoc(userRef, {comments:  arrayUnion({ poster: false, content: { html: newHtml, delta: value },  votes: 1, date: myDate })})
             } else {
                 console.log('PLEASE SELECT A COMMUNITY')
             }
-        }
+        } 
         console.log(params.id)
     }
 
+    useEffect(() => {
+        if (value.length === 25) {
+            setValue([])
+        } else if (value.length === 0) {
+            setEmpty(true)
+        } else {
+            setEmpty(false)
+        }
+    }, [value])
+
+    useEffect(() => {
+        if (user) {
+            setIsLoggedIn(true)
+        } else {
+            setIsLoggedIn(false)
+        }
+    }, [user])
+
+    useEffect(() => {
+        if (firebaseCommunityData[0] !== undefined) { 
+            setDetail([firebaseCommunityData[0].posts.find( item => item.id === params.id)])
+        }
+        console.log(firebaseCommunityData)
+    }, [firebaseCommunityData])
+
     return (
+        detail.map( data => {
+            return (
         <div className="post-detail">
             <div className="post-detail-upper">
                 <div className="post-detail-left">
                     <div className="post-detail-votes">
                         <img src={Up} alt="Up arrow"></img>
-                            1
+                            {data.votes}
                         <img src={Down} alt="Down arrow"></img>
                     </div>
                 </div>
                 <div className="post-detail-right">
                     <div className="post-detail-pinned-author">Posted by 
-                        <Link to=""><span> u/AUTHOR</span></Link>
+                        <Link to={`../user/${data.author}`}><span> u/{data.author}</span></Link>
                     </div>
                     <h3>
-                        TITLE
+                        {data.title}
                     </h3>
                     <div className="post-detail-media-true">
-                        CONTENT
+                        {parse(data.content.html)} 
                     </div>
                     <ul>
-                        <div><img src={CommentIcon} alt="Comment bubble"/> # Comments</div>
+                        <div>
+                            <img src={CommentIcon} alt="Comment bubble"/> {data.comments.length} Comments
+                        </div>
                         <li><img src={Share} alt="Share button" /> Share</li>
                         <li><img src={Save} alt="Save button" /> Save</li>
                         <li>...</li>
@@ -103,10 +151,10 @@ const PostDetailsCard = () => {
                 </div>
             </div>
             <div className="post-detail-lower">
-                <div>
+                <div className={ isLoggedIn ? "user-left" : "input-empty" }>
                     <TextEditor 
                     quillRef={quillRef} quill={quill} html={html} setHtml={setHtml} value={value} setValue={setValue} 
-                    handleSubmit={handleSubmit}
+                    handleSubmit={handleSubmit} empty={empty} setEmpty={setEmpty}
                     />
                 </div>
                 <div className="post-divider-text">
@@ -125,6 +173,8 @@ const PostDetailsCard = () => {
                 <Comment/>
             </div>
         </div>
+            )
+        })
     )
 }
 

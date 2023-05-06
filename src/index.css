@@ -895,11 +895,13 @@ label {
   gap: 0.5em;
 }
 
+
 .post-pinned-community {
   font-size: 0.75em;
   font-weight: bold;
   cursor: pointer;
 }
+
 
 .post-pinned-community > a {
   text-decoration: none;
@@ -913,8 +915,10 @@ label {
 .post-right > ul, .post-detail-right > ul {
   display: flex;
   flex-direction: row;
-  font-weight: bold;
-  color: grey;
+}
+
+.post-right > ul > li > a {
+  text-decoration: none;
 }
 
 .post-right > ul > li, .post-detail-right > ul > li {
@@ -928,17 +932,32 @@ label {
   padding-right: 0.5em;
   padding-top: 1em;
   padding-bottom: 1em;
+  color: grey;
+  font-weight: bold;
+}
+
+.post-right > ul > li > a {
+  color: grey;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5em;
 }
 
 .post-detail-right > ul {
   gap: 0.3em;
 }
 
-.post-right > ul > li > img, .post-detail-right > ul > li > img {
+.post-right > ul > li > img, .post-detail-right > ul > li > img, .post-right > ul > li > a > img {
   height: 1.5em;
 }
 
-.post-right > h3, .post-detail-right > h3 {
+.post-detail-right > ul > div {
+  gap: 0.5em;
+}
+
+.post-right > a > h3, .post-detail-right > h3 {
   padding-top: 0.5em;
   padding-bottom: 0.5em;
 }
@@ -950,6 +969,11 @@ label {
 
 .post-votes > img:hover, .post-detail-votes > img:hover {
   background-color: #dfe5eb;
+}
+
+.post-right > a {
+  text-decoration: none;
+  color: black;
 }
 
 .post-right > ul > li:hover, .post-detail-right > ul > li:hover {
@@ -976,6 +1000,7 @@ label {
   padding-bottom: 0.2em;
 }
 
+
 .post-detail-media-true {
   display: inline;
   font-size: 0.85em;
@@ -1001,7 +1026,7 @@ label {
   color: grey;
 }
 
-.post-pinned-author > a > span, 
+.post-pinned-author > a , 
 .post-detail-pinned-author > a   {
   text-decoration: none;
   color: grey;
@@ -2182,6 +2207,7 @@ code {
   border-radius: 0.2em;
   border: 1px solid #cdd9e3;
   padding-top: 1.5em;
+  padding-bottom: 1.5em;
 }
 
 .post-detail-lower > div, .post-divider-text > div {
@@ -2194,7 +2220,17 @@ code {
   background-color: #2286d2;
   border-radius: 1em;
   border: 1px solid #2286d2;
-  width: 10em;
+  width: 8em;
+}
+
+#custom-button-black {
+  font-weight: bold;
+  color: black;
+  background-color: #666;
+  border-radius: 1em;
+  border: 1px solid #666;
+  width: 8em;
+  pointer-events: none;
 }
 
 #custom-button:hover {
@@ -2217,7 +2253,6 @@ code {
   padding-top: 2em;
   gap: 0.5em;
   padding-left: 0.5em;
-  padding-bottom: 1em;
 }
 
 .comment-left {
@@ -2229,6 +2264,10 @@ code {
 hr.vertical {
   width: 0px;
   height: 100%;
+}
+
+hr.vertical:hover {
+  border: 1px solid #33a8ff;
 }
 
 .comment-right {

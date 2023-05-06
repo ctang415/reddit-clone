@@ -118,7 +118,7 @@ const CommunityPage = ( {communityData, communityModal, setCommunityModal, drop,
             firebaseCommunityData.map(data => {
                 return (
                     <div className={ isLoggedIn ? "community-page" : "community-page-logged-out"}>
-                        <Link to="">
+                        <Link to={`../f/${data.name}`}>
                             <div className="community-header-top"></div>
                         </Link>
                         <div className="community-header-bottom">

@@ -85,7 +85,7 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
                 <div className="community-info-text">
                     <div className="community-info-header-area">
                         <img src={CommunityIcon} alt="Community Icon"/>
-                        <Link to={''}><h3>f/{data.name}</h3></Link>
+                        <Link to={`../f/${data.name}`}><h3>f/{data.name}</h3></Link>
                     </div>
                     <p>Text about section</p>
                     <p>Created {data.created}</p>

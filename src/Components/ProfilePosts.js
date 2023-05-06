@@ -46,8 +46,8 @@ const ProfilePosts = ( ) => {
             } else {
                 setEdit(false)
             }
-        }
-        console.log(userInfo)
+        } 
+        console.log(userInfo ) 
     }, [user])
   
 
@@ -70,12 +70,14 @@ const ProfilePosts = ( ) => {
                                 <p className="post-pinned-community"><Link to={`../f/${data.community}`}>f/{data.community}</Link></p>
                                 <p className="post-pinned-author">Posted by <Link to={`../user/${data.author}`}>u/{data.author}</Link></p>
                             </div>
-                            <p className="post-pinned-header">
-                                {data.title}
-                            </p>
-                            <div className="post-media-true">
-                                {parse(`${data.content.html}`)}
-                            </div>
+                            <Link to={`../f/${data.community}/comments/${data.id}`}>
+                                <p className="post-pinned-header">
+                                    {data.title}
+                                </p>
+                                <div className="post-media-true">
+                                    {parse(`${data.content.html}`)}
+                                </div>
+                            </Link>
                             <ul>
                                 <li><img src={Comment} alt="Comment bubble"/> {data.comments.length} Comments</li>
                                 <li><img src={Share} alt="Share button" /> Share</li>

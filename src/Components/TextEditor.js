@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-const TextEditor = ( {setValue, value, setHtml, html, quill, quillRef, handleSubmit} ) => {
+const TextEditor = ( {setValue, value, setHtml, html, quill, quillRef, handleSubmit, empty, setEmpty} ) => {
     const location = useLocation()
 
     useEffect(() => {
@@ -20,17 +20,17 @@ const TextEditor = ( {setValue, value, setHtml, html, quill, quillRef, handleSub
         return (
             <div id='editor-container-comment'>
                 <div>
-                    <button class="ql-bold"></button>
-                    <button class="ql-italic"></button>
-                    <button class="ql-link"></button>
-                    <button class="ql-strike"></button>
-                    <button class="ql-script" value="super"></button>
-                    <button class="ql-header" value="2"></button>
-                    <button class="ql-list" value="bullet"></button>
-                    <button class="ql-list" value="ordered"></button>
-                    <button class="ql-blockquote"></button>
-                    <button class="ql-code"></button>
-                    <button id="custom-button" onClick={handleSubmit}>Comment</button>
+                    <button className="ql-bold"></button>
+                    <button className="ql-italic"></button>
+                    <button className="ql-link"></button>
+                    <button className="ql-strike"></button>
+                    <button className="ql-script" value="super"></button>
+                    <button className="ql-header" value="2"></button>
+                    <button className="ql-list" value="bullet"></button>
+                    <button className="ql-list" value="ordered"></button>
+                    <button className="ql-blockquote"></button>
+                    <button className="ql-code"></button>
+                    <button id={ empty ? "custom-button-black"  : "custom-button"} onClick={handleSubmit}>Comment</button>
                 </div>
                 <div ref={quillRef} />
             </div>

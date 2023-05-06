@@ -21,7 +21,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
     const user = auth.currentUser
     const location = useLocation()
 
-
     useEffect(() => {
         if (location.pathname.indexOf('/f/' === 0)) {
             firebaseCommunityData.map((data) => {
@@ -32,10 +31,15 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
 
 
     useEffect(() => {
-        if (location.pathname === "/") {
+        if (location.pathname === "/" && !isLoggedIn) {
+            // HOME PAGE POSTS 
             console.log(communityData)
+        } else {
+            // JOINED COMMUNITIES POSTS
         }
     }, [])
+
+
     /*
     useEffect(() => {
         if (post.length !== 0) {
@@ -159,7 +163,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
             return (
                 post.map((post) => {
                     return ( 
-                        <div className="post">
+                            <div className="post">
                             <div className="post-left">
                                 <div className="post-votes">
                                     <img src={Up} alt="Up arrow"></img>
@@ -167,21 +171,27 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                                     <img src={Down} alt="Down arrow"></img>
                                 </div>
                             </div>
-                            <div className="post-right">
-                                <p className="post-pinned-author">Posted by u/{post.author}</p>
+                            <div className="post-right">    
+                                <p className="post-pinned-author">Posted by <Link to={`../user/${post.author}`}>u/{post.author}</Link></p>
+                                <Link to={`./comments/${post.id}`}>
                                 <h3>
                                     {post.title}
                                 </h3>
+                                </Link>
+                                <Link to={`./comments/${post.id}`}>
                                 <div className="post-media-true">
                                     {parse(post.content.html)}
                                 </div>
+                                </Link>
                                 <ul>
-                                    <li><img src={Comment} alt="Comment bubble"/> Comments</li>
+                                <li>
+                                <Link to={`./comments/${post.id}`}><img src={Comment} alt="Comment bubble"/> Comments </Link></li>
                                     <li><img src={Share} alt="Share button" /> Share</li>
                                     <li><img src={Save} alt="Save button" /> Save</li>
                                     <li>...</li>
                                 </ul>
                             </div>
+                   
                         </div>
                     )
                 })
@@ -219,70 +229,5 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
         )
     }
 }
-/*
-    if (post.length === 0 && isLoggedIn ) {
-        return (
-            <div className="empty-post-logged-in">
-                <div className="empty-post-discover">
-                    <img src={Discover} alt="Snoo avatar looking through telescope"/>
-                    <p>Freddit gets better when you join communities, so find some that you'll love!</p>
-                    <button className="empty-post-discover-add">BROWSE POPULAR COMMUNITIES</button>
-                </div>
-            </div>
-        )
-    } else if (post.length === 0 && !isLoggedIn && params.id === undefined) {
-        return (
-            <div className="empty-post">
-                <div>
-                    <h4>There are no posts available</h4>
-                    <p>Be the first to till this fertile land.</p>
-                    <button className="empty-post-add" onClick={createNewPost}> Add a post </button>
-                </div>
-            </div>
-        )
-    } else if (post.length === 0 && !isLoggedIn) {
-        return (
-            <div className="empty-post">
-                <div>
-                    <h4>There are no posts in this subfreddit</h4>
-                    <p>Be the first to till this fertile land.</p>
-                    <button className="empty-post-add" onClick={createNewPost}> Add a post </button>
-                </div>
-            </div>
-        )
-    } else {
-        return (
-            post.map((post) => {
-                return ( 
-            <div className="post">
-                <div className="post-left">
-                    <div className="post-votes">
-                        <img src={Up} alt="Up arrow"></img>
-                        {post.votes}
-                        <img src={Down} alt="Down arrow"></img>
-                    </div>
-                </div>
-                <div className="post-right">
-                    <p className="post-pinned-author">posted by u/{post.author}</p>
-                    <h3>
-                        {post.title}
-                    </h3>
-                    <div className="post-media-true">
-                        {parse(post.content.html)}
-                    </div>
-                    <ul>
-                        <li><img src={Comment} alt="Comment bubble"/> Comments</li>
-                        <li><img src={Share} alt="Share button" /> Share</li>
-                        <li><img src={Save} alt="Save button" /> Save</li>
-                        <li>...</li>
-                    </ul>
-                </div>
-            </div>
-            )
-        })
-        )
-    }
-}
-*/
 
 export default Post

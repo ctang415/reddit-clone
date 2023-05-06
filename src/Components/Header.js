@@ -124,7 +124,9 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                                                 <div className="user-left">
                                                     <div className="user-info-name-login">
                                                         <p className={ homeIsTrue ? "user-left" : "input-empty" }>Home</p>
-                                                        <p className={ communityIsTrue ? "user-left" : "input-empty" }>{location.pathname.substring(1)}</p>
+                                                        <p className={ communityIsTrue ? "user-left" : "input-empty" }>
+                                                        {location.pathname.split('/comments')[0]}
+                                                        </p>
                                                         <p className={ submitIsTrue ? "user-left" : "input-empty"}>Create Post</p>
                                                     </div>
                                                 </div>

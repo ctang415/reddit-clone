@@ -13,20 +13,13 @@ import PostDetailsCard from "./PostDetailsCard";
 const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunityModal, setDrop, drop, join, setJoin} ) => {
     const [ firebaseCommunityData, setFirebaseCommunityData] = useState([])
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
-    const [ page, setPage ] = useState(true)
+    const [ pageExists, setPageExists ] = useState(true)
     const [ sideBarCommunities, setSideBarCommunities] = useState([])
+    const [ isTrue, setIsTrue ] = useState(false)
     const params = useParams()
     const navigate = useNavigate()
     const location = useLocation()
     const user = auth.currentUser
-
-    /*
-        if (params.id && page === false) {
-        return (
-            <Error/>
-        )
-    } else 
-    */
 
     const handleClick = (e) => {
         e.preventDefault()
@@ -69,21 +62,22 @@ const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunity
         setSideBarCommunities(communityList)
       }, [])
 
-      useEffect (() => {
+    useEffect (() => {
         if (params.id !== undefined ) {
-        const getCommunity = async () => {
-        const docRef = doc(db, "communities", location.pathname.split('f/')[1].split('/comments')[0])
-        const docSnap = await getDoc(docRef);
-        const data = docSnap.data()
-        if (data === undefined) { 
-            setPage(false)
-        } else {
-            setFirebaseCommunityData([data])
-            setPage(true)
+            const getCommunity = async () => {
+            const docRef = doc(db, "communities", location.pathname.split('f/')[1].split('/comments')[0])
+            const docSnap = await getDoc(docRef);
+            const data = docSnap.data()
+                if (data === undefined) { 
+                    setPageExists(false)
+                } else {
+                    setFirebaseCommunityData([data])
+                    setPageExists(true)
+                }
+            }
+            getCommunity()
         }
-    }
-    getCommunity()
-}
+        console.log(firebaseCommunityData)
     }, [])
 
 
@@ -96,12 +90,19 @@ const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunity
             }
         })
         console.log(location.pathname.split('f/')[1].split('/comments')[0])
+        console.log(params.id)
     }, [user])
 
-    if (params.id) {
+
+
+    if (!pageExists && params.id) {
+        return (
+            <Error/>
+        )
+    } else if (pageExists && params.id ) {
         return (
                     <div className={ isLoggedIn ? "community-page" : "community-page-logged-out"}>
-                        <Link to="">
+                        <Link to={`../f/${location.pathname.split('f/')[1].split('/comments')[0]}`}>
                             <div className="community-header-top"></div>
                         </Link>
                         <div className="community-header-bottom">
@@ -162,7 +163,7 @@ const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunity
                                     <img id="community-input-img" src={ user ? user.photoURL : null} alt="User Icon"></img>
                                     <input type="text" placeholder="Create Post" onClick={createNewPost}></input>
                                 </div>
-                                <PostDetailsCard/>
+                                <PostDetailsCard firebaseCommunityData={firebaseCommunityData}  />
                             </div>
                             <div className={ isLoggedIn ? "community-body-right" : "community-body-right-logged-out"}>
                                 <CommunityInformation 
