@@ -747,6 +747,10 @@ label {
   width: 100%;
 }
 
+.post-width {
+  width: 44em;
+}
+
 .post:hover {
   border: 1px solid darkgrey;
 }
@@ -870,6 +874,8 @@ label {
   font-size: 0.85em;
   padding-top: 1em;
   padding-bottom: 1em;
+  width: 100%;
+  word-wrap: break-word;
 }
 
 .post-pinned-false {
@@ -1686,7 +1692,7 @@ label {
   gap: 2em;
 }
 
-.community-rules > ol > li, .header-user-profile-icons > ul > li, .profile-post-bottom > a > div > ul > li, 
+.community-rules > ol > li, .header-user-profile-icons > ul > li, .profile-post-bottom > div > ul > li, 
 .profile-post-poster, .profile-page > ul > li {
   cursor: pointer;
 }
@@ -1830,7 +1836,7 @@ code {
   border-top-right-radius: 0.2em;
   border: 1px solid #cdd9e3;
   font-size: 0.8em;
-  justify-content: space-between;
+  gap: 0.5em;
   padding: 1em;
   cursor: pointer;
 }
@@ -1859,7 +1865,7 @@ code {
   color: black;
 }
 
-.profile-post-title:hover, .profile-post-poster-information > div > a:hover,
+.profile-post-title:hover, .profile-post-poster-information > div:hover ,
 .profile-post-poster:hover, .profile-post-username:hover, .profile-post-community-name:hover, .dropbox-true-home > div:hover, .post-pinned-author > a:hover, .post-detail-pinned-author > a:hover, 
 .post-pinned-community > a:hover, .comment-left-username > a:hover  {
   text-decoration: underline;
@@ -1879,14 +1885,20 @@ code {
   padding-bottom: 1em;
 }
 
-.profile-post-bottom > a > div { 
+.profile-post-bottom > div { 
   background-color: rgb(232, 238, 244);
   margin: auto 2%;
   padding: 0.4em;
   cursor: pointer;
+  text-decoration: none;
 }
 
-.profile-post-bottom > a > div > p {
+.profile-post-bottom > div > a {
+  text-decoration: none;
+  color: black;
+}
+
+.profile-post-bottom > div > a > div {
   font-size: 0.9em;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
@@ -1896,7 +1908,7 @@ code {
   border: 1px solid grey;
 }
 
-.profile-post-bottom > a > div > ul {
+.profile-post-bottom  > div > ul {
   display: flex;
   flex-direction: row;
   list-style: none;
@@ -1912,8 +1924,8 @@ code {
   width: 100%;
 }
 
-.profile-post-title > a, .profile-post-community-name > a, .profile-post-poster > a, .profile-post-bottom > a, 
-.profile-post-poster-information > div > a, .community-info-header-area > a, .post-right > a, .post-pinned-community > a, 
+.profile-post-title > a, .profile-post-community-name > a, .profile-post-poster > a, 
+.community-info-header-area > a, .post-right > a, .post-pinned-community > a, 
 .comment-left-username > a  {
   text-decoration: none;
   color: black
@@ -1937,6 +1949,10 @@ code {
   flex-direction: row;
   border-radius: 0.2em;
   border: 1px solid #cdd9e3;
+}
+
+.profile-post-text {
+  word-wrap: break-word;
 }
 
 .post-detail-lower {
@@ -2080,7 +2096,19 @@ hr.vertical:hover {
   font-size: 0.8em;
 }
 
+.comment-right > p {
+  word-break: break-word;
+  margin-right: 4em;
+}
+
 .comment-left > a > img {
   cursor: pointer;
   height: 2em;
 }
+
+.post-detail-media-true > ul, .post-detail-media-true > ol,
+.post-media-true > ul, .post-media-true > ol {
+  margin-top: 1em !important;
+  margin-bottom: 1em !important;
+  padding-left: 2.5em !important;
+} 

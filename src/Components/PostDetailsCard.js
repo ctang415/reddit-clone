@@ -18,11 +18,10 @@ import parse from 'html-react-parser';
 
 Quill.register('modules/magicUrl', MagicUrl)
 
-const PostDetailsCard = ( {firebaseCommunityData}  ) => {
+const PostDetailsCard = ( {firebaseCommunityData, detail, setDetail}  ) => {
     const [ drop, setDrop ] = useState(false)
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const [ value, setValue ] = useState('')
-    const [ detail, setDetail ] = useState([ { content: {html: '' }, votes: 'unknown',  comments: []  } ])
     const [ html, setHtml ] = useState('')
     const [ empty, setEmpty ] = useState(true)
     const [ newPosts, setNewPosts ] = useState([])
@@ -65,7 +64,6 @@ const PostDetailsCard = ( {firebaseCommunityData}  ) => {
         })
         const uploadComment = async () => {
                 const docRef = doc(db, "communities", firebaseCommunityData[0].name)
-
                 const userRef = doc(db, "users", user.displayName)
                 let newArray;
                 const createComment = () => {
@@ -102,20 +100,15 @@ const PostDetailsCard = ( {firebaseCommunityData}  ) => {
         } else {
             setIsLoggedIn(false)
         }
+
     }, [user])
 
-    useEffect(() => {
-        if (firebaseCommunityData[0] !== undefined) { 
-            setDetail([firebaseCommunityData[0].posts.find( item => item.id === params.id)])
-        }
-        console.log(detail[0].comments)
-    }, [firebaseCommunityData])
+
 
     useEffect(() => {
 
     }, [handleSubmit])
 
-    if (detail !== undefined) {
     return (
         detail.map( data => {
             return (
@@ -130,7 +123,7 @@ const PostDetailsCard = ( {firebaseCommunityData}  ) => {
                 </div>
                 <div className="post-detail-right">
                     <div className="post-detail-pinned-author">Posted by 
-                        <Link to={`../user/${data.author}`}><span> u/{data.author}</span></Link>
+                        <Link to={`../user/${data.author}`}> u/{data.author} </Link>
                     </div>
                     <h3>
                         {data.title}
@@ -174,7 +167,6 @@ const PostDetailsCard = ( {firebaseCommunityData}  ) => {
             )
         })
     )
-}
 }
 
 export default PostDetailsCard

@@ -41,6 +41,7 @@ const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData, setCommu
 
     const handleProfile = () => {
         navigate(`user/${user.displayName}`)
+        setDrop(false) 
     }
 
     useEffect(() => {

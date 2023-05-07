@@ -104,11 +104,6 @@ const CommunityPage = ( {communityData, communityModal, setCommunityModal, drop,
         })
     }, [user])
 
-    useEffect(() => {
-
-        console.log(communityData)
-    }, [])
-
     if (params.id && page === false) {
         return (
             <Error/>

@@ -185,7 +185,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                                 </Link>
                                 <ul>
                                 <li>
-                                <Link to={`./comments/${post.id}`}><img src={Comment} alt="Comment bubble"/> Comments </Link></li>
+                                <Link to={`./comments/${post.id}`}><img src={Comment} alt="Comment bubble"/> {post.comments.length} Comments </Link></li>
                                     <li><img src={Share} alt="Share button" /> Share</li>
                                     <li><img src={Save} alt="Save button" /> Save</li>
                                     <li>...</li>
