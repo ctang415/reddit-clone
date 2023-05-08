@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import parse from 'html-react-parser';
 import * as sanitizeHtml from 'sanitize-html';
 import Up from "../Assets/up.png"
@@ -10,6 +10,7 @@ import Discover from "../Assets/discover.png"
 import { auth } from "../firebase-config";
 import { Link, useLocation, useParams } from "react-router-dom";
 
+
 const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, isLoggedIn, communityData, profileData }) => {
     const [ post, setPost ] = useState([])
     const [ sanitizedPost, setSanitizedPost] = useState([])
@@ -20,6 +21,8 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
     const params = useParams()
     const user = auth.currentUser
     const location = useLocation()
+
+
 
     useEffect(() => {
         if (location.pathname.indexOf('/f/' === 0)) {
@@ -96,6 +99,9 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                             </h3>
                             <div className="post-media-true">
                                 {parse(post.content.html)}
+                                <div class="post-show-more">
+                                    <Link to=''>Show more</Link>
+                                </div>
                             </div>
                             <ul>
                                 <li><img src={Comment} alt="Comment bubble"/> Comments</li>

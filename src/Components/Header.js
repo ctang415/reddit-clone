@@ -20,6 +20,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
     const [ homeIsTrue, setHomeIsTrue ] = useState(true)
     const [ communityIsTrue, setCommunityIsTrue ] = useState(false)
     const [ submitIsTrue, setSubmitIsTrue ] = useState(false)
+    const [ userIsTrue, setUserIsTrue ] = useState(false)
     const [ loaded, setLoaded ] = useState(false)
     const user = auth.currentUser;
     const location = useLocation()
@@ -72,15 +73,23 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
     }, [user]); 
 
     useEffect(() => {
-        if (location.pathname.slice(-7) === '/submit') {
+        if (location.pathname.slice(-6) === 'submit' || location.pathname.slice(-13) === '/submit/submit' ) {
             setHomeIsTrue(false)
             setCommunityIsTrue(false)
+            setUserIsTrue(false)
             setSubmitIsTrue(true)
-        } else if (location.pathname.indexOf('/f/') === 0 && location.pathname.slice(-13) !== 'submit/submit') {
+        } else if (location.pathname.indexOf('/f/') === 0 ) {
             setHomeIsTrue(false)
             setSubmitIsTrue(false)
+            setUserIsTrue(false)
             setCommunityIsTrue(true)
+        }  else if (location.pathname.indexOf('/user/' === 0) && location.pathname !== '/') {
+            setHomeIsTrue(false)
+            setCommunityIsTrue(false)
+            setSubmitIsTrue(false)
+            setUserIsTrue(true)
         } else {
+            setUserIsTrue(false)
             setCommunityIsTrue(false)
             setSubmitIsTrue(false)
             setHomeIsTrue(true)
@@ -128,6 +137,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                                                         {location.pathname.split('/comments')[0]}
                                                         </p>
                                                         <p className={ submitIsTrue ? "user-left" : "input-empty"}>Create Post</p>
+                                                        <p className={ userIsTrue ? "user-left" : "input-empty" }> u/{location.pathname.split('/user/')[1]}</p>
                                                     </div>
                                                 </div>
                                                 <div className="user-drop-left">⌄</div> 
@@ -194,6 +204,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                                                         <p className={ homeIsTrue ? "user-left" : "input-empty" }>Home</p>
                                                         <p className={ communityIsTrue ? "user-left" : "input-empty" }>{location.pathname.substring(1)}</p>
                                                         <p className={ submitIsTrue ? "user-left" : "input-empty"}>Create Post</p>
+                                                        <p className={ userIsTrue ? "user-left" : "input-empty" }> u/{location.pathname.split('/user/')[1]}</p>
                                                     </div>
                                                 </div>
                                                 <div className="user-drop-left">⌄</div> 

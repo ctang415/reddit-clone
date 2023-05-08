@@ -1,7 +1,7 @@
 import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useQuill } from "react-quilljs";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import CommunityInformation from "./CommunityInformation";
 import TextEditor from "./TextEditor";
@@ -11,7 +11,6 @@ import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import * as sanitizeHtml from 'sanitize-html';
 import { nanoid } from 'nanoid'
 Quill.register('modules/magicUrl', MagicUrl)
-
 
 const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
     const [ firebaseCommunityData, setFirebaseCommunityData] = useState([])
@@ -26,6 +25,13 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
     const [ pollSelect, setPollSelect ] = useState(false)
     const params = useParams()
     const navigate = useNavigate()
+    const location = useLocation()
+
+    useEffect(() => {
+        console.log(location.pathname)
+        console.log(params.id)
+    }, [])
+
     const user = auth.currentUser;
     const modules = {
         toolbar: [

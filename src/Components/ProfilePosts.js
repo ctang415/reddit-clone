@@ -1,6 +1,6 @@
 import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import parse from 'html-react-parser';
 import * as sanitizeHtml from 'sanitize-html';
@@ -17,6 +17,7 @@ const ProfilePosts = ( ) => {
     const params = useParams()
     const navigate = useNavigate()
     const user = auth.currentUser
+    const location = useLocation()
 
     const getUserInfo = async () => {
         const docRef = doc(db, "users", params.id)
@@ -29,7 +30,7 @@ const ProfilePosts = ( ) => {
   
     useEffect(() => {
         getUserInfo()
-    }, [])
+    }, [location.pathname])
 
     useEffect(() => {
         if (user) {
@@ -47,7 +48,6 @@ const ProfilePosts = ( ) => {
                 setEdit(false)
             }
         } 
-        console.log(userInfo) 
     }, [user]) 
 
     return (

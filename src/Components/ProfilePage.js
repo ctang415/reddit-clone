@@ -57,7 +57,6 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
       }, [])
     
     useEffect(() => {
-        if (!user) {
             const getUserInfo = async () => {
                 const docRef = doc(db, "users", params.id)
                 const docSnap = await getDoc(docRef)
@@ -66,7 +65,6 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                 console.log(profileData) 
             } 
         getUserInfo() 
-        }
     }, [setProfileData])
 
     useEffect(() => {
@@ -75,14 +73,14 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
         } else {
             setIsLoggedIn(false)
         }
-    }, [user])
+    }, [user]) 
 
     useEffect(() => {
         document.title = `${params.id} (u/${params.id})`
         window.scrollTo({ top:0, behavior:'auto'})
     }, [])
     
-    if (!user) {
+    if (!isLoggedIn) {
         return (
             <div className="community-page-logged-out">
                   <div className={isLoggedIn ? "input-empty" : "side-bar" }>
@@ -197,7 +195,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                 </div>
             </div>
         )
-    } else if (user && (user.displayName === params.id)) {
+    } else if (isLoggedIn && (user.displayName === params.id)) {
         return (
             <div className="community-page">
                     <div className="profile-page">
@@ -305,7 +303,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                 <div className="community-info">
                     <div className="profile-info-top"></div>
                     <div className="profile-avatar">
-                    <img src={profileData[0].avatar} alt="Avatar"></img>
+                    <img src={profileData[0].avatar} alt="Avatar"></img> 
                     </div>
                     <div className="profile-info-text">
                         <h3>{params.id}</h3>
