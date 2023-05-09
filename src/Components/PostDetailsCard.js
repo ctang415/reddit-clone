@@ -11,10 +11,11 @@ import { Quill } from "react-quill";
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import * as sanitizeHtml from 'sanitize-html';
 import { useQuill } from "react-quilljs";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import parse from 'html-react-parser';
+
 
 Quill.register('modules/magicUrl', MagicUrl)
 
@@ -24,7 +25,7 @@ const PostDetailsCard = ( {firebaseCommunityData, detail, setDetail}  ) => {
     const [ value, setValue ] = useState('')
     const [ html, setHtml ] = useState('')
     const [ empty, setEmpty ] = useState(true)
-    const [ newPosts, setNewPosts ] = useState([])
+    const location = useLocation()
     const params = useParams()
     const user = auth.currentUser
 
@@ -102,11 +103,14 @@ const PostDetailsCard = ( {firebaseCommunityData, detail, setDetail}  ) => {
         }
     }, [user])
 
-
-
     useEffect(() => {
 
     }, [handleSubmit])
+
+    useEffect(() => {
+        document.title = location.pathname.split('/comments')[0].split('f/')[1]
+        window.scrollTo({ top:0, behavior:'auto'})
+    }, [])
 
     return (
         detail.map( data => {

@@ -1,19 +1,22 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import Modal from "./Modal";
 import ProfilePosts from "./ProfilePosts";
 import SidebarDrop from "./SidebarDrop";
 
+
 const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, join, setJoin, firebaseCommunityData } ) => {
     const profileNav = ['OVERVIEW', 'POSTS', 'COMMENTS', 'HISTORY', 'SAVED', 'HIDDEN', 'UPVOTED', 'DOWNVOTED', 'AWARDS RECEIVED', 'AWARDS GIVEN']
-    const [ profileData, setProfileData ] = useState([{created: 'unknown', karma: 'unknown'}]) 
+    const [ profileData, setProfileData ] = useState([{avatar: null, created: 'unknown', karma: 'unknown'}]) 
     const navigate = useNavigate()
     const [ sideBarCommunities, setSideBarCommunities] = useState([])
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
+    const [ matchingUser, setMatchingUser ] = useState(false)
     const params = useParams()
+    const location = useLocation()
     const user = auth.currentUser
 
     const createNewPost = () => {
@@ -76,11 +79,23 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
     }, [user]) 
 
     useEffect(() => {
+        if (user) {
+            if (user.displayName === params.id) {
+                setMatchingUser(true)
+            } else {
+                setMatchingUser(false)
+            }
+        } else {
+            setMatchingUser(false)
+        }
+    }, [user])
+
+    useEffect(() => {
         document.title = `${params.id} (u/${params.id})`
         window.scrollTo({ top:0, behavior:'auto'})
-    }, [])
+    }, [location.pathname])
     
-    if (!isLoggedIn) {
+    if (!isLoggedIn && !matchingUser) {
         return (
             <div className="community-page-logged-out">
                   <div className={isLoggedIn ? "input-empty" : "side-bar" }>
@@ -195,7 +210,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                 </div>
             </div>
         )
-    } else if (isLoggedIn && (user.displayName === params.id)) {
+    } else if (isLoggedIn && matchingUser) {
         return (
             <div className="community-page">
                     <div className="profile-page">
@@ -227,7 +242,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                                 </li>
                             </ul>
                         </div>
-                        <ProfilePosts profileData={profileData} />
+                        <ProfilePosts />
                     </div>
                     <div className="community-body-right">
                     <div className="community-info-bar">

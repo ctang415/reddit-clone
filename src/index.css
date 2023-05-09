@@ -779,19 +779,21 @@ label {
 }
 
 .post-right, .post-detail-right {
-  padding-top: 0.5em;
   padding-left: 0.5em;
-  padding-bottom: 0.2em;
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.post-detail-right {
+  padding-bottom: 0.2em;
+  padding-top: 0.5em;
 }
 
 .post-right-profile {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 0.5em;
 }
 
 .post-pinned-community {
@@ -841,9 +843,12 @@ label {
   gap: 0.5em;
 }
 
-.post-right > a > h3, .post-detail-right > h3 {
-  padding-top: 0.5em;
+.post-right > a > h3, .post-detail-right > h3, .community-info-home-logged > h4 {
   padding-bottom: 0.5em;
+}
+
+.post-detail-right > h3 {
+  padding-top: 0.5em;
 }
 
 .post-votes > img, .post-detail-votes > img {
@@ -896,6 +901,7 @@ label {
   cursor: pointer;
   gap: 0.3em;
   padding-bottom: 1em;
+  padding-top: 1em;
 }
 
 .post-detail-pinned-author {
@@ -911,7 +917,6 @@ label {
 
 .post-pinned-header {
   font-size: 1.3em;
-  padding-top: 0.5em;
   padding-bottom: 0.5em;
 }
 
@@ -1218,10 +1223,6 @@ label {
 
 .community-info-home-logged > ol > li {
   padding-top: 1em;
-}
-
-.community-info-home-logged > h4 {
-  padding-bottom: 0.5em;
 }
 
 #mod-home {
@@ -1685,14 +1686,7 @@ label {
   border-color: #cdd9e3;
 }
 
-.policy-top {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  gap: 2em;
-}
-
-.policy-top-true {
+.policy-top, .policy-top-true {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -1859,8 +1853,6 @@ code {
   cursor: pointer;
 }
 
-
-
 .profile-post-poster-information {
   display: flex;
   flex-direction: row;
@@ -1874,7 +1866,7 @@ code {
   color: black;
 }
 
-.profile-post-title:hover, .profile-post-poster-information > div:hover ,
+.profile-post-title:hover, .profile-post-poster-information > div > a:hover ,
 .profile-post-poster:hover, .profile-post-username:hover, .profile-post-community-name:hover, .dropbox-true-home > div:hover, .post-pinned-author > a:hover, .post-detail-pinned-author > a:hover, 
 .post-pinned-community > a:hover, .comment-left-username > a:hover, .post-all-community > a:hover  {
   text-decoration: underline;
@@ -1902,7 +1894,7 @@ code {
   text-decoration: none;
 }
 
-.profile-post-bottom > div > a, .post-all-community > a {
+.profile-post-bottom > div > a, .post-all-community > a, .profile-post-poster-information > div > a {
   text-decoration: none;
   color: black;
 }

@@ -21,18 +21,27 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
     const location = useLocation()
 
     const getJoinedPosts = async () => {
+        setAllJoinedPosts([])
         const docRef = doc(db, "users", user.displayName)
         const docSnap = await getDoc(docRef)
         const data = docSnap.data()
-        let joinedArray = [data.joined]
-        joinedArray.map( async item => {
-            const docRef = doc(db, 'communities', item.toString() )
-            const docSnap = await getDoc(docRef)
-            const data = docSnap.data()
-            setAllJoinedPosts(prev => [...prev, data.posts ])
-            setIsEmpty(false)
-        }) 
-    }
+        console.log(data.joined) 
+        if (data.joined.length !== 0) {
+            let joinedArray = [data.joined]
+            joinedArray.map( async item => {
+                item.map( async x => {
+                    const docRef = doc(db, 'communities', x.toString() )
+                    const docSnap = await getDoc(docRef)
+                    const data = docSnap.data() 
+                    setAllJoinedPosts(prev => [...prev, data.posts ])
+                    setIsEmpty(false)
+                })
+            }) 
+        } else {
+            setAllJoinedPosts([])
+            setIsEmpty(true) 
+        }
+}
 
     useEffect(() => {
         if (location.pathname.indexOf('/f/' === 0)) {
@@ -51,10 +60,11 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
     }, [communityData]) 
 
     useEffect( () => {
-        if (location.pathname === "/" && isLoggedIn ) {
+        if (user) {
                 getJoinedPosts()
         } 
-    }, [user])
+        console.log(joinedList)
+    }, [user ])
 
 
     /*
@@ -215,7 +225,7 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
                                     {post.title}
                                 </h3>
                                 </Link>
-                                <Link to={`${post.community}/comments/${post.id}`}> 
+                                <Link to={`./comments/${post.id}`}> 
                                 <div className="post-media-true">
                                     {parse(post.content.html)}
                                 </div>

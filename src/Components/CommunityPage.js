@@ -41,6 +41,7 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
             const docSnap = await getDoc(userRef)
             const data = docSnap.data()
             setUserData([data])
+            setSubscribed(true) 
         } 
         getUserInfo()
     }
@@ -53,6 +54,7 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
             const docSnap = await getDoc(userRef)
             const data = docSnap.data()
             setUserData([data])
+            setSubscribed(false) 
         } 
         getUserInfo()
     }
@@ -130,7 +132,7 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
     }, [user])
 
     useEffect(() => {
-        if (isLoggedIn) { 
+        if (user) { 
             if (userData[0].joined.includes(params.id) === true) {
                 setSubscribed(true) 
             } else { 

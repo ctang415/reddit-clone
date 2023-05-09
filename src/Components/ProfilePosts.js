@@ -29,6 +29,7 @@ const ProfilePosts = ( ) => {
     }
   
     useEffect(() => {
+        setUserInfo([])
         getUserInfo()
     }, [location.pathname])
 
@@ -53,7 +54,7 @@ const ProfilePosts = ( ) => {
     return (
         userInfo.map((data) => {
             return (
-                <div className="post-width" key={data.id}>
+                <div className="post-width">
                     <div className={ data.poster ? "post" : "input-empty"}>
                         <div className="post-left">
                             <div className="post-votes">
@@ -107,10 +108,10 @@ const ProfilePosts = ( ) => {
                     <div className="profile-post-bottom">
                             <div>
                                 <div className="profile-post-poster-information">
-                                       <div onClick={() => navigate(`../user/${data.username}`)}>
-                                            {data.username}
+                                       <div>
+                                            <Link to={`../user/${data.username}`}>{data.username}</Link>
                                         </div> 
-                                        {data.votes} POINTS * # DAYS AGO
+                                        {data.votes} points * # days ago
                                 </div>
                                 <Link to={`../f/${data.community}/comments/${data.id}`}>
                                         <div className="profile-post-text">{parse(`${data.content.html}`)}</div>
