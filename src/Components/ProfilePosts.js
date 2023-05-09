@@ -53,7 +53,7 @@ const ProfilePosts = ( ) => {
     return (
         userInfo.map((data) => {
             return (
-                <div className="post-width">
+                <div className="post-width" key={data.id}>
                     <div className={ data.poster ? "post" : "input-empty"}>
                         <div className="post-left">
                             <div className="post-votes">

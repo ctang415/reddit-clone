@@ -103,7 +103,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                                         <div className="side-bar-list-item">
                                         {item.list.map( x => {
                                             return (
-                                                <SidebarDrop x={x} item={item}/>
+                                                <SidebarDrop key={x} x={x} item={item}/>
                                             )
                                         })}
                                         </div>
@@ -162,7 +162,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                     </div>
                     {profileData.map((item) => {
                         return (
-                    <div className="community-body-right-logged-out">
+                    <div className="community-body-right-logged-out" key={item}>
                         <div className="community-info-bar">
                             <div className="community-info">
                                 <div className="profile-info-top"></div>

@@ -70,14 +70,15 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
         } else {
             setBaseSubmit(true)
         }
+        console.log(firebaseCommunityData)
     }, [])
 
     if (params.id) {
     return (
         firebaseCommunityData.map(data => {
             return (
-        <div className="community-info-bar" key={data.created}>
-            <div className="community-info">
+                <div className="community-info-bar" key={data.name}>
+                    <div className="community-info">
                 <div className="community-info-top">
                     <h5>About Community</h5>
                     <h5 id={ isLoggedIn ? "community-dots" : "community-dots-false"}>...</h5>
@@ -172,7 +173,7 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
                                         <div className="list">
                                         {item.list.map( x => {
                                             return (
-                                                <Dropdown x={x} item={item}/>
+                                                <Dropdown key={x} x={x} item={item}/>
                                             )
                                         })}
                                         </div>

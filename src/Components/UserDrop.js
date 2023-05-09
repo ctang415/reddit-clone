@@ -4,7 +4,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase-config";
 
-const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData, setCommunityModal, communityModal, setLoggedIn } ) => {
+const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData, setCommunityModal, communityModal, setLoggedIn,
+    setAllJoinedPosts } ) => {
     const [ userSettings, setUserSettings ] = useState([])
     const navigate = useNavigate()
     const user = auth.currentUser
@@ -16,6 +17,7 @@ const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData, setCommu
             setModalIsTrue(false)
             setLoggedIn(false)
             setMyUser([])
+            setAllJoinedPosts([])
             window.scrollTo({ top:0, behavior:'auto'})
             // Sign-out successful.
           }).catch((error) => {

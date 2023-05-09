@@ -13,7 +13,9 @@ import Moderation from "../Assets/moderation.png"
 import Notification from "../Assets/notification.png"
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUserData, communityData, setCommunityData, communityModal, setCommunityModal, setDrop, drop }) => {
+const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUserData, communityData, setCommunityData, 
+    communityModal, setCommunityModal, setDrop, drop, joinedList, setJoinedList, setAllJoinedPosts, setIsEmpty, isEmpty, 
+    allJoinedPosts }) => {
     const [ myUser, setMyUser ] = useState([])
     const [ communityDrop, setCommunityDrop ] = useState(false)
     const [ loggedIn, setLoggedIn ] = useState(false)
@@ -26,7 +28,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
     const location = useLocation()
     const navigate = useNavigate()
 
-    const handleClick = (e) => {
+    const handleClick = (e) => { 
         e.preventDefault()
         if (!user) {
             setModalIsTrue(!modalIsTrue)
@@ -52,8 +54,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
         const docSnap = await getDoc(docRef)
         const data = docSnap.data()
         setUserData([data])
-        console.log(userData) 
-    } 
+    }
 
     useEffect(() => {
         if (user) {
@@ -175,7 +176,8 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                                         </div>
                                         <div className="drop-down-bar">
                                             <UserDrop userData={userData} setMyUser={setMyUser} drop={drop} setDrop={setDrop} setModalIsTrue={setModalIsTrue}
-                                            communityModal={communityModal} setCommunityModal={setCommunityModal} setLoggedIn={setLoggedIn}
+                                            communityModal={communityModal} setCommunityModal={setCommunityModal} setLoggedIn={setLoggedIn} 
+                                            setAllJoinedPosts={setAllJoinedPosts} setJoinedList={setJoinedList}
                                             />
                                         </div>
                                     </div>
@@ -234,7 +236,8 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                                         </div>
                                         <div className="drop-down-bar">
                                             <UserDrop userData={userData} setMyUser={setMyUser} drop={drop} setDrop={setDrop} setModalIsTrue={setModalIsTrue}
-                                            communityModal={communityModal} setCommunityModal={setCommunityModal} setLoggedIn={setLoggedIn}
+                                            communityModal={communityModal} setCommunityModal={setCommunityModal} setLoggedIn={setLoggedIn} setAllJoinedPosts={setAllJoinedPosts}
+                                            setJoinedList={setJoinedList}
                                             />
                                         </div>
                                     </div>

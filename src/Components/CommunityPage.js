@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { arrayRemove, arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
@@ -13,12 +13,14 @@ import Hot from "../Assets/hot.png"
 import New from "../Assets/new.png"
 import Top from "../Assets/top.png"
 
-const CommunityPage = ( {communityData, communityModal, setCommunityModal, drop, setDrop, modalIsTrue, setModalIsTrue, setJoin, join} ) => {
+const CommunityPage = ( {userData, setUserData, communityData, communityModal, setCommunityModal, drop, setDrop, modalIsTrue, 
+    setModalIsTrue, setJoin, join, allJoinedPosts, isEmpty, setAllJoinedPosts, setIsEmpty, joinedList, setJoinedList } ) => {
     const [ firebaseCommunityData, setFirebaseCommunityData] = useState([])
     const [ sideBarCommunities, setSideBarCommunities] = useState([])
     const [ text, setText ] =  useState("Joined")
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const [ page, setPage ] = useState(true)
+    const [ subscribed, setSubscribed ] = useState(false)
     const params = useParams()
     const navigate = useNavigate()
     const user = auth.currentUser;
@@ -29,6 +31,30 @@ const CommunityPage = ( {communityData, communityModal, setCommunityModal, drop,
         } else {
             setText("Joined")
         }
+    }
+
+    const handleJoin = async (e) => {
+        e.preventDefault()
+        const userRef = doc(db, 'users', user.displayName)
+        await updateDoc(userRef, { joined: arrayUnion(params.id) } )
+        const getUserInfo = async () => {
+            const docSnap = await getDoc(userRef)
+            const data = docSnap.data()
+            setUserData([data])
+        } 
+        getUserInfo()
+    }
+
+    const handleLeave = async (e) => {
+        e.preventDefault()
+        const userRef = doc(db, 'users', user.displayName)
+        await updateDoc(userRef, { joined: arrayRemove(params.id) } )
+        const getUserInfo = async () => {
+            const docSnap = await getDoc(userRef)
+            const data = docSnap.data()
+            setUserData([data])
+        } 
+        getUserInfo()
     }
 
     const handleClick = (e) => {
@@ -93,7 +119,6 @@ const CommunityPage = ( {communityData, communityModal, setCommunityModal, drop,
 }
     }, [])
 
-
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -104,6 +129,17 @@ const CommunityPage = ( {communityData, communityModal, setCommunityModal, drop,
         })
     }, [user])
 
+    useEffect(() => {
+        if (isLoggedIn) { 
+            if (userData[0].joined.includes(params.id) === true) {
+                setSubscribed(true) 
+            } else { 
+                setSubscribed(false) 
+        }
+    }
+        console.log(subscribed)
+    }, [subscribed])
+
     if (params.id && page === false) {
         return (
             <Error/>
@@ -112,7 +148,7 @@ const CommunityPage = ( {communityData, communityModal, setCommunityModal, drop,
         return (
             firebaseCommunityData.map(data => {
                 return (
-                    <div className={ isLoggedIn ? "community-page" : "community-page-logged-out"}>
+                    <div className={ isLoggedIn ? "community-page" : "community-page-logged-out"} key={data.name}>
                         <Link to={`../f/${data.name}`}>
                             <div className="community-header-top"></div>
                         </Link>
@@ -122,9 +158,9 @@ const CommunityPage = ( {communityData, communityModal, setCommunityModal, drop,
                                     <img src={CommunityIcon} alt="Community Icon"></img>
                                     <h1>{params.id}</h1>
                                     <div className="community-header-buttons">
-                                        <button className={ isLoggedIn ? "community-button-true" : "community-button-false" }>Join</button>
-                                        <button onMouseOver={setButtonText} onMouseLeave={setButtonText} className={ isLoggedIn ? "community-button-true-joined" : "community-button-false" }>{text}</button>
-                                          <button className={ isLoggedIn ? "community-button-true-joined" : "community-button-false" }>Alert</button>
+                                        <button onClick={handleJoin} className={ (isLoggedIn && !subscribed) ? "community-button-true" : "community-button-false" }>Join</button>
+                                        <button onClick={handleLeave} onMouseOver={setButtonText} onMouseLeave={setButtonText} className={ isLoggedIn && subscribed ? "community-button-true-joined" : "community-button-false" }>{text}</button>
+                                          <button className={ isLoggedIn && subscribed ? "community-button-true-joined" : "community-button-false" }>Alert</button>
                                    </div>
                                 </div>
                                 <div className="community-header-info-subtitle">
@@ -198,6 +234,8 @@ const CommunityPage = ( {communityData, communityModal, setCommunityModal, drop,
                                 <Post firebaseCommunityData={firebaseCommunityData} 
                                     setFirebaseCommunityData={setFirebaseCommunityData} 
                                     createNewPost={createNewPost} isLoggedIn={isLoggedIn}
+                                    allJoinedPosts={allJoinedPosts} isEmpty={isEmpty} setAllJoinedPosts={setAllJoinedPosts}
+                                    setIsEmpty={setIsEmpty} joinedList={joinedList} setJoinedList={setJoinedList}
                                     />
                             </div>
                             <div className={ isLoggedIn ? "community-body-right" : "community-body-right-logged-out"}>
@@ -284,7 +322,8 @@ const CommunityPage = ( {communityData, communityModal, setCommunityModal, drop,
                 <Post firebaseCommunityData={firebaseCommunityData} 
                 setFirebaseCommunityData={setFirebaseCommunityData}  
                 createNewPost={createNewPost} isLoggedIn={isLoggedIn}
-                communityData={communityData}
+                communityData={communityData}  allJoinedPosts={allJoinedPosts} isEmpty={isEmpty} setAllJoinedPosts={setAllJoinedPosts}
+                setIsEmpty={setIsEmpty} joinedList={joinedList} setJoinedList={setJoinedList}
                 />
             </div>
             <div className={ isLoggedIn ? "community-body-right" : "community-body-right-logged-out"}>

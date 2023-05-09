@@ -100,7 +100,6 @@ const PostDetailsCard = ( {firebaseCommunityData, detail, setDetail}  ) => {
         } else {
             setIsLoggedIn(false)
         }
-
     }, [user])
 
 
@@ -112,7 +111,7 @@ const PostDetailsCard = ( {firebaseCommunityData, detail, setDetail}  ) => {
     return (
         detail.map( data => {
             return (
-        <div className="post-detail">
+        <div className="post-detail" key={data.id}>
             <div className="post-detail-upper">
                 <div className="post-detail-left">
                     <div className="post-detail-votes">

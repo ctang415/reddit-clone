@@ -66,7 +66,7 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
             if (params.id !== undefined ) {
                 const docRef = doc(db, "communities", params.id)
                 let id = nanoid(8)
-                await updateDoc(docRef, {posts: arrayUnion({title: title, content: { html: newHtml, delta: value }, author: user.displayName, id: id, votes: 1, date: myDate, comments: []}) })
+                await updateDoc(docRef, {posts: arrayUnion({title: title, content: { html: newHtml, delta: value }, author: user.displayName, community: params.id, id: id, votes: 1, date: myDate, comments: []}) })
                 const userRef = doc(db, "users", user.displayName)
                 await updateDoc(userRef, {posts:  arrayUnion({community: params.id, poster: true, title: title, content: { html: newHtml, delta: value }, author: user.displayName, id: id, votes: 1, date: myDate, comments: []})})
                 navigate(`../f/${params.id}/comments/${id}`)

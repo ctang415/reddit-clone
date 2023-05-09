@@ -31,7 +31,7 @@ const TextEditor = ( {setValue, value, setHtml, html, quill, quillRef, handleSub
                     <button className="ql-blockquote"></button>
                     <button className="ql-code"></button>
                     <button id={ empty ? "custom-button-black"  : "custom-button"} onClick={handleSubmit}>Comment</button>
-                </div>
+                </div> 
                 <div ref={quillRef} />
             </div>
         )

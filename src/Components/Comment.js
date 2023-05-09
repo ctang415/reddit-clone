@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CommentIcon from "../Assets/comment.png"
 import Up from "../Assets/up.png"
 import Down from "../Assets/down.png"
@@ -8,13 +8,30 @@ import * as sanitizeHtml from 'sanitize-html';
 import parse from 'html-react-parser';
 
 const Comment = ( {detail} ) => {
+    const [ isEmpty, setIsEmpty ] = useState(false)
 
+    useEffect(() => {
+        if (detail[0].comments.length === 0) {
+            setIsEmpty(true)
+        } else {
+            setIsEmpty(false)
+        }
+    }, [detail])
+
+    if (isEmpty) {
+        return (
+            <div className="empty-comment">
+                 <h3>No Comments Yet</h3>
+                 <div>Be the first to share what you think!</div>
+            </div>
+        )
+    } else {
     return (
         detail.map(data => {
             return (
                 data.comments.map( comment => {
                     return (
-                        <div className="comment">
+                        <div className="comment" key={comment.id}>
                             <div className="comment-left">
                                 <Link to={`../user/${comment.username}`}>
                                     <img src={Avatar} alt="Avatar" />
@@ -56,6 +73,7 @@ const Comment = ( {detail} ) => {
             )
         })
     )
+}
 }
 
 export default Comment

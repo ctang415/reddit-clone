@@ -18,6 +18,9 @@ const App = () => {
   const [ communityData, setCommunityData ] = useState([])
   const [ drop, setDrop ] = useState(false)
   const [ join, setJoin ] = useState(false)
+  const [ allJoinedPosts, setAllJoinedPosts ] = useState([])
+  const [ isEmpty, setIsEmpty ] = useState(true)
+  const [ joinedList, setJoinedList ] = useState([])
 
   const getCommunities = async () => {
     const communitiesRef = collection(db, "communities");
@@ -46,22 +49,24 @@ const App = () => {
       modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue}
       communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
       communityData={communityData} setCommunityData={setCommunityData} userData={userData} setUserData={setUserData} 
-      join={join} setJoin={setJoin} 
+      join={join} setJoin={setJoin} allJoinedPosts={allJoinedPosts} isEmpty={isEmpty} setAllJoinedPosts={setAllJoinedPosts}
+      setIsEmpty={setIsEmpty} joinedList={joinedList} setJoinedList={setJoinedList}
       />
       <Routes>
         <Route path="/" exact element={
         <Home 
         userData={userData} setUserData={setUserData} 
         communityModal={communityModal} setDrop={setDrop} drop={drop} modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue}
-        setCommunityModal={setCommunityModal} join={join} setJoin={setJoin} communityData={communityData}
+        setCommunityModal={setCommunityModal} join={join} setJoin={setJoin} communityData={communityData} allJoinedPosts={allJoinedPosts} 
+        isEmpty={isEmpty} setAllJoinedPosts={setAllJoinedPosts} setIsEmpty={setIsEmpty} joinedList={joinedList} setJoinedList={setJoinedList}
         />}
         />
         <Route path="/f/:id" exact element={
         <CommunityPage 
-        modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue}
-        userData={userData} setUserData={setUserData} 
+        modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} userData={userData} setUserData={setUserData} 
         communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
-        join={join} setJoin={setJoin} communityData={communityData}
+        join={join} setJoin={setJoin} communityData={communityData} allJoinedPosts={allJoinedPosts} isEmpty={isEmpty} 
+        setAllJoinedPosts={setAllJoinedPosts} setIsEmpty={setIsEmpty} joinedList={joinedList} setJoinedList={setJoinedList}
         />}
         />
         <Route path="/f/:id/comments/:id" element={

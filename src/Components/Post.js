@@ -7,22 +7,32 @@ import Comment from "../Assets/comment.png"
 import Share from "../Assets/share.png"
 import Save from "../Assets/save.png"
 import Discover from "../Assets/discover.png"
-import { auth } from "../firebase-config";
+import { auth, db } from "../firebase-config";
 import { Link, useLocation, useParams } from "react-router-dom";
+import { doc, getDoc } from "firebase/firestore";
 
-
-const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, isLoggedIn, communityData, profileData }) => {
+const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, isLoggedIn, communityData, allJoinedPosts, 
+    isEmpty, setAllJoinedPosts, setIsEmpty, joinedList, setJoinedList }) => {
     const [ post, setPost ] = useState([])
     const [ sanitizedPost, setSanitizedPost] = useState([])
-    const [ allPosts, setAllPosts ] = useState([])
-    const [ userInfo, setUserInfo ] = useState([])
-    const [ userPosts, setUserPosts ] = useState([])
-    const [ isEmpty, setIsEmpty ] = useState(false)
+    const [ allPosts, setAllPosts] = useState([])
     const params = useParams()
     const user = auth.currentUser
     const location = useLocation()
 
-
+    const getJoinedPosts = async () => {
+        const docRef = doc(db, "users", user.displayName)
+        const docSnap = await getDoc(docRef)
+        const data = docSnap.data()
+        let joinedArray = [data.joined]
+        joinedArray.map( async item => {
+            const docRef = doc(db, 'communities', item.toString() )
+            const docSnap = await getDoc(docRef)
+            const data = docSnap.data()
+            setAllJoinedPosts(prev => [...prev, data.posts ])
+            setIsEmpty(false)
+        }) 
+    }
 
     useEffect(() => {
         if (location.pathname.indexOf('/f/' === 0)) {
@@ -32,15 +42,19 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
         }
     }, [])
 
-
     useEffect(() => {
         if (location.pathname === "/" && !isLoggedIn) {
-            // HOME PAGE POSTS 
-            console.log(communityData)
-        } else {
-            // JOINED COMMUNITIES POSTS
+            communityData.map((data) => {
+                data.posts.map(post => setAllPosts(prev => [...prev, post])) 
+            })
         }
-    }, [])
+    }, [communityData]) 
+
+    useEffect( () => {
+        if (location.pathname === "/" && isLoggedIn ) {
+                getJoinedPosts()
+        } 
+    }, [user])
 
 
     /*
@@ -58,19 +72,64 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
         }
     }, [post])
 */
-    /*
-    useEffect(() => {
-        if(location.pathname === '/' ) {
-            communityData.forEach(element => {
-                setAllPosts( allPosts => [...allPosts, element.posts])
-            });  
-        } 
-        console.log(allPosts)
-    }, [])
-    */
-
-
-    if (location.pathname === '/' && !isLoggedIn && allPosts.length === 0) {
+if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
+    return (
+      <div className="empty-post-logged-in">
+            <div className="empty-post-discover">
+                <img src={Discover} alt="Snoo avatar looking through telescope"/>
+                <p>Freddit gets better when you join communities, so find some that you'll love!</p>
+                <button className="empty-post-discover-add">BROWSE POPULAR COMMUNITIES</button>
+            </div>
+        </div>
+    )
+} else if (location.pathname === '/' && isLoggedIn ) {
+    return (
+        allJoinedPosts.map((x) => {
+            return (
+                x.map((post) => {
+                    return (
+                    <div className="post" key={post.id}>
+                    <div className="post-left">
+                        <div className="post-votes">
+                            <img src={Up} alt="Up arrow"></img>
+                                {post.votes}
+                            <img src={Down} alt="Down arrow"></img>
+                        </div>
+                    </div>
+                    <div className="post-right">
+                        <div className="post-pinned-author">
+                        <div className="post-all-community">
+                                        <Link to={`f/${post.community}`}>
+                                            f/{`${post.community}`} 
+                                        </Link>
+                                    </div>
+                                    *
+                            Posted by 
+                            u/<Link to={`/user/${post.author}`}>{post.author}</Link>
+                        </div>
+                        <h3>
+                            <Link to={`/f/${post.community}/comments/${post.id}`}>{post.title}</Link>
+                        </h3> 
+                        <div className="post-media-true">
+                        <Link to={`/f/${post.community}/comments/${post.id}`}>
+                         {parse(post.content.html)}
+                         </Link>
+                        </div>
+                        <ul>
+                        <li>
+                        <Link to={`f/${post.community}/comments/${post.id}`}><img src={Comment} alt="Comment bubble"/> {post.comments.length} Comments </Link></li>
+                            <li><img src={Share} alt="Share button" /> Share</li>
+                            <li><img src={Save} alt="Save button" /> Save</li>
+                            <li>...</li>
+                        </ul>
+                    </div>
+                </div>
+                )
+            })
+            )
+        })
+    ) 
+    } else if (location.pathname === '/' && !isLoggedIn && allPosts.length === 0) {
         return (
             <div className="empty-post">
                 <div>
@@ -84,7 +143,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
         return (
             allPosts.map((post) => {
                 return ( 
-                    <div className="post">
+                    <div className="post" key={post.id}>
                         <div className="post-left">
                             <div className="post-votes">
                                 <img src={Up} alt="Up arrow"></img>
@@ -93,59 +152,31 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                             </div>
                         </div>
                         <div className="post-right">
-                            <p className="post-pinned-author">Posted by u/{post.author}</p>
+                            <div className="post-pinned-author">
+                                    <div className="post-all-community">
+                                        <Link to={`f/${post.community}`}>
+                                            f/{`${post.community}`} 
+                                        </Link>
+                                    </div>
+                                    *
+                                    Posted by <Link to={`user/${post.author}`} > <div className="post-all-author">u/{post.author}</div></Link>
+                                </div>
                             <h3>
-                                {post.title}
+                                <Link to={`f/${post.community}/comments/${post.id}`}>
+                                    {post.title}
+                                </Link>
                             </h3>
                             <div className="post-media-true">
-                                {parse(post.content.html)}
-                                <div class="post-show-more">
+                                <Link to={`f/${post.community}/comments/${post.id}`}>
+                                    {parse(post.content.html)}
+                                </Link>
+                                <div className="post-show-more">
                                     <Link to=''>Show more</Link>
                                 </div>
                             </div>
                             <ul>
-                                <li><img src={Comment} alt="Comment bubble"/> Comments</li>
-                                <li><img src={Share} alt="Share button" /> Share</li>
-                                <li><img src={Save} alt="Save button" /> Save</li>
-                                <li>...</li>
-                            </ul>
-                        </div>
-                    </div>
-                )
-            })
-        )
-    } else if (location.pathname === '/' && isLoggedIn && userPosts.length === 0) {
-        return (
-          <div className="empty-post-logged-in">
-                <div className="empty-post-discover">
-                    <img src={Discover} alt="Snoo avatar looking through telescope"/>
-                    <p>Freddit gets better when you join communities, so find some that you'll love!</p>
-                    <button className="empty-post-discover-add">BROWSE POPULAR COMMUNITIES</button>
-                </div>
-            </div>
-        )
-    } else if (location.pathname === '/' && isLoggedIn && userPosts.length !== 0) {
-        return (
-            userPosts.map((post) => {
-                return ( 
-                    <div className="post">
-                        <div className="post-left">
-                            <div className="post-votes">
-                                <img src={Up} alt="Up arrow"></img>
-                                    {post.votes}
-                                <img src={Down} alt="Down arrow"></img>
-                            </div>
-                        </div>
-                        <div className="post-right">
-                            <p className="post-pinned-author">Posted by u/{post.author}</p>
-                            <h3>
-                                {post.title}
-                            </h3>
-                            <div className="post-media-true">
-                                {parse(post.content.html)}
-                            </div>
-                            <ul>
-                                <li><img src={Comment} alt="Comment bubble"/> Comments</li>
+                                <li>
+                            <Link to={`f/${post.community}/comments/${post.id}`}><img src={Comment} alt="Comment bubble"/> {post.comments.length} Comments </Link></li>
                                 <li><img src={Share} alt="Share button" /> Share</li>
                                 <li><img src={Save} alt="Save button" /> Save</li>
                                 <li>...</li>
@@ -169,7 +200,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
             return (
                 post.map((post) => {
                     return ( 
-                            <div className="post">
+                            <div className="post" key={post.id}>
                             <div className="post-left">
                                 <div className="post-votes">
                                     <img src={Up} alt="Up arrow"></img>
@@ -184,7 +215,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                                     {post.title}
                                 </h3>
                                 </Link>
-                                <Link to={`./comments/${post.id}`}>
+                                <Link to={`${post.community}/comments/${post.id}`}> 
                                 <div className="post-media-true">
                                     {parse(post.content.html)}
                                 </div>
@@ -202,37 +233,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                     )
                 })
             )
-    } else if (location.pathname.indexOf('/user/') === 0 && userPosts.length !== 0) {
-        return (
-            userPosts.map((post) => {
-                return ( 
-            <div className="post">
-                <div className="post-left">
-                    <div className="post-votes">
-                        <img src={Up} alt="Up arrow"></img>
-                        {post.votes}
-                        <img src={Down} alt="Down arrow"></img>
-                    </div>
-                </div>
-                <div className="post-right">
-                    <p className="post-pinned-author">Posted by u/{post.author}</p>
-                    <h3>
-                        {post.title}
-                    </h3>
-                    <div className="post-media-true">
-                        {parse(post.content.html)}
-                    </div>
-                    <ul>
-                        <li><img src={Comment} alt="Comment bubble"/> Comments</li>
-                        <li><img src={Share} alt="Share button" /> Share</li>
-                        <li><img src={Save} alt="Save button" /> Save</li>
-                        <li>...</li>
-                    </ul>
-                </div>
-            </div>
-            )
-        })
-        )
     }
 }
 

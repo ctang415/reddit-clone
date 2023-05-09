@@ -144,7 +144,7 @@ const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunity
                                         <div className="side-bar-list-item">
                                         {item.list.map( x => {
                                             return (
-                                                <SidebarDrop x={x} item={item}/>
+                                                <SidebarDrop key={x} x={x} item={item}/>
                                             )
                                         })}
                                         </div>
@@ -206,7 +206,7 @@ const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunity
                                         <div className="side-bar-list-item">
                                         {item.list.map( x => {
                                             return (
-                                                <SidebarDrop x={x} item={item}/>
+                                                <SidebarDrop key={x} x={x} item={item}/>
                                             )
                                         })}
                                         </div>

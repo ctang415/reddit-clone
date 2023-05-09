@@ -482,7 +482,7 @@ form > input {
   justify-content: space-around;
 }
 
-.community-name > p, .radios > span  {
+.community-name > p, .radios > span, .post-all-author  {
   color: grey;
 }
 
@@ -762,6 +762,7 @@ label {
   justify-content: center;
   padding: 0.6em;
   font-size: 0.8em;
+  font-weight: bold;
 }
 
 .post-detail-votes {
@@ -770,6 +771,7 @@ label {
   align-items: center;
   padding: 0.6em;
   font-size: 0.8em;
+  font-weight: bold;
 }
 
 .post-left {
@@ -867,6 +869,7 @@ label {
   display: inline;
   font-size: 0.85em;
   padding-bottom: 0.2em;
+  padding-top: 1em;
 }
 
 .post-detail-media-true {
@@ -886,9 +889,13 @@ label {
 }
 
 .post-pinned-author {
+  display: flex;
+  flex-direction: row;
   font-size: 0.7em;
   color: grey;
   cursor: pointer;
+  gap: 0.3em;
+  padding-bottom: 1em;
 }
 
 .post-detail-pinned-author {
@@ -1846,11 +1853,13 @@ code {
   cursor: pointer;
 }
 
-.profile-post-community-name {
-  color:black;
+.profile-post-community-name, .post-all-community > a {
+  color: black;
   font-weight: bold;
   cursor: pointer;
 }
+
+
 
 .profile-post-poster-information {
   display: flex;
@@ -1867,7 +1876,7 @@ code {
 
 .profile-post-title:hover, .profile-post-poster-information > div:hover ,
 .profile-post-poster:hover, .profile-post-username:hover, .profile-post-community-name:hover, .dropbox-true-home > div:hover, .post-pinned-author > a:hover, .post-detail-pinned-author > a:hover, 
-.post-pinned-community > a:hover, .comment-left-username > a:hover  {
+.post-pinned-community > a:hover, .comment-left-username > a:hover, .post-all-community > a:hover  {
   text-decoration: underline;
 }
 
@@ -1893,7 +1902,7 @@ code {
   text-decoration: none;
 }
 
-.profile-post-bottom > div > a {
+.profile-post-bottom > div > a, .post-all-community > a {
   text-decoration: none;
   color: black;
 }
@@ -1925,7 +1934,7 @@ code {
 }
 
 .profile-post-title > a, .profile-post-community-name > a, .profile-post-poster > a, 
-.community-info-header-area > a, .post-right > a, .post-pinned-community > a, 
+.community-info-header-area > a, .post-right > div > a, .post-right > a, h3 > a, .post-pinned-community > a, 
 .comment-left-username > a  {
   text-decoration: none;
   color: black
@@ -2113,3 +2122,15 @@ hr.vertical:hover {
   padding-left: 2.5em !important;
 } 
 
+.empty-comment {
+  height: 15em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.empty-comment > h3, .empty-comment > div {
+  color: rgb(193, 191, 191);
+}
