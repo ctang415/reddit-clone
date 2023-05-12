@@ -12,6 +12,7 @@ import Message from "../Assets/message.png"
 import Moderation from "../Assets/moderation.png"
 import Notification from "../Assets/notification.png"
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import Searchbar from "./Searchbar";
 
 const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUserData, communityData, setCommunityData, 
     communityModal, setCommunityModal, setDrop, drop, joinedList, setJoinedList, setAllJoinedPosts, setIsEmpty, isEmpty, 
@@ -53,7 +54,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
         const docRef = doc(db, "users", user.displayName)
         const docSnap = await getDoc(docRef)
         const data = docSnap.data()
-        setUserData([data])
+        setUserData([data]) 
     }
 
     useEffect(() => {
@@ -65,7 +66,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
     }, [user])
  
     useEffect( () => { 
-        if (user && loggedIn) {
+        if (user) {
             getUserInfo().then( () => {
                 setLoaded(true)
                 window.scrollTo({ top:0, behavior:'auto'})
@@ -107,7 +108,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                             <div>freddit</div>
                         </div>
                     </Link>
-                    <input id="nav-bar-input" type="search" placeholder="Search Freddit"></input>
+                    <Searchbar communityData={communityData}/>
                     <Modal 
                     modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} loggedIn={loggedIn} setLoggedIn={setLoggedIn}
                     join={join} setJoin={setJoin}

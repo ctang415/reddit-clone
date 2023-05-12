@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import parse from 'html-react-parser';
 import * as sanitizeHtml from 'sanitize-html';
 import Up from "../Assets/up.png"
@@ -115,7 +115,9 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
                                     </div>
                                     *
                             Posted by 
-                            u/<Link to={`/user/${post.author}`}>{post.author}</Link>
+                           <div className="post-all-community-author">
+                            <Link to={`/user/${post.author}`}>u/{post.author}</Link>
+                            </div>
                         </div>
                         <h3>
                             <Link to={`/f/${post.community}/comments/${post.id}`}>{post.title}</Link>
@@ -180,9 +182,6 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
                                 <Link to={`f/${post.community}/comments/${post.id}`}>
                                     {parse(post.content.html)}
                                 </Link>
-                                <div className="post-show-more">
-                                    <Link to=''>Show more</Link>
-                                </div>
                             </div>
                             <ul>
                                 <li>

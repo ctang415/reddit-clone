@@ -17,7 +17,7 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
     const [ value, setValue ] = useState('')
     const [ html, setHtml ] = useState('')
     const [ title, setTitle ] = useState('')
-    const [ media, setMedia ] = useState(false)
+    const [ isUndefined, setIsUndefined ] = useState(false)
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const [ postSelect, setPostSelect ] = useState(true)
     const [ imageSelect, setImageSelect ] = useState(false)
@@ -115,6 +115,8 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
             setFirebaseCommunityData([data])
             }
         getCommunity()
+        } else {
+            setIsUndefined(true)
         }
     }, [])
 
@@ -204,7 +206,7 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
                     <div className="community-post-divider"></div>
                         <div className="community-post-buttons">
                         <button id="community-save-button">Save Draft</button>
-                        <button id="community-post-button">Post</button>
+                        <button id={ isUndefined ? "community-post-button-black" : "community-post-button"}>Post</button>
                         </div>
                     </div>
                     </div>

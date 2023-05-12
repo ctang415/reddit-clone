@@ -743,7 +743,6 @@ label {
   border: 1px solid #cdd9e3;
   cursor: pointer;
   max-height:16.5em;
-  overflow: hidden;
   width: 100%;
 }
 
@@ -875,6 +874,12 @@ label {
   font-size: 0.85em;
   padding-bottom: 0.2em;
   padding-top: 1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.post-show-more {
+  position: absolute;
 }
 
 .post-detail-media-true {
@@ -910,7 +915,7 @@ label {
 }
 
 .post-pinned-author > a , 
-.post-detail-pinned-author > a   {
+.post-detail-pinned-author > a, .post-all-community-author > a  {
   text-decoration: none;
   color: grey;
 }
@@ -948,7 +953,7 @@ label {
   color: white;
 }
 
-.community-info-top, .community-info-text, .community-rules, .dropbox-true, #nav-bar-input {
+.community-info-top, .community-info-text, .community-rules, .dropbox-true {
   padding: 1em;
 }
 
@@ -1389,6 +1394,18 @@ label {
   border: none;
   font-weight: bold;
   cursor: pointer;
+}
+
+#community-post-button-black {
+  color: white;
+  background-color: #666;
+  border: 1px solid #666;
+  height: 2.5em;
+  width: 8em;
+  border-radius: 2em;
+  border: none;
+  font-weight: bold;
+  pointer-events: none;
 }
 
 #community-create-button {
@@ -1866,7 +1883,7 @@ code {
   color: black;
 }
 
-.profile-post-title:hover, .profile-post-poster-information > div > a:hover ,
+.profile-post-title:hover, .profile-post-poster-information > div > a:hover, .post-all-community-author > a:hover,
 .profile-post-poster:hover, .profile-post-username:hover, .profile-post-community-name:hover, .dropbox-true-home > div:hover, .post-pinned-author > a:hover, .post-detail-pinned-author > a:hover, 
 .post-pinned-community > a:hover, .comment-left-username > a:hover, .post-all-community > a:hover  {
   text-decoration: underline;
@@ -2125,4 +2142,28 @@ hr.vertical:hover {
 
 .empty-comment > h3, .empty-comment > div {
   color: rgb(193, 191, 191);
+}
+
+.input-search-box {
+  position: absolute;
+  background-color: white;
+  width: 39.2em;
+}
+
+#nav-bar-input {
+  border-radius: 2em;
+  height: 70%;
+  width: 45em;
+  background-color:#f5f6f7;
+  border: solid rgb(240, 239, 239);
+  padding: 1em;
+}
+
+#nav-bar-input:hover {
+  border: solid #2286d2;
+}
+
+#nav-bar-input:focus {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
