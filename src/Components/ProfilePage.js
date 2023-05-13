@@ -11,16 +11,37 @@ import SidebarDrop from "./SidebarDrop";
 const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, join, setJoin, firebaseCommunityData } ) => {
     const profileNav = ['OVERVIEW', 'POSTS', 'COMMENTS', 'HISTORY', 'SAVED', 'HIDDEN', 'UPVOTED', 'DOWNVOTED', 'AWARDS RECEIVED', 'AWARDS GIVEN']
     const [ profileData, setProfileData ] = useState([{avatar: null, created: 'unknown', karma: 'unknown'}]) 
-    const navigate = useNavigate()
     const [ sideBarCommunities, setSideBarCommunities] = useState([])
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const [ matchingUser, setMatchingUser ] = useState(false)
+    const [ overview, setOverview ] = useState(true)
+    const [ postsOnly, setPostsOnly ] = useState(false)
+    const [ commentsOnly, setCommentsOnly ] = useState(false)
     const params = useParams()
     const location = useLocation()
+    const navigate = useNavigate()
     const user = auth.currentUser
 
     const createNewPost = () => {
         navigate('../submit')
+    }
+
+    const handleOverview = () => {
+        setOverview(true)
+        setPostsOnly(false)
+        setCommentsOnly(false)
+    }
+
+    const handlePosts = () => {
+        setPostsOnly(true)
+        setOverview(false)
+        setCommentsOnly(false)
+    }
+
+    const handleComments = () => {
+        setCommentsOnly(true)
+        setOverview(false)
+        setPostsOnly(false)
     }
 
     const handleClick = (e) => {
@@ -141,13 +162,13 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
             </div>
                 <div className="profile-page">
                     <ul>
-                        <li>
+                        <li onClick={handleOverview}>
                             OVERVIEW
                         </li>
-                        <li>
+                        <li onClick={handlePosts}>
                             POSTS
                         </li>
-                        <li>
+                        <li onClick={handleComments}>
                             COMMENTS
                         </li>
                         <li>
@@ -173,7 +194,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                                 </li>
                             </ul>
                         </div>
-                        <ProfilePosts />
+                        <ProfilePosts overview={overview} commentsOnly={commentsOnly} postsOnly={postsOnly} />
                     </div>
                     {profileData.map((item) => {
                         return (
@@ -242,7 +263,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                                 </li>
                             </ul>
                         </div>
-                        <ProfilePosts />
+                        <ProfilePosts overview={overview} commentsOnly={commentsOnly} postsOnly={postsOnly} />
                     </div>
                     <div className="community-body-right">
                     <div className="community-info-bar">
@@ -311,7 +332,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                                 </li>
                             </ul>
                         </div>
-                        <ProfilePosts />
+                        <ProfilePosts overview={overview} commentsOnly={commentsOnly} postsOnly={postsOnly}/>
                     </div>
                     <div className="community-body-right">
                     <div className="community-info-bar">

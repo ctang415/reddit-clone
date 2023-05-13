@@ -809,6 +809,7 @@ label {
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: 0.5em;
 }
 
 .post-pinned-community {
@@ -2173,7 +2174,7 @@ hr.vertical:hover {
 #nav-bar-input {
   border-radius: 2em;
   height: 70%;
-  width: 45em;
+  width: 40em;
   background-color:#f5f6f7;
   border: solid rgb(240, 239, 239);
   padding: 1em;
