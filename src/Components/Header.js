@@ -149,7 +149,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                                             </div>
                                         </div>
                                     </div> 
-                                    <input id="nav-bar-input-login" type="search" placeholder="Search Freddit"></input>
+                                    <Searchbar communityData={communityData}/>
                                     <div className="header-user-profile-icons">
                                         <ul>
                                             <li><img src={Moderation} alt="Mod icon"/></li>
@@ -189,7 +189,12 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                                 />
                             </div>
         )
-    } else { 
+    } }
+
+export default Header
+
+/*
+else { 
         return ( 
                 <div key={user.displayName}>
                     <nav className="nav-bar">
@@ -217,7 +222,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                                             </div>
                                         </div>
                                     </div> 
-                                    <input id="nav-bar-input-login" type="search" placeholder="Search Freddit"></input>
+                                    <Searchbar communityData={communityData}/>
                                     <div className="drop">
                                         <div className="header-user-profile" onClick={handleClick}>
                                             <div className="user-right">
@@ -250,6 +255,4 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                         </div>
         )
     }
-}
-
-export default Header
+*/

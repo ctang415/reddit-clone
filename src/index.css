@@ -279,9 +279,16 @@ body {
     width: 100%;
   }
 
-  .nav-drop-community > ul > div {
+  .nav-drop-community > ul > div, .search-bar-items  {
     cursor: pointer;
     padding: 1em;
+  }
+
+  .search-bar-items > a {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5em;
   }
 
   /* end of logged in */
@@ -711,7 +718,7 @@ label {
   background-color: #eceeef;
 }
 
-.empty-post-logged-in {
+.empty-post-logged-in, .post-width-empty {
   display: flex;
   flex-direction: column;
   height: 94em;
@@ -725,6 +732,15 @@ label {
   flex-direction: column;
   align-items: center;
   margin: 10% auto;
+}
+
+.post-width-empty > div {
+  font-size: 1.2em;
+  gap: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 40% auto;
 }
 
 .empty-post > div {
@@ -1038,7 +1054,7 @@ label {
   cursor: pointer;
 }
 
-.side-bar-dropbox-true-home:hover, .side-bar-list-top > div:hover, .list-item:hover {
+.side-bar-dropbox-true-home:hover, .side-bar-list-top > div:hover, .list-item:hover, .search-bar-items:hover {
   background-color: #f5f6f6;
 }
 
@@ -1137,7 +1153,7 @@ label {
 }
 
 .community-filters > ul > li > img, .post-detail-right > ul > div > img, .post-right > ul > li > img, 
-.post-detail-right > ul > li > img, .post-right > ul > li > a > img {
+.post-detail-right > ul > li > img, .post-right > ul > li > a > img,  .search-bar-items > a > img {
   height: 1.5em;
 }
 
@@ -1839,10 +1855,10 @@ blockquote {
 }
 
 code {
-    background-color: #eee;
-    border-radius: 3px;
-    font-family: courier, monospace;
-    padding: 0 3px;
+  background-color: #eee;
+  border-radius: 3px;
+  font-family: courier, monospace;
+  padding: 0 3px;
 }
 
 .profile-post-top {
@@ -2148,6 +2164,10 @@ hr.vertical:hover {
   position: absolute;
   background-color: white;
   width: 39.2em;
+}
+
+.input-search-box > div {
+  padding: 1em;
 }
 
 #nav-bar-input {

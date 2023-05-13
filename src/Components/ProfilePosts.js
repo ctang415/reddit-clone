@@ -49,8 +49,10 @@ const ProfilePosts = ( ) => {
                 setEdit(false)
             }
         } 
-    }, [user]) 
+    }, [user])
 
+
+if (userInfo[0] !== undefined) {
     return (
         userInfo.map((data) => {
             return (
@@ -130,7 +132,15 @@ const ProfilePosts = ( ) => {
         )
     })
     )
-
+} else {
+    return (
+        <div className="post-width">
+            <div className="post-width-empty">
+                <div>hmm... u/{params.id} hasn't posted anything</div>
+            </div>
+        </div>
+    )
+}
 }
 
 export default ProfilePosts

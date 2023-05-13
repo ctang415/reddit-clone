@@ -259,7 +259,7 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
                 <div className="side-bar-top">
                     <div className="side-bar-list-top">
                         <h6>FEEDS</h6>
-                        <div>Home</div>
+                        <div><Link to="/" style={{ textDecoration: 'none', color: 'black' }}>Home</Link></div>
                         <div>Popular</div>
                     </div>
                     <div className="side-bar-list-top">
