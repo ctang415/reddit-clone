@@ -38,7 +38,6 @@ const PostDetailsCard = ( {firebaseCommunityData, detail, setDetail}  ) => {
     const theme =  'snow'
     const { quill, quillRef } = useQuill({theme, modules, formats, placeholder});
     
-
     const handleDrop = () => {
         if (drop) {
             setDrop(false)

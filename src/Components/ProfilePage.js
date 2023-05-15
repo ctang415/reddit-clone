@@ -9,7 +9,6 @@ import SidebarDrop from "./SidebarDrop";
 
 
 const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, join, setJoin, firebaseCommunityData } ) => {
-    const profileNav = ['OVERVIEW', 'POSTS', 'COMMENTS', 'HISTORY', 'SAVED', 'HIDDEN', 'UPVOTED', 'DOWNVOTED', 'AWARDS RECEIVED', 'AWARDS GIVEN']
     const [ profileData, setProfileData ] = useState([{avatar: null, created: 'unknown', karma: 'unknown'}]) 
     const [ sideBarCommunities, setSideBarCommunities] = useState([])
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
@@ -43,6 +42,12 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
         setOverview(false)
         setPostsOnly(false)
     }
+
+    const profileNav = [ 
+        { title: 'OVERVIEW', method: handleOverview }, { title: 'POSTS', method: handlePosts }, 
+        { title: 'COMMENTS', method: handleComments }, {title: 'HISTORY'}, {title: 'SAVED'}, {title: 'HIDDEN'}, 
+        {title: 'UPVOTED'} , {title: 'DOWNVOTED'}, {title: 'AWARDS RECEIVED'} , {title: 'AWARDS GIVEN' }
+    ]
 
     const handleClick = (e) => {
         e.preventDefault()
@@ -194,7 +199,9 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                                 </li>
                             </ul>
                         </div>
-                        <ProfilePosts overview={overview} commentsOnly={commentsOnly} postsOnly={postsOnly} />
+                        <ProfilePosts matchingUser={matchingUser} overview={overview} commentsOnly={commentsOnly} postsOnly={postsOnly}
+                        setOverview={setOverview} setCommentsOnly={setCommentsOnly} setPostsOnly={setPostsOnly}
+                        />
                     </div>
                     {profileData.map((item) => {
                         return (
@@ -238,8 +245,8 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                         <ul>
                             {profileNav.map(item => {
                                 return (
-                                    <li key={item}>
-                                    {item}
+                                    <li key={item.title} onClick={item.method}>
+                                    {item.title}
                                     </li>
                                 )
                             })}
@@ -263,7 +270,9 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                                 </li>
                             </ul>
                         </div>
-                        <ProfilePosts overview={overview} commentsOnly={commentsOnly} postsOnly={postsOnly} />
+                        <ProfilePosts matchingUser={matchingUser} overview={overview} commentsOnly={commentsOnly} postsOnly={postsOnly}
+                        setOverview={setOverview} setCommentsOnly={setCommentsOnly} setPostsOnly={setPostsOnly} 
+                        />
                     </div>
                     <div className="community-body-right">
                     <div className="community-info-bar">
@@ -307,8 +316,8 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                         <ul>
                             {profileNav.map(item => {
                                 return (
-                                    <li key={item}>
-                                    {item}
+                                    <li key={item.title} onClick={item.method}>
+                                    {item.title}
                                     </li>
                                 )
                             })}
@@ -332,7 +341,9 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                                 </li>
                             </ul>
                         </div>
-                        <ProfilePosts overview={overview} commentsOnly={commentsOnly} postsOnly={postsOnly}/>
+                        <ProfilePosts matchingUser={matchingUser} overview={overview} commentsOnly={commentsOnly} postsOnly={postsOnly}
+                        setOverview={setOverview} setCommentsOnly={setCommentsOnly} setPostsOnly={setPostsOnly}
+                        />
                     </div>
                     <div className="community-body-right">
                     <div className="community-info-bar">

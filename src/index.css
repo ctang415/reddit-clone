@@ -758,7 +758,7 @@ label {
   border-radius: 0.2em;
   border: 1px solid #cdd9e3;
   cursor: pointer;
-  max-height:16.5em;
+  max-height:18em;
   width: 100%;
 }
 
@@ -892,7 +892,6 @@ label {
   padding-bottom: 0.2em;
   padding-top: 1em;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .post-show-more {
@@ -1585,6 +1584,15 @@ label {
   background-color: white;
 }
 
+.post-detail-dropbar > ul {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  gap: 1em;
+  font-weight: bold;
+  color: grey;
+}
+
 #post-detail-selected {
   color: rgb(0, 123, 255);
 }
@@ -1730,6 +1738,16 @@ label {
 .community-rules > ol > li, .header-user-profile-icons > ul > li, .profile-post-bottom > div > ul > li, 
 .profile-post-poster, .profile-page > ul > li {
   cursor: pointer;
+}
+
+.profile-post-bottom > div > ul > li {
+  font-weight: bold;
+  color: grey;
+}
+
+.profile-post-bottom > div > ul > li:hover, .post-detail-dropbar > ul > li:hover {
+  color: black;
+  text-decoration: underline;
 }
 
 .policy-top-true > div > ul, .policy-top > div > ul {

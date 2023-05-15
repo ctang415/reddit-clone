@@ -15,7 +15,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Searchbar from "./Searchbar";
 
 const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUserData, communityData, setCommunityData, 
-    communityModal, setCommunityModal, setDrop, drop, joinedList, setJoinedList, setAllJoinedPosts, setIsEmpty, isEmpty, 
+    communityModal, setCommunityModal, setDrop, drop, setAllJoinedPosts, setIsEmpty, isEmpty, 
     allJoinedPosts }) => {
     const [ myUser, setMyUser ] = useState([])
     const [ communityDrop, setCommunityDrop ] = useState(false)
@@ -178,7 +178,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                                         <div className="drop-down-bar">
                                             <UserDrop userData={userData} setMyUser={setMyUser} drop={drop} setDrop={setDrop} setModalIsTrue={setModalIsTrue}
                                             communityModal={communityModal} setCommunityModal={setCommunityModal} setLoggedIn={setLoggedIn} 
-                                            setAllJoinedPosts={setAllJoinedPosts} setJoinedList={setJoinedList}
+                                            setAllJoinedPosts={setAllJoinedPosts}
                                             />
                                         </div>
                                     </div>

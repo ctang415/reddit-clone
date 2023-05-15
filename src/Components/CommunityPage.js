@@ -14,7 +14,7 @@ import New from "../Assets/new.png"
 import Top from "../Assets/top.png"
 
 const CommunityPage = ( {userData, setUserData, communityData, communityModal, setCommunityModal, drop, setDrop, modalIsTrue, 
-    setModalIsTrue, setJoin, join, allJoinedPosts, isEmpty, setAllJoinedPosts, setIsEmpty, joinedList, setJoinedList } ) => {
+    setModalIsTrue, setJoin, join, allJoinedPosts, isEmpty, setAllJoinedPosts, setIsEmpty } ) => {
     const [ firebaseCommunityData, setFirebaseCommunityData] = useState([])
     const [ sideBarCommunities, setSideBarCommunities] = useState([])
     const [ text, setText ] =  useState("Joined")
@@ -237,7 +237,7 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
                                     setFirebaseCommunityData={setFirebaseCommunityData} 
                                     createNewPost={createNewPost} isLoggedIn={isLoggedIn}
                                     allJoinedPosts={allJoinedPosts} isEmpty={isEmpty} setAllJoinedPosts={setAllJoinedPosts}
-                                    setIsEmpty={setIsEmpty} joinedList={joinedList} setJoinedList={setJoinedList}
+                                    setIsEmpty={setIsEmpty} 
                                     />
                             </div>
                             <div className={ isLoggedIn ? "community-body-right" : "community-body-right-logged-out"}>
@@ -325,7 +325,7 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
                 setFirebaseCommunityData={setFirebaseCommunityData}  
                 createNewPost={createNewPost} isLoggedIn={isLoggedIn}
                 communityData={communityData}  allJoinedPosts={allJoinedPosts} isEmpty={isEmpty} setAllJoinedPosts={setAllJoinedPosts}
-                setIsEmpty={setIsEmpty} joinedList={joinedList} setJoinedList={setJoinedList}
+                setIsEmpty={setIsEmpty} 
                 />
             </div>
             <div className={ isLoggedIn ? "community-body-right" : "community-body-right-logged-out"}>

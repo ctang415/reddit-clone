@@ -12,9 +12,8 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 
 const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, isLoggedIn, communityData, allJoinedPosts, 
-    isEmpty, setAllJoinedPosts, setIsEmpty, joinedList, setJoinedList }) => {
+    isEmpty, setAllJoinedPosts, setIsEmpty }) => {
     const [ post, setPost ] = useState([])
-    const [ sanitizedPost, setSanitizedPost] = useState([])
     const [ allPosts, setAllPosts] = useState([])
     const params = useParams()
     const user = auth.currentUser
@@ -36,12 +35,12 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                     setAllJoinedPosts(prev => [...prev, data.posts ])
                     setIsEmpty(false)
                 })
-            }) 
+            })
         } else {
             setAllJoinedPosts([])
             setIsEmpty(true) 
         }
-}
+    }
 
     useEffect(() => {
         if (location.pathname.indexOf('/f/' === 0)) {
@@ -61,27 +60,11 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
 
     useEffect( () => {
         if (user) {
-                getJoinedPosts()
-        } 
-        console.log(joinedList)
-    }, [user ])
-
-
-    /*
-    useEffect(() => {
-        if (post.length !== 0) {
-            post.map((item) => {
-            let newHtml = sanitizeHtml(item.content.html, {
-                allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ]), 
-                allowedAttributes: {'img': ['src']},
-                allowedSchemes: [ 'data', 'http', 'https']
-            })
-            setSanitizedPost(prev => [...prev, { html: newHtml } ])
-        })
-        console.log(sanitizedPost)  
+            getJoinedPosts()
         }
-    }, [post])
-*/
+    }, [user])
+    
+
 if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
     return (
       <div className="empty-post-logged-in">
@@ -124,7 +107,7 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
                         </h3> 
                         <div className="post-media-true">
                         <Link to={`/f/${post.community}/comments/${post.id}`}>
-                         {parse(post.content.html)}
+                            {parse(post.content.html)}
                          </Link>
                         </div>
                         <ul>
@@ -165,11 +148,11 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
                         </div>
                         <div className="post-right">
                             <div className="post-pinned-author">
-                                    <div className="post-all-community">
-                                        <Link to={`f/${post.community}`}>
-                                            f/{`${post.community}`} 
-                                        </Link>
-                                    </div>
+                                <div className="post-all-community">
+                                    <Link to={`f/${post.community}`}>
+                                        f/{`${post.community}`} 
+                                    </Link>
+                                </div>
                                     *
                                     Posted by <Link to={`user/${post.author}`} > <div className="post-all-author">u/{post.author}</div></Link>
                                 </div>
@@ -218,17 +201,17 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
                                 </div>
                             </div>
                             <div className="post-right">    
-                                <p className="post-pinned-author">Posted by <Link to={`../user/${post.author}`}>u/{post.author}</Link></p>
-                                <Link to={`./comments/${post.id}`}>
+                                <div className="post-pinned-author">Posted by <Link to={`../user/${post.author}`}>u/{post.author}</Link></div>
                                 <h3>
+                                <Link to={`./comments/${post.id}`}>
                                     {post.title}
+                                    </Link>
                                 </h3>
-                                </Link>
-                                <Link to={`./comments/${post.id}`}> 
                                 <div className="post-media-true">
+                                <Link to={`./comments/${post.id}`}> 
                                     {parse(post.content.html)}
-                                </div>
                                 </Link>
+                                </div>
                                 <ul>
                                 <li>
                                 <Link to={`./comments/${post.id}`}><img src={Comment} alt="Comment bubble"/> {post.comments.length} Comments </Link></li>

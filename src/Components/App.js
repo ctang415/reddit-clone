@@ -20,7 +20,6 @@ const App = () => {
   const [ join, setJoin ] = useState(false)
   const [ allJoinedPosts, setAllJoinedPosts ] = useState([])
   const [ isEmpty, setIsEmpty ] = useState(true)
-  const [ joinedList, setJoinedList ] = useState([])
 
   const getCommunities = async () => {
     const communitiesRef = collection(db, "communities");
@@ -50,7 +49,7 @@ const App = () => {
       communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
       communityData={communityData} setCommunityData={setCommunityData} userData={userData} setUserData={setUserData} 
       join={join} setJoin={setJoin} allJoinedPosts={allJoinedPosts} isEmpty={isEmpty} setAllJoinedPosts={setAllJoinedPosts}
-      setIsEmpty={setIsEmpty} joinedList={joinedList} setJoinedList={setJoinedList}
+      setIsEmpty={setIsEmpty}
       />
       <Routes>
         <Route path="/" exact element={
@@ -58,7 +57,7 @@ const App = () => {
         userData={userData} setUserData={setUserData} 
         communityModal={communityModal} setDrop={setDrop} drop={drop} modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue}
         setCommunityModal={setCommunityModal} join={join} setJoin={setJoin} communityData={communityData} allJoinedPosts={allJoinedPosts} 
-        isEmpty={isEmpty} setAllJoinedPosts={setAllJoinedPosts} setIsEmpty={setIsEmpty} joinedList={joinedList} setJoinedList={setJoinedList}
+        isEmpty={isEmpty} setAllJoinedPosts={setAllJoinedPosts} setIsEmpty={setIsEmpty} 
         />}
         />
         <Route path="/f/:id" exact element={
@@ -66,7 +65,7 @@ const App = () => {
         modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} userData={userData} setUserData={setUserData} 
         communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
         join={join} setJoin={setJoin} communityData={communityData} allJoinedPosts={allJoinedPosts} isEmpty={isEmpty} 
-        setAllJoinedPosts={setAllJoinedPosts} setIsEmpty={setIsEmpty} joinedList={joinedList} setJoinedList={setJoinedList}
+        setAllJoinedPosts={setAllJoinedPosts} setIsEmpty={setIsEmpty}
         />}
         />
         <Route path="/f/:id/comments/:id" element={
