@@ -15,7 +15,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import parse from 'html-react-parser';
-
+import { nanoid } from 'nanoid'
 
 Quill.register('modules/magicUrl', MagicUrl)
 
@@ -63,13 +63,14 @@ const PostDetailsCard = ( {firebaseCommunityData, detail, setDetail}  ) => {
             allowedSchemes: [ 'data', 'http', 'https']
         })
         const uploadComment = async () => {
+            let newid = nanoid(5)
                 const docRef = doc(db, "communities", firebaseCommunityData[0].name)
                 const userRef = doc(db, "users", user.displayName)
                 let newArray;
                 const createComment = () => {
                     const updatePost = firebaseCommunityData[0].posts.map(item => {
                         if (item.id === params.id) {
-                            item.comments = [...item.comments, { content: { html: newHtml, delta: value }, title: detail[0].title, community: firebaseCommunityData[0].name, author: detail[0].author, username: user.displayName, votes: 1, date: myDate }]
+                            item.comments = [...item.comments, { commentid: newid, content: { html: newHtml, delta: value }, title: detail[0].title, community: firebaseCommunityData[0].name, author: detail[0].author, username: user.displayName, votes: 1, date: myDate }]
                             return item
                         }
                         return item
@@ -78,7 +79,7 @@ const PostDetailsCard = ( {firebaseCommunityData, detail, setDetail}  ) => {
                 }
                 createComment()
                 await updateDoc(docRef, {posts: newArray })
-                await updateDoc(userRef, {comments:  arrayUnion({ poster: false, content: { html: newHtml, delta: value }, title: detail[0].title, community: firebaseCommunityData[0].name, author: detail[0].author, username: user.displayName, id: params.id, votes: 1, date: myDate })})
+                await updateDoc(userRef, {comments:  arrayUnion({ commentid: newid, poster: false, content: { html: newHtml, delta: value }, title: detail[0].title, community: firebaseCommunityData[0].name, author: detail[0].author, username: user.displayName, id: params.id, votes: 1, date: myDate })})
             }
         uploadComment()
         quill.setContents([])
@@ -163,7 +164,7 @@ const PostDetailsCard = ( {firebaseCommunityData, detail, setDetail}  ) => {
                         </ul>
                     </div>
                 </div>
-                <Comment detail={detail} />
+                <Comment detail={detail} handleSubmit={handleSubmit} />
             </div>
         </div>
             )

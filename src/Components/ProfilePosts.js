@@ -1,16 +1,13 @@
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import parse from 'html-react-parser';
-import * as sanitizeHtml from 'sanitize-html';
 import Up from "../Assets/up.png"
 import Down from "../Assets/down.png"
 import Comment from "../Assets/comment.png"
 import Share from "../Assets/share.png"
 import Save from "../Assets/save.png"
-import Delete from "../Assets/delete.png"
-import Edit from "../Assets/edit.png"
 
 const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOverview, setCommentsOnly, setPostsOnly } ) => {
     const [ userInfo, setUserInfo ] = useState([])
@@ -51,7 +48,39 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
         }
         console.log(userInfo)
     }
-  
+
+    const handleDelete = async (e) => {
+        const docRef = doc(db, "communities", userInfo[0].community)
+        const docSnap = await getDoc(docRef)
+        const data = docSnap.data()
+
+        const userRef = doc(db, "users", user.displayName)
+        const userSnap = await getDoc(userRef)
+        const userData = userSnap.data()
+
+        let newArray;
+        const deleteComment = () => {
+            const updatePost = userData.comments.filter(item => {
+                if (item.commentid !== e.target.id) {
+                    return item
+                }
+            })
+            newArray = updatePost
+        }
+        let filteredArray;
+        const deleteFromFirebase = () => {
+            const updateComment = data.posts.map(item => {
+                return {...item, comments: item.comments.filter((x) => x.commentid !== e.target.id)}
+            })
+            filteredArray = updateComment
+        }
+        deleteComment()
+        deleteFromFirebase()
+        await updateDoc(docRef, { posts: filteredArray })
+        await updateDoc(userRef, { comments: newArray })
+        getUserInfo()
+    }
+    
     useEffect(() => {
         setUserInfo([])
         setComments([])
@@ -76,7 +105,6 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
             }
         } 
     }, [user])
-
 
 if (userInfo[0] !== undefined && overview) {
     return (
@@ -156,8 +184,8 @@ if (userInfo[0] !== undefined && overview) {
                                 <div className={ isLoggedIn && matchingUser ? "post-detail-dropbar" : "input-empty"}>
                                     <ul>
                                         <li>Save</li>
-                                        <li className={""}>Edit</li>
-                                        <li>Delete</li>
+                                        <li className={data.id} id={data.commentid}>Edit</li>
+                                        <li className={data.id} id={data.commentid} onClick={handleDelete}>Delete</li>
                                     </ul>
                                 </div>
                                 </ul>
@@ -218,8 +246,8 @@ if (userInfo[0] !== undefined && overview) {
                                     <div className={ isLoggedIn && matchingUser ? "post-detail-dropbar" : "input-empty"}>
                                         <ul>
                                             <li>Save</li>
-                                            <li className={""}>Edit</li>
-                                            <li>Delete</li>
+                                            <li className={data.id} id={data.commentid}>Edit</li>
+                                            <li className={data.id} id={data.commentid} onClick={handleDelete}>Delete</li>
                                         </ul>
                                 </div>
                                 </ul>

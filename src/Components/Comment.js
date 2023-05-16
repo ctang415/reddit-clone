@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import * as sanitizeHtml from 'sanitize-html';
 import parse from 'html-react-parser';
 
-const Comment = ( {detail} ) => {
+const Comment = ( {detail, handleSubmit} ) => {
     const [ isEmpty, setIsEmpty ] = useState(false)
 
     useEffect(() => {
@@ -15,8 +15,8 @@ const Comment = ( {detail} ) => {
             setIsEmpty(true)
         } else {
             setIsEmpty(false)
-        }
-    }, [detail])
+        }   
+    }, [handleSubmit]) 
 
     if (isEmpty) {
         return (
@@ -42,7 +42,7 @@ const Comment = ( {detail} ) => {
                                 <div className="comment-left-username">
                                     <Link to={`../user/${comment.username}`}>{comment.username}</Link>
                                 </div>
-                                <p>{parse(comment.content.html)}</p>
+                                <div>{parse(comment.content.html)}</div>
                                 <ul>
                                     <div className="comment-votes">
                                         <img src={Up} alt="Up arrow"></img>
