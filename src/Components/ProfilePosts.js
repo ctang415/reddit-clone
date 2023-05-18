@@ -12,14 +12,12 @@ import Save from "../Assets/save.png"
 const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOverview, setCommentsOnly, setPostsOnly } ) => {
     const [ userInfo, setUserInfo ] = useState([])
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
-    const [ edit, setEdit ] = useState(false)
     const [ posts, setPosts ] = useState([])
     const [ comments, setComments ] = useState([])
     const params = useParams()
     const navigate = useNavigate()
     const user = auth.currentUser
     const location = useLocation()
-
 
     const getUserInfo = async () => {
         const docRef = doc(db, "users", params.id)
@@ -50,7 +48,7 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
     }
 
     const handleDelete = async (e) => {
-        const docRef = doc(db, "communities", userInfo[0].community)
+        const docRef = doc(db, "communities", )
         const docSnap = await getDoc(docRef)
         const data = docSnap.data()
 
@@ -80,7 +78,7 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
         await updateDoc(userRef, { comments: newArray })
         getUserInfo()
     }
-    
+
     useEffect(() => {
         setUserInfo([])
         setComments([])
@@ -94,16 +92,7 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
         } else {
             setIsLoggedIn(false)
         }
-    }, [user])
-
-    useEffect(() => {
-        if (user) {
-            if (params.id === user.displayName) {
-                setEdit(true)
-            } else {
-                setEdit(false)
-            }
-        } 
+        console.log(userInfo) 
     }, [user])
 
 if (userInfo[0] !== undefined && overview) {
@@ -184,7 +173,10 @@ if (userInfo[0] !== undefined && overview) {
                                 <div className={ isLoggedIn && matchingUser ? "post-detail-dropbar" : "input-empty"}>
                                     <ul>
                                         <li>Save</li>
-                                        <li className={data.id} id={data.commentid}>Edit</li>
+                                        <li className={data.id} id={data.commentid} 
+                                        onClick={() => navigate(`../f/${data.community}/comments/${data.id}`, { state: data.commentid})}>
+                                            Edit
+                                        </li>
                                         <li className={data.id} id={data.commentid} onClick={handleDelete}>Delete</li>
                                     </ul>
                                 </div>

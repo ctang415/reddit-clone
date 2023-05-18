@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-const TextEditor = ( {setValue, value, setHtml, html, quill, quillRef, handleSubmit, empty, setEmpty} ) => {
+const CommentEditor = ( {setValue, value, setHtml, html, quill, quillRef, handleSubmit, empty, setEmpty} ) => {
     const location = useLocation()
- 
+
     useEffect(() => {
         if (quill) {
             quill.on('text-change', (delta, oldDelta, source) => {
@@ -16,9 +16,8 @@ const TextEditor = ( {setValue, value, setHtml, html, quill, quillRef, handleSub
         }
     }, [quill]);
 
-    if (location.pathname.indexOf('/comments/') !== -1 ) {
         return ( 
-            <div id='editor-container-comment'>
+            <div id='editor-container-comment-edit'>
                 <div>
                     <button className="ql-bold"></button>
                     <button className="ql-italic"></button>
@@ -30,18 +29,11 @@ const TextEditor = ( {setValue, value, setHtml, html, quill, quillRef, handleSub
                     <button className="ql-list" value="ordered"></button>
                     <button className="ql-blockquote"></button>
                     <button className="ql-code"></button>
-                    <button id={ empty ? "custom-button-black"  : "custom-button"} onClick={handleSubmit}>Comment</button>
+                    <button id={ empty ? "custom-button-black"  : "custom-button"} onClick={handleSubmit}>Save Edits</button>
                 </div> 
                 <div ref={quillRef} />
             </div>
         )
-    } else {
-        return (
-            <div id='editor-container'>
-            <div ref={quillRef} />
-        </div>
-        )
-    }
 }
 
-export default TextEditor
+export default CommentEditor

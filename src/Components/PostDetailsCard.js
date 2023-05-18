@@ -25,9 +25,11 @@ const PostDetailsCard = ( {firebaseCommunityData, detail, setDetail}  ) => {
     const [ value, setValue ] = useState('')
     const [ html, setHtml ] = useState('')
     const [ empty, setEmpty ] = useState(true)
+    const [ edit, setEdit ] = useState(true)
     const location = useLocation()
     const params = useParams()
     const user = auth.currentUser
+    const id = location.state
 
     const modules = {
         toolbar: '#editor-container-comment',
@@ -112,6 +114,19 @@ const PostDetailsCard = ( {firebaseCommunityData, detail, setDetail}  ) => {
         window.scrollTo({ top:0, behavior:'auto'})
     }, [])
 
+    useEffect(() => {
+        if (id !== null) {
+            setEdit(false)
+        } else {
+            setEdit(true)
+        }
+        console.log(id)
+    }, [])
+
+    useEffect(() => {
+
+    }, [firebaseCommunityData])
+
     return (
         detail.map( data => {
             return (
@@ -164,7 +179,8 @@ const PostDetailsCard = ( {firebaseCommunityData, detail, setDetail}  ) => {
                         </ul>
                     </div>
                 </div>
-                <Comment detail={detail} handleSubmit={handleSubmit} />
+                <Comment setEdit={setEdit} isLoggedIn={isLoggedIn}
+                detail={detail} edit={edit} id={id} />
             </div>
         </div>
             )

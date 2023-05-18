@@ -1620,7 +1620,16 @@ label {
   border-top: solid rgb(213, 213, 213);
 }
 
-#editor-container-comment > div {
+#editor-container-comment-edit {
+  display: flex;
+  flex-direction: column-reverse; 
+  height: 15em;
+  margin: auto;
+  width: 85%;
+  border-top: solid rgb(213, 213, 213);
+}
+
+#editor-container-comment > div, #editor-container-comment-edit > div {
   display: flex;
   flex-direction: row;
   padding-top: 0.5em;
