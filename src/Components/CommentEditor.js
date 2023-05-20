@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-const CommentEditor = ( {setValue, value, setHtml, html, quill, quillRef, handleSubmit, empty, setEmpty} ) => {
+const CommentEditor = ( {setValue, value, setHtml, html, quill, quillRef, handleSubmit, empty, setEmpty, edit, setEdit} ) => {
     const location = useLocation()
 
     useEffect(() => {
@@ -29,11 +29,11 @@ const CommentEditor = ( {setValue, value, setHtml, html, quill, quillRef, handle
                     <button className="ql-list" value="ordered"></button>
                     <button className="ql-blockquote"></button>
                     <button className="ql-code"></button>
-                    <button id={ empty ? "custom-button-black"  : "custom-button"} onClick={handleSubmit}>Save Edits</button>
+                    <button id={ empty ? "custom-button-black" : "custom-button"} onClick={handleSubmit}>Save Edits</button>
                 </div> 
                 <div ref={quillRef} />
             </div>
         )
-}
+    }
 
 export default CommentEditor

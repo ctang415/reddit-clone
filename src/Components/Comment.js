@@ -3,7 +3,7 @@ import CommentIcon from "../Assets/comment.png"
 import Up from "../Assets/up.png"
 import Down from "../Assets/down.png"
 import Avatar from "../Assets/avatar.png"
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import * as sanitizeHtml from 'sanitize-html';
 import parse from 'html-react-parser';
@@ -16,15 +16,17 @@ import { auth, db } from "../firebase-config";
 
 Quill.register('modules/magicUrl', MagicUrl)
 
-const Comment = ( {detail, edit, id, setEdit, isLoggedIn } ) => {
+const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, setDetail, firebaseCommunityData } ) => {
     const [ update, setUpdate ] = useState(false)
     const [ newPost, setNewPost ] = useState([])
-    const [ isEmpty, setIsEmpty ] = useState(false)
     const [ value, setValue ] = useState('')
     const [ html, setHtml ] = useState('')
     const [ empty, setEmpty ] = useState(true)
+    const [ currentUser, setCurrentUser ] = useState('')
+    const [ currentComment, setCurrentComment ] = useState('')
     const location = useLocation()
     const params = useParams()
+    const navigate = useNavigate()
     const user = auth.currentUser
 
     const modules = {
@@ -59,6 +61,7 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn } ) => {
             let newArray;
             
             const editPost = () => {
+                if (id !== null) {
                 const updatePost = data.posts.map(item => {
                     return {...item, comments: item.comments.map((x) => {
                         if (x.commentid === id) {
@@ -70,11 +73,25 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn } ) => {
                     })}
                 })
             newArray = updatePost
-        }
+        } else {
+        const updatePost = data.posts.map(item => {
+            return {...item, comments: item.comments.map((x) => {
+                if (x.commentid === currentComment) {
+                    x.content.delta = value
+                    x.content.html = newHtml
+                    return x
+                } 
+                return x
+            })}
+        })
+    newArray = updatePost
+    }
+}
         editPost()
 
         let array;
         const editComment = () => {
+            if (id !== null) {
             const update = userData.comments.map( item => {
                 if (item.commentid === id) {
                     item.content.delta = value
@@ -84,14 +101,96 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn } ) => {
                 return item
             })
             array = update
-        }
+        } else {
+            const update = userData.comments.map( item => {
+                if (item.commentid === currentComment) {
+                    item.content.delta = value
+                    item.content.html = newHtml
+                    return item
+                }
+                return item
+            })
+            array = update
+    }
+}
         editComment()
         await updateDoc(docRef, {posts: newArray })
         await updateDoc(userRef, {comments: array} )
+        setUpdate(false)
+        setEdit(false)
     }
-    updateComment()
+
+
+    const getFirebaseComment = async () => {
+        if (id !== null) {
+        const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
+        const docSnap = await getDoc(docRef)
+        const data = docSnap.data()
+        let myPost = data.posts.find( item => item.id === params.id )
+        let myComment = myPost.comments.find(item => item.commentid === id)
+        setNewPost([myComment])
+    } else {
+        const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
+        const docSnap = await getDoc(docRef)
+        const data = docSnap.data()
+        let myPost = data.posts.find( item => item.id === params.id )
+        let myComment = myPost.comments.find(item => item.commentid === currentComment)
+        setNewPost([myComment])
+}
+    }
+    updateComment().then(() => {
+        getFirebaseComment()
+    })
     setEdit(true)
     setUpdate(true)
+}
+
+    const handleDelete = async (e) => {
+        const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
+        const docSnap = await getDoc(docRef)
+        const data = docSnap.data()
+
+        const userRef = doc(db, "users", user.displayName)
+        const userSnap = await getDoc(userRef)
+        const userData = userSnap.data()
+
+        let newArray;
+        const deleteComment = () => {
+            const updatePost = userData.comments.filter(item => {
+                if (item.commentid !== e.target.id) {
+                    return item
+                }
+            })
+            newArray = updatePost
+        }
+        let filteredArray;
+        const deleteFromFirebase = () => {
+            const updateComment = data.posts.map(item => {
+                return {...item, comments: item.comments.filter((x) => x.commentid !== e.target.id)}
+            })
+            filteredArray = updateComment
+        }
+        deleteComment()
+        deleteFromFirebase()
+        await updateDoc(docRef, { posts: filteredArray })
+        await updateDoc(userRef, { comments: newArray })
+
+        const getPost = async () => {
+            const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
+            const docSnap = await getDoc(docRef)
+            const data = docSnap.data()
+            let myPost = data.posts.find( item => item.id === params.id )
+            setNewPost(myPost.comments)
+        }
+        getPost()
+        setEdit(true)
+        setUpdate(true)
+    }
+
+    const handleEdit = async (e) => {
+        setUpdate(false)
+        setEdit(false)
+        setCurrentComment(e.target.id)
     }
 
     useEffect(() => {
@@ -105,7 +204,16 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn } ) => {
     }, [value])
 
     useEffect(() => {
+        if (detail[0].comments.length === 0 ) {
+            setIsEmpty(true)
+        } else {
+            setIsEmpty(false)
+        } 
+    }, [detail])
+
+    useEffect(() => {
         if (!edit) {
+            if (id !== null) {
             const getComment = async () => {
                 const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
                 const docSnap = await getDoc(docRef)
@@ -113,25 +221,37 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn } ) => {
                 let myPost = data.posts.find( item => item.id === params.id )
                 let myComment = myPost.comments.find(item => item.commentid === id)
                 console.log(myComment)
-                const delta = quill.clipboard.convert(myComment.content.html)
+                const delta = quill.clipboard.convert((myComment.content.html))
                 quill.setContents(delta, 'silent')
             }
             getComment()
-        }
-        console.log(edit)
-    }, [quill])
-
-    useEffect(() => {
-        const getComment = async () => {
+        } else {
+            const getComment = async () => {
             const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
             const docSnap = await getDoc(docRef)
             const data = docSnap.data()
             let myPost = data.posts.find( item => item.id === params.id )
-            let myComment = myPost.comments.find(item => item.commentid === id)
-            setNewPost([myComment])
+            let myComment = myPost.comments.find(item => item.commentid === currentComment)
+            const delta = quill.clipboard.convert((myComment.content.html))
+            quill.setContents(delta, 'silent')
         }
-            getComment()
-    }, [handleSubmit])
+        getComment()
+    }
+}
+    }, [quill])
+
+    useEffect(() => {
+        if (user) {
+            setCurrentUser(user.displayName)
+        }
+    }, [user])
+
+    useEffect(() => {
+console.log(update)
+console.log(edit)
+console.log(newPost)
+console.log(currentComment)
+    }, [detail]) 
 
     if (isEmpty) {
         return (
@@ -173,15 +293,15 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn } ) => {
                                             Share
                                         </div>
                                     </li>
-                                    <li>
-                                        <div>
-                                            ...
-                                        </div>
-                                    </li>
+                                    <div className={ comment.username === currentUser ? "post-detail-dropbar-comment" : "input-empty"}>
+                                        <ul> 
+                                        <li>Save</li>
+                                        <li id={comment.commentid} onClick={handleDelete}>Delete</li>
+                                    </ul>
+                                </div>
                                 </ul>
                             </div>
                         </div>
- 
                 )
             }
         )
@@ -190,7 +310,7 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn } ) => {
         return (
             <div className="comment">
                 <CommentEditor quillRef={quillRef} quill={quill} html={html} setHtml={setHtml} value={value} setValue={setValue} 
-                    handleSubmit={handleSubmit} empty={empty} setEmpty={setEmpty}/>
+                    handleSubmit={handleSubmit} empty={empty} setEmpty={setEmpty} edit={edit} setEdit={setEdit} />
             </div>
         ) 
     } else {
@@ -228,11 +348,15 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn } ) => {
                                             Share
                                         </div>
                                     </li>
-                                    <li>
-                                        <div>
-                                            ...
-                                        </div>
-                                    </li>
+                                        <div className={ comment.username === currentUser ? "post-detail-dropbar-comment" : "input-empty"}>
+                                        <ul> 
+                                        <li>Save</li>
+                                        <li id={comment.commentid} onClick={handleEdit}>
+                                            Edit
+                                        </li>
+                                        <li id={comment.commentid} onClick={handleDelete}>Delete</li>
+                                    </ul>
+                                </div>
                                 </ul>
                             </div>
                         </div>

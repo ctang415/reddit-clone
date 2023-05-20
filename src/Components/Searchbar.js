@@ -8,6 +8,12 @@ const Searchbar = ( {communityData} ) => {
     const [ drop, setDrop] = useState(false)
     const catMenu = useRef(null)
 
+    const communities = ['league of legends', 'apex legends', 'frugalmalefashion', 'funny', 'happy', 'sad', 'bunnies',
+    'caterpillar', 'dogs', 'elephants', 'google', 'idaho', 'japan', 'korea', 'monkey', 'newzealand', 'ohio', 'pokemon',
+    'queen', 'rabbit', 'stupid', 'television', 'ugly', 'virginia', 'water', 'xylophone', 'zebra'
+    ]
+    const [ data, setData ] = useState([])
+
     const handleClick = (e) => {
         setDrop(true)
     }
@@ -22,12 +28,18 @@ const Searchbar = ( {communityData} ) => {
         e.preventDefault();
         setSearchInput(e.target.value);
       if (searchInput.length > 0) {
-          communityData.filter((community) => {
-          return community.name.match(searchInput)
-      })
+          setFiltered(data.filter((community) => { 
+            return community.includes(searchInput)
+      }))
       }
-
+console.log(data)
     }
+
+    useEffect(() => {
+        setData(communityData.map(community => {
+            return community.name
+        }))
+    }, [communityData])
 
     useEffect(() => {
         document.addEventListener('mousedown', handleDrop)
@@ -40,17 +52,16 @@ const Searchbar = ( {communityData} ) => {
                 type="text"
                 placeholder="Search Freddit"
                 onChange={handleChange}
-                value={searchInput} 
                 onClick={handleClick}
                 />
             <div className={ drop ? "input-search-box": "input-empty"} ref={catMenu}>
                 <div>Communities</div>
-                {communityData.map((community) => {
+                {filtered.map((community) => {
                     return (
                         <div className="search-bar-items">
-                            <Link to={`f/${community.name}`} style={{ textDecoration: 'none', color: 'black'}}>
+                            <Link to={`f/${community}`} style={{ textDecoration: 'none', color: 'black'}}>
                                 <img src={CommunityIcon} alt="Community icon"></img>
-                                f/{community.name}
+                                f/{community}
                             </Link>
                         </div>
                     )

@@ -1593,6 +1593,14 @@ label {
   color: grey;
 }
 
+.post-detail-dropbar-comment > ul {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  font-weight: bold;
+  color: grey;
+}
+
 #post-detail-selected {
   color: rgb(0, 123, 255);
 }
@@ -1745,7 +1753,7 @@ label {
 }
 
 .community-rules > ol > li, .header-user-profile-icons > ul > li, .profile-post-bottom > div > ul > li, 
-.profile-post-poster, .profile-page > ul > li {
+.profile-post-poster, .profile-page > ul > li, .post-detail-dropbar-comment > ul > li {
   cursor: pointer;
 }
 
@@ -2102,7 +2110,7 @@ hr.vertical:hover {
   gap: 0.1em;
 }
 
-.comment-right > ul > li > div {
+.comment-right > ul > li > div, .post-detail-dropbar-comment > ul > li {
   display: flex;
   flex-direction: row;
   gap: 0.1em;
@@ -2135,7 +2143,7 @@ hr.vertical:hover {
 }
 
 .comment-votes > img:hover, .comment-right > ul > li > div:hover, .post-votes > img:hover, 
-.post-detail-votes > img:hover  {
+.post-detail-votes > img:hover, .post-detail-dropbar-comment > ul > li:hover {
   background-color: #dfe5eb;
 } 
 

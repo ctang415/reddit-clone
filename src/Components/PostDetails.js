@@ -171,7 +171,8 @@ const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunity
                                     <img id="community-input-img" src={ user ? user.photoURL : null} alt="User Icon"></img>
                                     <input type="text" placeholder="Create Post" onClick={createNewPost}></input>
                                 </div>
-                                <PostDetailsCard firebaseCommunityData={firebaseCommunityData} detail={detail} />
+                                <PostDetailsCard firebaseCommunityData={firebaseCommunityData} setDetail={setDetail}
+                                detail={detail} />
                             </div>
                             <div className={ isLoggedIn ? "community-body-right" : "community-body-right-logged-out"}>
                                 <CommunityInformation 

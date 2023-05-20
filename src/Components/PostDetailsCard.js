@@ -25,6 +25,7 @@ const PostDetailsCard = ( {firebaseCommunityData, detail, setDetail}  ) => {
     const [ value, setValue ] = useState('')
     const [ html, setHtml ] = useState('')
     const [ empty, setEmpty ] = useState(true)
+    const [ isEmpty, setIsEmpty ] = useState(false)
     const [ edit, setEdit ] = useState(true)
     const location = useLocation()
     const params = useParams()
@@ -124,7 +125,7 @@ const PostDetailsCard = ( {firebaseCommunityData, detail, setDetail}  ) => {
     }, [])
 
     useEffect(() => {
-
+        console.log(firebaseCommunityData)
     }, [firebaseCommunityData])
 
     return (
@@ -179,8 +180,8 @@ const PostDetailsCard = ( {firebaseCommunityData, detail, setDetail}  ) => {
                         </ul>
                     </div>
                 </div>
-                <Comment setEdit={setEdit} isLoggedIn={isLoggedIn}
-                detail={detail} edit={edit} id={id} />
+                <Comment setEdit={setEdit} isLoggedIn={isLoggedIn} setDetail={setDetail} firebaseCommunityData={firebaseCommunityData}
+                detail={detail} edit={edit} id={id} isEmpty={isEmpty} setIsEmpty={setIsEmpty} />
             </div>
         </div>
             )

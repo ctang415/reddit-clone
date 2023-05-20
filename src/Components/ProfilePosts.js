@@ -48,7 +48,7 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
     }
 
     const handleDelete = async (e) => {
-        const docRef = doc(db, "communities", )
+        const docRef = doc(db, "communities", e.target.parentNode.className)
         const docSnap = await getDoc(docRef)
         const data = docSnap.data()
 
@@ -140,13 +140,13 @@ if (userInfo[0] !== undefined && overview) {
                             in *
                         <div className="profile-post-community-name">
                             <Link to={`../f/${data.community}`}>
-                                {data.community}
+                                f/{data.community}
                             </Link>
                             </div> 
                                 * Posted by 
                         <div className="profile-post-poster">
                         <Link to={`../user/${data.author}`}>
-                            {data.author}
+                            u/{data.author}
                         </Link>
                         </div>
                     </div>
@@ -171,7 +171,7 @@ if (userInfo[0] !== undefined && overview) {
                                     </ul>
                                 </div>
                                 <div className={ isLoggedIn && matchingUser ? "post-detail-dropbar" : "input-empty"}>
-                                    <ul>
+                                    <ul className={data.community}>
                                         <li>Save</li>
                                         <li className={data.id} id={data.commentid} 
                                         onClick={() => navigate(`../f/${data.community}/comments/${data.id}`, { state: data.commentid})}>
@@ -205,13 +205,13 @@ if (userInfo[0] !== undefined && overview) {
                             in *
                         <div className="profile-post-community-name">
                             <Link to={`../f/${data.community}`}>
-                                {data.community}
+                                f/{data.community}
                             </Link>
                             </div> 
                                 * Posted by 
                         <div className="profile-post-poster">
                         <Link to={`../user/${data.author}`}>
-                            {data.author}
+                            u/{data.author}
                         </Link>
                         </div>
                     </div>
