@@ -16,7 +16,8 @@ import { auth, db } from "../firebase-config";
 
 Quill.register('modules/magicUrl', MagicUrl)
 
-const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, setDetail, firebaseCommunityData } ) => {
+const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, setDetail, 
+    setFirebaseCommunityData, firebaseCommunityData } ) => {
     const [ update, setUpdate ] = useState(false)
     const [ newPost, setNewPost ] = useState([])
     const [ value, setValue ] = useState('')
@@ -74,19 +75,19 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
                 })
             newArray = updatePost
         } else {
-        const updatePost = data.posts.map(item => {
-            return {...item, comments: item.comments.map((x) => {
-                if (x.commentid === currentComment) {
-                    x.content.delta = value
-                    x.content.html = newHtml
+            const updatePost = data.posts.map(item => {
+                return {...item, comments: item.comments.map((x) => {
+                    if (x.commentid === currentComment) {
+                        x.content.delta = value
+                        x.content.html = newHtml
+                        return x
+                    } 
                     return x
-                } 
-                return x
-            })}
-        })
-    newArray = updatePost
+                })}
+            })
+            newArray = updatePost
+        }
     }
-}
         editPost()
 
         let array;
@@ -111,38 +112,38 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
                 return item
             })
             array = update
+        }
     }
-}
         editComment()
         await updateDoc(docRef, {posts: newArray })
         await updateDoc(userRef, {comments: array} )
-        setUpdate(false)
-        setEdit(false)
+        setUpdate(true)
+        setEdit(true)
+        setIsEmpty(false)
     }
-
 
     const getFirebaseComment = async () => {
         if (id !== null) {
-        const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
-        const docSnap = await getDoc(docRef)
-        const data = docSnap.data()
-        let myPost = data.posts.find( item => item.id === params.id )
-        let myComment = myPost.comments.find(item => item.commentid === id)
-        setNewPost([myComment])
-    } else {
-        const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
-        const docSnap = await getDoc(docRef)
-        const data = docSnap.data()
-        let myPost = data.posts.find( item => item.id === params.id )
-        let myComment = myPost.comments.find(item => item.commentid === currentComment)
-        setNewPost([myComment])
-}
+            const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
+            const docSnap = await getDoc(docRef)
+            const data = docSnap.data()
+            setFirebaseCommunityData([data])
+            let myPost = data.posts.find( item => item.id === params.id )
+            let myComment = myPost.comments.find(item => item.commentid === id)
+            setNewPost([myComment])
+        } else {
+            const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
+            const docSnap = await getDoc(docRef)
+            const data = docSnap.data()
+            setFirebaseCommunityData([data])
+            let myPost = data.posts.find( item => item.id === params.id )
+            let myComment = myPost.comments.find(item => item.commentid === currentComment)
+            setNewPost([myComment])
+        }
     }
     updateComment().then(() => {
         getFirebaseComment()
     })
-    setEdit(true)
-    setUpdate(true)
 }
 
     const handleDelete = async (e) => {
@@ -179,12 +180,11 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
             const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
             const docSnap = await getDoc(docRef)
             const data = docSnap.data()
+            setFirebaseCommunityData([data])
             let myPost = data.posts.find( item => item.id === params.id )
             setNewPost(myPost.comments)
         }
         getPost()
-        setEdit(true)
-        setUpdate(true)
     }
 
     const handleEdit = async (e) => {
@@ -247,10 +247,7 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
     }, [user])
 
     useEffect(() => {
-console.log(update)
-console.log(edit)
-console.log(newPost)
-console.log(currentComment)
+console.log(detail)
     }, [detail]) 
 
     if (isEmpty) {

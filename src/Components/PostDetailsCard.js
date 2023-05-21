@@ -19,7 +19,7 @@ import { nanoid } from 'nanoid'
 
 Quill.register('modules/magicUrl', MagicUrl)
 
-const PostDetailsCard = ( {firebaseCommunityData, detail, setDetail}  ) => {
+const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, detail, setDetail}  ) => {
     const [ drop, setDrop ] = useState(false)
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const [ value, setValue ] = useState('')
@@ -107,13 +107,13 @@ const PostDetailsCard = ( {firebaseCommunityData, detail, setDetail}  ) => {
     }, [user])
 
     useEffect(() => {
-
+        setDetail([firebaseCommunityData[0].posts.find( item => item.id === params.id)])
     }, [handleSubmit])
 
     useEffect(() => {
         document.title = location.pathname.split('/comments')[0].split('f/')[1]
         window.scrollTo({ top:0, behavior:'auto'})
-    }, [])
+    }, [location.pathname])
 
     useEffect(() => {
         if (id !== null) {
@@ -123,10 +123,6 @@ const PostDetailsCard = ( {firebaseCommunityData, detail, setDetail}  ) => {
         }
         console.log(id)
     }, [])
-
-    useEffect(() => {
-        console.log(firebaseCommunityData)
-    }, [firebaseCommunityData])
 
     return (
         detail.map( data => {
@@ -181,7 +177,7 @@ const PostDetailsCard = ( {firebaseCommunityData, detail, setDetail}  ) => {
                     </div>
                 </div>
                 <Comment setEdit={setEdit} isLoggedIn={isLoggedIn} setDetail={setDetail} firebaseCommunityData={firebaseCommunityData}
-                detail={detail} edit={edit} id={id} isEmpty={isEmpty} setIsEmpty={setIsEmpty} />
+                setFirebaseCommunityData={setFirebaseCommunityData} detail={detail} edit={edit} id={id} isEmpty={isEmpty} setIsEmpty={setIsEmpty} />
             </div>
         </div>
             )

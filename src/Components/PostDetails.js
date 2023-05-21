@@ -172,7 +172,7 @@ const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunity
                                     <input type="text" placeholder="Create Post" onClick={createNewPost}></input>
                                 </div>
                                 <PostDetailsCard firebaseCommunityData={firebaseCommunityData} setDetail={setDetail}
-                                detail={detail} />
+                                detail={detail} setFirebaseCommunityData={setFirebaseCommunityData} />
                             </div>
                             <div className={ isLoggedIn ? "community-body-right" : "community-body-right-logged-out"}>
                                 <CommunityInformation 

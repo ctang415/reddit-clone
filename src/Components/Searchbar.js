@@ -7,15 +7,10 @@ const Searchbar = ( {communityData} ) => {
     const [ filtered, setFiltered ] = useState([])
     const [ drop, setDrop] = useState(false)
     const catMenu = useRef(null)
-
-    const communities = ['league of legends', 'apex legends', 'frugalmalefashion', 'funny', 'happy', 'sad', 'bunnies',
-    'caterpillar', 'dogs', 'elephants', 'google', 'idaho', 'japan', 'korea', 'monkey', 'newzealand', 'ohio', 'pokemon',
-    'queen', 'rabbit', 'stupid', 'television', 'ugly', 'virginia', 'water', 'xylophone', 'zebra'
-    ]
     const [ data, setData ] = useState([])
 
     const handleClick = (e) => {
-        setDrop(true)
+        setDrop(!drop)
     }
 
     const handleDrop = (e) => {
@@ -59,7 +54,7 @@ console.log(data)
                 {filtered.map((community) => {
                     return (
                         <div className="search-bar-items">
-                            <Link to={`f/${community}`} style={{ textDecoration: 'none', color: 'black'}}>
+                            <Link to={`f/${community}`} style={{ textDecoration: 'none', color: 'black'}} onClick={handleClick}>
                                 <img src={CommunityIcon} alt="Community icon"></img>
                                 f/{community}
                             </Link>

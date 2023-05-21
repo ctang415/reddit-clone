@@ -102,7 +102,7 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
 
     useEffect(() => {
         document.title = `${params.id}`
-    }, [])
+    }, [params.id])
 
     useEffect (() => {
         if (params.id !== undefined ) {
@@ -119,7 +119,7 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
     }
     getCommunity()
 }
-    }, [])
+    }, [params.id])
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {

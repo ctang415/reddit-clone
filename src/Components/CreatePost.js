@@ -10,7 +10,11 @@ import { Quill } from "react-quill";
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import * as sanitizeHtml from 'sanitize-html';
 import { nanoid } from 'nanoid'
+import ImageCompress from 'quill-image-compress';
+
 Quill.register('modules/magicUrl', MagicUrl)
+Quill.register('modules/imageCompress', ImageCompress);
+
 
 const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
     const [ firebaseCommunityData, setFirebaseCommunityData] = useState([])
@@ -40,6 +44,15 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
             [ 'image', 'video']
             ],
             magicUrl: true,
+            imageCompress: {
+                quality: 0.7, // default
+                maxWidth: 1000, // default
+                maxHeight: 1000, // default
+                imageType: 'image/jpeg', // default
+                debug: true, // default
+                suppressErrorLogging: false, // default
+                insertIntoEditor: undefined, // default
+            }
     }
     const formats = ['bold', 'italic', 'strike', 'list', 'header', 'link', 'image', 'video', 'script', 'blockquote', 'code']
     const placeholder = 'Text (Optional)'
@@ -168,9 +181,11 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
                         <div className={ imageSelect ? "editor-container-image" : "input-empty"}>
                             <label htmlFor="files" className="btn">Upload</label>
                             <input id="files" type="file"/>
+                            <div>*Please use Post option*</div>
                         </div>
                         <div className={ linkSelect ? "editor-container-link" : "input-empty"}>
                             <input type="url" placeholder="Url" name="url"></input>
+                            <div>*Please use Post option*</div>
                         </div>
                         <div className={ postSelect || pollSelect ? "editor-container" : "input-empty"}>
                         <TextEditor 
@@ -206,7 +221,7 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
                     <div className="community-post-divider"></div>
                         <div className="community-post-buttons">
                         <button id="community-save-button">Save Draft</button>
-                        <button id={ isUndefined ? "community-post-button-black" : "community-post-button"}>Post</button>
+                        <button id={ isUndefined || !postSelect ? "community-post-button-black" : "community-post-button"}>Post</button>
                         </div>
                     </div>
                     </div>
