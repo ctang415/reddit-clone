@@ -85,6 +85,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                 await updateDoc(userRef, {comments:  arrayUnion({ commentid: newid, poster: false, content: { html: newHtml, delta: value }, title: detail[0].title, community: firebaseCommunityData[0].name, author: detail[0].author, username: user.displayName, id: params.id, votes: 1, date: myDate })})
             }
         uploadComment()
+        setDetail([firebaseCommunityData[0].posts.find( item => item.id === params.id)])
         quill.setContents([])
     }
 
@@ -106,9 +107,6 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
         }
     }, [user])
 
-    useEffect(() => {
-        setDetail([firebaseCommunityData[0].posts.find( item => item.id === params.id)])
-    }, [handleSubmit])
 
     useEffect(() => {
         document.title = location.pathname.split('/comments')[0].split('f/')[1]

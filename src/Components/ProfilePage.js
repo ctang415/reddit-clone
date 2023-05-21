@@ -7,7 +7,6 @@ import Modal from "./Modal";
 import ProfilePosts from "./ProfilePosts";
 import SidebarDrop from "./SidebarDrop";
 
-
 const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, join, setJoin, firebaseCommunityData } ) => {
     const [ profileData, setProfileData ] = useState([{avatar: null, created: 'unknown', karma: 'unknown'}]) 
     const [ sideBarCommunities, setSideBarCommunities] = useState([])

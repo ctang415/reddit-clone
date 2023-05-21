@@ -77,12 +77,12 @@ const App = () => {
         />
         <Route path="/f/:id/submit" element={
         <CreatePost 
-        setDrop={setDrop} drop={drop}
+        setDrop={setDrop} drop={drop} communityData={communityData}
         communityModal={communityModal} setCommunityModal={setCommunityModal}
         />} />
         <Route path="/submit" exact element={
         <CreatePost 
-        setDrop={setDrop} drop={drop}
+        setDrop={setDrop} drop={drop} communityData={communityData}
         communityModal={communityModal} setCommunityModal={setCommunityModal}
         />} />
         <Route path="/user/:id" exact element={ 

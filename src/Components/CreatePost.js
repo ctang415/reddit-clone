@@ -11,12 +11,13 @@ import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import * as sanitizeHtml from 'sanitize-html';
 import { nanoid } from 'nanoid'
 import ImageCompress from 'quill-image-compress';
-
+import CommunitySearch from "./CommunitySearch";
+import Searchbar from "./Searchbar";
 Quill.register('modules/magicUrl', MagicUrl)
 Quill.register('modules/imageCompress', ImageCompress);
 
 
-const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
+const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communityData }) => {
     const [ firebaseCommunityData, setFirebaseCommunityData] = useState([])
     const [ value, setValue ] = useState('')
     const [ html, setHtml ] = useState('')
@@ -30,11 +31,6 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
     const params = useParams()
     const navigate = useNavigate()
     const location = useLocation()
-
-    useEffect(() => {
-        console.log(location.pathname)
-        console.log(params.id)
-    }, [])
 
     const user = auth.currentUser;
     const modules = {
@@ -127,17 +123,23 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
             const data = docSnap.data()
             setFirebaseCommunityData([data])
             }
-        getCommunity()
+            getCommunity()
+            setIsUndefined(false)
         } else {
             setIsUndefined(true)
         }
-    }, [])
+    }, [location.pathname])
 
     useEffect(() => {
         if (!user) {
             navigate('/')
         } 
     }, [user])
+
+    useEffect(() => {
+        console.log(params.id)
+        console.log(location.pathname)
+    }, [])
 
     if (user) {
         return (
@@ -155,7 +157,7 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop }) => {
                 </div>
                 <div className="community-header-divider"></div>
                 <div className="community-search">
-                    <input type="text" defaultValue={`f/${params.id}`}></input>
+                    <CommunitySearch communityData={communityData} />
                 </div>
                 <div className="community-post">
                     <form onSubmit={handleSubmit}>

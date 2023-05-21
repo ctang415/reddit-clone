@@ -246,9 +246,6 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
         }
     }, [user])
 
-    useEffect(() => {
-console.log(detail)
-    }, [detail]) 
 
     if (isEmpty) {
         return (
@@ -272,7 +269,7 @@ console.log(detail)
                                 <div className="comment-left-username">
                                     <Link to={`../user/${comment.username}`}>{comment.username}</Link>
                                 </div>
-                                <div>{parse(comment.content.html)}</div>
+                                <div className="comment-right-text">{parse(comment.content.html)}</div>
                                 <ul>
                                     <div className="comment-votes">
                                         <img src={Up} alt="Up arrow"></img>
@@ -327,7 +324,9 @@ console.log(detail)
                                 <div className="comment-left-username">
                                     <Link to={`../user/${comment.username}`}>{comment.username}</Link>
                                 </div>
-                                <div>{parse(comment.content.html)}</div>
+                                <div>
+                                    {parse(comment.content.html)}
+                                </div>
                                 <ul>
                                     <div className="comment-votes">
                                         <img src={Up} alt="Up arrow"></img>

@@ -11,6 +11,7 @@ import { auth, db } from "../firebase-config";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 
+
 const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, isLoggedIn, communityData, allJoinedPosts, 
     isEmpty, setAllJoinedPosts, setIsEmpty }) => {
     const [ post, setPost ] = useState([])
@@ -41,6 +42,8 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
             setIsEmpty(true) 
         }
     }
+
+
 
     useEffect(() => {
         if (location.pathname.indexOf('/f/' === 0)) {
@@ -100,6 +103,7 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
                             Posted by 
                            <div className="post-all-community-author">
                             <Link to={`/user/${post.author}`}>u/{post.author}</Link>
+                      
                             </div>
                         </div>
                         <h3>
@@ -201,7 +205,9 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
                                 </div>
                             </div>
                             <div className="post-right">    
-                                <div className="post-pinned-author">Posted by <Link to={`../user/${post.author}`}>u/{post.author}</Link></div>
+                                <div className="post-pinned-author">
+                                    Posted by <Link to={`../user/${post.author}`}>u/{post.author}</Link>
+                                </div>
                                 <h3>
                                 <Link to={`./comments/${post.id}`}>
                                     {post.title}

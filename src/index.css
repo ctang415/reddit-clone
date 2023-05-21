@@ -489,7 +489,7 @@ form > input {
   justify-content: space-around;
 }
 
-.community-name > p, .radios > span, .post-all-author  {
+.community-name > p, .radios > span, .post-all-author, .input-search-box-header {
   color: grey;
 }
 
@@ -2082,6 +2082,7 @@ code {
   padding-top: 2em;
   gap: 0.5em;
   padding-left: 0.5em;
+  word-break: break-word;
 }
 
 .comment-left, .side-bar-bottom {
@@ -2165,11 +2166,11 @@ hr.vertical:hover {
   cursor: pointer;
 }
 
-.comment-right > p, .user-info-name-login > p, .community-info-home-logged-text {
+.comment-right-text, .user-info-name-login > p, .community-info-home-logged-text {
   font-size: 0.8em;
 }
 
-.comment-right > p {
+.comment-right-text {
   word-break: break-word;
   margin-right: 4em;
 }
@@ -2225,4 +2226,22 @@ hr.vertical:hover {
 #nav-bar-input:focus {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+#nav-bar-input-post {
+  border: solid rgb(240, 239, 239);
+  padding: 0.75em;
+  width: 20em;
+}
+
+.input-search-box-post {
+  position: absolute;
+  background-color: white;
+  width: 18em
+}
+
+.input-search-box-post > div {
+  padding: 1em;
+  font-size: 0.8em;
+  font-weight: bold;
 }
