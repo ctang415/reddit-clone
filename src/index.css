@@ -106,6 +106,12 @@ body {
     padding: 0.7em;
 }
 
+#delete-close-button {
+  cursor: pointer;
+  color: grey;
+  font-size: 1em;
+}
+
 #modal-arrow-button {
     cursor: pointer;
     color: grey;
@@ -200,7 +206,7 @@ body {
   }
 
 
-  .header-user-profile-icons > ul > li > img {
+  .header-user-profile-icons > ul > li > img, .popup-buttons > button {
     height: 2em;
   }
 
@@ -489,6 +495,33 @@ form > input {
   justify-content: space-around;
 }
 
+.delete-popup {
+  border-radius: 0.5em;
+  background-color: white;
+  color: black;
+  margin: 18.5% auto; 
+  height: 10.5em;
+  width: 30.5em;
+  gap: 1.5em;
+  box-shadow: 2px 8px 16px 0 rgba(0, 0, 0, 0.5);
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.delete-header {
+  font-size: 1em;
+  font-weight: bolder;
+}
+
+.delete-name {
+  font-size: 0.8em;
+}
+
 .community-name > p, .radios > span, .post-all-author, .input-search-box-header {
   color: grey;
 }
@@ -560,6 +593,14 @@ form > input {
   justify-content: flex-end;
   align-items: center;
   height: 10%;
+  gap: 1em;
+}
+
+.popup-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
   gap: 1em;
 }
 
@@ -872,7 +913,7 @@ label {
   cursor: pointer;
 }
 
-.post-right > ul > li:hover, .post-detail-right > ul > li:hover {
+.post-right > ul > li:hover, .post-detail-right > ul > li:hover, .post-detail-dropbar-user > ul > li:hover  {
   background-color: #dfe5eb;
   padding-left: 0.5em;
   padding-right: 0.5em;
@@ -1153,7 +1194,7 @@ label {
 }
 
 .community-filters > ul > li > img, .post-detail-right > ul > div > img, .post-right > ul > li > img, 
-.post-detail-right > ul > li > img, .post-right > ul > li > a > img,  .search-bar-items > a > img {
+.post-detail-right > ul > li > img, .post-right > ul > li > a > img,  .search-bar-items > a > img, .post-detail-dropbar-user > ul > li > img  {
   height: 1.5em;
 }
 
@@ -1584,13 +1625,21 @@ label {
   background-color: white;
 }
 
-.post-detail-dropbar > ul {
+.post-detail-dropbar > ul, .post-detail-dropbar-user > ul {
   display: flex;
   flex-direction: row;
   list-style: none;
   gap: 1em;
   font-weight: bold;
   color: grey;
+}
+
+.post-detail-dropbar-user > ul > li {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  align-items: center;
 }
 
 .post-detail-dropbar-comment > ul {
@@ -1600,6 +1649,7 @@ label {
   font-weight: bold;
   color: grey;
 }
+
 
 #post-detail-selected {
   color: rgb(0, 123, 255);
@@ -1613,7 +1663,7 @@ label {
   width: 100%;
 }
 
-#editor-container {
+#editor-container, #editor-container-two {
   height: 10em;
   padding-bottom: 2em;
   width: 100%;
@@ -1637,7 +1687,7 @@ label {
   border-top: solid rgb(213, 213, 213);
 }
 
-#editor-container-comment > div, #editor-container-comment-edit > div {
+#editor-container-comment > div, #editor-container-comment-edit > div, #editor-container-two > div {
   display: flex;
   flex-direction: row;
   padding-top: 0.5em;
@@ -1756,7 +1806,8 @@ label {
 }
 
 .community-rules > ol > li, .header-user-profile-icons > ul > li, .profile-post-bottom > div > ul > li, 
-.profile-post-poster, .profile-page > ul > li, .post-detail-dropbar-comment > ul > li {
+.profile-post-poster, .profile-page > ul > li, .post-detail-dropbar-comment > ul > li, .post-detail-dropbar-user > ul > li, 
+.post-detail-right > ul > li {
   cursor: pointer;
 }
 
@@ -2126,7 +2177,7 @@ hr.vertical:hover {
   gap: 0.3em;
 }
 
-.comment-right > ul > li > div > img {
+.comment-right > ul > li > div > img{
   height: 1.3em;
 }
 

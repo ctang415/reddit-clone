@@ -12,7 +12,7 @@ import * as sanitizeHtml from 'sanitize-html';
 import { nanoid } from 'nanoid'
 import ImageCompress from 'quill-image-compress';
 import CommunitySearch from "./CommunitySearch";
-import Searchbar from "./Searchbar";
+
 Quill.register('modules/magicUrl', MagicUrl)
 Quill.register('modules/imageCompress', ImageCompress);
 

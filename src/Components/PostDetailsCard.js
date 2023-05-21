@@ -5,6 +5,7 @@ import CommentIcon from "../Assets/comment.png"
 import Share from "../Assets/share.png"
 import Save from "../Assets/save.png"
 import TextEditor from "./TextEditor";
+import PostEditor from "./PostEditor"
 import MagicUrl from 'quill-magic-url'
 import Comment from "./Comment";
 import { Quill } from "react-quill";
@@ -16,17 +17,26 @@ import { auth, db } from "../firebase-config";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import parse from 'html-react-parser';
 import { nanoid } from 'nanoid'
-
+import Delete from "../Assets/delete.png"
+import Edit from "../Assets/edit.png"
+import ImageCompress from 'quill-image-compress';
+import DeletePopup from "./DeletePopup";
+Quill.register('modules/imageCompress', ImageCompress);
 Quill.register('modules/magicUrl', MagicUrl)
 
 const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, detail, setDetail}  ) => {
     const [ drop, setDrop ] = useState(false)
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
+    const [ postValue, setPostValue ] = useState('')
+    const [ postHtml, setPostHtml ] = useState('')
+    const [ postEmpty, setPostEmpty ] = useState(true)
     const [ value, setValue ] = useState('')
     const [ html, setHtml ] = useState('')
     const [ empty, setEmpty ] = useState(true)
     const [ isEmpty, setIsEmpty ] = useState(false)
     const [ edit, setEdit ] = useState(true)
+    const [ popup, setPopup ] = useState(false)
+    const [ currentUser, setCurrentUser ] = useState(null)
     const location = useLocation()
     const params = useParams()
     const user = auth.currentUser
@@ -40,6 +50,24 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
     const placeholder = 'What are your thoughts?'
     const theme =  'snow'
     const { quill, quillRef } = useQuill({theme, modules, formats, placeholder});
+
+    const modulesTwo = {
+        toolbar: '#editor-container-two',
+            magicUrl: true,
+            imageCompress: {
+                quality: 0.7, // default
+                maxWidth: 1000, // default
+                maxHeight: 1000, // default
+                imageType: 'image/jpeg', // default
+                debug: true, // default
+                suppressErrorLogging: false, // default
+                insertIntoEditor: undefined, // default
+            }
+    }
+    const formatsTwo = ['bold', 'italic', 'strike', 'list', 'header', 'link', 'image', 'video', 'script', 'blockquote', 'code']
+    const placeholderTwo = 'What are your thoughts?'
+    const themeTwo =  'snow'
+    const { quillTwo, quillRefTwo } = useQuill({themeTwo, modulesTwo, formatsTwo, placeholderTwo});
     
     const handleDrop = () => {
         if (drop) {
@@ -47,6 +75,10 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
         } else {
             setDrop(true)
         }
+    }
+
+    const handleDelete = (e) => {
+        setPopup(true)
     }
 
     const handleSubmit = (e) => {
@@ -100,10 +132,22 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
     }, [value])
 
     useEffect(() => {
+        if (postValue.length === 25) {
+            setPostValue([])
+        } else if (postValue.length === 0) {
+            setPostEmpty(true)
+        } else {
+            setPostEmpty(false)
+        }
+    }, [postValue])
+
+    useEffect(() => {
         if (user) {
             setIsLoggedIn(true)
+            setCurrentUser(user.displayName)
         } else {
             setIsLoggedIn(false)
+            setCurrentUser('')
         }
     }, [user])
 
@@ -122,10 +166,12 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
         console.log(id)
     }, [])
 
+
     return (
         detail.map( data => {
             return (
         <div className="post-detail" key={data.id}>
+            <DeletePopup popup={popup} setPopup={setPopup}/>
             <div className="post-detail-upper">
                 <div className="post-detail-left">
                     <div className="post-detail-votes">
@@ -142,7 +188,13 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                         {data.title}
                     </h3>
                     <div className="post-detail-media-true">
-                        {parse(data.content.html)} 
+                        {parse(data.content.html)}
+                        <div>
+                        <PostEditor quillRefTwo={quillRefTwo} quillTwo={quillTwo} postHtml={postHtml} setPostHtml={setPostHtml} 
+                        postValue={postValue} setPostValue={setPostValue} 
+                    handleSubmit={handleSubmit} postEmpty={postEmpty} setPostEmpty={setPostEmpty}
+                        />
+                        </div>
                     </div> 
                     <ul>
                         <div>
@@ -150,7 +202,17 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                         </div>
                         <li><img src={Share} alt="Share button" /> Share</li>
                         <li><img src={Save} alt="Save button" /> Save</li>
-                        <li>...</li>
+                        <div className="post-detail-dropbar-user">
+                            <ul> 
+                                <li id={data.id} className={ data.author === currentUser ? "user-left" : 'input-empty'} >
+                                    <img src={Edit} alt="Edit icon" ></img>Edit Post
+                                </li>
+                                <li id={data.id} className={ data.author === currentUser ? "user-left" : 'input-empty'}
+                                onClick={handleDelete}>
+                                    <img src={Delete} alt="Delete icon"></img>Delete
+                                </li>
+                            </ul>
+                        </div>
                     </ul>
                 </div>
             </div>
@@ -174,8 +236,10 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                         </ul>
                     </div>
                 </div>
-                <Comment setEdit={setEdit} isLoggedIn={isLoggedIn} setDetail={setDetail} firebaseCommunityData={firebaseCommunityData}
-                setFirebaseCommunityData={setFirebaseCommunityData} detail={detail} edit={edit} id={id} isEmpty={isEmpty} setIsEmpty={setIsEmpty} />
+                <Comment 
+                setEdit={setEdit} isLoggedIn={isLoggedIn} setDetail={setDetail} firebaseCommunityData={firebaseCommunityData}
+                setFirebaseCommunityData={setFirebaseCommunityData} detail={detail} edit={edit} id={id} isEmpty={isEmpty} 
+                setIsEmpty={setIsEmpty} currentUser={currentUser} />
             </div>
         </div>
             )

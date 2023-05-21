@@ -17,13 +17,12 @@ import { auth, db } from "../firebase-config";
 Quill.register('modules/magicUrl', MagicUrl)
 
 const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, setDetail, 
-    setFirebaseCommunityData, firebaseCommunityData } ) => {
+    setFirebaseCommunityData, firebaseCommunityData, currentUser } ) => {
     const [ update, setUpdate ] = useState(false)
     const [ newPost, setNewPost ] = useState([])
     const [ value, setValue ] = useState('')
     const [ html, setHtml ] = useState('')
     const [ empty, setEmpty ] = useState(true)
-    const [ currentUser, setCurrentUser ] = useState('')
     const [ currentComment, setCurrentComment ] = useState('')
     const location = useLocation()
     const params = useParams()
@@ -208,8 +207,9 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
             setIsEmpty(true)
         } else {
             setIsEmpty(false)
-        } 
+        }
     }, [detail])
+
 
     useEffect(() => {
         if (!edit) {
@@ -239,12 +239,6 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
     }
 }
     }, [quill])
-
-    useEffect(() => {
-        if (user) {
-            setCurrentUser(user.displayName)
-        }
-    }, [user])
 
 
     if (isEmpty) {
@@ -351,8 +345,8 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
                                             Edit
                                         </li>
                                         <li id={comment.commentid} onClick={handleDelete}>Delete</li>
-                                    </ul>
-                                </div>
+                                        </ul>
+                                        </div>
                                 </ul>
                             </div>
                         </div>
