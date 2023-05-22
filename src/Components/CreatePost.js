@@ -31,8 +31,8 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
     const params = useParams()
     const navigate = useNavigate()
     const location = useLocation()
-
     const user = auth.currentUser;
+    
     const modules = {
         toolbar: [
             ['bold', 'italic', 'link', 'strike', { 'script': 'super' }],

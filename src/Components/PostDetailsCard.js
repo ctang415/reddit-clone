@@ -35,8 +35,11 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
     const [ empty, setEmpty ] = useState(true)
     const [ isEmpty, setIsEmpty ] = useState(false)
     const [ edit, setEdit ] = useState(true)
+    const [ postEdit, setPostEdit ] = useState(false)
     const [ popup, setPopup ] = useState(false)
     const [ currentUser, setCurrentUser ] = useState(null)
+    const [ editId, setEditId ] = useState('')
+    const [ deleted, setDeleted ] = useState('[deleted]') 
     const location = useLocation()
     const params = useParams()
     const user = auth.currentUser
@@ -51,23 +54,6 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
     const theme =  'snow'
     const { quill, quillRef } = useQuill({theme, modules, formats, placeholder});
 
-    const modulesTwo = {
-        toolbar: '#editor-container-two',
-            magicUrl: true,
-            imageCompress: {
-                quality: 0.7, // default
-                maxWidth: 1000, // default
-                maxHeight: 1000, // default
-                imageType: 'image/jpeg', // default
-                debug: true, // default
-                suppressErrorLogging: false, // default
-                insertIntoEditor: undefined, // default
-            }
-    }
-    const formatsTwo = ['bold', 'italic', 'strike', 'list', 'header', 'link', 'image', 'video', 'script', 'blockquote', 'code']
-    const placeholderTwo = 'What are your thoughts?'
-    const themeTwo =  'snow'
-    const { quillTwo, quillRefTwo } = useQuill({themeTwo, modulesTwo, formatsTwo, placeholderTwo});
     
     const handleDrop = () => {
         if (drop) {
@@ -77,7 +63,12 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
         }
     }
 
-    const handleDelete = (e) => {
+    const handleEdit = (e) => {
+        setEditId(e.target.id)
+        setPostEdit(true)
+    }
+
+    const handleDelete = () => {
         setPopup(true)
     }
 
@@ -182,17 +173,17 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                 </div>
                 <div className="post-detail-right">
                     <div className="post-detail-pinned-author">Posted by 
-                        <Link to={`../user/${data.author}`}> u/{data.author} </Link>
+                        <Link to={ deleted === data.author ? null : `../user/${data.author}`}> u/{data.author} </Link>
                     </div>
                     <h3>
                         {data.title}
                     </h3>
                     <div className="post-detail-media-true">
-                        {parse(data.content.html)}
-                        <div>
-                        <PostEditor quillRefTwo={quillRefTwo} quillTwo={quillTwo} postHtml={postHtml} setPostHtml={setPostHtml} 
-                        postValue={postValue} setPostValue={setPostValue} 
-                    handleSubmit={handleSubmit} postEmpty={postEmpty} setPostEmpty={setPostEmpty}
+                        { postEdit ? null : parse(data.content.html)}
+                        <div className={ postEdit ? "user-left" : "input-empty"}>
+                        <PostEditor postHtml={postHtml} setPostHtml={setPostHtml} setDetail={setDetail} setPostEdit={setPostEdit}
+                        postValue={postValue} setPostValue={setPostValue} postEdit={postEdit} editId={editId}
+                        postEmpty={postEmpty} setPostEmpty={setPostEmpty} setFirebaseCommunityData={setFirebaseCommunityData}
                         />
                         </div>
                     </div> 
@@ -204,7 +195,9 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                         <li><img src={Save} alt="Save button" /> Save</li>
                         <div className="post-detail-dropbar-user">
                             <ul> 
-                                <li id={data.id} className={ data.author === currentUser ? "user-left" : 'input-empty'} >
+                                <li id={data.id} className={ data.author === currentUser ? "user-left" : 'input-empty'} 
+                                onClick={handleEdit}
+                                >
                                     <img src={Edit} alt="Edit icon" ></img>Edit Post
                                 </li>
                                 <li id={data.id} className={ data.author === currentUser ? "user-left" : 'input-empty'}

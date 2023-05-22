@@ -29,7 +29,7 @@ const DeletePopup = ( {popup, setPopup} ) => {
                 } else {
                     item.author = '[deleted]'
                     item.content.delta = '{"ops":[{"insert":"Sorry, this post was deleted by the person who originally posted it.\n"}]}'
-                    item.content.html = '<p>Sorry, this post was deleted by the person who originally posted it.</p>'
+                    item.content.html = '<p><b>Sorry, this post was deleted by the person who originally posted it.</b></p>'
                     return item
                 }
             })
@@ -43,7 +43,7 @@ const DeletePopup = ( {popup, setPopup} ) => {
                 } else {
                     item.author = '[deleted]'
                     item.content.delta = '{"ops":[{"insert":"Sorry, this post was deleted by the person who originally posted it.\n"}]}'
-                    item.content.html = '<p>Sorry, this post was deleted by the person who originally posted it.</p>'
+                    item.content.html = '<p><b>Sorry, this post was deleted by the person who originally posted it.</b></p>'
                     return item
                 }
             })
@@ -55,6 +55,7 @@ const DeletePopup = ( {popup, setPopup} ) => {
         
         await updateDoc(docRef, { posts: filteredArray })
         await updateDoc(userRef, { posts: newArray })
+        setPopup(false)
     }
 
 

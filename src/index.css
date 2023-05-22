@@ -1663,11 +1663,23 @@ label {
   width: 100%;
 }
 
-#editor-container, #editor-container-two {
+#editor-container {
   height: 10em;
   padding-bottom: 2em;
   width: 100%;
 }
+
+.editor-container-two-button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#editor-container-two {
+  height: 100%;
+  width: 95%;
+  padding-bottom: 1em;
+}
+
 
 #editor-container-comment {
   display: flex;

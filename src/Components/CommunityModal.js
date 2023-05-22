@@ -4,7 +4,6 @@ import { auth, db } from "../firebase-config";
 import { collection, getDocs, or, query, where } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
-
 const CommunityModal = ( {communityModal, setCommunityModal, userData, setCommunityData, communityData}) => {
     const [ communityName, setCommunityName ] = useState("")
     const [ radioValue, setRadioValue ] = useState('public')

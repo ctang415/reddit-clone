@@ -16,6 +16,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
     isEmpty, setAllJoinedPosts, setIsEmpty }) => {
     const [ post, setPost ] = useState([])
     const [ allPosts, setAllPosts] = useState([])
+    const [ deleted, setDeleted ] = useState('[deleted]')
     const params = useParams()
     const user = auth.currentUser
     const location = useLocation()
@@ -42,8 +43,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
             setIsEmpty(true) 
         }
     }
-
-
 
     useEffect(() => {
         if (location.pathname.indexOf('/f/' === 0)) {
@@ -102,7 +101,7 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
                                     *
                             Posted by 
                            <div className="post-all-community-author">
-                            <Link to={`/user/${post.author}`}>u/{post.author}</Link>
+                            <Link to={ deleted === post.author ? null : `/user/${post.author}`}>u/{post.author}</Link>
                       
                             </div>
                         </div>
@@ -158,7 +157,10 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
                                     </Link>
                                 </div>
                                     *
-                                    Posted by <Link to={`user/${post.author}`} > <div className="post-all-author">u/{post.author}</div></Link>
+                                    Posted by 
+                                    <Link to={ deleted === post.author ? null : `user/${post.author}`} > 
+                                        <div className="post-all-author">u/{post.author}</div>
+                                    </Link>
                                 </div>
                             <h3>
                                 <Link to={`f/${post.community}/comments/${post.id}`}>
@@ -206,7 +208,7 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
                             </div>
                             <div className="post-right">    
                                 <div className="post-pinned-author">
-                                    Posted by <Link to={`../user/${post.author}`}>u/{post.author}</Link>
+                                    Posted by <Link to={ deleted === post.author ? null : `../user/${post.author}`}>u/{post.author}</Link>
                                 </div>
                                 <h3>
                                 <Link to={`./comments/${post.id}`}>
