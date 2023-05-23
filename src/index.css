@@ -1680,13 +1680,24 @@ label {
   padding-bottom: 1em;
 }
 
+.comment-as-user {
+  font-size: 0.7em;
+}
+
+.comment-user {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+}
 
 #editor-container-comment {
   display: flex;
   flex-direction: column-reverse; 
   height: 10em;
   margin: auto;
-  width: 85%;
+  width: 100%;
   border-top: solid rgb(213, 213, 213);
 }
 
@@ -2003,7 +2014,7 @@ code {
 
 .profile-post-title:hover, .profile-post-poster-information > div > a:hover, .post-all-community-author > a:hover,
 .profile-post-poster:hover, .profile-post-username:hover, .profile-post-community-name:hover, .dropbox-true-home > div:hover, .post-pinned-author > a:hover, .post-detail-pinned-author > a:hover, 
-.post-pinned-community > a:hover, .comment-left-username > a:hover, .post-all-community > a:hover  {
+.post-pinned-community > a:hover, .comment-left-username > a:hover, .post-all-community > a:hover, .comment-as-user > a:hover  {
   text-decoration: underline;
 }
 
@@ -2032,6 +2043,11 @@ code {
 .profile-post-bottom > div > a, .post-all-community > a, .profile-post-poster-information > div > a {
   text-decoration: none;
   color: black;
+}
+
+.comment-as-user > a {
+  text-decoration: none;
+  color: rgb(0, 123, 255);
 }
 
 .profile-post-bottom > div > a > div {
@@ -2100,6 +2116,7 @@ code {
   padding-top: 1.5em;
   padding-bottom: 1.5em;
 }
+
 
 .post-detail-lower > div, .post-divider-text > div {
   padding-bottom: 0.75em;

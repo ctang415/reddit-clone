@@ -210,7 +210,10 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                 </div>
             </div>
             <div className="post-detail-lower">
-                <div className={ isLoggedIn ? "user-left" : "input-empty" }>
+                <div className={ isLoggedIn ? "comment-user" : "input-empty" }>
+                    <div className="comment-as-user">
+                        Comment as <Link to={isLoggedIn ? `../user/${user.displayName}` : null}>{isLoggedIn ? user.displayName : null}</Link>
+                    </div>
                     <TextEditor 
                     quillRef={quillRef} quill={quill} html={html} setHtml={setHtml} value={value} setValue={setValue} 
                     handleSubmit={handleSubmit} empty={empty} setEmpty={setEmpty}

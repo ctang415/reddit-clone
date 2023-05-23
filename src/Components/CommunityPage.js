@@ -132,14 +132,14 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
     }, [user])
 
     useEffect(() => {
-        if (user) { 
+        if (isLoggedIn) {
             if (userData[0].joined.includes(params.id) === true) {
                 setSubscribed(true) 
             } else { 
                 setSubscribed(false) 
-        }
-    }
-        console.log(subscribed)
+            }
+        } 
+        console.log(userData)
     }, [subscribed])
 
     if (params.id && page === false) {

@@ -12,7 +12,7 @@ import Error from './Error';
 import PostDetails from './PostDetails';
 
 const App = () => {
-  const [ userData, setUserData ] = useState([{ avatar: null, created: 'unknown', karma: 'unknown' }])
+  const [ userData, setUserData ] = useState([{ avatar: null, created: 'unknown', karma: 'unknown', joined: [] }])
   const [ communityModal, setCommunityModal ] = useState(false)
   const [ modalIsTrue, setModalIsTrue ] = useState(false)
   const [ communityData, setCommunityData ] = useState([])
@@ -30,13 +30,6 @@ const App = () => {
       setCommunityData(prev => [...prev, doc.data()])  
     });
   }
-
-  useEffect(() => {
-    const signOutUser = () => { 
-      signOut(auth);
-    }
-    signOutUser() 
-  }, [])
 
   useEffect(() => {
     getCommunities()

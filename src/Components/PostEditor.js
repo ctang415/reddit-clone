@@ -83,28 +83,18 @@ const PostEditor = ( {postEdit, setPostValue, postValue, setPostHtml, postHtml, 
 
     await updateDoc(docRef, {posts: newArray })
     await updateDoc(userRef, {posts: array} )
-
     }
- 
 
     const getFirebasePost = async () => {
         const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
         const docSnap = await getDoc(docRef)
         const data = docSnap.data()
-        
         setFirebaseCommunityData([data])
-        /*
-        setDetail([firebaseCommunityData[0].posts.find( item => item.id === params.id)])
-        
-        let myPost = data.posts.find( item => item.id === editId)
-        setNewPost([myPost])
-        */
     }
     updatePost().then(()=> {
         getFirebasePost()
     })
     setPostEdit(false)
-    
  }
  
     useEffect(() => {
