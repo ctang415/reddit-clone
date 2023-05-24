@@ -58,6 +58,10 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
     }
 
     useEffect(() => {
+        getUserInfo()
+    }, [setUserData])
+
+    useEffect(() => {
         if (user) {
             setLoggedIn(true)
         } else {

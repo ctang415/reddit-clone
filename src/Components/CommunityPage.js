@@ -234,7 +234,7 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
                                     </ul>
                                 </div>
                                 <Post firebaseCommunityData={firebaseCommunityData} getCommunities={getCommunities}
-                                    setFirebaseCommunityData={setFirebaseCommunityData} 
+                                    setFirebaseCommunityData={setFirebaseCommunityData} setUserData={setUserData}
                                     createNewPost={createNewPost} isLoggedIn={isLoggedIn}
                                     allJoinedPosts={allJoinedPosts} isEmpty={isEmpty} setAllJoinedPosts={setAllJoinedPosts}
                                     setIsEmpty={setIsEmpty} setCommunityData={setCommunityData}
@@ -325,7 +325,7 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
                 firebaseCommunityData={firebaseCommunityData} setFirebaseCommunityData={setFirebaseCommunityData}  
                 createNewPost={createNewPost} isLoggedIn={isLoggedIn} getCommunities={getCommunities}
                 communityData={communityData} allJoinedPosts={allJoinedPosts} isEmpty={isEmpty} setAllJoinedPosts={setAllJoinedPosts}
-                setIsEmpty={setIsEmpty} setCommunityData={setCommunityData}
+                setIsEmpty={setIsEmpty} setCommunityData={setCommunityData} setUserData={setUserData}
                 />
             </div>
             <div className={ isLoggedIn ? "community-body-right" : "community-body-right-logged-out"}>
