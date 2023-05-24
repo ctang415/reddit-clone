@@ -14,7 +14,7 @@ import New from "../Assets/new.png"
 import Top from "../Assets/top.png"
 
 const CommunityPage = ( {userData, setUserData, communityData, communityModal, setCommunityModal, drop, setDrop, modalIsTrue, 
-    setModalIsTrue, setJoin, join, allJoinedPosts, isEmpty, setAllJoinedPosts, setIsEmpty } ) => {
+    setModalIsTrue, setJoin, join, allJoinedPosts, isEmpty, setAllJoinedPosts, setIsEmpty, setCommunityData, getCommunities } ) => {
     const [ firebaseCommunityData, setFirebaseCommunityData] = useState([])
     const [ sideBarCommunities, setSideBarCommunities] = useState([])
     const [ text, setText ] =  useState("Joined")
@@ -233,11 +233,11 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
                                         </li>
                                     </ul>
                                 </div>
-                                <Post firebaseCommunityData={firebaseCommunityData} 
+                                <Post firebaseCommunityData={firebaseCommunityData} getCommunities={getCommunities}
                                     setFirebaseCommunityData={setFirebaseCommunityData} 
                                     createNewPost={createNewPost} isLoggedIn={isLoggedIn}
                                     allJoinedPosts={allJoinedPosts} isEmpty={isEmpty} setAllJoinedPosts={setAllJoinedPosts}
-                                    setIsEmpty={setIsEmpty} 
+                                    setIsEmpty={setIsEmpty} setCommunityData={setCommunityData}
                                     />
                             </div>
                             <div className={ isLoggedIn ? "community-body-right" : "community-body-right-logged-out"}>
@@ -321,11 +321,11 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
                             </li>
                         </ul>
                     </div>
-                <Post firebaseCommunityData={firebaseCommunityData} 
-                setFirebaseCommunityData={setFirebaseCommunityData}  
-                createNewPost={createNewPost} isLoggedIn={isLoggedIn}
-                communityData={communityData}  allJoinedPosts={allJoinedPosts} isEmpty={isEmpty} setAllJoinedPosts={setAllJoinedPosts}
-                setIsEmpty={setIsEmpty} 
+                <Post 
+                firebaseCommunityData={firebaseCommunityData} setFirebaseCommunityData={setFirebaseCommunityData}  
+                createNewPost={createNewPost} isLoggedIn={isLoggedIn} getCommunities={getCommunities}
+                communityData={communityData} allJoinedPosts={allJoinedPosts} isEmpty={isEmpty} setAllJoinedPosts={setAllJoinedPosts}
+                setIsEmpty={setIsEmpty} setCommunityData={setCommunityData}
                 />
             </div>
             <div className={ isLoggedIn ? "community-body-right" : "community-body-right-logged-out"}>

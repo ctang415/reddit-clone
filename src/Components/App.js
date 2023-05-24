@@ -58,7 +58,7 @@ const App = () => {
         modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} userData={userData} setUserData={setUserData} 
         communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
         join={join} setJoin={setJoin} communityData={communityData} allJoinedPosts={allJoinedPosts} isEmpty={isEmpty} 
-        setAllJoinedPosts={setAllJoinedPosts} setIsEmpty={setIsEmpty}
+        setAllJoinedPosts={setAllJoinedPosts} setIsEmpty={setIsEmpty} setCommunityData={setCommunityData} getCommunities={getCommunities}
         />}
         />
         <Route path="/f/:id/comments/:id" element={

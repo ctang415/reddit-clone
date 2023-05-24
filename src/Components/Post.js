@@ -13,7 +13,7 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 
 const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, isLoggedIn, communityData, allJoinedPosts, 
-    isEmpty, setAllJoinedPosts, setIsEmpty }) => {
+    isEmpty, setAllJoinedPosts, setIsEmpty, setCommunityData, getCommunities }) => {
     const [ post, setPost ] = useState([])
     const [ allPosts, setAllPosts] = useState([])
     const [ deleted, setDeleted ] = useState('[deleted]')
@@ -58,7 +58,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                         const post = data.posts.map(x => {
                             if ( x.id === e.target.id ) {
                                 if (x.voters.map(y => y.username).includes(currentUser) === true ) {
-                                    console.log('test')
                                     poster = x.author
                                     const updatedVoter = x.voters.map(y => {
                                         if (y.username === currentUser && y.vote === "downvote") {
@@ -71,7 +70,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                                     })
                                     return x
                                 } else {
-                                console.log('else')
                                 poster = x.author
                                 x.voters = [...x.voters, { username: user.displayName, vote: 'upvote' } ]
                                 x.votes += 1
@@ -84,7 +82,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                         array = post
                     }
                     getPost()
-                    console.log(array)
                     await updateDoc(docRef, { posts: array } )
      
                     const updateAuthor = async () => {
@@ -94,7 +91,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                         const myPost = userData.posts.map( x => {
                             if (x.id === e.target.id) {
                                 if (x.voters.map(y => y.username).includes(currentUser) === true) {
-                                    console.log('test')
                                         poster = x.author
                                         const updatedVoter = x.voters.map(y => {
                                             if (y.username === currentUser && y.vote === "downvote") {
@@ -107,7 +103,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                                         })
                                         return x
                                 } else {
-                                    console.log('else')
                                     poster = x.author
                                     x.voters = [...x.voters, { username: user.displayName, vote: 'upvote' } ]
                                     x.votes += 1
@@ -126,7 +121,13 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                     const userData = userSnap.data()
                     await updateDoc(userRef, {karma: userData.karma + 1 } )
                 }
-                updateVote()
+                updateVote().then( async () => {
+                    const docRef = doc(db, "communities", params.id)
+                    const docSnap = await getDoc(docRef)
+                    const data = docSnap.data()
+                    setPost([])
+                    setFirebaseCommunityData([data])
+                })
             } else if (e.target.alt === "Down arrow") {
                 console.log('down')
                 const updateVote = async () => {
@@ -139,7 +140,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                         const post = data.posts.map(x => {
                             if ( x.id === e.target.id ) {
                                 if (x.voters.map(y => y.username).includes(currentUser) === true) {
-                                    console.log('test')
                                     poster = x.author
                                     const updatedVoter = x.voters.map(y => {
                                         if (y.username === currentUser && y.vote === "upvote") {
@@ -152,7 +152,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                                     })
                                     return x
                                 } else {
-                                    console.log('else')
                                     poster = x.author
                                     x.voters = [...x.voters, { username: user.displayName, vote: 'downvote' } ]
                                     x.votes -= 1
@@ -163,7 +162,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                         })
                         array = post
                     }
-                    
                     getPost()
                     await updateDoc(docRef, {posts: array } )
                     console.log(array)
@@ -174,9 +172,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                         const myPost = userData.posts.map( x => {
                             if (x.id === e.target.id) {
                                 if (x.voters.map(y => y.username).includes(currentUser) === true) {
-                                    console.log('test')
                                     poster = x.author
-                                    
                                     const updatedVoter = x.voters.map(y => {
                                         if (y.username === currentUser && y.vote === "upvote") {
                                             y.vote = 'downvote'
@@ -186,11 +182,9 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                                         else {
                                             return y
                                         }
-                                        return y
                                     })
                                     return x
                                 } else {
-                                    console.log('else')
                                     poster = x.author
                                     x.voters = [...x.voters, { username: user.displayName, vote: 'downvote' } ]
                                     x.votes -= 1
@@ -208,7 +202,173 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                     const userData = userSnap.data()
                     await updateDoc(userRef, {karma: userData.karma - 1 } )
                 }
-                updateVote()
+                updateVote().then( async () => {
+                    const docRef = doc(db, "communities", params.id)
+                    const docSnap = await getDoc(docRef)
+                    const data = docSnap.data()
+                    setPost([])
+                    setFirebaseCommunityData([data])
+                })
+            }
+        }
+    }
+
+    const handleVoteLoggedIn = (e) => {
+        if (user) {
+            if (e.target.alt === "Up arrow") {
+                const updateVote = async () => {
+                    const docRef = doc(db, "communities", e.target.className)
+                    const docSnap = await getDoc(docRef)
+                    const data = docSnap.data()
+                    let array;
+                    let poster;
+                    const getPost = async () => {
+                        const post = data.posts.map(x => {
+                            if ( x.id === e.target.id ) {
+                                if (x.voters.map(y => y.username).includes(currentUser) === true ) {
+                                    poster = x.author
+                                    const updatedVoter = x.voters.map(y => {
+                                        if (y.username === currentUser && y.vote === "downvote") {
+                                            y.vote = 'upvote'
+                                            x.votes += 1
+                                            return y
+                                        } else {
+                                            return y
+                                        }
+                                    })
+                                    return x
+                                } else {
+                                poster = x.author
+                                x.voters = [...x.voters, { username: user.displayName, vote: 'upvote' } ]
+                                x.votes += 1
+                                return x
+                                }
+                            }
+                            return x
+                        }
+                        )
+                        array = post
+                    }
+                    getPost()
+                    await updateDoc(docRef, { posts: array } )
+     
+                    const updateAuthor = async () => {
+                        const userRef = doc(db, "users", poster)
+                        const userSnap = await getDoc(userRef)
+                        const userData = userSnap.data()
+                        const myPost = userData.posts.map( x => {
+                            if (x.id === e.target.id) {
+                                if (x.voters.map(y => y.username).includes(currentUser) === true) {
+                                        poster = x.author
+                                        const updatedVoter = x.voters.map(y => {
+                                            if (y.username === currentUser && y.vote === "downvote") {
+                                                y.vote = 'upvote'
+                                                x.votes += 1
+                                                return y
+                                            } else {
+                                                return y
+                                            }
+                                        })
+                                        return x
+                                } else {
+                                    poster = x.author
+                                    x.voters = [...x.voters, { username: user.displayName, vote: 'upvote' } ]
+                                    x.votes += 1
+                                    return x
+                                }
+                            }
+                            return x
+                        })
+                        console.log(myPost)
+                        console.log(poster)
+                        await updateDoc(userRef, { posts: myPost })
+                    }
+                    updateAuthor()
+                    const userRef = doc(db, "users", poster)
+                    const userSnap = await getDoc(userRef)
+                    const userData = userSnap.data()
+                    await updateDoc(userRef, {karma: userData.karma + 1 } )
+                }
+                updateVote().then( () => {
+                    getJoinedPosts()
+                })
+            } else if (e.target.alt === "Down arrow") {
+                console.log('down')
+                const updateVote = async () => {
+                    const docRef = doc(db, "communities", e.target.className)
+                    const docSnap = await getDoc(docRef)
+                    const data = docSnap.data()
+                    let array;
+                    let poster;
+                    const getPost = () => {
+                        const post = data.posts.map(x => {
+                            if ( x.id === e.target.id ) {
+                                if (x.voters.map(y => y.username).includes(currentUser) === true) {
+                                    poster = x.author
+                                    const updatedVoter = x.voters.map(y => {
+                                        if (y.username === currentUser && y.vote === "upvote") {
+                                            y.vote = 'downvote'
+                                            x.votes -= 1
+                                            return y
+                                        } else {
+                                            return y
+                                        }
+                                    })
+                                    return x
+                                } else {
+                                    poster = x.author
+                                    x.voters = [...x.voters, { username: user.displayName, vote: 'downvote' } ]
+                                    x.votes -= 1
+                                    return x
+                                }
+                        }
+                        return x
+                        })
+                        array = post
+                    }
+                    getPost()
+                    await updateDoc(docRef, {posts: array } )
+                    console.log(array)
+                    const updateAuthor = async () => {
+                        const userRef = doc(db, "users", poster)
+                        const userSnap = await getDoc(userRef)
+                        const userData = userSnap.data()
+                        const myPost = userData.posts.map( x => {
+                            if (x.id === e.target.id) {
+                                if (x.voters.map(y => y.username).includes(currentUser) === true) {
+                                    poster = x.author
+                                    const updatedVoter = x.voters.map(y => {
+                                        if (y.username === currentUser && y.vote === "upvote") {
+                                            y.vote = 'downvote'
+                                            x.votes -= 1
+                                            return y
+                                        } 
+                                        else {
+                                            return y
+                                        }
+                                    })
+                                    return x
+                                } else {
+                                    poster = x.author
+                                    x.voters = [...x.voters, { username: user.displayName, vote: 'downvote' } ]
+                                    x.votes -= 1
+                                return x
+                            }
+                        }
+                        return x
+                        })
+                        console.log(myPost)
+                        await updateDoc(userRef, { posts: myPost })
+                    }
+                    updateAuthor()
+                    const userRef = doc(db, "users", poster)
+                    const userSnap = await getDoc(userRef)
+                    const userData = userSnap.data()
+                    await updateDoc(userRef, {karma: userData.karma - 1 } )
+                }
+                updateVote().then(() => {
+                    getJoinedPosts()
+                })
             }
         }
     }
@@ -219,7 +379,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                 data.posts.map(post => setPost(prev => [...prev, post])) 
             })
         }
-    }, [])
+    }, [firebaseCommunityData])
 
     useEffect(() => {
         if (location.pathname === "/" && !isLoggedIn) {
@@ -228,19 +388,8 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
             })
         }
     }, [communityData])
-/*
+
     useEffect(() => {
-        if (post.length !== 0) {
-            const x = post.map(x => x.voters.map(y => y.username))
-            console.log(x)
-            console.log(currentUser)
-            console.log(x[0].includes(currentUser))
-            console.log(post.map(x => x.voters.map(y => y.username.indexOf(currentUser))))
-post.voters.map( x => x.username).includes(currentUser) && post.voters[(post.voters.map(x => x.username.indexOf(currentUser)))].vote === "downvote"  ? null : 
-        }
-    }, [post])
-*/
-    useEffect( () => {
         if (location.pathname === '/') {
             if (user) {
                 getJoinedPosts()
@@ -274,9 +423,9 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
                     <div className="post" key={post.id}>
                     <div className="post-left">
                         <div className="post-votes">
-                            <img src={Up} alt="Up arrow" onClick={handleVote}></img>
+                            <img src={Up} alt="Up arrow" className={post.community} id={post.id} onClick={handleVoteLoggedIn}></img>
                                 {post.votes}
-                            <img src={Down} alt="Down arrow" onClick={handleVote}></img>
+                            <img src={Down} alt="Down arrow" className={post.community} id={post.id} onClick={handleVoteLoggedIn}></img>
                         </div>
                     </div>
                     <div className="post-right">
@@ -331,9 +480,9 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
                     <div className="post" key={post.id}>
                         <div className="post-left">
                             <div className="post-votes">
-                                <img src={Up} alt="Up arrow" onClick={ handleVote}></img>
+                                <img src={Up} alt="Up arrow"></img>
                                     {post.votes}
-                                <img src={Down} alt="Down arrow" onClick={handleVote}></img>
+                                <img src={Down} alt="Down arrow"></img>
                             </div>
                         </div>
                         <div className="post-right">
@@ -388,9 +537,9 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
                             <div className="post" key={post.id}>
                             <div className="post-left">
                              <div className="post-votes">
-                                    <img src={Up} alt="Up arrow" id={post.id} onClick={ handleVote}></img>
+                                    <img src={Up} alt="Up arrow" id={post.id} onClick={handleVote}></img>
                                         {post.votes} 
-                                    <img src={Down} alt="Down arrow" id={post.id} onClick={ handleVote}></img>
+                                    <img src={Down} alt="Down arrow" id={post.id} onClick={handleVote}></img>
                                 </div>
 
 
