@@ -14,7 +14,7 @@ import * as sanitizeHtml from 'sanitize-html';
 import { useQuill } from "react-quilljs";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 import parse from 'html-react-parser';
 import { nanoid } from 'nanoid'
 import Delete from "../Assets/delete.png"
@@ -24,7 +24,7 @@ import DeletePopup from "./DeletePopup";
 Quill.register('modules/imageCompress', ImageCompress);
 Quill.register('modules/magicUrl', MagicUrl)
 
-const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, detail, setDetail}  ) => {
+const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, detail, setDetail, setUserData }  ) => {
     const [ drop, setDrop ] = useState(false)
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const [ postValue, setPostValue ] = useState('')
@@ -54,7 +54,6 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
     const theme =  'snow'
     const { quill, quillRef } = useQuill({theme, modules, formats, placeholder});
 
-    
     const handleDrop = () => {
         if (drop) {
             setDrop(false)
@@ -105,12 +104,200 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                 }
                 createComment()
                 await updateDoc(docRef, {posts: newArray })
-                await updateDoc(userRef, {comments:  arrayUnion({ commentid: newid, poster: false, content: { html: newHtml, delta: value }, title: detail[0].title, community: firebaseCommunityData[0].name, author: detail[0].author, username: user.displayName, id: params.id, votes: 1, date: myDate })})
+                await updateDoc(userRef, {comments: arrayUnion({ commentid: newid, poster: false, content: { html: newHtml, delta: value }, title: detail[0].title, community: firebaseCommunityData[0].name, author: detail[0].author, username: user.displayName, id: params.id, votes: 1, date: myDate })})
             }
         uploadComment()
         setDetail([firebaseCommunityData[0].posts.find( item => item.id === params.id)])
         quill.setContents([])
     }
+
+    const handleVote = (e) => {
+        if (isLoggedIn) {
+            if (e.target.alt === "Up arrow") {
+                const updateVote = async () => {
+                    const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
+                    const docSnap = await getDoc(docRef)
+                    const data = docSnap.data()
+                    let array;
+                    let poster;
+                    const getPost = async () => {
+                        const post = data.posts.map(x => {
+                            if ( x.id === e.target.id ) {
+                                if (x.voters.map(y => y.username).includes(currentUser) === true ) {
+                                    poster = x.author
+                                    const updatedVoter = x.voters.map(y => {
+                                        if (y.username === currentUser && y.vote === "downvote") {
+                                            y.vote = 'upvote'
+                                            x.votes += 1
+                                            return y
+                                        } else {
+                                            return y
+                                        }
+                                    })
+                                    return x
+                                } else {
+                                poster = x.author
+                                x.voters = [...x.voters, { username: user.displayName, vote: 'upvote' } ]
+                                x.votes += 1
+                                return x
+                                }
+                            }
+                            return x
+                        }
+                        )
+                        array = post
+                    }
+                    getPost()
+                    await updateDoc(docRef, { posts: array } )
+     
+                    const updateAuthor = async () => {
+                        const userRef = doc(db, "users", poster)
+                        const userSnap = await getDoc(userRef)
+                        const userData = userSnap.data()
+                        const myPost = userData.posts.map( x => {
+                            if (x.id === e.target.id) {
+                                if (x.voters.map(y => y.username).includes(currentUser) === true) {
+                                        poster = x.author
+                                        const updatedVoter = x.voters.map(y => {
+                                            if (y.username === currentUser && y.vote === "downvote") {
+                                                y.vote = 'upvote'
+                                                x.votes += 1
+                                                return y
+                                            } else {
+                                                return y
+                                            }
+                                        })
+                                        return x
+                                } else {
+                                    poster = x.author
+                                    x.voters = [...x.voters, { username: user.displayName, vote: 'upvote' } ]
+                                    x.votes += 1
+                                    return x
+                                }
+                            }
+                            return x
+                        })
+                        await updateDoc(userRef, { posts: myPost })
+                    }
+                    updateAuthor()
+                    const updateKarma = async () => {
+                        const userRef = doc(db, "users", poster)
+                        const userSnap = await getDoc(userRef)
+                        const userData = userSnap.data()
+                        await updateDoc(userRef, {karma: userData.karma + 1 } )
+                        if (poster === currentUser) {
+                            const updateUser = async () => {
+                            const docRef = doc(db, "users", user.displayName)
+                            const docSnap = await getDoc(docRef)
+                            const data = docSnap.data()
+                            setUserData([data]) 
+                            }
+                            updateUser()
+                        }
+                    }
+                    updateKarma()
+                }
+                updateVote().then( async () => {
+                    const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
+                    const docSnap = await getDoc(docRef)
+                    const data = docSnap.data()
+                    setFirebaseCommunityData([data])
+                })
+            } else if (e.target.alt === "Down arrow") {
+                console.log('down')
+                const updateVote = async () => {
+                    const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
+                    const docSnap = await getDoc(docRef)
+                    const data = docSnap.data()
+                    let array;
+                    let poster;
+                    const getPost = () => {
+                        const post = data.posts.map(x => {
+                            if ( x.id === e.target.id ) {
+                                if (x.voters.map(y => y.username).includes(currentUser) === true) {
+                                    poster = x.author
+                                    const updatedVoter = x.voters.map(y => {
+                                        if (y.username === currentUser && y.vote === "upvote") {
+                                            y.vote = 'downvote'
+                                            x.votes -= 1
+                                            return y
+                                        } else {
+                                            return y
+                                        }
+                                    })
+                                    return x
+                                } else {
+                                    poster = x.author
+                                    x.voters = [...x.voters, { username: user.displayName, vote: 'downvote' } ]
+                                    x.votes -= 1
+                                    return x
+                                }
+                        }
+                        return x
+                        })
+                        array = post
+                    }
+                    getPost()
+                    await updateDoc(docRef, {posts: array } )
+                    console.log(array)
+                    const updateAuthor = async () => {
+                        const userRef = doc(db, "users", poster)
+                        const userSnap = await getDoc(userRef)
+                        const userData = userSnap.data()
+                        const myPost = userData.posts.map( x => {
+                            if (x.id === e.target.id) {
+                                if (x.voters.map(y => y.username).includes(currentUser) === true) {
+                                    poster = x.author
+                                    const updatedVoter = x.voters.map(y => {
+                                        if (y.username === currentUser && y.vote === "upvote") {
+                                            y.vote = 'downvote'
+                                            x.votes -= 1
+                                            return y
+                                        } 
+                                        else {
+                                            return y
+                                        }
+                                    })
+                                    return x
+                                } else {
+                                    poster = x.author
+                                    x.voters = [...x.voters, { username: user.displayName, vote: 'downvote' } ]
+                                    x.votes -= 1
+                                return x
+                            }
+                        }
+                        return x
+                        })
+                        await updateDoc(userRef, { posts: myPost })
+                    }
+                    updateAuthor()
+                    const updateKarma = async () => {
+                        const userRef = doc(db, "users", poster)
+                        const userSnap = await getDoc(userRef)
+                        const userData = userSnap.data()
+                        await updateDoc(userRef, {karma: userData.karma - 1 } )
+                        if (poster === currentUser) {
+                            const updateUser = async () => {
+                            const docRef = doc(db, "users", user.displayName)
+                            const docSnap = await getDoc(docRef)
+                            const data = docSnap.data()
+                            setUserData([data]) 
+                            }
+                            updateUser()
+                        }
+                    }
+                    updateKarma()
+                }
+                updateVote().then( async () => {
+                    const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
+                    const docSnap = await getDoc(docRef)
+                    const data = docSnap.data()
+                    setFirebaseCommunityData([data])
+                })
+            }
+        }
+    }
+
 
     useEffect(() => {
         if (value.length === 25) {
@@ -157,7 +344,6 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
         console.log(id)
     }, [])
 
-
     return (
         detail.map( data => {
             return (
@@ -166,9 +352,9 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
             <div className="post-detail-upper">
                 <div className="post-detail-left">
                     <div className="post-detail-votes">
-                        <img src={Up} alt="Up arrow"></img>
+                        <img src={Up} id={data.id} alt="Up arrow" onClick={handleVote}></img>
                             {data.votes}
-                        <img src={Down} alt="Down arrow"></img>
+                        <img src={Down} id={data.id} alt="Down arrow" onClick={handleVote}></img>
                     </div>
                 </div>
                 <div className="post-detail-right">

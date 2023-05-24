@@ -13,7 +13,7 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 
 const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, isLoggedIn, communityData, allJoinedPosts, 
-    isEmpty, setAllJoinedPosts, setIsEmpty, setCommunityData, getCommunities, setUserData }) => {
+    isEmpty, setAllJoinedPosts, setIsEmpty, setCommunityData, setUserData }) => {
     const [ post, setPost ] = useState([])
     const [ allPosts, setAllPosts] = useState([])
     const [ deleted, setDeleted ] = useState('[deleted]')
@@ -21,7 +21,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
     const params = useParams()
     const user = auth.currentUser
     const location = useLocation()
-    
 
     const getJoinedPosts = async () => {
         setAllJoinedPosts([])
@@ -112,8 +111,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                             }
                             return x
                         })
-                        console.log(myPost)
-                        console.log(poster)
                         await updateDoc(userRef, { posts: myPost })
                     }
                     updateAuthor()
@@ -206,7 +203,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                         }
                         return x
                         })
-                        console.log(myPost)
                         await updateDoc(userRef, { posts: myPost })
                     }
                     updateAuthor()
@@ -304,8 +300,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                             }
                             return x
                         })
-                        console.log(myPost)
-                        console.log(poster)
                         await updateDoc(userRef, { posts: myPost })
                     }
                     updateAuthor()
@@ -394,7 +388,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                         }
                         return x
                         })
-                        console.log(myPost)
                         await updateDoc(userRef, { posts: myPost })
                     }
                     updateAuthor()

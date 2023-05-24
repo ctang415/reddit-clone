@@ -10,7 +10,8 @@ import SidebarDrop from "./SidebarDrop";
 import CommunityIcon from "../Assets/communityicon.png"
 import PostDetailsCard from "./PostDetailsCard";
 
-const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunityModal, setDrop, drop, join, setJoin} ) => {
+const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunityModal, setDrop, drop, join, setJoin, 
+                    setUserData } ) => {
     const [ firebaseCommunityData, setFirebaseCommunityData] = useState([])
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const [ pageExists, setPageExists ] = useState(true)
@@ -74,7 +75,6 @@ const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunity
         console.log(firebaseCommunityData)
     }, [])
 
-
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -86,7 +86,6 @@ const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunity
         console.log(location.pathname.split('f/')[1].split('/comments')[0])
         console.log(firebaseCommunityData)
     }, [user])
-
 
     useEffect(() => {
         if (firebaseCommunityData[0] !== undefined) { 
@@ -172,7 +171,7 @@ const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunity
                                     <input type="text" placeholder="Create Post" onClick={createNewPost}></input>
                                 </div>
                                 <PostDetailsCard firebaseCommunityData={firebaseCommunityData} setDetail={setDetail}
-                                detail={detail} setFirebaseCommunityData={setFirebaseCommunityData} />
+                                detail={detail} setFirebaseCommunityData={setFirebaseCommunityData} setUserData={setUserData} />
                             </div>
                             <div className={ isLoggedIn ? "community-body-right" : "community-body-right-logged-out"}>
                                 <CommunityInformation 

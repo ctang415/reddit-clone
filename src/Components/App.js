@@ -65,7 +65,7 @@ const App = () => {
         <PostDetails
         modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue}
         communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
-        join={join} setJoin={setJoin}
+        join={join} setJoin={setJoin} setUserdata={setUserData}
         />}
         />
         <Route path="/f/:id/submit" element={
