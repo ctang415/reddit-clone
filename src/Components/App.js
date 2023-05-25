@@ -80,7 +80,7 @@ const App = () => {
         />} />
         <Route path="/user/:id" exact element={ 
         <ProfilePage 
-        userData={userData} setDrop={setDrop} drop={drop}
+        userData={userData} setDrop={setDrop} drop={drop} setUserData={setUserData}
         modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} join={join} setJoin={setJoin}
         />} />
         <Route path="*" element={<Error/>} />

@@ -96,6 +96,22 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                                             if (y.username === currentUser && y.vote === "downvote") {
                                                 y.vote = 'upvote'
                                                 x.votes += 1
+                                                const updateKarma = async () => {
+                                                    const userRef = doc(db, "users", poster)
+                                                    const userSnap = await getDoc(userRef)
+                                                    const userData = userSnap.data()
+                                                    await updateDoc(userRef, {karma: userData.karma + 1 } )
+                                                    if (poster === currentUser) {
+                                                        const updateUser = async () => {
+                                                        const docRef = doc(db, "users", user.displayName)
+                                                        const docSnap = await getDoc(docRef)
+                                                        const data = docSnap.data()
+                                                        setUserData([data]) 
+                                                        }
+                                                        updateUser()
+                                                    }
+                                                }
+                                                updateKarma()
                                                 return y
                                             } else {
                                                 return y
@@ -106,6 +122,22 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                                     poster = x.author
                                     x.voters = [...x.voters, { username: user.displayName, vote: 'upvote' } ]
                                     x.votes += 1
+                                    const updateKarma = async () => {
+                                        const userRef = doc(db, "users", poster)
+                                        const userSnap = await getDoc(userRef)
+                                        const userData = userSnap.data()
+                                        await updateDoc(userRef, {karma: userData.karma + 1 } )
+                                        if (poster === currentUser) {
+                                            const updateUser = async () => {
+                                            const docRef = doc(db, "users", user.displayName)
+                                            const docSnap = await getDoc(docRef)
+                                            const data = docSnap.data()
+                                            setUserData([data]) 
+                                            }
+                                            updateUser()
+                                        }
+                                    }
+                                    updateKarma()
                                     return x
                                 }
                             }
@@ -114,22 +146,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                         await updateDoc(userRef, { posts: myPost })
                     }
                     updateAuthor()
-                    const updateKarma = async () => {
-                        const userRef = doc(db, "users", poster)
-                        const userSnap = await getDoc(userRef)
-                        const userData = userSnap.data()
-                        await updateDoc(userRef, {karma: userData.karma + 1 } )
-                        if (poster === currentUser) {
-                            const updateUser = async () => {
-                            const docRef = doc(db, "users", user.displayName)
-                            const docSnap = await getDoc(docRef)
-                            const data = docSnap.data()
-                            setUserData([data]) 
-                            }
-                            updateUser()
-                        }
-                    }
-                    updateKarma()
                 }
                 updateVote().then( async () => {
                     const docRef = doc(db, "communities", params.id)
@@ -187,6 +203,22 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                                         if (y.username === currentUser && y.vote === "upvote") {
                                             y.vote = 'downvote'
                                             x.votes -= 1
+                                            const updateKarma = async () => {
+                                                const userRef = doc(db, "users", poster)
+                                                const userSnap = await getDoc(userRef)
+                                                const userData = userSnap.data()
+                                                await updateDoc(userRef, {karma: userData.karma - 1 } )
+                                                if (poster === currentUser) {
+                                                    const updateUser = async () => {
+                                                    const docRef = doc(db, "users", user.displayName)
+                                                    const docSnap = await getDoc(docRef)
+                                                    const data = docSnap.data()
+                                                    setUserData([data]) 
+                                                    }
+                                                    updateUser()
+                                                }
+                                            }
+                                            updateKarma()
                                             return y
                                         } 
                                         else {
@@ -198,6 +230,22 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                                     poster = x.author
                                     x.voters = [...x.voters, { username: user.displayName, vote: 'downvote' } ]
                                     x.votes -= 1
+                                    const updateKarma = async () => {
+                                        const userRef = doc(db, "users", poster)
+                                        const userSnap = await getDoc(userRef)
+                                        const userData = userSnap.data()
+                                        await updateDoc(userRef, {karma: userData.karma - 1 } )
+                                        if (poster === currentUser) {
+                                            const updateUser = async () => {
+                                            const docRef = doc(db, "users", user.displayName)
+                                            const docSnap = await getDoc(docRef)
+                                            const data = docSnap.data()
+                                            setUserData([data]) 
+                                            }
+                                            updateUser()
+                                        }
+                                    }
+                                    updateKarma()
                                 return x
                             }
                         }
@@ -206,22 +254,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                         await updateDoc(userRef, { posts: myPost })
                     }
                     updateAuthor()
-                    const updateKarma = async () => {
-                        const userRef = doc(db, "users", poster)
-                        const userSnap = await getDoc(userRef)
-                        const userData = userSnap.data()
-                        await updateDoc(userRef, {karma: userData.karma - 1 } )
-                        if (poster === currentUser) {
-                            const updateUser = async () => {
-                            const docRef = doc(db, "users", user.displayName)
-                            const docSnap = await getDoc(docRef)
-                            const data = docSnap.data()
-                            setUserData([data]) 
-                            }
-                            updateUser()
-                        }
-                    }
-                    updateKarma()
                 }
                 updateVote().then( async () => {
                     const docRef = doc(db, "communities", params.id)
@@ -285,6 +317,22 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                                             if (y.username === currentUser && y.vote === "downvote") {
                                                 y.vote = 'upvote'
                                                 x.votes += 1
+                                                const updateKarma = async () => {
+                                                    const userRef = doc(db, "users", poster)
+                                                    const userSnap = await getDoc(userRef)
+                                                    const userData = userSnap.data()
+                                                    await updateDoc(userRef, {karma: userData.karma + 1 } )
+                                                    if (poster === currentUser) {
+                                                        const updateUser = async () => {
+                                                        const docRef = doc(db, "users", user.displayName)
+                                                        const docSnap = await getDoc(docRef)
+                                                        const data = docSnap.data()
+                                                        setUserData([data]) 
+                                                        }
+                                                        updateUser()
+                                                        }
+                                                    }
+                                                    updateKarma()
                                                 return y
                                             } else {
                                                 return y
@@ -295,6 +343,22 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                                     poster = x.author
                                     x.voters = [...x.voters, { username: user.displayName, vote: 'upvote' } ]
                                     x.votes += 1
+                                    const updateKarma = async () => {
+                                        const userRef = doc(db, "users", poster)
+                                        const userSnap = await getDoc(userRef)
+                                        const userData = userSnap.data()
+                                        await updateDoc(userRef, {karma: userData.karma + 1 } )
+                                        if (poster === currentUser) {
+                                            const updateUser = async () => {
+                                            const docRef = doc(db, "users", user.displayName)
+                                            const docSnap = await getDoc(docRef)
+                                            const data = docSnap.data()
+                                            setUserData([data]) 
+                                            }
+                                            updateUser()
+                                            }
+                                        }
+                                        updateKarma()
                                     return x
                                 }
                             }
@@ -303,22 +367,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                         await updateDoc(userRef, { posts: myPost })
                     }
                     updateAuthor()
-                    const updateKarma = async () => {
-                    const userRef = doc(db, "users", poster)
-                    const userSnap = await getDoc(userRef)
-                    const userData = userSnap.data()
-                    await updateDoc(userRef, {karma: userData.karma + 1 } )
-                    if (poster === currentUser) {
-                        const updateUser = async () => {
-                        const docRef = doc(db, "users", user.displayName)
-                        const docSnap = await getDoc(docRef)
-                        const data = docSnap.data()
-                        setUserData([data]) 
-                        }
-                        updateUser()
-                        }
-                    }
-                    updateKarma()
                 }
                 updateVote().then( () => {
                     getJoinedPosts()
@@ -372,6 +420,22 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                                         if (y.username === currentUser && y.vote === "upvote") {
                                             y.vote = 'downvote'
                                             x.votes -= 1
+                                            const updateKarma = async () => {
+                                                const userRef = doc(db, "users", poster)
+                                                const userSnap = await getDoc(userRef)
+                                                const userData = userSnap.data()
+                                                await updateDoc(userRef, {karma: userData.karma - 1 } )
+                                                if (poster === currentUser) {
+                                                    const updateUser = async () => {
+                                                    const docRef = doc(db, "users", user.displayName)
+                                                    const docSnap = await getDoc(docRef)
+                                                    const data = docSnap.data()
+                                                    setUserData([data]) 
+                                                    }
+                                                    updateUser()
+                                                }
+                                                }
+                                                updateKarma()
                                             return y
                                         } 
                                         else {
@@ -383,6 +447,22 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                                     poster = x.author
                                     x.voters = [...x.voters, { username: user.displayName, vote: 'downvote' } ]
                                     x.votes -= 1
+                                    const updateKarma = async () => {
+                                        const userRef = doc(db, "users", poster)
+                                        const userSnap = await getDoc(userRef)
+                                        const userData = userSnap.data()
+                                        await updateDoc(userRef, {karma: userData.karma - 1 } )
+                                        if (poster === currentUser) {
+                                            const updateUser = async () => {
+                                            const docRef = doc(db, "users", user.displayName)
+                                            const docSnap = await getDoc(docRef)
+                                            const data = docSnap.data()
+                                            setUserData([data]) 
+                                            }
+                                            updateUser()
+                                        }
+                                        }
+                                        updateKarma()
                                 return x
                             }
                         }
@@ -391,22 +471,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                         await updateDoc(userRef, { posts: myPost })
                     }
                     updateAuthor()
-                    const updateKarma = async () => {
-                    const userRef = doc(db, "users", poster)
-                    const userSnap = await getDoc(userRef)
-                    const userData = userSnap.data()
-                    await updateDoc(userRef, {karma: userData.karma - 1 } )
-                    if (poster === currentUser) {
-                        const updateUser = async () => {
-                        const docRef = doc(db, "users", user.displayName)
-                        const docSnap = await getDoc(docRef)
-                        const data = docSnap.data()
-                        setUserData([data]) 
-                        }
-                        updateUser()
-                    }
-                    }
-                    updateKarma()
                 }
                 updateVote().then(() => {
                     getJoinedPosts()

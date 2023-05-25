@@ -7,7 +7,8 @@ import Modal from "./Modal";
 import ProfilePosts from "./ProfilePosts";
 import SidebarDrop from "./SidebarDrop";
 
-const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, join, setJoin, firebaseCommunityData } ) => {
+const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, join, setJoin, firebaseCommunityData, 
+                    setUserData } ) => {
     const [ profileData, setProfileData ] = useState([{avatar: null, created: 'unknown', karma: 'unknown'}]) 
     const [ sideBarCommunities, setSideBarCommunities] = useState([])
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
@@ -199,7 +200,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                             </ul>
                         </div>
                         <ProfilePosts matchingUser={matchingUser} overview={overview} commentsOnly={commentsOnly} postsOnly={postsOnly}
-                        setOverview={setOverview} setCommentsOnly={setCommentsOnly} setPostsOnly={setPostsOnly}
+                        setOverview={setOverview} setCommentsOnly={setCommentsOnly} setPostsOnly={setPostsOnly} setUserData={setUserData}
                         />
                     </div>
                     {profileData.map((item) => {
@@ -270,7 +271,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                             </ul>
                         </div>
                         <ProfilePosts matchingUser={matchingUser} overview={overview} commentsOnly={commentsOnly} postsOnly={postsOnly}
-                        setOverview={setOverview} setCommentsOnly={setCommentsOnly} setPostsOnly={setPostsOnly} 
+                        setOverview={setOverview} setCommentsOnly={setCommentsOnly} setPostsOnly={setPostsOnly} setUserData={setUserData}
                         />
                     </div>
                     <div className="community-body-right">
@@ -341,7 +342,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                             </ul>
                         </div>
                         <ProfilePosts matchingUser={matchingUser} overview={overview} commentsOnly={commentsOnly} postsOnly={postsOnly}
-                        setOverview={setOverview} setCommentsOnly={setCommentsOnly} setPostsOnly={setPostsOnly}
+                        setOverview={setOverview} setCommentsOnly={setCommentsOnly} setPostsOnly={setPostsOnly} setUserData={setUserData}
                         />
                     </div>
                     <div className="community-body-right">
