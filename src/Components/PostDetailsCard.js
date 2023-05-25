@@ -172,6 +172,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                                                         const docRef = doc(db, "users", user.displayName)
                                                         const docSnap = await getDoc(docRef)
                                                         const data = docSnap.data()
+                                                        console.log(data) 
                                                         setUserData([data]) 
                                                         }
                                                         updateUser()
@@ -279,6 +280,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                                                     const docSnap = await getDoc(docRef)
                                                     const data = docSnap.data()
                                                     setUserData([data]) 
+                                                    console.log(data)
                                                     }
                                                     updateUser()
                                                 }
@@ -373,7 +375,9 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
             setEdit(true)
         }
         console.log(id)
-    }, [])
+    }, []) 
+
+    
 
     return (
         detail.map( data => {
