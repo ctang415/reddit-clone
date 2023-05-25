@@ -1,4 +1,3 @@
-import { signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { auth, db } from '../firebase-config';

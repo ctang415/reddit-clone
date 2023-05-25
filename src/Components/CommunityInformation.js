@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { auth } from "../firebase-config";
+import { auth, db } from "../firebase-config";
 import CommunityModal from "./CommunityModal";
 import Dropdown from "./Dropdown";
 import Policy from "./Policy";
 import CommunityIcon from "../Assets/communityicon.png"
+import Edit from "../Assets/edit.png"
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 
-const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost, communityModal, setCommunityModal, drop, setDrop }) => {
+const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost, communityModal, setCommunityModal, drop, setDrop, 
+                                setFirebaseCommunityData }) => {
     const [ rules, setRules ] = useState(false)
     const [ dropBox, setDropBox ] = useState(false)
     const [ popularCommunities, setPopularCommunities ] = useState([])
     const [ baseSubmit, setBaseSubmit ] = useState(true)
     const [ communityRules, setCommunityRules ] = useState([])
+    const [ currentUser, setCurrentUser ] = useState('')
+    const [ edit, setEdit ] = useState(false)
+    const [ text, setText ] = useState('')
     const params = useParams();
     const user = auth.currentUser;
 
@@ -34,9 +40,33 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
         setPopularCommunities(newCom)
     }
 
+    const handleEdit = () => {
+        setEdit(true)
+    }
+
     const handleCreateCommunity = () => {
         setCommunityModal(!communityModal) 
         setDrop(false) 
+    }
+
+    const handleCancel = () => {
+        setEdit(false)
+    }
+
+    const handleSave = async () => {
+        setEdit(false)
+        const docRef = doc(db, "communities", params.id)
+        await updateDoc(docRef, { about: text })
+        const getCommunity = async () => {
+            const docSnap = await getDoc(docRef);
+            const data = docSnap.data()
+            setFirebaseCommunityData([data])
+        }
+        getCommunity()
+    }
+
+    const handleChange = (e) => {
+        setText(e.target.value)
     }
 
     useEffect(() => {
@@ -73,7 +103,13 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
         console.log(firebaseCommunityData)
     }, [])
 
-    if (params.id) {
+    useEffect(() => {
+        if (user) {
+            setCurrentUser(user.displayName)
+        }
+    }, [user])
+
+if (params.id) {
     return (
         firebaseCommunityData.map(data => {
             return (
@@ -88,7 +124,21 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
                         <img src={CommunityIcon} alt="Community Icon"/>
                         <Link to={`../f/${data.name}`}><h3>f/{data.name}</h3></Link>
                     </div>
-                    <p>Text about section</p>
+                    <div>
+                        <div className={ edit ? "community-info-input" : "input-empty" }>
+                            <input type="text"
+                            placeholder={data.about}
+                            onChange={handleChange}
+                            />
+                            <div>
+                                <button style={{ color: "red" }} onClick={handleCancel}>Cancel</button>
+                                <button style={{ color: "royalblue" }} onClick={handleSave}>Save</button>
+                            </div>
+                        </div>
+                        <div className={edit ? "input-empty" : "community-info-information" }>
+                            {data.about} <img className={data.moderators.includes(currentUser) ? "user-left" : "input-empty" } src={Edit} alt="Edit icon" onClick={handleEdit}></img>
+                        </div>
+                    </div>
                     <p>Created {data.created}</p>
                 </div>
                 <div className="community-divide">

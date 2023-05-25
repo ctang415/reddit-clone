@@ -2325,3 +2325,38 @@ hr.vertical:hover {
   font-size: 0.8em;
   font-weight: bold;
 }
+
+.community-info-input {
+  display: flex;
+  flex-direction: column;
+  border: solid black;
+  padding: 0.5em;
+}
+
+.community-info-input > input, .community-info-input > input:hover, .community-info-input > input:focus {
+  border: none;
+  outline: none;
+}
+
+.community-info-input > div {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1em;
+}
+
+.community-info-input > div > button {
+  border: none;
+  background-color: white;
+  font-weight: bold;
+}
+
+.community-info-information {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.community-info-information > img {
+  height: 1.2em;
+  cursor: pointer;
+}
