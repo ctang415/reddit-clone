@@ -38,8 +38,6 @@ const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue, loggedIn, setLog
             posts: [],
             comments: [],
             joined: [],
-            upvoted: [],
-            downvoted: [],
             dark: false
         })
     }

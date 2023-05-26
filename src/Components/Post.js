@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import parse from 'html-react-parser';
 import * as sanitizeHtml from 'sanitize-html';
 import Up from "../Assets/up.png"
+import Upvoted from "../Assets/upvoted.png"
 import Down from "../Assets/down.png"
+import Downvoted from "../Assets/downvoted.png"
 import Comment from "../Assets/comment.png"
 import Share from "../Assets/share.png"
 import Save from "../Assets/save.png"
@@ -11,13 +13,13 @@ import { auth, db } from "../firebase-config";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 
-
 const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, isLoggedIn, communityData, allJoinedPosts, 
     isEmpty, setAllJoinedPosts, setIsEmpty, setCommunityData, setUserData }) => {
     const [ post, setPost ] = useState([])
     const [ allPosts, setAllPosts] = useState([])
     const [ deleted, setDeleted ] = useState('[deleted]')
     const [ currentUser, setCurrentUser ] = useState('')
+    const [ voteArray, setVoteArray ] = useState([])
     const params = useParams()
     const user = auth.currentUser
     const location = useLocation()
@@ -528,8 +530,8 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
                     return (
                     <div className="post" key={post.id}>
                     <div className="post-left">
-                        <div className="post-votes">
-                            <img src={Up} alt="Up arrow" className={post.community} id={post.id} onClick={handleVoteLoggedIn}></img>
+                        <div className="post-votes-joined">
+                            <img src={  Up } alt="Up arrow" className={post.community} id={post.id} onClick={handleVoteLoggedIn}></img>
                                 {post.votes}
                             <img src={Down} alt="Down arrow" className={post.community} id={post.id} onClick={handleVoteLoggedIn}></img>
                         </div>
@@ -585,7 +587,7 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
                 return ( 
                     <div className="post" key={post.id}>
                         <div className="post-left">
-                            <div className="post-votes">
+                            <div className="post-votes-all">
                                 <img src={Up} alt="Up arrow"></img>
                                     {post.votes}
                                 <img src={Down} alt="Down arrow"></img>
@@ -643,12 +645,12 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
                             <div className="post" key={post.id}>
                             <div className="post-left">
                              <div className="post-votes">
-                                    <img src={Up} alt="Up arrow" id={post.id} onClick={handleVote}></img>
-                                        {post.votes} 
-                                    <img src={Down} alt="Down arrow" id={post.id} onClick={handleVote}></img>
+                                   <div>
+                                        <img src={ Up } alt="Up arrow" id={post.id} onClick={handleVote}></img>
+                                            {post.votes} 
+                                        <img src={ Down} alt="Down arrow" id={post.id} onClick={handleVote}></img>
+                                    </div>
                                 </div>
-
-
                             </div>
                             <div className="post-right">    
                                 <div className="post-pinned-author">

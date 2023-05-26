@@ -26,7 +26,10 @@ const Searchbar = ( { communityData } ) => {
         setSearchInput(e.target.value);
       if (searchInput.length > 0) {
           setFiltered(data.filter((community) => { 
-            return community.includes(searchInput)
+            let lowercase = community.toLowerCase()
+                if (lowercase.includes(searchInput.toLowerCase())) {
+                    return lowercase.includes(searchInput)
+                } 
       }))
       }
       console.log(data)

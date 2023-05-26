@@ -57,12 +57,12 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
         setEdit(false)
         const docRef = doc(db, "communities", params.id)
         await updateDoc(docRef, { about: text })
-        const getCommunity = async () => {
+        const communityUpdate = async () => {
             const docSnap = await getDoc(docRef);
             const data = docSnap.data()
             setFirebaseCommunityData([data])
         }
-        getCommunity()
+        communityUpdate()
     }
 
     const handleChange = (e) => {
@@ -70,7 +70,7 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
     }
 
     useEffect(() => {
-        const communityList = [ {header: "POPULAR COMMUNITIES", list: ["AskReddit", "NoStupidQuestions", "DestinyTheGame", 
+        const communityList = [ {header: "POPULAR COMMUNITIES", list: ["AskFreddit", "NoStupidQuestions", "DestinyTheGame", 
         "explainlikeimfive", "AskMen", "leagueoflegends", "Minecraft"], drop: true}, {header: "GAMING", list: ["StardewValley", 
         "FortniteCompetitive", "Warframe", "totalwar", "Fallout", "RocketLeague", "fo76", "yugioh", "eu4"], drop: false}, {
         header: "SPORTS", list: ["running", "soccer", "bjj", "MMA", "hockey", "formula1", "CFB", "barstoolsports", "airsoft", 
@@ -131,8 +131,8 @@ if (params.id) {
                             onChange={handleChange}
                             />
                             <div>
-                                <button style={{ color: "red" }} onClick={handleCancel}>Cancel</button>
-                                <button style={{ color: "royalblue" }} onClick={handleSave}>Save</button>
+                                <button style={{ color: "red", cursor: "pointer" }} onClick={handleCancel}>Cancel</button>
+                                <button style={{ color: "royalblue", cursor: "pointer" }} onClick={handleSave}>Save</button>
                             </div>
                         </div>
                         <div className={edit ? "input-empty" : "community-info-information" }>
@@ -163,7 +163,11 @@ if (params.id) {
             </div>
             <div className={ baseSubmit ? "input-empty" : "community-mod"} >
                 <h5>Moderators</h5>
-                <p className={ isLoggedIn ? "moderators-true" : "moderators-false"}>u/{data.moderators}</p>
+                {data.moderators.map(mod => {
+                    return (
+                        <p className={ isLoggedIn ? "moderators-true" : "moderators-false"}>u/{mod}</p>
+                    )
+                })}
                 <p className={ isLoggedIn ? "moderators-false" : "moderators-true"}>Moderator list hidden.</p>
             </div>
             <Policy/>

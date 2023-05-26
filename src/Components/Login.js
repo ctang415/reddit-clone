@@ -54,8 +54,6 @@ const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, 
             posts: [],
             comments: [],
             joined: [],
-            upvoted: [],
-            downvoted: [],
             dark: false
         })
     }

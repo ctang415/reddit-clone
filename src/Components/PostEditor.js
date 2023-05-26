@@ -21,8 +21,8 @@ const PostEditor = ( {postEdit, setPostValue, postValue, setPostHtml, postHtml, 
             magicUrl: true,
             imageCompress: {
                 quality: 0.7, // default
-                maxWidth: 1000, // default
-                maxHeight: 1000, // default
+                maxWidth: 550, // default
+                maxHeight: 700, // default
                 imageType: 'image/jpeg', // default
                 debug: true, // default
                 suppressErrorLogging: false, // default

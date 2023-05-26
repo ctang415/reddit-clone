@@ -26,8 +26,6 @@ const CreateUser = ( {createUser, setSignUp, setCreateUser, email, setLogin, set
             posts: [],
             comments: [],
             joined: [],
-            upvoted: [],
-            downvoted: [],
             dark: false
         })
     }

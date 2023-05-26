@@ -323,7 +323,7 @@ if (userInfo[0] !== undefined && overview) {
                 <div className="post-width">
                     <div className={ data.poster ? "post" : "input-empty"}>
                         <div className="post-left">
-                            <div className="post-votes">
+                            <div className="post-votes-user">
                                 <img src={Up} alt="Up arrow" className={data.community} id={data.id} onClick={handleVote}></img>
                                     {data.votes}
                                 <img src={Down} alt="Down arrow" className={data.community} id={data.id} onClick={handleVote}></img>
@@ -334,14 +334,16 @@ if (userInfo[0] !== undefined && overview) {
                                 <div className="post-pinned-community"><Link to={`../f/${data.community}`}>f/{data.community}</Link></div>
                                 <div className="post-pinned-author">Posted by <Link to={`../user/${params.id}`}>u/{params.id}</Link></div>
                             </div>
-                            <Link to={`../f/${data.community}/comments/${data.id}`}>
                                 <div className="post-pinned-header"> 
-                                    {data.title}
+                                    <Link to={`../f/${data.community}/comments/${data.id}`}>
+                                        {data.title}
+                                    </Link>
                                 </div>
                                 <div className="post-media-true">
-                                    {parse(`${data.content.html}`)}
+                                    <Link to={`../f/${data.community}/comments/${data.id}`}>
+                                        {parse(`${data.content.html}`)}
+                                    </Link>
                                 </div>
-                            </Link>
                             <ul>
                                 <li><img src={Comment} alt="Comment bubble"/> { data.poster ? data.comments.length : null } Comments</li> 
                                 <li><img src={Share} alt="Share button" /> Share</li>
@@ -380,7 +382,9 @@ if (userInfo[0] !== undefined && overview) {
                                         {data.votes} points * # days ago
                                 </div>
                                 <Link to={`../f/${data.community}/comments/${data.id}`}>
-                                        <div className="profile-post-text">{parse(`${data.content.html}`)}</div>
+                                        <div className="profile-post-text">
+                                            {parse(`${data.content.html}`)}
+                                        </div>
                                 </Link>
                                 <ul>
                                     <li>Reply</li>
@@ -478,7 +482,7 @@ if (userInfo[0] !== undefined && overview) {
                 <div className="post-width">
                     <div className={ data.poster ? "post" : "input-empty"}>
                         <div className="post-left">
-                            <div className="post-votes">
+                            <div className="post-votes-only">
                                 <img src={Up} alt="Up arrow" className={data.community} id={data.id} onClick={handleVote}></img>
                                     {data.votes}
                                 <img src={Down} alt="Down arrow" className={data.community} id={data.id} onClick={handleVote}></img>
@@ -489,14 +493,16 @@ if (userInfo[0] !== undefined && overview) {
                                 <div className="post-pinned-community"><Link to={`../f/${data.community}`}>f/{data.community}</Link></div>
                                 <div className="post-pinned-author">Posted by <Link to={`../user/${params.id}`}>u/{params.id}</Link></div>
                             </div>
-                            <Link to={`../f/${data.community}/comments/${data.id}`}>
                                 <div className="post-pinned-header"> 
+                                <Link to={`../f/${data.community}/comments/${data.id}`}>
                                     {data.title}
+                                    </Link>
                                 </div>
                                 <div className="post-media-true">
+                                <Link to={`../f/${data.community}/comments/${data.id}`}>
                                     {parse(`${data.content.html}`)}
+                                    </Link>
                                 </div>
-                            </Link>
                             <ul>
                                 <li><img src={Comment} alt="Comment bubble"/> { data.poster ? data.comments.length : null } Comments</li> 
                                 <li><img src={Share} alt="Share button" /> Share</li>

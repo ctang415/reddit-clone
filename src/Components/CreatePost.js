@@ -42,8 +42,8 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
             magicUrl: true,
             imageCompress: {
                 quality: 0.7, // default
-                maxWidth: 1000, // default
-                maxHeight: 1000, // default
+                maxWidth: 550, // default
+                maxHeight: 650, // default
                 imageType: 'image/jpeg', // default
                 debug: true, // default
                 suppressErrorLogging: false, // default
@@ -56,6 +56,26 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
     const { quill, quillRef } = useQuill({theme, modules, formats, placeholder});
 
     const handleSubmit = (e) => {
+        if (value.length === 0 ) {
+            e.preventDefault()
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const today  = new Date();
+            const myDate = today.toLocaleDateString("en-US", options)
+            const uploadPost = async () => {
+                if (params.id !== undefined ) {
+                    const docRef = doc(db, "communities", params.id)
+                    let id = nanoid(8)
+                    await updateDoc(docRef, {posts: arrayUnion({title: title, content: { html: html, delta: value }, author: user.displayName, community: params.id, id: id, votes: 1, voters: [ {username: user.displayName, vote: "upvote" } ], date: myDate, comments: []}) })
+                    const userRef = doc(db, "users", user.displayName)
+                    await updateDoc(userRef, {posts:  arrayUnion({community: params.id, poster: true, title: title, content: { html: html, delta: value }, author: user.displayName, id: id, votes: 1, voters: [ {username: user.displayName, vote: "upvote" }], date: myDate, comments: []})})
+                    navigate(`../f/${params.id}/comments/${id}`)
+                } else {
+                    console.log('PLEASE SELECT A COMMUNITY')
+                }
+                console.log(params.id)
+            }
+            uploadPost()
+        } else {
         e.preventDefault()
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const today  = new Date();
@@ -75,9 +95,9 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
             if (params.id !== undefined ) {
                 const docRef = doc(db, "communities", params.id)
                 let id = nanoid(8)
-                await updateDoc(docRef, {posts: arrayUnion({title: title, content: { html: newHtml, delta: value }, author: user.displayName, community: params.id, id: id, votes: 1, voters: [], date: myDate, comments: []}) })
+                await updateDoc(docRef, {posts: arrayUnion({title: title, content: { html: newHtml, delta: value }, author: user.displayName, community: params.id, id: id, votes: 1, voters: [ {username: user.displayName, vote: "upvote" } ], date: myDate, comments: []}) })
                 const userRef = doc(db, "users", user.displayName)
-                await updateDoc(userRef, {posts:  arrayUnion({community: params.id, poster: true, title: title, content: { html: newHtml, delta: value }, author: user.displayName, id: id, votes: 1, voters: [], date: myDate, comments: []})})
+                await updateDoc(userRef, {posts:  arrayUnion({community: params.id, poster: true, title: title, content: { html: newHtml, delta: value }, author: user.displayName, id: id, votes: 1, voters: [ {username: user.displayName, vote: "upvote" }], date: myDate, comments: []})})
                 navigate(`../f/${params.id}/comments/${id}`)
             } else {
                 console.log('PLEASE SELECT A COMMUNITY')
@@ -85,6 +105,7 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
             console.log(params.id)
         }
         uploadPost()
+    }
     }
     
     const handlePost = () => {

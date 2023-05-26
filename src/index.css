@@ -800,7 +800,7 @@ label {
   border: 1px solid #cdd9e3;
   cursor: pointer;
   max-height:18em;
-  width: 100%;
+  max-width: 44em;
 }
 
 .post-width {
@@ -811,7 +811,7 @@ label {
   border: 1px solid darkgrey;
 }
 
-.post-votes {
+.post-votes > div, .post-votes-user, .post-votes-joined, .post-votes-all, .post-votes-only {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -904,11 +904,17 @@ label {
   padding-bottom: 0.5em;
 }
 
+.post-right > h3, .post-detail-right > h3 {
+  width: 90%;
+  font-size: 1em;
+}
+
 .post-detail-right > h3 {
   padding-top: 0.5em;
 }
 
-.post-votes > img, .post-detail-votes > img {
+.post-votes > div > img, .post-detail-votes > img, .post-votes-user > img, .post-votes-joined > img, 
+.post-votes-all > img, .post-votes-only > img {
   height: 1.5em;
   cursor: pointer;
 }
@@ -933,10 +939,7 @@ label {
   padding-bottom: 0.2em;
   padding-top: 1em;
   overflow: hidden;
-}
-
-.post-show-more {
-  position: absolute;
+  width: 90%;
 }
 
 .post-detail-media-true {
@@ -944,7 +947,7 @@ label {
   font-size: 0.85em;
   padding-top: 1em;
   padding-bottom: 1em;
-  width: 100%;
+  width: 95%;
   word-wrap: break-word;
 }
 
@@ -977,8 +980,9 @@ label {
   color: grey;
 }
 
-.post-pinned-header {
-  font-size: 1.3em;
+.post-pinned-header > a {
+  font-size: 1em;
+  font-weight: bold;
   padding-bottom: 0.5em;
 }
 
@@ -1194,7 +1198,8 @@ label {
 }
 
 .community-filters > ul > li > img, .post-detail-right > ul > div > img, .post-right > ul > li > img, 
-.post-detail-right > ul > li > img, .post-right > ul > li > a > img,  .search-bar-items > a > img, .post-detail-dropbar-user > ul > li > img  {
+.post-detail-right > ul > li > img, .post-right > ul > li > a > img,  .search-bar-items > a > img, 
+.post-detail-dropbar-user > ul > li > img  {
   height: 1.5em;
 }
 
@@ -2104,6 +2109,7 @@ code {
 }
 
 .profile-post-text {
+  overflow: hidden;
   word-wrap: break-word;
 }
 
@@ -2226,8 +2232,9 @@ hr.vertical:hover {
   padding: 0.1em;
 }
 
-.comment-votes > img:hover, .comment-right > ul > li > div:hover, .post-votes > img:hover, 
-.post-detail-votes > img:hover, .post-detail-dropbar-comment > ul > li:hover {
+.comment-votes > img:hover, .comment-right > ul > li > div:hover, .post-votes > div > img:hover, 
+.post-votes-user > img:hover, .post-votes-joined > img:hover, .post-votes-all > img:hover, 
+.post-detail-votes > img:hover, .post-detail-dropbar-comment > ul > li:hover, .post-votes-only > img:hover {
   background-color: #dfe5eb;
 } 
 
