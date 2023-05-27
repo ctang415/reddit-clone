@@ -10,8 +10,6 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost, communityModal, setCommunityModal, drop, setDrop, 
                                 setFirebaseCommunityData }) => {
-    const [ rules, setRules ] = useState(false)
-    const [ dropBox, setDropBox ] = useState(false)
     const [ popularCommunities, setPopularCommunities ] = useState([])
     const [ baseSubmit, setBaseSubmit ] = useState(true)
     const [ communityRules, setCommunityRules ] = useState([])
@@ -20,10 +18,6 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
     const [ text, setText ] = useState('')
     const params = useParams();
     const user = auth.currentUser;
-
-    const handleDrop = () => {
-        setDropBox(!dropBox)
-    }
 
     const handleCommunityDrop = (e) => {
         const newCom = popularCommunities.map(x => {
@@ -106,7 +100,12 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
     useEffect(() => {
         if (user) {
             setCurrentUser(user.displayName)
-        }
+            setEdit(true)
+        } else {
+            setEdit(false)
+            setCurrentUser('')
+        } 
+        setEdit(false)
     }, [user])
 
 if (params.id) {
@@ -147,19 +146,6 @@ if (params.id) {
                 <div className={ isLoggedIn ? "create-button" : "community-button-false"}>
                     <button className={isLoggedIn ? "community-post-button" : "community-button-false"} onClick={createNewPost}>Create Post</button>
                 </div>
-            </div>
-            <div className={ rules ? "community-rules": "community-rules-false"}>
-                <h5>Rules</h5>
-                <ol>
-                    <li onClick={handleDrop}>
-                        <div>
-                        Hi
-                        <p>⌄</p>
-                        </div>
-                    </li>
-                    <div className={ dropBox ? "dropbox-true" : "dropbox-false"}>More text</div>
-                    <span className="community-divider-text"></span>
-                </ol>
             </div>
             <div className={ baseSubmit ? "input-empty" : "community-mod"} >
                 <h5>Moderators</h5>

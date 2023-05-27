@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Modal from "./Modal";
 import { onAuthStateChanged } from "firebase/auth";
 import UserDrop from "./UserDrop";
@@ -15,8 +15,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Searchbar from "./Searchbar";
 
 const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUserData, communityData, setCommunityData, 
-    communityModal, setCommunityModal, setDrop, drop, setAllJoinedPosts, setIsEmpty, isEmpty, 
-    allJoinedPosts }) => {
+    communityModal, setCommunityModal, setDrop, drop, setAllJoinedPosts, setIsEmpty, isEmpty, allJoinedPosts }) => {
     const [ myUser, setMyUser ] = useState([])
     const [ communityDrop, setCommunityDrop ] = useState(false)
     const [ loggedIn, setLoggedIn ] = useState(false)
@@ -38,9 +37,12 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
         }
     }
 
-    const handleCommunityClick = () => {
-        if (communityDrop) {
-            setCommunityDrop(false)
+    const handleCommunityClick = (e) => {
+         if (communityDrop) {
+            if (e.target.className === "header-user-profile-login" || e.target.className === "header-user-profile-login-true"
+            || e.target.className === "header-item" || e.target.className === "user-left" ) {
+                setCommunityDrop(false)
+            }
         } else {
             setCommunityDrop(true)
         }
@@ -150,17 +152,28 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                                                 <div className="user-drop-left">⌄</div> 
                                             </div>
                                             <div className="drop-down-bar-community">
-                                                <CommunitiesDrop userData={userData} communityDrop={communityDrop} setCommunityDrop={setCommunityDrop} />
+                                                <CommunitiesDrop 
+                                                userData={userData} communityDrop={communityDrop} setCommunityDrop={setCommunityDrop} 
+                                                handleCommunityClick={handleCommunityClick}
+                                                />
                                             </div>
                                         </div>
                                     </div> 
                                     <Searchbar communityData={communityData}/>
                                     <div className="header-user-profile-icons">
                                         <ul>
-                                            <li><img src={Moderation} alt="Mod icon"/></li>
-                                            <li><img src={Message} alt="Message icon"/></li>
-                                            <li><img src={Notification} alt="Notification icon"/></li>
-                                            <li onClick={createNewPost}><img src={Post} alt="Post icon"/></li>
+                                            <li>
+                                                <img src={Moderation} alt="Mod icon"/>
+                                            </li>
+                                            <li>
+                                                <img src={Message} alt="Message icon"/>
+                                            </li>
+                                            <li>
+                                                <img src={Notification} alt="Notification icon"/>
+                                            </li>
+                                            <li onClick={createNewPost}>
+                                                <img src={Post} alt="Post icon"/>
+                                            </li>
                                         </ul>
                                     </div>
                                     <div className="drop">
@@ -197,67 +210,3 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
     } }
 
 export default Header
-
-/*
-else { 
-        return ( 
-                <div key={user.displayName}>
-                    <nav className="nav-bar">
-                        <div className="nav-login-left">
-                            <Link to="/" style={{ textDecoration: 'none' }}>
-                                <div className="logo">
-                                    <img id="freddit-logo" src={Freddit} alt="Green snoo Logo"></img>
-                                        <div>freddit</div>
-                                    </div>
-                                    </Link>
-                                        <div className="drop-login">
-                                            <div className={communityDrop ? "header-user-profile-login-true" : "header-user-profile-login" } onClick={handleCommunityClick}>
-                                                <div className="user-left">
-                                                    <div className="user-info-name-login">
-                                                        <p className={ homeIsTrue ? "user-left" : "input-empty" }>Home</p>
-                                                        <p className={ communityIsTrue ? "user-left" : "input-empty" }>{location.pathname.substring(1)}</p>
-                                                        <p className={ submitIsTrue ? "user-left" : "input-empty"}>Create Post</p>
-                                                        <p className={ userIsTrue ? "user-left" : "input-empty" }> u/{location.pathname.split('/user/')[1]}</p>
-                                                    </div>
-                                                </div>
-                                                <div className="user-drop-left">⌄</div> 
-                                            </div>
-                                            <div className="drop-down-bar-community">
-                                                <CommunitiesDrop userData={userData} communityDrop={communityDrop} setCommunityDrop={setCommunityDrop} />
-                                            </div>
-                                        </div>
-                                    </div> 
-                                    <Searchbar communityData={communityData}/>
-                                    <div className="drop">
-                                        <div className="header-user-profile" onClick={handleClick}>
-                                            <div className="user-right">
-                                                <div className="user-avatar">
-                                                    <img id="nav-bar-image" src={user.photoURL} alt="Snoo character"></img>
-                                                </div> 
-                                                <div className="user-info">
-                                                    <div className="user-info-name">
-                                                        <span>{user.displayName}</span>
-                                                    </div>
-                                                    <div id="karma">
-                                                        <span> { user ? userData[0].karma : 'unknown' } karma </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="user-drop">⌄</div> 
-                                        </div>
-                                        <div className="drop-down-bar">
-                                            <UserDrop userData={userData} setMyUser={setMyUser} drop={drop} setDrop={setDrop} setModalIsTrue={setModalIsTrue}
-                                            communityModal={communityModal} setCommunityModal={setCommunityModal} setLoggedIn={setLoggedIn} setAllJoinedPosts={setAllJoinedPosts}
-                                            setJoinedList={setJoinedList}
-                                            />
-                                        </div>
-                                    </div>
-                                </nav>
-                                <CommunityModal 
-                                communityData={communityData} setCommunityData={setCommunityData} 
-                                communityModal={communityModal} userData={userData} setCommunityModal={setCommunityModal} 
-                                />
-                        </div>
-        )
-    }
-*/

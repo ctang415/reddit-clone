@@ -17,7 +17,7 @@ const CommunitySearch = ( { communityData } ) => {
     }
 
     const handleDrop = (e) => {
-        if (catMenu.current && drop && !catMenu.current.contains(e.target)){
+        if (catMenu.current && drop && !catMenu.current.contains(e.target)) {
             setDrop(false)
         }
     }

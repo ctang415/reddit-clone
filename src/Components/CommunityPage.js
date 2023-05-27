@@ -102,23 +102,24 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
 
     useEffect(() => {
         document.title = `${params.id}`
+        window.scrollTo({ top:0, behavior:'auto'})
     }, [params.id])
 
     useEffect (() => {
         if (params.id !== undefined ) {
-        const getCommunity = async () => {
-        const docRef = doc(db, "communities", params.id)
-        const docSnap = await getDoc(docRef);
-        const data = docSnap.data()
-        if (data === undefined) { 
-            setPage(false)
-        } else {
-            setFirebaseCommunityData([data])
-            setPage(true)
+            const getCommunity = async () => {
+            const docRef = doc(db, "communities", params.id)
+            const docSnap = await getDoc(docRef);
+            const data = docSnap.data()
+                if (data === undefined) { 
+                    setPage(false)
+                } else {
+                    setFirebaseCommunityData([data])
+                    setPage(true)
+                }
+            }
+            getCommunity()
         }
-    }
-    getCommunity()
-}
     }, [params.id])
 
     useEffect(() => {
@@ -132,15 +133,14 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
     }, [user])
 
     useEffect(() => {
-        if (isLoggedIn) {
+        if (user) {
             if (userData[0].joined.includes(params.id) === true) {
                 setSubscribed(true) 
             } else { 
                 setSubscribed(false) 
             }
-        } 
-        console.log(userData)
-    }, [subscribed])
+        }
+    }, [subscribed, params.id])
 
     if (params.id && page === false) {
         return (

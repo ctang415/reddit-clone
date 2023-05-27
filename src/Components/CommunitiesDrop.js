@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const CommunitiesDrop = ( { communityDrop, setCommunityDrop, userData } ) => {
+const CommunitiesDrop = ( { communityDrop, setCommunityDrop, userData, handleCommunityClick } ) => {
 
     if (communityDrop) {
         return (
@@ -10,9 +10,9 @@ const CommunitiesDrop = ( { communityDrop, setCommunityDrop, userData } ) => {
                 <ul>
                     {userData[0].joined.map(item => {
                         return (
-                            <div key={item}>
+                            <div className={item} key={item} onClick={handleCommunityClick}>
                                 <Link to={'f/'+ item} style={{ textDecoration: 'none', color: 'black'}}>
-                                    <li key={item}>
+                                    <li className="header-item" key={item}>
                                         {item}
                                     </li>
                                 </Link>
