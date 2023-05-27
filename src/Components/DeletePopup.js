@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import React from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../firebase-config";
 
@@ -7,6 +7,7 @@ const DeletePopup = ( {popup, setPopup} ) => {
     const params = useParams()
     const user = auth.currentUser
     const location = useLocation()
+    const navigate = useNavigate()
 
     const handleModal = () => {
         setPopup(false)
@@ -56,8 +57,8 @@ const DeletePopup = ( {popup, setPopup} ) => {
         await updateDoc(docRef, { posts: filteredArray })
         await updateDoc(userRef, { posts: newArray })
         setPopup(false)
+        navigate(`../f/${location.pathname.split('/comments')[0].split('f/')[1]}`)
     }
-
 
     if (popup) {
     return (

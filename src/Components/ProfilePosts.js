@@ -26,27 +26,24 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
         const docSnap = await getDoc(docRef)
         const data = docSnap.data()
             if (data.posts[0] && data.comments) {
-                setUserInfo(data.comments)
                 setComments(data.comments)
-                setUserInfo(prev => [...prev, data.posts[0]])
-                setPosts([data.posts[0]])
-                setOverview(true)
-                setPostsOnly(false)
+                setPosts(data.posts) 
+                setUserInfo(data.posts.concat(data.comments)) 
+                setOverview(true) 
+                setPostsOnly(false) 
                 setCommentsOnly(false)
             } else if (data.posts[0] && !data.comments) {
-                setUserInfo(prev => [...prev, data.posts[0]])
-                setPosts([data.posts[0]])
+                setPosts(data.posts)
                 setPostsOnly(true)
                 setOverview(false)
                 setCommentsOnly(false)
             } else {
-                setUserInfo(data.comments)
                 setComments(data.comments)
                 setCommentsOnly(true)
                 setOverview(false)
                 setPostsOnly(false)
             }
-        console.log(userInfo)
+        console.log(comments) 
     }
 
     const handleVote = (e) => {
@@ -306,6 +303,10 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
     }, [location.pathname])
 
     useEffect(() => {
+        getUserInfo() 
+    }, [])
+
+    useEffect(() => {
         if (user) {
             setIsLoggedIn(true)
             setCurrentUser(user.displayName)
@@ -313,12 +314,12 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
             setIsLoggedIn(false)
             setCurrentUser('')
         }
-        console.log(userInfo) 
+        console.log(userInfo)
     }, [user])
 
 if (userInfo[0] !== undefined && overview) {
     return (
-        userInfo.map((data) => {
+        userInfo.map(data => {
             return (
                 <div className="post-width">
                     <div className={ data.poster ? "post" : "input-empty"}>
@@ -379,7 +380,7 @@ if (userInfo[0] !== undefined && overview) {
                                        <div>
                                             <Link to={`../user/${data.username}`}>{data.username}</Link>
                                         </div> 
-                                        {data.votes} points * # days ago
+                                        {data.votes} points * {data.date}
                                 </div>
                                 <Link to={`../f/${data.community}/comments/${data.id}`}>
                                         <div className="profile-post-text">
@@ -406,15 +407,14 @@ if (userInfo[0] !== undefined && overview) {
                                     </ul>
                                 </div>
                                 </ul>
-
                             </div>
                     </div>
                 </div>
-            </div>
-        )
-    })
+            </div>   
+            )
+        })
     )
-} else if (userInfo[0] !== undefined && commentsOnly) {
+} else if (comments[0] !== undefined && commentsOnly) {
     return (
         comments.map((data) => {
             return (
@@ -446,7 +446,7 @@ if (userInfo[0] !== undefined && overview) {
                                        <div>
                                             <Link to={`../user/${data.username}`}>{data.username}</Link>
                                         </div> 
-                                        {data.votes} points * # days ago
+                                        {data.votes} points * {data.date}
                                 </div>
                                 <Link to={`../f/${data.community}/comments/${data.id}`}>
                                         <div className="profile-post-text">{parse(`${data.content.html}`)}</div>
@@ -475,7 +475,7 @@ if (userInfo[0] !== undefined && overview) {
         )
     })
     )
-} else if (userInfo[0] !== undefined && postsOnly) {
+} else if (posts[0] !== undefined && postsOnly) {
     return (
         posts.map((data) => {
             return (

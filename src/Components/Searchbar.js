@@ -18,6 +18,7 @@ const Searchbar = ( { communityData } ) => {
     const handleDrop = (e) => {
         if (catMenu.current && drop && !catMenu.current.contains(e.target)){
             setDrop(false)
+            setFiltered([])
         }
     }
 
