@@ -83,9 +83,11 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
         let info = converter.convert(); 
         console.log(info)
         let newHtml = sanitizeHtml(info, {
-            allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ]), 
-            allowedAttributes: {'img': ['src']},
-            allowedSchemes: [ 'data', 'http', 'https']
+            allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img', 'link', 'a' ]), 
+            allowedAttributes: {'img': ['src'], 'a' : ['href', 'name', 'target'], 'link': [ 'href','rel','type' ]},
+            allowedSchemes: [ 'data', 'http', 'https', 'ftp', 'mailto', 'tel'],
+            allowedSchemesByTag: {},
+            allowedSchemesAppliedToAttributes: [ 'href', 'src', 'cite' ],
         })
         const uploadComment = async () => {
             let newid = nanoid(5)
@@ -332,7 +334,6 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
         }
     }
 
-
     useEffect(() => {
         if (value.length === 25) {
             setValue([])
@@ -376,8 +377,6 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
         }
         console.log(id)
     }, []) 
-
-    
 
     return (
         detail.map( data => {
@@ -423,7 +422,8 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                                 </li>
                                 <li id={data.id} className={ data.author === currentUser ? "user-left" : 'input-empty'}
                                 onClick={handleDelete}>
-                                    <img src={Delete} alt="Delete icon"></img>Delete
+                                    <img src={Delete} alt="Delete icon"></img>
+                                    Delete
                                 </li>
                             </ul>
                         </div>

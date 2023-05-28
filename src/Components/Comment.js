@@ -46,10 +46,16 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
         let info = converter.convert(); 
         console.log(info)
         let newHtml = sanitizeHtml(info, {
-            allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ]), 
-            allowedAttributes: {'img': ['src']},
-            allowedSchemes: [ 'data', 'http', 'https']
+            allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img', 'link', 'a' ]), 
+            allowedAttributes: {'img': ['src'], 'a' : ['href', 'name', 'target'], 'link': [ 'href','rel','type' ]},
+            allowedSchemes: [ 'data', 'http', 'https', 'ftp', 'mailto', 'tel'],
+            allowedSchemesByTag: {},
+            allowedSchemesAppliedToAttributes: [ 'href', 'src', 'cite' ],
+            allowProtocolRelative: true,
+            enforceHtmlBoundary: false,
+            parseStyleAttributes: true
         })
+        console.log(newHtml)
 
         const updateComment = async () => {
             const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])

@@ -23,7 +23,6 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
     const [ html, setHtml ] = useState('')
     const [ title, setTitle ] = useState('')
     const [ isUndefined, setIsUndefined ] = useState(false)
-    const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const [ postSelect, setPostSelect ] = useState(true)
     const [ imageSelect, setImageSelect ] = useState(false)
     const [ linkSelect, setLinkSelect ] = useState(false)
@@ -87,9 +86,11 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
         let info = converter.convert(); 
         console.log(info)
         let newHtml = sanitizeHtml(info, {
-            allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ]), 
-            allowedAttributes: {'img': ['src']},
-            allowedSchemes: [ 'data', 'http', 'https']
+            allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img', 'link', 'a' ]), 
+            allowedAttributes: {'img': ['src'], 'a' : ['href', 'name', 'target'], 'link': [ 'href','rel','type' ]},
+            allowedSchemes: [ 'data', 'http', 'https', 'ftp', 'mailto', 'tel'],
+            allowedSchemesByTag: {},
+            allowedSchemesAppliedToAttributes: [ 'href', 'src', 'cite' ],
         })
         const uploadPost = async () => {
             if (params.id !== undefined ) {

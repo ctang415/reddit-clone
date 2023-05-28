@@ -2323,6 +2323,7 @@ hr.vertical:hover {
 
 .input-search-box-post {
   position: absolute;
+  z-index: 1;
   background-color: white;
   width: 18em
 }
