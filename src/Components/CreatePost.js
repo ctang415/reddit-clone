@@ -12,10 +12,8 @@ import * as sanitizeHtml from 'sanitize-html';
 import { nanoid } from 'nanoid'
 import ImageCompress from 'quill-image-compress';
 import CommunitySearch from "./CommunitySearch";
-
 Quill.register('modules/magicUrl', MagicUrl)
 Quill.register('modules/imageCompress', ImageCompress);
-
 
 const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communityData }) => {
     const [ firebaseCommunityData, setFirebaseCommunityData] = useState([])
@@ -68,10 +66,7 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
                     const userRef = doc(db, "users", user.displayName)
                     await updateDoc(userRef, {posts:  arrayUnion({community: params.id, poster: true, title: title, content: { html: html, delta: value }, author: user.displayName, id: id, votes: 1, voters: [ {username: user.displayName, vote: "upvote" }], date: myDate, comments: []})})
                     navigate(`../f/${params.id}/comments/${id}`)
-                } else {
-                    console.log('PLEASE SELECT A COMMUNITY')
                 }
-                console.log(params.id)
             }
             uploadPost()
         } else {
@@ -80,11 +75,9 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
         const today  = new Date();
         const myDate = today.toLocaleDateString("en-US", options)
         let parsedValue = JSON.parse(value)
-        console.log(parsedValue.ops)
         let cfg = {};
         let converter = new QuillDeltaToHtmlConverter(parsedValue.ops, cfg);
         let info = converter.convert(); 
-        console.log(info)
         let newHtml = sanitizeHtml(info, {
             allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img', 'link', 'a' ]), 
             allowedAttributes: {'img': ['src'], 'a' : ['href', 'name', 'target'], 'link': [ 'href','rel','type' ]},
@@ -100,10 +93,7 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
                 const userRef = doc(db, "users", user.displayName)
                 await updateDoc(userRef, {posts:  arrayUnion({community: params.id, poster: true, title: title, content: { html: newHtml, delta: value }, author: user.displayName, id: id, votes: 1, voters: [ {username: user.displayName, vote: "upvote" }], date: myDate, comments: []})})
                 navigate(`../f/${params.id}/comments/${id}`)
-            } else {
-                console.log('PLEASE SELECT A COMMUNITY')
             }
-            console.log(params.id)
         }
         uploadPost()
     }
@@ -157,11 +147,6 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
             navigate('/')
         } 
     }, [user])
-
-    useEffect(() => {
-        console.log(params.id)
-        console.log(location.pathname)
-    }, [])
 
     if (user) {
         return (

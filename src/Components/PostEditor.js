@@ -35,11 +35,9 @@ const PostEditor = ( {postEdit, setPostValue, postValue, setPostHtml, postHtml, 
 
     const handleSubmit = () => {
         let parsedValue = JSON.parse(postValue)
-        console.log(parsedValue.ops)
         let cfg = {};
         let converter = new QuillDeltaToHtmlConverter(parsedValue.ops, cfg);
         let info = converter.convert(); 
-        console.log(info)
         let newHtml = sanitizeHtml(info, {
             allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ]), 
             allowedAttributes: {'img': ['src']},

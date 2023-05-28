@@ -31,7 +31,6 @@ const CommunitySearch = ( { communityData } ) => {
             return community.includes(searchInput)
       }))
       }
-      console.log(data)
     }
 
     useEffect(() => {
@@ -40,7 +39,6 @@ const CommunitySearch = ( { communityData } ) => {
                 return community.name
             }))
         }
-        console.log(communityData)
     }, [communityData])
 
     useEffect(() => {

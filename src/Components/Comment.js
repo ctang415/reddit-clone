@@ -3,7 +3,7 @@ import CommentIcon from "../Assets/comment.png"
 import Up from "../Assets/up.png"
 import Down from "../Assets/down.png"
 import Avatar from "../Assets/avatar.png"
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import * as sanitizeHtml from 'sanitize-html';
 import parse from 'html-react-parser';
@@ -26,7 +26,6 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
     const [ currentComment, setCurrentComment ] = useState('')
     const location = useLocation()
     const params = useParams()
-    const navigate = useNavigate()
     const user = auth.currentUser
 
     const modules = {
@@ -40,22 +39,16 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
 
     const handleSubmit = () => {
         let parsedValue = JSON.parse(value)
-        console.log(parsedValue.ops)
         let cfg = {};
         let converter = new QuillDeltaToHtmlConverter(parsedValue.ops, cfg);
         let info = converter.convert(); 
-        console.log(info)
         let newHtml = sanitizeHtml(info, {
             allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img', 'link', 'a' ]), 
             allowedAttributes: {'img': ['src'], 'a' : ['href', 'name', 'target'], 'link': [ 'href','rel','type' ]},
             allowedSchemes: [ 'data', 'http', 'https', 'ftp', 'mailto', 'tel'],
             allowedSchemesByTag: {},
             allowedSchemesAppliedToAttributes: [ 'href', 'src', 'cite' ],
-            allowProtocolRelative: true,
-            enforceHtmlBoundary: false,
-            parseStyleAttributes: true
         })
-        console.log(newHtml)
 
         const updateComment = async () => {
             const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
@@ -216,7 +209,6 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
         }
     }, [detail])
 
-
     useEffect(() => {
         if (!edit) {
             if (id !== null) {
@@ -226,7 +218,6 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
                 const data = docSnap.data()
                 let myPost = data.posts.find( item => item.id === params.id )
                 let myComment = myPost.comments.find(item => item.commentid === id)
-                console.log(myComment)
                 const delta = quill.clipboard.convert((myComment.content.html))
                 quill.setContents(delta, 'silent')
             }
@@ -245,7 +236,6 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
     }
 }
     }, [quill])
-
 
     if (isEmpty) {
         return (

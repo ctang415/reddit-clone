@@ -97,7 +97,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                 const createComment = () => {
                     const updatePost = firebaseCommunityData[0].posts.map(item => {
                         if (item.id === params.id) {
-                            item.comments = [...item.comments, { commentid: newid, content: { html: newHtml, delta: value }, title: detail[0].title, community: firebaseCommunityData[0].name, author: detail[0].author, username: user.displayName, votes: 1, date: myDate }]
+                            item.comments = [...item.comments, { commentid: newid, content: { html: newHtml, delta: value }, title: detail[0].title, community: firebaseCommunityData[0].name, author: detail[0].author, username: user.displayName, voters:[ {username: user.displayName, vote: "upvote" } ], votes: 1, date: myDate }]
                             return item
                         }
                         return item
@@ -106,7 +106,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                 }
                 createComment()
                 await updateDoc(docRef, {posts: newArray })
-                await updateDoc(userRef, {comments: arrayUnion({ commentid: newid, poster: false, content: { html: newHtml, delta: value }, title: detail[0].title, community: firebaseCommunityData[0].name, author: detail[0].author, username: user.displayName, id: params.id, votes: 1, date: myDate })})
+                await updateDoc(userRef, {comments: arrayUnion({ commentid: newid, poster: false, content: { html: newHtml, delta: value }, title: detail[0].title, community: firebaseCommunityData[0].name, author: detail[0].author, username: user.displayName, id: params.id, voters:[ {username: user.displayName, vote: "upvote" } ], votes: 1, date: myDate })})
             }
         uploadComment()
         setDetail([firebaseCommunityData[0].posts.find( item => item.id === params.id)])

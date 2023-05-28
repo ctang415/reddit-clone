@@ -94,7 +94,6 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
         } else {
             setBaseSubmit(true)
         }
-        console.log(firebaseCommunityData)
     }, [])
 
     useEffect(() => {

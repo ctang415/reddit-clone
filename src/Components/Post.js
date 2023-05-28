@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import parse from 'html-react-parser';
-import * as sanitizeHtml from 'sanitize-html';
 import Up from "../Assets/up.png"
 import Upvoted from "../Assets/upvoted.png"
 import Down from "../Assets/down.png"
@@ -19,7 +18,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
     const [ allPosts, setAllPosts] = useState([])
     const [ deleted, setDeleted ] = useState('[deleted]')
     const [ currentUser, setCurrentUser ] = useState('')
-    const [ voteArray, setVoteArray ] = useState([])
     const params = useParams()
     const user = auth.currentUser
     const location = useLocation()
@@ -29,7 +27,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
         const docRef = doc(db, "users", user.displayName)
         const docSnap = await getDoc(docRef)
         const data = docSnap.data()
-        console.log(data.joined) 
         if (data.joined.length !== 0) {
             let joinedArray = [data.joined]
             joinedArray.map( async item => {
@@ -510,8 +507,13 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
             setCurrentUser((user.displayName))
         }
     }, [user])
-    
 
+    useEffect(() => {
+        console.log(post)
+        console.log(allJoinedPosts)
+        console.log(allJoinedPosts.map(x => x.map(y=> y.voters.findIndex(z=> z.username === currentUser)))) 
+    }, [])
+    
 if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
     return (
       <div className="empty-post-logged-in">
@@ -530,10 +532,10 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
                     return (
                     <div className="post" key={post.id}>
                     <div className="post-left">
-                        <div className="post-votes-joined">
-                            <img src={  Up } alt="Up arrow" className={post.community} id={post.id} onClick={handleVoteLoggedIn}></img>
+                    <div className="post-votes-joined">
+                        <img src={ ( (post.voters[post.voters.findIndex(x=> x.username === currentUser)] ) && post.voters[post.voters.findIndex(voter => voter.username === currentUser)].vote === ("upvote")) ? Upvoted : Up } alt="Up arrow" className={post.community} id={post.id} onClick={handleVoteLoggedIn}></img>
                                 {post.votes}
-                            <img src={Down} alt="Down arrow" className={post.community} id={post.id} onClick={handleVoteLoggedIn}></img>
+                            <img src={ ( (post.voters[post.voters.findIndex(x=> x.username === currentUser)] ) && post.voters[post.voters.findIndex(voter => voter.username === currentUser)].vote === ("downvote")) ? Downvoted : Down} alt="Down arrow" className={post.community} id={post.id} onClick={handleVoteLoggedIn}></img>
                         </div>
                     </div>
                     <div className="post-right">
@@ -588,9 +590,9 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
                     <div className="post" key={post.id}>
                         <div className="post-left">
                             <div className="post-votes-all">
-                                <img src={Up} alt="Up arrow"></img>
+                                <img src={ Up } alt="Up arrow"></img>
                                     {post.votes}
-                                <img src={Down} alt="Down arrow"></img>
+                                <img src={ Down} alt="Down arrow"></img>
                             </div>
                         </div>
                         <div className="post-right">
@@ -646,9 +648,9 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
                             <div className="post-left">
                              <div className="post-votes">
                                    <div>
-                                        <img src={ Up } alt="Up arrow" id={post.id} onClick={handleVote}></img>
+                                        <img src={ ( isLoggedIn &&  (post.voters[post.voters.findIndex(x=> x.username === currentUser)] ) && post.voters[post.voters.findIndex(x=> x.username === currentUser)].vote === ("upvote")) ? Upvoted : Up } alt="Up arrow" id={post.id} onClick={handleVote}></img>
                                             {post.votes} 
-                                        <img src={ Down} alt="Down arrow" id={post.id} onClick={handleVote}></img>
+                                        <img src={  ( isLoggedIn &&  (post.voters[post.voters.findIndex(x=> x.username === currentUser)] ) && post.voters[post.voters.findIndex(x=> x.username === currentUser)].vote === ("downvote")) ? Downvoted : Down} alt="Down arrow" id={post.id} onClick={handleVote}></img>
                                     </div>
                                 </div>
                             </div>

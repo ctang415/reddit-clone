@@ -93,7 +93,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                 setProfileData([data])
                 console.log(profileData) 
             } 
-        getUserInfo() 
+        getUserInfo()
     }, [setProfileData])
 
     useEffect(() => {
@@ -201,6 +201,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                         </div>
                         <ProfilePosts matchingUser={matchingUser} overview={overview} commentsOnly={commentsOnly} postsOnly={postsOnly}
                         setOverview={setOverview} setCommentsOnly={setCommentsOnly} setPostsOnly={setPostsOnly} setUserData={setUserData}
+                        profileData={profileData}
                         />
                     </div>
                     {profileData.map((item) => {
@@ -272,6 +273,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                         </div>
                         <ProfilePosts matchingUser={matchingUser} overview={overview} commentsOnly={commentsOnly} postsOnly={postsOnly}
                         setOverview={setOverview} setCommentsOnly={setCommentsOnly} setPostsOnly={setPostsOnly} setUserData={setUserData}
+                        profileData={profileData}
                         />
                     </div>
                     <div className="community-body-right">
@@ -343,6 +345,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                         </div>
                         <ProfilePosts matchingUser={matchingUser} overview={overview} commentsOnly={commentsOnly} postsOnly={postsOnly}
                         setOverview={setOverview} setCommentsOnly={setCommentsOnly} setPostsOnly={setPostsOnly} setUserData={setUserData}
+                        profileData={profileData}
                         />
                     </div>
                     <div className="community-body-right">

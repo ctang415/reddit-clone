@@ -4,46 +4,47 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import parse from 'html-react-parser';
 import Up from "../Assets/up.png"
+import Upvoted from "../Assets/upvoted.png"
+import Downvoted from "../Assets/downvoted.png"
 import Down from "../Assets/down.png"
 import Comment from "../Assets/comment.png"
 import Share from "../Assets/share.png"
 import Save from "../Assets/save.png"
 
 const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOverview, setCommentsOnly, setPostsOnly, 
-    setUserData } ) => {
+    setUserData,  profileData } ) => {
     const [ userInfo, setUserInfo ] = useState([])
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const [ posts, setPosts ] = useState([])
     const [ comments, setComments ] = useState([])
-    const [ currentUser, setCurrentUser ] = useState(null)
+    const [ currentUser, setCurrentUser ] = useState('')
     const params = useParams()
     const navigate = useNavigate()
     const user = auth.currentUser
     const location = useLocation()
-
+    
     const getUserInfo = async () => {
         const docRef = doc(db, "users", params.id)
         const docSnap = await getDoc(docRef)
         const data = docSnap.data()
-            if (data.posts[0] && data.comments) {
-                setComments(data.comments)
-                setPosts(data.posts) 
-                setUserInfo(data.posts.concat(data.comments)) 
-                setOverview(true) 
-                setPostsOnly(false) 
-                setCommentsOnly(false)
-            } else if (data.posts[0] && !data.comments) {
-                setPosts(data.posts)
-                setPostsOnly(true)
-                setOverview(false)
-                setCommentsOnly(false)
-            } else {
-                setComments(data.comments)
-                setCommentsOnly(true)
-                setOverview(false)
-                setPostsOnly(false)
-            }
-        console.log(comments) 
+        if (data.posts[0] && data.comments) {
+            setComments(data.comments)
+            setPosts(data.posts) 
+            setUserInfo(data.posts.concat(data.comments)) 
+            setOverview(true) 
+            setPostsOnly(false) 
+            setCommentsOnly(false)
+        } else if (data.posts[0] && !data.comments) {
+            setPosts(data.posts)
+            setPostsOnly(true)
+            setOverview(false)
+            setCommentsOnly(false)
+        } else {
+            setComments(data.comments)
+            setCommentsOnly(true)
+            setOverview(false)
+            setPostsOnly(false)
+        }
     }
 
     const handleVote = (e) => {
@@ -55,6 +56,7 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                     const data = docSnap.data()
                     let array;
                     let poster;
+
                     const getPost = async () => {
                         const post = data.posts.map(x => {
                             if ( x.id === e.target.id ) {
@@ -71,15 +73,14 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                                     })
                                     return x
                                 } else {
-                                poster = x.author
-                                x.voters = [...x.voters, { username: user.displayName, vote: 'upvote' } ]
-                                x.votes += 1
-                                return x
+                                    poster = x.author
+                                    x.voters = [...x.voters, { username: user.displayName, vote: 'upvote' } ]
+                                    x.votes += 1
+                                    return x
                                 }
                             }
-                            return x
-                        }
-                        )
+                                return x
+                        })
                         array = post
                     }
                     getPost()
@@ -89,36 +90,35 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                         const userRef = doc(db, "users", poster)
                         const userSnap = await getDoc(userRef)
                         const data = userSnap.data()
+
                         const myPost = data.posts.map( x => {
                             if (x.id === e.target.id) {
                                 if (x.voters.map(y => y.username).includes(currentUser) === true) {
-                                        poster = x.author
-                                        const updatedVoter = x.voters.map(y => {
-                                            if (y.username === currentUser && y.vote === "downvote") {
-                                                y.vote = 'upvote'
-                                                x.votes += 1
-                                                const updateKarma = async () => {
-                                                    const userRef = doc(db, "users", poster)
-                                                    const userSnap = await getDoc(userRef)
-                                                    const data = userSnap.data()
-                                                    await updateDoc(userRef, {karma: data.karma + 1 } )
-                                                    if (poster === currentUser) {
-                                                        console.log(poster)
-                                                        console.log(currentUser)
-                                                        const updateUser = async () => {
+                                    poster = x.author
+                                    const updatedVoter = x.voters.map(y => {
+                                        if (y.username === currentUser && y.vote === "downvote") {
+                                            y.vote = 'upvote'
+                                            x.votes += 1
+                                            const updateKarma = async () => {
+                                                const userRef = doc(db, "users", poster)
+                                                const userSnap = await getDoc(userRef)
+                                                const data = userSnap.data()
+                                                await updateDoc(userRef, {karma: data.karma + 1 } )
+                                                if (poster === currentUser) {
+                                                    const updateUser = async () => {
                                                         const docRef = doc(db, "users", user.displayName)
                                                         const docSnap = await getDoc(docRef)
                                                         const data = docSnap.data()
                                                         setUserData([data]) 
-                                                        }
-                                                        updateUser()
                                                     }
+                                                    updateUser()
                                                 }
-                                                updateKarma()
-                                                return y
-                                            } else {
-                                                return y
                                             }
+                                            updateKarma()
+                                            return y
+                                        } else {
+                                            return y
+                                    }
                                         })
                                         return x
                                 } else {
@@ -131,8 +131,6 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                                         const data = userSnap.data()
                                         await updateDoc(userRef, {karma: data.karma + 1 } )
                                         if (poster === currentUser) {
-                                            console.log(poster)
-                                            console.log(currentUser)
                                             const updateUser = async () => {
                                             const docRef = doc(db, "users", user.displayName)
                                             const docSnap = await getDoc(docRef)
@@ -191,7 +189,7 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                     }
                     getPost()
                     await updateDoc(docRef, {posts: array } )
-                    console.log(array)
+
                     const updateAuthor = async () => {
                         const userRef = doc(db, "users", poster)
                         const userSnap = await getDoc(userRef)
@@ -296,15 +294,8 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
     }
 
     useEffect(() => {
-        setUserInfo([])
-        setComments([])
-        setPosts([])
         getUserInfo()
     }, [location.pathname])
-
-    useEffect(() => {
-        getUserInfo() 
-    }, [])
 
     useEffect(() => {
         if (user) {
@@ -314,26 +305,30 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
             setIsLoggedIn(false)
             setCurrentUser('')
         }
-        console.log(userInfo)
     }, [user])
 
-if (userInfo[0] !== undefined && overview) {
+if (overview && userInfo[0] !== undefined) {
     return (
         userInfo.map(data => {
             return (
                 <div className="post-width">
                     <div className={ data.poster ? "post" : "input-empty"}>
                         <div className="post-left">
-                            <div className="post-votes-user">
-                                <img src={Up} alt="Up arrow" className={data.community} id={data.id} onClick={handleVote}></img>
+                        <div className={"post-votes-user"}>
+                                <img src={ ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("upvote")) ? Upvoted : Up} alt="Up arrow" className={data.community} id={data.id} onClick={handleVote}></img>
                                     {data.votes}
-                                <img src={Down} alt="Down arrow" className={data.community} id={data.id} onClick={handleVote}></img>
+                                <img src={ ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("downvote")) ? Downvoted : Down} alt="Down arrow" className={data.community} id={data.id} onClick={handleVote}></img>
                             </div>
                         </div>
                         <div className="post-right">
                             <div className="post-right-profile">
-                                <div className="post-pinned-community"><Link to={`../f/${data.community}`}>f/{data.community}</Link></div>
-                                <div className="post-pinned-author">Posted by <Link to={`../user/${params.id}`}>u/{params.id}</Link></div>
+                                <div className="post-pinned-community">
+                                    <Link to={`../f/${data.community}`}>f/{data.community}</Link>
+                                </div>
+                                <div className="post-pinned-author">Posted by 
+                                    <Link to={`../user/${params.id}`}>u/{params.id}
+                                    </Link>
+                                </div>
                             </div>
                                 <div className="post-pinned-header"> 
                                     <Link to={`../f/${data.community}/comments/${data.id}`}>
@@ -355,11 +350,13 @@ if (userInfo[0] !== undefined && overview) {
                     </div>
                     <div className={data.poster ? "input-empty" : "profile-post" }>
                         <div className="profile-post-top">
-                        <Link to={`../user/${data.username}`}>
-                            <div className="profile-post-username">{data.username}</div> 
-                        </Link> commented on 
+                            <Link to={`../user/${data.username}`}>
+                                <div className="profile-post-username">{data.username}</div> 
+                            </Link> commented on 
                         <div className="profile-post-title">
-                            <Link to={`../f/${data.community}/comments/${data.id}`}>{data.title}</Link>
+                            <Link to={`../f/${data.community}/comments/${data.id}`}>
+                                {data.title}
+                            </Link>
                         </div> 
                             in *
                         <div className="profile-post-community-name">
@@ -414,7 +411,7 @@ if (userInfo[0] !== undefined && overview) {
             )
         })
     )
-} else if (comments[0] !== undefined && commentsOnly) {
+} else if (comments !== undefined && commentsOnly) {
     return (
         comments.map((data) => {
             return (
@@ -475,17 +472,17 @@ if (userInfo[0] !== undefined && overview) {
         )
     })
     )
-} else if (posts[0] !== undefined && postsOnly) {
+} else if (posts !== undefined && postsOnly) {
     return (
         posts.map((data) => {
             return (
                 <div className="post-width">
                     <div className={ data.poster ? "post" : "input-empty"}>
                         <div className="post-left">
-                            <div className="post-votes-only">
-                                <img src={Up} alt="Up arrow" className={data.community} id={data.id} onClick={handleVote}></img>
+                        <div className="post-votes-only">
+                                <img src={ ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("upvote")) ? Upvoted : Up} alt="Up arrow" className={data.community} id={data.id} onClick={handleVote}></img>
                                     {data.votes}
-                                <img src={Down} alt="Down arrow" className={data.community} id={data.id} onClick={handleVote}></img>
+                                <img src={ ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("downvote")) ? Downvoted : Down} alt="Down arrow" className={data.community} id={data.id} onClick={handleVote}></img>
                             </div>
                         </div>
                         <div className="post-right">

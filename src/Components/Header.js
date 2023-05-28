@@ -60,7 +60,9 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
     }
 
     useEffect(() => {
-        getUserInfo()
+        if (user) {
+            getUserInfo()
+        }
     }, [setUserData])
 
 
