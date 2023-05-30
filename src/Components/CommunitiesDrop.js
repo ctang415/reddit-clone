@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import CommunityIcon from "../Assets/communityicon.png"
 
 const CommunitiesDrop = ( { communityDrop, setCommunityDrop, userData, handleCommunityClick } ) => {
 
@@ -13,7 +14,8 @@ const CommunitiesDrop = ( { communityDrop, setCommunityDrop, userData, handleCom
                             <div className={item} key={item} onClick={handleCommunityClick}>
                                 <Link to={'f/'+ item} style={{ textDecoration: 'none', color: 'black'}}>
                                     <li className="header-item" key={item}>
-                                        {item}
+                                        <img src={CommunityIcon} alt="Community icon" />
+                                        f/{item}
                                     </li>
                                 </Link>
                             </div>

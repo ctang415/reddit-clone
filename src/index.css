@@ -290,6 +290,8 @@ body {
     display: flex;
     flex-direction: column;
     width: 100%;
+    max-height: 57.5vh;
+    overflow: scroll;
   }
 
   .nav-drop-community > ul > div, .search-bar-items  {
@@ -297,13 +299,13 @@ body {
     padding: 1em;
   }
 
-  .search-bar-items > a {
+.search-bar-items > a {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 0.5em;
     font-size: 2vh;
-  }
+}
 
   /* end of logged in */
 
@@ -529,7 +531,7 @@ form > input {
   font-size: 0.8em;
 }
 
-.community-name > p, .radios > span, .post-all-author, .input-search-box-header {
+.community-name > p, .radios > span, .post-all-author, .input-search-box-header, .community-card-about {
   color: grey;
 }
 
@@ -879,7 +881,7 @@ label {
   flex-direction: row;
 }
 
-.post-right > ul > li > a, .profile-post-top  > a {
+.post-right > ul > li > a, .profile-post-top  > a, .community-card > a  {
   text-decoration: none;
 }
 
@@ -2015,7 +2017,7 @@ code {
   cursor: pointer;
 }
 
-.profile-post-community-name, .post-all-community > a {
+.profile-post-community-name, .post-all-community > a, .community-card-title {
   color: black;
   font-weight: bold;
   cursor: pointer;
@@ -2034,7 +2036,7 @@ code {
   color: black;
 }
 
-.profile-post-title:hover, .profile-post-poster-information > div > a:hover, .post-all-community-author > a:hover,
+.profile-post-title:hover, .profile-post-poster-information > div > a:hover, .post-all-community-author > a:hover, .community-card-title:hover,
 .profile-post-poster:hover, .profile-post-username:hover, .profile-post-community-name:hover, .dropbox-true-home > div:hover, .post-pinned-author > a:hover, .post-detail-pinned-author > a:hover, 
 .post-pinned-community > a:hover, .comment-left-username > a:hover, .post-all-community > a:hover, .comment-as-user > a:hover  {
   text-decoration: underline;
@@ -2165,7 +2167,7 @@ code {
 }
 
 #custom-button:hover, .community-user-button:hover, .join-button:hover, .back-to-top:hover, .empty-post-discover-add:hover, .empty-post-add:hover, 
-.community-button-true:hover  {
+.community-button-true:hover {
   background-color: #3e91d1;
 }
 
@@ -2308,6 +2310,8 @@ hr.vertical:hover {
   position: absolute;
   background-color: white;
   width: 22vw;
+  max-height: 60vh;
+  overflow: scroll;
 }
 
 .input-search-box > div {
@@ -2346,7 +2350,9 @@ hr.vertical:hover {
   position: absolute;
   z-index: 1;
   background-color: white;
-  width: 18em
+  width: 20vw;
+  max-height: 40vh;
+  overflow: scroll;
 }
 
 .input-search-box-post > div {
@@ -2388,4 +2394,80 @@ hr.vertical:hover {
 .community-info-information > img {
   height: 1.2em;
   cursor: pointer;
+}
+
+.search-page-logged-out {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 18vw;
+  padding-top: 5vh;
+  gap: 0.1em;
+}
+
+.search-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 5vh;
+  gap: 0.1em;
+}
+
+.community-card-left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1em;
+}
+
+.community-card {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 0.3em;
+  height: 5vh;
+  width: 65.5vw;
+  border: solid rgb(191, 191, 191) 1px;
+  padding: 1em;
+  font-size: 2vh;
+  gap: 0.5em;
+  justify-content: space-between;
+}
+
+.community-card-information {
+  height: 5vh;
+  width: 53.5vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.community-card-logo > img {
+  height: 4.5vh;
+}
+
+.community-card-join > button {
+  color:#2286d2;
+  background-color: #f5f6f7;
+  border: solid #f5f6f7;
+  height: 5vh;
+  width: 7vw;
+  border-radius: 2em;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.community-card-join > button:hover {
+  background-color: #dfe8f1;
+}
+
+.header-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 1.7vh;
+}
+
+.header-item > img {
+  height: 1.7vw;
 }

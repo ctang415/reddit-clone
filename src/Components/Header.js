@@ -24,6 +24,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
     const [ submitIsTrue, setSubmitIsTrue ] = useState(false)
     const [ userIsTrue, setUserIsTrue ] = useState(false)
     const [ loaded, setLoaded ] = useState(false)
+    const [ searchIsTrue, setSearchIsTrue ] = useState(false)
     const user = auth.currentUser;
     const location = useLocation()
     const navigate = useNavigate()
@@ -88,21 +89,32 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
             setHomeIsTrue(false)
             setCommunityIsTrue(false)
             setUserIsTrue(false)
+            setSearchIsTrue(false)
             setSubmitIsTrue(true)
         } else if (location.pathname.indexOf('/f/') === 0 ) {
+            
             setHomeIsTrue(false)
             setSubmitIsTrue(false)
             setUserIsTrue(false)
+            setSearchIsTrue(false)
             setCommunityIsTrue(true)
-        }  else if (location.pathname.indexOf('/user/' === 0) && location.pathname !== '/') {
+        }   else if (location.pathname.indexOf('/search') === 0) {
+            setUserIsTrue(false)
+            setCommunityIsTrue(false)
+            setSubmitIsTrue(false)
+            setHomeIsTrue(false)
+            setSearchIsTrue(true)
+        } else if (location.pathname.indexOf('/user/' === 0) && location.pathname !== '/') {
             setHomeIsTrue(false)
             setCommunityIsTrue(false)
             setSubmitIsTrue(false)
+            setSearchIsTrue(false)
             setUserIsTrue(true)
         } else {
             setUserIsTrue(false)
             setCommunityIsTrue(false)
             setSubmitIsTrue(false)
+            setSearchIsTrue(false)
             setHomeIsTrue(true)
         }
     }, [location.pathname])
@@ -149,6 +161,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                                                         </p>
                                                         <p className={ submitIsTrue ? "user-left" : "input-empty"}>Create Post</p>
                                                         <p className={ userIsTrue ? "user-left" : "input-empty" }> u/{location.pathname.split('/user/')[1]}</p>
+                                                        <p className={ searchIsTrue ? "user-left" : "input-empty" }>Search Results</p>
                                                     </div>
                                                 </div>
                                                 <div className="user-drop-left">⌄</div> 

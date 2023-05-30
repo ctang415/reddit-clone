@@ -9,6 +9,7 @@ import CreatePost from './CreatePost';
 import ProfilePage from './ProfilePage';
 import Error from './Error';
 import PostDetails from './PostDetails';
+import Search from './Search'
 
 const App = () => {
   const [ userData, setUserData ] = useState([{ avatar: null, created: 'unknown', karma: 'unknown', joined: [] }])
@@ -60,6 +61,12 @@ const App = () => {
         setAllJoinedPosts={setAllJoinedPosts} setIsEmpty={setIsEmpty} setCommunityData={setCommunityData} getCommunities={getCommunities}
         />}
         />
+        <Route path="/search" element={
+          <Search
+          communityData={communityData} setUserData={setUserData} drop={drop} setDrop={setDrop} setJoin={setJoin} 
+          modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} join={join}
+          />
+        }/>
         <Route path="/f/:id/comments/:id" element={
         <PostDetails
         modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue}
