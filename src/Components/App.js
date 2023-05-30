@@ -35,7 +35,7 @@ const App = () => {
   }, [setCommunityData])
 
   return (
-    <div>
+    <div className='app'>
       <Header 
       modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue}
       communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}

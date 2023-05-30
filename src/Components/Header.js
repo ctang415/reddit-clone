@@ -160,8 +160,9 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                                                 />
                                             </div>
                                         </div>
-                                    </div> 
+                                    </div>
                                     <Searchbar communityData={communityData}/>
+                                    <div className="nav-login-right">
                                     <div className="header-user-profile-icons">
                                         <ul>
                                             <li>
@@ -202,12 +203,14 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                                             />
                                         </div>
                                     </div>
+                                    </div>
                                 </nav>
                                 <CommunityModal 
                                 communityData={communityData} setCommunityData={setCommunityData} 
                                 communityModal={communityModal} userData={userData} setCommunityModal={setCommunityModal} 
                                 />
                             </div>
+                            
         )
     } }
 

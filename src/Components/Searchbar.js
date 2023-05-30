@@ -49,7 +49,7 @@ const Searchbar = ( { communityData } ) => {
     }, [handleDrop])
 
     return (
-        <div className="search-bar-drop">
+        <div>
             <input
              id="nav-bar-input"
                 type="text"
