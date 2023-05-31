@@ -142,7 +142,7 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
         }
     }, [subscribed, params.id, userData])
 
-    if (params.id && page === false) {
+    if (params.id && !page) {
         return (
             <Error/>
         )

@@ -1,4 +1,3 @@
-import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -6,6 +5,7 @@ import { auth, db } from "../firebase-config";
 import Modal from "./Modal";
 import ProfilePosts from "./ProfilePosts";
 import SidebarDrop from "./SidebarDrop";
+import UserError from "./UserError";
 
 const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, join, setJoin, firebaseCommunityData, 
                     setUserData } ) => {
@@ -16,6 +16,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
     const [ overview, setOverview ] = useState(true)
     const [ postsOnly, setPostsOnly ] = useState(false)
     const [ commentsOnly, setCommentsOnly ] = useState(false)
+    const [ page, setPage ] = useState(true)
     const params = useParams()
     const location = useLocation()
     const navigate = useNavigate()
@@ -90,11 +91,16 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                 const docRef = doc(db, "users", params.id)
                 const docSnap = await getDoc(docRef)
                 const data = docSnap.data()
-                setProfileData([data])
-                console.log(profileData) 
+                if (data === undefined) { 
+                    setPage(false)
+                } else {
+                    setProfileData([data])
+                    setPage(true)
+                }
             } 
         getUserInfo()
     }, [setProfileData])
+
 
     useEffect(() => {
         if (user) {
@@ -120,8 +126,12 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
         document.title = `${params.id} (u/${params.id})`
         window.scrollTo({ top:0, behavior:'auto'})
     }, [location.pathname])
-    
-    if (!isLoggedIn && !matchingUser) {
+
+    if (!page) {
+        return (
+            <UserError/>
+        )
+    } else if (!isLoggedIn && !matchingUser && page) {
         return (
             <div className="community-page-logged-out">
                   <div className={isLoggedIn ? "input-empty" : "side-bar" }>
@@ -239,7 +249,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                 </div>
             </div>
         )
-    } else if (isLoggedIn && matchingUser) {
+    } else if (isLoggedIn && matchingUser && page) {
         return (
             <div className="community-page">
                     <div className="profile-page">
