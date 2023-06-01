@@ -27,23 +27,25 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
         const docRef = doc(db, "users", params.id)
         const docSnap = await getDoc(docRef)
         const data = docSnap.data()
-        if (data.posts[0] && data.comments) {
-            setComments(data.comments)
-            setPosts(data.posts) 
-            setUserInfo(data.posts.concat(data.comments)) 
-            setOverview(true) 
-            setPostsOnly(false) 
-            setCommentsOnly(false)
-        } else if (data.posts[0] && !data.comments) {
-            setPosts(data.posts)
-            setPostsOnly(true)
-            setOverview(false)
-            setCommentsOnly(false)
-        } else {
-            setComments(data.comments)
-            setCommentsOnly(true)
-            setOverview(false)
-            setPostsOnly(false)
+        if (data !== undefined) {
+            if (data.posts[0] && data.comments) {
+                setComments(data.comments)
+                setPosts(data.posts) 
+                setUserInfo(data.posts.concat(data.comments)) 
+                setOverview(true) 
+                setPostsOnly(false) 
+                setCommentsOnly(false)
+            } else if (data.posts[0] && !data.comments) {
+                setPosts(data.posts)
+                setPostsOnly(true)
+                setOverview(false)
+                setCommentsOnly(false)
+            } else {
+                setComments(data.comments)
+                setCommentsOnly(true)
+                setOverview(false)
+                setPostsOnly(false)
+            }
         }
     }
 

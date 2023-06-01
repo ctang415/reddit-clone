@@ -14,7 +14,8 @@ import New from "../Assets/new.png"
 import Top from "../Assets/top.png"
 
 const CommunityPage = ( {userData, setUserData, communityData, communityModal, setCommunityModal, drop, setDrop, modalIsTrue, 
-    setModalIsTrue, setJoin, join, allJoinedPosts, isEmpty, setAllJoinedPosts, setIsEmpty, setCommunityData, getCommunities } ) => {
+    setModalIsTrue, setJoin, join, allJoinedPosts, isEmpty, setAllJoinedPosts, setIsEmpty, setCommunityData, getCommunities, 
+    isMobile} ) => {
     const [ firebaseCommunityData, setFirebaseCommunityData] = useState([])
     const [ sideBarCommunities, setSideBarCommunities] = useState([])
     const [ text, setText ] =  useState("Joined")
@@ -142,6 +143,73 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
         }
     }, [subscribed, params.id, userData])
 
+    if (isMobile) {
+        if (params.id && !page) {
+            return (
+                <Error/>
+            )
+        } else if (params.id) {
+            return (
+                firebaseCommunityData.map(data => {
+                    return (
+                        <div className="community-page-mobile" key={data.name}>
+                            <div className="community-header-top"></div>
+                            <img src={CommunityIcon} alt="Community Icon"></img>
+                            <div className="community-mobile-info">
+                            <div className="community-header-bottom">
+                                <div className="community-header-info">
+                                    <div className="community-header-info-title">
+                                        <h1>{params.id}</h1>
+                                    </div>
+                                    <div className="community-header-info-subtitle">
+                                        f/{params.id}
+                                    </div>
+                                    <div className="community-header-info-about">
+                                        {data.about}
+                                    </div>
+                                    <button onClick={handleJoin} className={ "community-button-true"}>Join</button>
+                                </div>
+                                </div>
+                            </div>
+                            <div className={"community-body"}>
+                                <div className={"community-body-left"}>
+                                    <Post firebaseCommunityData={firebaseCommunityData} getCommunities={getCommunities}
+                                        setFirebaseCommunityData={setFirebaseCommunityData} setUserData={setUserData}
+                                        createNewPost={createNewPost} isLoggedIn={isLoggedIn}
+                                        allJoinedPosts={allJoinedPosts} isEmpty={isEmpty} setAllJoinedPosts={setAllJoinedPosts}
+                                        setIsEmpty={setIsEmpty} setCommunityData={setCommunityData}
+                                        />
+                                </div>
+                            </div>
+                        </div>
+                    )
+                })
+            ) 
+        } else {
+            return (
+                <div className={"community-body"}>
+                    <div className={"community-body-left"}>
+                    <Post 
+                    firebaseCommunityData={firebaseCommunityData} setFirebaseCommunityData={setFirebaseCommunityData}  
+                    createNewPost={createNewPost} isLoggedIn={isLoggedIn} getCommunities={getCommunities}
+                    communityData={communityData} allJoinedPosts={allJoinedPosts} isEmpty={isEmpty} setAllJoinedPosts={setAllJoinedPosts}
+                    setIsEmpty={setIsEmpty} setCommunityData={setCommunityData} setUserData={setUserData}
+                    />
+                </div>
+                <div className={"community-body-right"}>
+                    <CommunityInformation 
+                    communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
+                    firebaseCommunityData={firebaseCommunityData} setFirebaseCommunityData={setFirebaseCommunityData} 
+                    />
+                </div>
+            </div>
+        )
+    }
+}
+}
+        
+        /*
+    } else if (!isMobile) {
     if (params.id && !page) {
         return (
             <Error/>
@@ -338,6 +406,8 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
     </div>
     )
 }
+    } 
 }
+*/
 
 export default CommunityPage

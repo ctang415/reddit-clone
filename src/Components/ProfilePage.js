@@ -87,10 +87,10 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
       }, [])
     
     useEffect(() => {
-            const getUserInfo = async () => {
-                const docRef = doc(db, "users", params.id)
-                const docSnap = await getDoc(docRef)
-                const data = docSnap.data()
+        const getUserInfo = async () => {
+            const docRef = doc(db, "users", params.id)
+            const docSnap = await getDoc(docRef)
+            const data = docSnap.data()
                 if (data === undefined) { 
                     setPage(false)
                 } else {

@@ -829,7 +829,9 @@ label {
 }
 
 .post-width {
-  width: 44em;
+  display: flex;
+  flex-direction: column;
+  max-width: 40em;
 }
 
 .post:hover {
@@ -863,7 +865,7 @@ label {
   padding-left: 0.5em;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 90%;
 }
 
 .post-right {
@@ -1010,7 +1012,7 @@ label {
   color: grey;
 }
 
-.post-pinned-header > a {
+.post-pinned-header {
   font-size: 1em;
   font-weight: bold;
   padding-bottom: 0.5em;
@@ -1093,7 +1095,11 @@ label {
   display: flex;
   flex-direction: column;
   gap: 0.5em;
-  font-size: 0.9em;
+  font-size: 0.85em;
+}
+
+.community-info {
+  word-break: break-all;
 }
 
 .community-info-header-area {
@@ -2109,7 +2115,7 @@ code {
   flex-direction: column;
   background-color: white;
   border-radius: 0.2em;
-  width: 100%;
+  max-width: 40em;
 }
 
 .profile-post-title > a, .profile-post-community-name > a, .profile-post-poster > a, 
@@ -2477,4 +2483,212 @@ hr.vertical:hover {
 
 .header-item > img {
   height: 1.7vw;
+}
+
+@media screen and (max-width: 1000px) {
+
+body {
+  background-color: #DAE0E6;
+  min-height: 250vh;
+  padding-top: 3.5em;
+  max-width: 100vw;
+}
+
+.nav-bar {
+  position: fixed;
+  top: 0;
+  z-index: 99;
+  background-color: grey;
+  display: flex;
+  flex-direction: row;  
+  width: 100vw;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  padding-left: 1em;
+  height: 4vh;
+  gap: 0.5em;
+  align-items: center;
+  color: black;
+  font-size: 1vh;
+}
+
+#freddit-logo {
+  height: 100%;
+}
+
+.header-button {
+  display: flex;
+  align-items: center;
+  padding-right: 1vh;
+  height: 100%;
+}
+
+.header-login-button {
+  font-size: 1.2vh;
+  color: white;
+  background-color:#2286d2;
+  height: 60%;
+  width: 15vw;
+  border-radius: 2vh;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.header-login-button-mobile {
+  font-size: 1.2vh;
+  color: white;
+  background-color:#2286d2;
+  height: 7vw;
+  width: 90%;
+  border-radius: 2vh;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.nav-bar-mobile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#nav-bar-input {
+  border-radius: 2em;
+  height: 0.2vh;
+  background-color:#f5f6f7;
+  border: solid rgb(240, 239, 239);
+  padding: 1em;
+  width: 85vw;
+}
+
+.nav-bar-search-bar {
+  max-width: 100vw;
+}
+
+.nav-bar-mobile-drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 30vh;
+  width: 100vw;
+  z-index: 1;
+  background-color: grey;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  margin-top: 40vh;
+  justify-content: space-between;
+  vertical-align: top;
+  position: absolute;
+}
+
+.nav-bar-mobile > img {
+  height: 4vh;
+}
+
+.input-search-box {
+  position: absolute;
+  background-color: lightgrey;
+  width: 93.5%;
+  max-height: 15vh;
+  overflow: scroll;
+  border-radius: 1vw;
+}
+
+.input-search-box > div {
+  padding: 0.5em;
+}
+
+.search-bar-items > a {
+  display: flex;
+  flex-direction: row;  
+  align-items: center;
+  gap: 0.5em;
+  font-size: 1.5vh;
+}
+
+.nav-bar-mobile-drop > ul {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+}
+
+.nav-bar-mobile-drop > ul > li {
+  list-style: none;
+  color: white;
+  font-weight: bold;
+  font-size: 1.5vh;
+  padding: 0.5em;
+}
+
+.community-page-mobile {
+  display: flex;
+  flex-direction: column;
+  max-width: 100vw;
+  background-color: white;
+}
+
+.community-body {
+  padding-top: 0em;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.community-body-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  max-width: 40em;
+}
+
+.community-page-mobile > img {
+  position: absolute;
+  height: 3.5em;
+  margin: 5% 43%;
+}
+
+.community-header-top {
+  cursor: pointer;
+  height: 7vh;
+  background-color: #33a8ff;
+}
+
+.community-mobile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 20vh;
+}
+
+.community-header-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 8% auto;
+  gap: 0.5vh;
+}
+
+.community-header-info-title > h1 {
+  font-size: 1.2em;
+}
+
+.community-header-info-subtitle, .community-header-info-about {
+  display: flex;
+  color: grey;
+  font-size: 2vh;
+}
+
+.community-header-info-about {
+  height: 5vh;
+  overflow: scroll;
+  padding-left: 3vh;
+  padding-right: 3vh;
+}
+
 }

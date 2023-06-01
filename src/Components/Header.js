@@ -11,11 +11,14 @@ import Post from "../Assets/plus.png"
 import Message from "../Assets/message.png"
 import Moderation from "../Assets/moderation.png"
 import Notification from "../Assets/notification.png"
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Searchbar from "./Searchbar";
+import Menu from "../Assets/menu.png"
+import X from "../Assets/x.png"
+import Back from "../Assets/back.png"
 
 const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUserData, communityData, setCommunityData, 
-    communityModal, setCommunityModal, setDrop, drop, setAllJoinedPosts, setIsEmpty, isEmpty, allJoinedPosts }) => {
+    communityModal, setCommunityModal, setDrop, drop, setAllJoinedPosts, setIsEmpty, isEmpty, allJoinedPosts, isMobile }) => {
     const [ myUser, setMyUser ] = useState([])
     const [ communityDrop, setCommunityDrop ] = useState(false)
     const [ loggedIn, setLoggedIn ] = useState(false)
@@ -25,14 +28,18 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
     const [ userIsTrue, setUserIsTrue ] = useState(false)
     const [ loaded, setLoaded ] = useState(false)
     const [ searchIsTrue, setSearchIsTrue ] = useState(false)
+    const [ click, setClick] = useState(false)
+    const [ register, setRegister ] = useState(false)
     const user = auth.currentUser;
     const location = useLocation()
     const navigate = useNavigate()
+    const params = useParams()
 
     const handleClick = (e) => { 
         e.preventDefault()
         if (!user) {
             setModalIsTrue(!modalIsTrue)
+            navigate('/register')
             } else {
             setDrop(!drop)
         }
@@ -66,6 +73,21 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
         }
     }, [setUserData])
 
+    const handleMobileClick = () => {
+        if (click) {
+            setClick(false)
+        } else {
+            setClick(true)
+        }
+    }
+
+    const handleRegister = () => {
+        if (register) {
+            navigate('/')
+        } else {
+            setClick(!click)
+        }
+    }
 
     useEffect(() => {
         if (user) {
@@ -85,6 +107,14 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
     }, [user]); 
 
     useEffect(() => {
+        if (isMobile && location.pathname === "/register") {
+            setRegister(true)
+        } else {
+            setRegister(false)
+        }
+    }, [location.pathname])
+
+    useEffect(() => {
         if (location.pathname.slice(-6) === 'submit' || location.pathname.slice(-13) === '/submit/submit' ) {
             setHomeIsTrue(false)
             setCommunityIsTrue(false)
@@ -92,7 +122,6 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
             setSearchIsTrue(false)
             setSubmitIsTrue(true)
         } else if (location.pathname.indexOf('/f/') === 0 ) {
-            
             setHomeIsTrue(false)
             setSubmitIsTrue(false)
             setUserIsTrue(false)
@@ -118,7 +147,41 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
             setHomeIsTrue(true)
         }
     }, [location.pathname])
-    
+
+    if (isMobile) {
+        return (
+                <nav className="nav-bar">
+                    <div className="nav-bar-mobile">
+                        <div className={register ? "input-empty" : "user-left"}>
+                        <img src={click ? X : Menu} alt="Menu icon" onClick={handleMobileClick}></img>
+                        </div>
+                        <div className={register ? "user-left" : "input-empty"}>
+                            <img src={register ? Back : Menu} alt="Back icon" onClick={handleRegister}/>
+                        </div>
+                        <Link to="/" style={{ textDecoration: 'none' }}>
+                            <div className="logo">
+                                <img id="freddit-logo" src={Freddit} alt="Green snoo Logo"></img>
+                            </div>
+                        </Link>
+                    </div>
+                    <div className={click ? "nav-bar-mobile-drop" : "input-empty"}>
+                            <Searchbar communityData={communityData}/>
+                            <ul>
+                                <li>Explore</li>
+                                <li>Popular Posts</li>
+                                <li>Settings</li>
+                                <li>Help Center</li>
+                                <li>More</li>
+                                <li>Terms & Policies</li>
+                            </ul>
+                            <button className="header-login-button-mobile" onClick={handleClick}>Sign up or Log in</button>
+                        </div>
+                    <div className="header-button">
+                        <button className="header-login-button" onClick={handleClick}>Log In</button>
+                    </div>
+                </nav>
+        )
+    } else {
     if (!user) {
         return (
             <div className="header">
@@ -225,6 +288,8 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                             </div>
                             
         )
-    } }
+    } 
+}
+}
 
 export default Header
