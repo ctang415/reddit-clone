@@ -26,7 +26,6 @@ const ModalMobile = ( {modalIsTrue, setModalIsTrue, setLoggedIn, loggedIn, join,
         }
     }, [join])
 
-    if (modalIsTrue)
         return (
             <div className="community-page-mobile">
                     <Login 

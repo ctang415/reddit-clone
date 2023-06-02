@@ -47,6 +47,23 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
         getUserInfo()
     }
 
+    const handleMobileJoin = async () => {
+        if (isLoggedIn) {
+        const userRef = doc(db, 'users', user.displayName)
+        await updateDoc(userRef, { joined: arrayUnion(params.id) } )
+        const getUserInfo = async () => {
+            const docSnap = await getDoc(userRef)
+            const data = docSnap.data()
+            setUserData([data])
+            setSubscribed(true) 
+        } 
+        getUserInfo()
+    } else {
+        navigate('/register')
+    }
+    }
+
+
     const handleLeave = async (e) => {
         e.preventDefault()
         const userRef = doc(db, 'users', user.displayName)
@@ -167,7 +184,9 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
                                     <div className="community-header-info-about">
                                         {data.about}
                                     </div>
-                                    <button onClick={handleJoin} className={ "community-button-true"}>Join</button>
+                                    <div className="community-header-mobile-button">
+                                    <button onClick={handleMobileJoin} className="community-button-true">Join</button>
+                                    </div>
                                 </div>
                                 </div>
                             </div>
@@ -177,7 +196,7 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
                                         setFirebaseCommunityData={setFirebaseCommunityData} setUserData={setUserData}
                                         createNewPost={createNewPost} isLoggedIn={isLoggedIn}
                                         allJoinedPosts={allJoinedPosts} isEmpty={isEmpty} setAllJoinedPosts={setAllJoinedPosts}
-                                        setIsEmpty={setIsEmpty} setCommunityData={setCommunityData}
+                                        setIsEmpty={setIsEmpty} setCommunityData={setCommunityData} isMobile={isMobile}
                                         />
                                 </div>
                             </div>
@@ -187,30 +206,23 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
             ) 
         } else {
             return (
-                <div className={"community-body"}>
-                    <div className={"community-body-left"}>
+                <div className="community-body-mobile">
+                    <div className="community-body-mobile-top">
+                        Popular
+                    </div>
+                    <div className="community-body-left">
                     <Post 
                     firebaseCommunityData={firebaseCommunityData} setFirebaseCommunityData={setFirebaseCommunityData}  
                     createNewPost={createNewPost} isLoggedIn={isLoggedIn} getCommunities={getCommunities}
                     communityData={communityData} allJoinedPosts={allJoinedPosts} isEmpty={isEmpty} setAllJoinedPosts={setAllJoinedPosts}
-                    setIsEmpty={setIsEmpty} setCommunityData={setCommunityData} setUserData={setUserData}
-                    />
-                </div>
-                <div className={"community-body-right"}>
-                    <CommunityInformation 
-                    communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
-                    firebaseCommunityData={firebaseCommunityData} setFirebaseCommunityData={setFirebaseCommunityData} 
+                    setIsEmpty={setIsEmpty} setCommunityData={setCommunityData} setUserData={setUserData} isMobile={isMobile}
                     />
                 </div>
             </div>
         )
-    }
-}
-}
-        
-        /*
-    } else if (!isMobile) {
-    if (params.id && !page) {
+    }       
+  } else {
+        if (params.id && !page) {
         return (
             <Error/>
         )
@@ -408,6 +420,6 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
 }
     } 
 }
-*/
+
 
 export default CommunityPage

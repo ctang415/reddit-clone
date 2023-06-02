@@ -39,7 +39,6 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
         e.preventDefault()
         if (!user) {
             setModalIsTrue(!modalIsTrue)
-            navigate('/register')
             } else {
             setDrop(!drop)
         }
@@ -60,22 +59,17 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
         navigate('submit')
     }
 
-    const getUserInfo = async () => {
-        const docRef = doc(db, "users", user.displayName)
-        const docSnap = await getDoc(docRef)
-        const data = docSnap.data()
-        setUserData([data]) 
-    }
-
-    useEffect(() => {
-        if (user) {
-            getUserInfo()
-        }
-    }, [setUserData])
-
-    const handleMobileClick = () => {
+    const handleMobileClick = (e) => {
         if (click) {
-            setClick(false)
+            if (e.target.alt !== "Menu icon") {
+                setClick(false)
+                navigate('/register')
+            } else if (location.pathname.includes('/f/')) {
+                setClick(false)
+            } else {
+                navigate('/')
+                setClick(false)
+            }
         } else {
             setClick(true)
         }
@@ -88,6 +82,19 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
             setClick(!click)
         }
     }
+
+    const getUserInfo = async () => {
+        const docRef = doc(db, "users", user.displayName)
+        const docSnap = await getDoc(docRef)
+        const data = docSnap.data()
+        setUserData([data]) 
+    }
+
+    useEffect(() => {
+        if (user) {
+            getUserInfo()
+        }
+    }, [setUserData])
 
     useEffect(() => {
         if (user) {
@@ -174,10 +181,10 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                                 <li>More</li>
                                 <li>Terms & Policies</li>
                             </ul>
-                            <button className="header-login-button-mobile" onClick={handleClick}>Sign up or Log in</button>
+                            <button className="header-login-button-mobile" onClick={handleMobileClick}>Sign up or Log in</button>
                         </div>
                     <div className="header-button">
-                        <button className="header-login-button" onClick={handleClick}>Log In</button>
+                        <button className="header-login-button" onClick={handleMobileClick}>Log In</button>
                     </div>
                 </nav>
         )

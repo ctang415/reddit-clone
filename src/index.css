@@ -2498,7 +2498,7 @@ body {
   position: fixed;
   top: 0;
   z-index: 99;
-  background-color: grey;
+  background-color: rgb(57, 57, 57);
   display: flex;
   flex-direction: row;  
   width: 100vw;
@@ -2530,7 +2530,7 @@ body {
 .header-login-button {
   font-size: 1.2vh;
   color: white;
-  background-color:#2286d2;
+  background-color:#e23c00;
   height: 60%;
   width: 15vw;
   border-radius: 2vh;
@@ -2560,8 +2560,8 @@ body {
 #nav-bar-input {
   border-radius: 2em;
   height: 0.2vh;
-  background-color:#f5f6f7;
-  border: solid rgb(240, 239, 239);
+  background-color:#a5acb9;
+  border: none;
   padding: 1em;
   width: 85vw;
 }
@@ -2577,7 +2577,7 @@ body {
   height: 30vh;
   width: 100vw;
   z-index: 1;
-  background-color: grey;
+  background-color: rgb(89, 91, 96);
   padding-top: 1em;
   padding-bottom: 1em;
   margin-top: 40vh;
@@ -2615,6 +2615,7 @@ body {
   display: flex;
   flex-direction: column;
   align-self: flex-start;
+  padding: 1em;
 }
 
 .nav-bar-mobile-drop > ul > li {
@@ -2629,11 +2630,10 @@ body {
   display: flex;
   flex-direction: column;
   max-width: 100vw;
-  background-color: white;
 }
 
 .community-body {
-  padding-top: 0em;
+  padding-top: 0vh;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -2642,7 +2642,15 @@ body {
 .community-body-left {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  padding-top: 0.3vh;
+  gap: 0.3vh;
+  width: 100%;
+  max-width: 40em;
+}
+
+.community-body-left-mobile {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: 40em;
 }
@@ -2663,14 +2671,15 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 20vh;
+  height: 22vh;
+  background-color: white;
 }
 
 .community-header-info {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 8% auto;
+  margin: 8.5% auto;
   gap: 0.5vh;
 }
 
@@ -2678,10 +2687,21 @@ body {
   font-size: 1.2em;
 }
 
-.community-header-info-subtitle, .community-header-info-about {
+.community-header-info-subtitle {
   display: flex;
   color: grey;
-  font-size: 2vh;
+  font-size: 1.3vh;
+}
+
+.community-header-info-about {
+  display: flex;
+  color: grey;
+  font-size: 1.3vh;
+}
+
+.community-header-mobile-button > button {
+  width: 90vw;
+  height: 3.5vh;
 }
 
 .community-header-info-about {
@@ -2689,6 +2709,273 @@ body {
   overflow: scroll;
   padding-left: 3vh;
   padding-right: 3vh;
+}
+
+.community-body-mobile-top {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  padding: 1vh;
+  height: 6vh;
+  font-size: 2.5vh;
+  background-color: white;
+}
+
+.post-all-community {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.7vh;
+  font-size: 1.2vh;
+}
+
+.post-all-community > img {
+  height: 2.5vh;
+}
+
+.post {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  border-radius: 0.2em;
+  border-top: 1px solid #cdd9e3;
+  border-bottom: 1px solid #cdd9e3;
+  border-left: none;
+  border-right: none;
+  cursor: pointer;
+  max-height: 18vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.post-media-true {
+  display: inline;
+  font-size: 0.85em;
+  padding-bottom: 0.2em;
+  padding-top: 1em;
+  overflow: hidden;
+  width: 100%;
+}
+
+.post-pinned-author {
+  align-items: center;
+  font-size: 1.5vh;
+}
+
+.post-pinned-author > img {
+  height: 2.5vh;
+}
+
+.post-mobile {
+  display: flex;
+  flex-direction: row;
+  max-height: 8vh;
+  overflow: hidden;
+}
+
+.post-mobile > a {
+  font-size: 1.5vh;
+}
+
+.post-right {
+  padding-left: 0.5em;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+
+.profile-avatar {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  height: 10vh;
+  background-color: black;
+  width: auto;
+}
+
+.community-info {
+  border: none;
+  border-radius: 0;
+  background-color: black;
+  color: white;
+}
+
+.profile-info-text {
+  padding: 0em;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+}
+
+.profile-info-text > h3 {
+  font-size: 1.5vh;
+}
+
+.profile-info-subtext {
+  display: flex;
+  justify-content: center;
+  font-size: 0.8em;
+  gap: 5vw;
+  align-items: center;
+  justify-content: center;
+}
+
+.community-user-button {
+  color: white;
+  background-color:#2286d2;
+  height: 3vh;
+  width: 45%;
+  border-radius: 2em;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.profile-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: none;
+  height: 2.5em;
+  background-color: black;
+  color: white;
+}
+
+.profile-page > ul {
+  display: flex;
+  flex-direction: row;
+  font-size: 1.4vh;
+  gap: 2em;
+  list-style: none;
+  font-weight: bold;
+}
+
+.profile-post-mobile {
+  display: flex;
+  flex-direction: row;
+  background-color: black;
+  border-radius: 0em;
+  border: none;
+  cursor: pointer;
+  max-height:18em;
+  max-width: 40em;
+  padding: 0.7em;
+}
+
+.post-right-mobile {
+  padding-left: 0.5em;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  color: white;
+}
+
+.post-right-mobile > ul {
+  display: flex;
+  flex-direction: row;
+}
+
+.post-right-mobile > ul > li {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5em;
+  list-style-type: none;
+  font-size: 0.7em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  color: white;
+  font-weight: bold;
+}
+
+.post-right-mobile > ul > li > img {
+  height: 2vh;
+}
+
+.post-pinned-community-mobile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1vh;
+  font-size: 1.2vh;
+  color: grey;
+}
+
+.post-pinned-community-mobile > img {
+  height: 1.7vh;
+}
+
+.post-pinned-community-mobile > a  {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  font-size: 1.3vh;
+}
+
+.post-pinned-header-mobile > a {
+  text-decoration: none;
+  font-size: 1.5vh;
+  color: white;
+}
+
+.profile-post-community-name {
+  display: flex;
+  gap: 1vh;
+  font-size: 1.3vh;
+  color: grey;
+  font-weight: 100;
+}
+
+.profile-post-community-name > a {
+  color: white;
+  text-decoration: none;
+}
+
+.profile-post {
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  border-radius: 0em;
+  max-width: 40em;
+  padding: 1em;
+  gap: 0.3em;
+}
+
+.profile-post-bottom {
+  display: flex;
+  flex-direction: column;
+  border: none;
+  border-radius: 0em;
+  padding: 0em;
+}
+
+.profile-post-bottom > div { 
+  background-color: black;
+  color: white;
+  margin: 0;
+  padding: 0em;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.profile-post-bottom > div > ul > li > img {
+  height: 1.7vh;
+}
+
+.profile-post-community-name > img {
+  height: 1.7vh;
+}
+
+.profile-post-title > a {
+  cursor: pointer;
+  color: grey;
+}
+
+.profile-post-text {
+  overflow: hidden;
+  word-wrap: break-word;
+  color: white;
 }
 
 }

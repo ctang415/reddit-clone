@@ -53,8 +53,8 @@ const App = () => {
 
   useEffect(() => {
     handleResize()
-    console.log(isMobile) 
-  }, [])
+    console.log(isMobile)
+  }, []) 
 
   useEffect(() => {
     getCommunities()
