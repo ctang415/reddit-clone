@@ -338,6 +338,7 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
         } else {
             setEmptyPosts(false)
         }
+        console.log(userInfo) 
     }, [posts])
 
     if (isMobile) {

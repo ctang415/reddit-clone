@@ -18,13 +18,13 @@ import * as sanitizeHtml from 'sanitize-html';
 import { useQuill } from "react-quilljs";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
-import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
+import { arrayUnion, collection, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import parse from 'html-react-parser';
 import { nanoid } from 'nanoid'
 import Delete from "../Assets/delete.png"
 import Edit from "../Assets/edit.png"
 import ImageCompress from 'quill-image-compress';
-import DeletePopup from "./DeletePopup";
+import DeletePopup from "./DeletePopup"; 
 Quill.register('modules/imageCompress', ImageCompress);
 Quill.register('modules/magicUrl', MagicUrl)
 
@@ -43,6 +43,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
     const [ popup, setPopup ] = useState(false)
     const [ currentUser, setCurrentUser ] = useState(null)
     const [ editId, setEditId ] = useState('')
+    const [ postAuthor, setPostAuthor ] = useState('')
     const [ deleted, setDeleted ] = useState('[deleted]') 
     const location = useLocation()
     const params = useParams()
@@ -93,11 +94,14 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
             allowedSchemesByTag: {},
             allowedSchemesAppliedToAttributes: [ 'href', 'src', 'cite' ],
         })
+        let newid = nanoid(5)
         const uploadComment = async () => {
-            let newid = nanoid(5)
                 const docRef = doc(db, "communities", firebaseCommunityData[0].name)
-                const userRef = doc(db, "users", user.displayName)
+                const authorRef = doc(db, "users", postAuthor)
+                const userSnap = await getDoc(authorRef)
+                const data = userSnap.data()
                 let newArray;
+                let authorArray;
                 const createComment = () => {
                     const updatePost = firebaseCommunityData[0].posts.map(item => {
                         if (item.id === params.id) {
@@ -107,12 +111,25 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                         return item
                     })
                     newArray = updatePost
+                    const updateAuthor = data.posts.map(item => {
+                        if (item.id === params.id) {
+                            item.comments = [...item.comments, { commentid: newid, content: { html: newHtml, delta: value }, title: detail[0].title, community: firebaseCommunityData[0].name, author: detail[0].author, username: user.displayName, voters:[ {username: user.displayName, vote: "upvote" } ], votes: 1, date: myDate }]
+                            return item
+                        }
+                        return item
+                    })
+                    authorArray = updateAuthor
                 }
                 createComment()
                 await updateDoc(docRef, {posts: newArray })
-                await updateDoc(userRef, {comments: arrayUnion({ commentid: newid, poster: false, content: { html: newHtml, delta: value }, title: detail[0].title, community: firebaseCommunityData[0].name, author: detail[0].author, username: user.displayName, id: params.id, voters:[ {username: user.displayName, vote: "upvote" } ], votes: 1, date: myDate })})
+                await updateDoc(authorRef, {posts: authorArray})
             }
         uploadComment()
+        const updateComment = async () => {
+            const userRef = doc(db, "users", user.displayName)
+            await updateDoc(userRef, {comments: arrayUnion({ commentid: newid, poster: false, content: { html: newHtml, delta: value }, title: detail[0].title, community: firebaseCommunityData[0].name, author: detail[0].author, username: user.displayName, id: params.id, voters:[ {username: user.displayName, vote: "upvote" } ], votes: 1, date: myDate })})
+        }
+        updateComment()
         setDetail([firebaseCommunityData[0].posts.find( item => item.id === params.id)])
         quill.setContents([])
     }
@@ -339,6 +356,13 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
     }
 
     useEffect(() => {
+        if (detail[0] !== undefined) {
+            setPostAuthor(detail[0].author)
+        }
+    }, [detail]) 
+
+  
+    useEffect(() => {
         if (value.length === 25) {
             setValue([])
         } else if (value.length === 0) {
@@ -379,7 +403,6 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
         } else {
             setEdit(true)
         }
-        console.log(id)
     }, []) 
 
     if (isMobile) {
@@ -528,7 +551,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
             <div className="post-detail-lower">
                 <div className={ isLoggedIn ? "comment-user" : "input-empty" }>
                     <div className="comment-as-user">
-                        Comment as <Link to={isLoggedIn ? `../user/${user.displayName}` : null}>{isLoggedIn ? user.displayName : null}</Link>
+                        Comment as <Link to={isLoggedIn ? `../user/${user.displayName}` : null }>{isLoggedIn ? user.displayName : null }</Link>
                     </div>
                     <TextEditor 
                     quillRef={quillRef} quill={quill} html={html} setHtml={setHtml} value={value} setValue={setValue} 
