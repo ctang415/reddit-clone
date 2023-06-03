@@ -21,7 +21,10 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const [ posts, setPosts ] = useState([])
     const [ comments, setComments ] = useState([])
+    const [ emptyComments, setEmptyComments] = useState(false)
+    const [ emptyPosts, setEmptyPosts] = useState(false)
     const [ currentUser, setCurrentUser ] = useState('')
+    const [ empty, setEmpty ] = useState(false)
     const params = useParams()
     const navigate = useNavigate()
     const user = auth.currentUser
@@ -313,33 +316,79 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
         }
     }, [user])
 
+    useEffect(() => {
+        if (userInfo.length === 0) {
+            setEmpty(true)
+        } else {
+            setEmpty(false)
+        }
+    }, [userInfo])
+
+    useEffect(() => {
+        if (comments.length === 0) {
+            setEmptyComments(true)
+        } else {
+            setEmptyComments(false)
+        }
+    }, [comments])
+
+    useEffect(() => {
+        if (posts.length === 0) {
+            setEmptyPosts(true)
+        } else {
+            setEmptyPosts(false)
+        }
+    }, [posts])
+
     if (isMobile) {
-        if (overview && userInfo[0] !== undefined) {
+        if (empty && overview) {
+            return (
+                <div className="post-width">
+                    <div className="post-width-empty">
+                        <div>hmm... u/{params.id} hasn't posted yet</div>
+                    </div>
+                </div>
+            )
+        } else if (commentsOnly && emptyComments) {
+            return (
+                <div className="post-width">
+                    <div className="post-width-empty">
+                        <div>hmm... u/{params.id} hasn't commented yet</div>
+                    </div>
+                </div>
+            )
+        } else if (postsOnly && emptyPosts) {
+            return (
+                <div className="post-width">
+                    <div className="post-width-empty">
+                        <div>hmm... u/{params.id} hasn't posted yet</div>
+                    </div>
+                </div>
+            )
+        } else if (overview && userInfo[0] !== undefined) {
             return (
                 userInfo.map(data => {
                     return (
                         <div className="post-width">
                             <div className={ data.poster ? "profile-post-mobile" : "input-empty"}>
                                 <div className="post-right-mobile">
-                                  
+
                                         <div className="post-pinned-community-mobile">
                                             <img src={CommunityIcon} alt="Community icon"></img>
                                             <Link to={`../f/${data.community}`}>f/{data.community}</Link>
                                             {data.date}
                                         </div>
                                   
-                                        <div className="post-pinned-header-mobile"> 
+                                        <div className="post-pinned-header-mobile-title"> 
                                             <Link to={`../f/${data.community}/comments/${data.id}`}>
                                                 {data.title}
                                             </Link>
                                         </div>
-
-                                        <div className="post-media-true">
+                                        <div className="post-media-true-mobile">
                                             <Link to={`../f/${data.community}/comments/${data.id}`}>
                                                 {parse(`${data.content.html}`)}
                                             </Link>
                                         </div>
-
                                     <ul>
                                         <li>
                                             <img src={ ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("upvote")) ? Upvoted : WhiteUp} alt="Up arrow" className={data.community} id={data.id} onClick={handleVote}></img>
@@ -353,15 +402,15 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                                     </ul>
                                 </div>
                             </div>
+
                             <div className={data.poster ? "input-empty" : "profile-post" }>
-                    
                                 <div className="profile-post-community-name">
-                                <img src={CommunityIcon} alt="Community icon"/>
+                                    <img src={CommunityIcon} alt="Community icon"/>
                                     <Link to={`../f/${data.community}`}>
                                         f/{data.community}
                                     </Link>
                                     {data.date}
-                                    </div> 
+                                </div> 
             
                             <div className="profile-post-bottom">
                                     <div>
@@ -408,53 +457,46 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                 comments.map((data) => {
                     return (
                         <div className="post-width">
-                            <div className={data.poster ? "input-empty" : "profile-post" }>
-                                <div className="profile-post-top">
-                                <Link to={`../user/${data.username}`}>
-                                    <div className="profile-post-username">{data.username}</div> 
-                                </Link> commented on 
-                                <div className="profile-post-title">
-                                    <Link to={`../f/${data.community}/comments/${data.id}`}>{data.title}</Link>
-                                </div> 
-                                    in *
+                           <div className={data.poster ? "input-empty" : "profile-post" }>
                                 <div className="profile-post-community-name">
+                                    <img src={CommunityIcon} alt="Community icon"/>
                                     <Link to={`../f/${data.community}`}>
                                         f/{data.community}
                                     </Link>
-                                    </div> 
-                                        * Posted by 
-                                <div className="profile-post-poster">
-                                <Link to={`../user/${data.author}`}>
-                                    u/{data.author}
-                                </Link>
-                                </div>
-                            </div>
+                                    {data.date}
+                                </div> 
+            
                             <div className="profile-post-bottom">
                                     <div>
-                                        <div className="profile-post-poster-information">
-                                               <div>
-                                                    <Link to={`../user/${data.username}`}>{data.username}</Link>
-                                                </div> 
-                                                {data.votes} points * {data.date}
-                                        </div>
+                                        <div className="profile-post-title">
+                                            <Link to={`../f/${data.community}/comments/${data.id}`}>
+                                                {data.title}
+                                            </Link>
+                                        </div> 
                                         <Link to={`../f/${data.community}/comments/${data.id}`}>
-                                                <div className="profile-post-text">{parse(`${data.content.html}`)}</div>
+                                                <div className="profile-post-text">
+                                                    {parse(`${data.content.html}`)}
+                                                </div>
                                         </Link>
+                                        <div className="post-right-mobile">
                                         <ul>
-                                            <li>Reply</li>
-                                            <li>Share</li>
-                                            <div className={ !matchingUser ? "post-detail-dropbar" : "input-empty"}>
-                                            <ul>
-                                                <li>Report</li>
-                                                <li>Save</li>
+                                            <li>
+                                            <img src={WhiteUp} alt="Up arrow" className={data.community} id={data.id} onClick={handleVote}></img>
+                                                {data.votes}
+                                            <img src={WhiteDown} alt="Down arrow" className={data.community} id={data.id} onClick={handleVote}></img>
+                                            </li>
                                             </ul>
-                                        </div>
-                                            <div className={ isLoggedIn && matchingUser ? "post-detail-dropbar" : "input-empty"}>
-                                                <ul>
-                                                    <li>Save</li>
-                                                    <li className={data.id} id={data.commentid}>Edit</li>
-                                                    <li className={data.id} id={data.commentid} onClick={handleDelete}>Delete</li>
-                                                </ul>
+                                            </div>
+                                        <ul> 
+                                        <div className={ isLoggedIn && matchingUser ? "post-detail-dropbar" : "input-empty"}>
+                                            <ul className={data.community}>
+                                                <li>Save</li>
+                                                <li className={data.id} id={data.commentid} 
+                                                onClick={() => navigate(`../f/${data.community}/comments/${data.id}`, { state: data.commentid})}>
+                                                    Edit
+                                                </li>
+                                                <li className={data.id} id={data.commentid} onClick={handleDelete}>Delete</li>
+                                            </ul>
                                         </div>
                                         </ul>
                                     </div>
@@ -469,54 +511,70 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                 posts.map((data) => {
                     return (
                         <div className="post-width">
-                            <div className={ data.poster ? "post" : "input-empty"}>
-                                <div className="post-left">
-                                <div className="post-votes-only">
-                                        <img src={ ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("upvote")) ? Upvoted : Up} alt="Up arrow" className={data.community} id={data.id} onClick={handleVote}></img>
-                                            {data.votes}
-                                        <img src={ ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("downvote")) ? Downvoted : Down} alt="Down arrow" className={data.community} id={data.id} onClick={handleVote}></img>
-                                    </div>
-                                </div>
-                                <div className="post-right">
-                                    <div className="post-right-profile">
-                                        <div className="post-pinned-community"><Link to={`../f/${data.community}`}>f/{data.community}</Link></div>
-                                        <div className="post-pinned-author">Posted by <Link to={`../user/${params.id}`}>u/{params.id}</Link></div>
-                                    </div>
-                                        <div className="post-pinned-header"> 
-                                        <Link to={`../f/${data.community}/comments/${data.id}`}>
-                                            {data.title}
+                        <div className={ data.poster ? "profile-post-mobile" : "input-empty"}>
+                                <div className="post-right-mobile">
+                                        <div className="post-pinned-community-mobile">
+                                            <img src={CommunityIcon} alt="Community icon"></img>
+                                            <Link to={`../f/${data.community}`}>f/{data.community}</Link>
+                                            {data.date}
+                                        </div>
+                                  
+                                        <div className="post-pinned-header-mobile-title"> 
+                                            <Link to={`../f/${data.community}/comments/${data.id}`}>
+                                                {data.title}
                                             </Link>
                                         </div>
-                                        <div className="post-media-true">
-                                        <Link to={`../f/${data.community}/comments/${data.id}`}>
-                                            {parse(`${data.content.html}`)}
+                                        <div className="post-media-true-mobile">
+                                            <Link to={`../f/${data.community}/comments/${data.id}`}>
+                                                {parse(`${data.content.html}`)}
                                             </Link>
                                         </div>
                                     <ul>
-                                        <li><img src={Comment} alt="Comment bubble"/> { data.poster ? data.comments.length : null } Comments</li> 
-                                        <li><img src={Share} alt="Share button" /> Share</li>
-                                        <li><img src={Save} alt="Save button" /> Save</li>
-                                        <li>...</li>
+                                        <li>
+                                            <img src={ ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("upvote")) ? Upvoted : WhiteUp} alt="Up arrow" className={data.community} id={data.id} onClick={handleVote}></img>
+                                                {data.votes}
+                                            <img src={ ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("downvote")) ? Downvoted : WhiteDown} alt="Down arrow" className={data.community} id={data.id} onClick={handleVote}></img>
+                                        </li>
+                                        <li>
+                                            <img src={WhiteComment} alt="Comment bubble"/> 
+                                            { data.poster ? data.comments.length : null }
+                                        </li> 
                                     </ul>
                                 </div>
                             </div>
+
                     </div>
                 )
             })
             )
-        } else {
+        }
+    } else {
+        if (empty && overview) {
             return (
                 <div className="post-width">
                     <div className="post-width-empty">
-                        <div>hmm... u/{params.id} hasn't posted anything</div>
+                        <div>hmm... u/{params.id} hasn't posted yet</div>
                     </div>
                 </div>
             )
-        }
-    } else {
-
-if (overview && userInfo[0] !== undefined) {
-    return (
+        } else if (commentsOnly && emptyComments) {
+            return (
+                <div className="post-width">
+                    <div className="post-width-empty">
+                        <div>hmm... u/{params.id} hasn't commented yet</div>
+                    </div>
+                </div>
+            )
+        } else if (postsOnly && emptyPosts) {
+            return (
+                <div className="post-width">
+                    <div className="post-width-empty">
+                        <div>hmm... u/{params.id} hasn't posted yet</div>
+                    </div>
+                </div>
+            )
+    } else if (overview && userInfo[0] !== undefined) {
+        return (
         userInfo.map(data => {
             return (
                 <div className="post-width">
@@ -719,14 +777,6 @@ if (overview && userInfo[0] !== undefined) {
             </div>
         )
     })
-    )
-} else {
-    return (
-        <div className="post-width">
-            <div className="post-width-empty">
-                <div>hmm... u/{params.id} hasn't posted anything</div>
-            </div>
-        </div>
     )
 }
 }

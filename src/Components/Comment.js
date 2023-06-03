@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import CommentIcon from "../Assets/comment.png"
 import Up from "../Assets/up.png"
 import Down from "../Assets/down.png"
+import WhiteUp from "../Assets/upwhite.png"
+import WhiteDown from "../Assets/downwhite.png"
+import WhiteComment from "../Assets/whitechat.png"
 import Avatar from "../Assets/avatar.png"
 import { Link, useLocation, useParams } from "react-router-dom";
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
@@ -17,7 +20,7 @@ import { auth, db } from "../firebase-config";
 Quill.register('modules/magicUrl', MagicUrl)
 
 const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, setDetail, 
-    setFirebaseCommunityData, firebaseCommunityData, currentUser } ) => {
+    setFirebaseCommunityData, firebaseCommunityData, currentUser, isMobile } ) => {
     const [ update, setUpdate ] = useState(false)
     const [ newPost, setNewPost ] = useState([])
     const [ value, setValue ] = useState('')
@@ -237,6 +240,123 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
 }
     }, [quill])
 
+    if (isMobile) {
+        if (isEmpty) {
+            return (
+                <div className="empty-comment">
+                     <h3>No Comments Yet</h3>
+                     <div>Be the first to share what you think!</div>
+                </div>
+            )
+        } else if (!isEmpty && edit && update) {
+            return (
+                newPost.map(comment => {
+                    return (
+                            <div className="comment" key={comment.id}>
+                                <div className="comment-left">
+                                    <Link to={`../user/${comment.username}`}>
+                                        <img src={Avatar} alt="Avatar" />
+                                    </Link>
+                                    <hr className="vertical"></hr>
+                                </div>
+                                <div className="comment-right">
+                                    <div className="comment-left-username">
+                                        <Link to={`../user/${comment.username}`}>{comment.username}</Link>
+                                    </div>
+                                    <div className="comment-right-text">{parse(comment.content.html)}</div>
+                                    <ul>
+                                        <div className="comment-votes">
+                                            <img src={WhiteUp} alt="Up arrow"></img>
+                                                {comment.votes}
+                                            <img src={WhiteDown} alt="Down arrow"></img>
+                                        </div>
+                                        <li>
+                                            <div>
+                                                <img src={WhiteComment} alt="Comment bubble"/> 
+                                                    Reply
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div>
+                                                Share
+                                            </div>
+                                        </li>
+                                        <div className={ comment.username === currentUser ? "post-detail-dropbar-comment" : "input-empty"}>
+                                            <ul> 
+                                            <li>Save</li>
+                                            <li id={comment.commentid} onClick={handleDelete}>Delete</li>
+                                        </ul>
+                                    </div>
+                                    </ul>
+                                </div>
+                            </div>
+                    )
+                }
+            )
+        )
+        } else if (!isEmpty && !edit && !update && isLoggedIn ) {
+            return (
+                <div className="comment">
+                    <CommentEditor quillRef={quillRef} quill={quill} html={html} setHtml={setHtml} value={value} setValue={setValue} 
+                        handleSubmit={handleSubmit} empty={empty} setEmpty={setEmpty} edit={edit} setEdit={setEdit} />
+                </div>
+            ) 
+        } else {
+        return (
+            detail.map(data => {
+                return (
+                    data.comments.map(comment => {
+                        return (
+                            <div className="comment" key={comment.id}>
+                                <div className="comment-left">
+                                    <Link to={`../user/${comment.username}`}>
+                                        <img src={Avatar} alt="Avatar" />
+                                    </Link>
+                                    <hr className="vertical"></hr>
+                                </div>
+                                <div className="comment-right">
+                                    <div className="comment-left-username">
+                                        <Link to={`../user/${comment.username}`}>{comment.username}</Link>
+                                    </div>
+                                    <div>
+                                        {parse(comment.content.html)}
+                                    </div>
+                                    <ul>
+                                        <div className="comment-votes">
+                                            <img src={WhiteUp} alt="Up arrow"></img>
+                                                {comment.votes}
+                                            <img src={WhiteDown} alt="Down arrow"></img>
+                                        </div>
+                                        <li>
+                                            <div>
+                                                <img src={WhiteComment} alt="Comment bubble"/> 
+                                                    Reply
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div>
+                                                Share
+                                            </div>
+                                        </li>
+                                            <div className={ comment.username === currentUser ? "post-detail-dropbar-comment" : "input-empty"}>
+                                            <ul> 
+                                            <li>Save</li>
+                                            <li id={comment.commentid} onClick={handleEdit}>
+                                                Edit
+                                            </li>
+                                            <li id={comment.commentid} onClick={handleDelete}>Delete</li>
+                                            </ul>
+                                            </div>
+                                    </ul>
+                                </div>
+                            </div>
+                        )
+                    })
+                )
+            })
+        )
+        }
+    } else {
     if (isEmpty) {
         return (
             <div className="empty-comment">
@@ -351,6 +471,7 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
             )
         })
     )
+}
 }
 }
 

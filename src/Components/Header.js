@@ -64,10 +64,10 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
             if (e.target.alt !== "Menu icon") {
                 setClick(false)
                 navigate('/register')
-            } else if (location.pathname.includes('/f/')) {
+            } else if (location.pathname.includes('/register')) {
+                navigate('/')
                 setClick(false)
             } else {
-                navigate('/')
                 setClick(false)
             }
         } else {

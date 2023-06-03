@@ -11,7 +11,7 @@ import CommunityIcon from "../Assets/communityicon.png"
 import PostDetailsCard from "./PostDetailsCard";
 
 const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunityModal, setDrop, drop, join, setJoin, 
-                    setUserData } ) => {
+                    setUserData, isMobile } ) => {
     const [ firebaseCommunityData, setFirebaseCommunityData] = useState([])
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const [ pageExists, setPageExists ] = useState(true)
@@ -102,6 +102,49 @@ const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunity
         window.scrollTo({ top:0, behavior:'auto'})
     }, [])
 
+    if (isMobile) {
+        if (!pageExists) {
+            return (
+                <Error/>
+            )
+        } else if (pageExists) {
+            return (
+                        <div className={"community-page-mobile"}>
+                                <div className={"community-body-mobile"}>
+                                    <div className={ isLoggedIn ? "community-post-true" : "community-post-false"}>
+                                        <img id="community-input-img" src={ user ? user.photoURL : null} alt="User Icon"></img>
+                                        <input type="text" placeholder="Create Post" onClick={createNewPost}></input>
+                                    </div>
+                                    <PostDetailsCard firebaseCommunityData={firebaseCommunityData} setDetail={setDetail}
+                                    detail={detail} setFirebaseCommunityData={setFirebaseCommunityData} setUserData={setUserData} 
+                                    isMobile={isMobile}
+                                    />
+                                </div>
+                        </div>
+            ) 
+        } else {
+            return (
+            <div className="community-page-logged-out">
+            
+                <div className={ isLoggedIn ? "community-body" : "community-body-logged-out"}>
+                    <div className={isLoggedIn ? "community-body-left" : "community-body-left-logged-out"}>
+                    <div className={ isLoggedIn ? "community-post-true" : "community-post-false"}>
+                        <img id="community-input-img" src={user ? user.photoURL : null} alt="User Icon"></img>
+                            <input type="text" placeholder="Create Post" onClick={createNewPost}></input>
+                        </div>
+                </div>
+                <div className={ isLoggedIn ? "community-body-right" : "community-body-right-logged-out"}>
+                    <CommunityInformation 
+                    communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
+                    firebaseCommunityData={firebaseCommunityData} setFirebaseCommunityData={setFirebaseCommunityData} 
+                    isMobile={isMobile}
+                    />
+                </div>
+            </div>
+        </div>
+        )
+    }
+    } else {
     if (!pageExists) {
         return (
             <Error/>
@@ -239,6 +282,7 @@ const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunity
         </div>
     </div>
     )
+}
 }
 }
 

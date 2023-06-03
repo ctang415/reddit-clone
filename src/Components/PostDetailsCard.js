@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Up from "../Assets/up.png"
 import Down from "../Assets/down.png"
+import WhiteUp from "../Assets/upwhite.png"
+import WhiteDown from "../Assets/downwhite.png"
+import WhiteComment from "../Assets/whitechat.png"
+import CommunityIcon from "../Assets/communityicon.png"
 import CommentIcon from "../Assets/comment.png"
 import Share from "../Assets/share.png"
 import Save from "../Assets/save.png"
@@ -24,7 +28,7 @@ import DeletePopup from "./DeletePopup";
 Quill.register('modules/imageCompress', ImageCompress);
 Quill.register('modules/magicUrl', MagicUrl)
 
-const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, detail, setDetail, setUserData }  ) => {
+const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, detail, setDetail, setUserData, isMobile }  ) => {
     const [ drop, setDrop ] = useState(false)
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const [ postValue, setPostValue ] = useState('')
@@ -378,6 +382,97 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
         console.log(id)
     }, []) 
 
+    if (isMobile) {
+        return (
+        detail.map( data => {
+            return (
+        <div className="post-detail" key={data.id}>
+            <DeletePopup popup={popup} setPopup={setPopup}/>
+            <div className="post-detail-upper">
+                <div className="post-detail-right">
+                    <div className="post-detail-right-header">
+                        <img src={CommunityIcon} alt="Community icon"></img>
+                        <div>
+                        <div className="post-detail-right-community">
+                            f/{data.community}
+                        </div>
+                        <div className="post-detail-pinned-author"> 
+                            by
+                            <Link to={ deleted === data.author ? null : `../user/${data.author}`}> u/{data.author} </Link>
+                        </div>
+                        </div>
+                    </div>
+                    <h3>
+                        {data.title}
+                    </h3>
+                    <div className="post-detail-media-true">
+                        { postEdit ? null : parse(data.content.html)}
+                        <div className={ postEdit ? "user-left" : "input-empty"}>
+                        <PostEditor postHtml={postHtml} setPostHtml={setPostHtml} setDetail={setDetail} setPostEdit={setPostEdit}
+                        postValue={postValue} setPostValue={setPostValue} postEdit={postEdit} editId={editId}
+                        postEmpty={postEmpty} setPostEmpty={setPostEmpty} setFirebaseCommunityData={setFirebaseCommunityData}
+                        />
+                        </div>
+                    </div> 
+                    <ul>
+                        <li>
+                            <img src={WhiteUp} id={data.id} alt="Up arrow" onClick={handleVote}></img>
+                                {data.votes}
+                            <img src={WhiteDown} id={data.id} alt="Down arrow" onClick={handleVote}></img>
+                        </li>
+                        <li>
+                            <img src={WhiteComment} alt="Comment bubble"/> { data.comments.length }
+                        </li>
+                        <div className={ data.author === currentUser ? "post-detail-dropbar-user" : "input-empty"}>
+                            <ul> 
+                                <li id={data.id} className={ data.author === currentUser ? "user-left" : 'input-empty'} 
+                                onClick={handleEdit}
+                                >
+                                    <img src={Edit} alt="Edit icon" ></img>Edit Post
+                                </li>
+                                <li id={data.id} className={ data.author === currentUser ? "user-left" : 'input-empty'}
+                                onClick={handleDelete}>
+                                    <img src={Delete} alt="Delete icon"></img>
+                                    Delete
+                                </li>
+                            </ul>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+            <div className="post-detail-lower">
+                <div className={ isLoggedIn ? "comment-user" : "input-empty" }>
+                    <div className="comment-as-user">
+                        Comment as <Link to={isLoggedIn ? `../user/${user.displayName}` : null}>{isLoggedIn ? user.displayName : null}</Link>
+                    </div>
+                    <TextEditor 
+                    quillRef={quillRef} quill={quill} html={html} setHtml={setHtml} value={value} setValue={setValue} 
+                    handleSubmit={handleSubmit} empty={empty} setEmpty={setEmpty}
+                    />
+                </div>
+                    <div>
+                        <div className="post-drop-left" onClick={handleDrop}> Sort By: Top (Suggested) ⌄</div>
+                        <ul className={ drop ? "post-detail-drop": "input-empty"} onClick={handleDrop}>
+                            <li>Best</li>
+                            <li id="post-detail-selected" >Top</li>
+                            <li>New</li>
+                            <li>Controversial</li>
+                            <li>Old</li>
+                            <li>Q&a</li>
+                        </ul>
+                    </div>
+                <Comment 
+                setEdit={setEdit} isLoggedIn={isLoggedIn} setDetail={setDetail} firebaseCommunityData={firebaseCommunityData}
+                setFirebaseCommunityData={setFirebaseCommunityData} detail={detail} edit={edit} id={id} isEmpty={isEmpty} 
+                setIsEmpty={setIsEmpty} currentUser={currentUser} isMobile={isMobile}
+                />
+            </div>
+        </div>
+            )
+        
+        })
+        )
+    } else {
     return (
         detail.map( data => {
             return (
@@ -462,6 +557,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
             )
         })
     )
+    }
 }
 
 export default PostDetailsCard

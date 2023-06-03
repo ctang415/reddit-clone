@@ -605,7 +605,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                                         <Link to={`f/${post.community}/comments/${post.id}`}>
                                             {post.title}
                                         </Link>
-                                            {parse(post.content.html)}
+                                            {parse(`${post.content.html}`)}
                                     </div>
                                     <ul>
                                         <li>
@@ -649,8 +649,6 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                                             {post.title}
                                             </Link>
                                             {parse(post.content.html)}
-                                        </div>
-                                        <div className="post-media-true">
                                         </div>
                                         <ul>
                                             <li>
