@@ -26,9 +26,9 @@ const ForgotUser = ( { setSignUp, setLogin, forgotUser, setForgotUser } ) => {
                 <form>
                     <input type="email" placeholder="Email" required></input>
                     <button type="submit" onSubmit={handleButton} className="login-button">Email Me</button>
-                    <span>
+                    <div className="modal-links-signup">
                         Don't have an email or need assistance logging in? <span className="modal-links">Get Help</span>
-                    </span>
+                    </div>
                     <div className="forgot-user-links">
                         <span className="modal-links" onClick={displaySignUp}>Sign up</span>
                         <span id="modal-links-dot">•</span>

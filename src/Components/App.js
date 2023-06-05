@@ -23,6 +23,7 @@ const App = () => {
   const [ isEmpty, setIsEmpty ] = useState(true)
   const [ isMobile, setIsMobile ] = useState(false)
   const [ loggedIn, setLoggedIn ] = useState(false)
+  const [ click, setClick] = useState(false)
   const user = auth.currentUser
 
   const getCommunities = async () => {
@@ -68,7 +69,7 @@ const App = () => {
       communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
       communityData={communityData} setCommunityData={setCommunityData} userData={userData} setUserData={setUserData} 
       join={join} setJoin={setJoin} allJoinedPosts={allJoinedPosts} isEmpty={isEmpty} setAllJoinedPosts={setAllJoinedPosts}
-      setIsEmpty={setIsEmpty} isMobile={isMobile}
+      setIsEmpty={setIsEmpty}
       />
       <Routes>
         <Route path="/" exact element={
@@ -76,7 +77,7 @@ const App = () => {
         userData={userData} setUserData={setUserData} 
         communityModal={communityModal} setDrop={setDrop} drop={drop} modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue}
         setCommunityModal={setCommunityModal} join={join} setJoin={setJoin} communityData={communityData} allJoinedPosts={allJoinedPosts} 
-        isEmpty={isEmpty} setAllJoinedPosts={setAllJoinedPosts} setIsEmpty={setIsEmpty} isMobile={isMobile}
+        isEmpty={isEmpty} setAllJoinedPosts={setAllJoinedPosts} setIsEmpty={setIsEmpty}
         />}
         />
         <Route path="/f/:id" exact element={
@@ -85,37 +86,35 @@ const App = () => {
         communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
         join={join} setJoin={setJoin} communityData={communityData} allJoinedPosts={allJoinedPosts} isEmpty={isEmpty} 
         setAllJoinedPosts={setAllJoinedPosts} setIsEmpty={setIsEmpty} setCommunityData={setCommunityData} getCommunities={getCommunities}
-        isMobile={isMobile}
         />}
         />
         <Route path="/search" element={
           <Search
           communityData={communityData} setUserData={setUserData} drop={drop} setDrop={setDrop} setJoin={setJoin} 
-          modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} join={join} isMobile={isMobile}
+          modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} join={join} 
           />
         }/>
         <Route path="/f/:id/comments/:id" element={
         <PostDetails
         modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue}
         communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
-        join={join} setJoin={setJoin} setUserData={setUserData} isMobile={isMobile}
+        join={join} setJoin={setJoin} setUserData={setUserData} 
         />}
         />
         <Route path="/f/:id/submit" element={
         <CreatePost 
         setDrop={setDrop} drop={drop} communityData={communityData}
-        communityModal={communityModal} setCommunityModal={setCommunityModal} isMobile={isMobile}
+        communityModal={communityModal} setCommunityModal={setCommunityModal} 
         />} />
         <Route path="/submit" exact element={
         <CreatePost 
         setDrop={setDrop} drop={drop} communityData={communityData}
-        communityModal={communityModal} setCommunityModal={setCommunityModal} isMobile={isMobile}
+        communityModal={communityModal} setCommunityModal={setCommunityModal}
         />} />
         <Route path="/user/:id" exact element={ 
         <ProfilePage 
         userData={userData} setDrop={setDrop} drop={drop} setUserData={setUserData}
         modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} join={join} setJoin={setJoin}
-        isMobile={isMobile}
         />} />
         <Route path="*" element={<Error/>} />
       </Routes>
@@ -129,7 +128,7 @@ const App = () => {
       communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
       communityData={communityData} setCommunityData={setCommunityData} userData={userData} setUserData={setUserData} 
       join={join} setJoin={setJoin} allJoinedPosts={allJoinedPosts} isEmpty={isEmpty} setAllJoinedPosts={setAllJoinedPosts}
-      setIsEmpty={setIsEmpty} isMobile={isMobile}
+      setIsEmpty={setIsEmpty} isMobile={isMobile} click={click} setClick={setClick}
       />
       <Routes>
         <Route path="/" exact element={
@@ -180,7 +179,7 @@ const App = () => {
         />} />
         <Route path="/register" exact element={
           <ModalMobile modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} loggedIn={loggedIn} setLoggedIn={setLoggedIn}
-          join={join} setJoin={setJoin}
+          join={join} setJoin={setJoin} isMobile={isMobile} click={click} setClick={setClick}
         />}
         />
         <Route path="*" element={<Error/>} />

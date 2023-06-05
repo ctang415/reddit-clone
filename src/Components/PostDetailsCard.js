@@ -129,8 +129,9 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
             const userRef = doc(db, "users", user.displayName)
             await updateDoc(userRef, {comments: arrayUnion({ commentid: newid, poster: false, content: { html: newHtml, delta: value }, title: detail[0].title, community: firebaseCommunityData[0].name, author: detail[0].author, username: user.displayName, id: params.id, voters:[ {username: user.displayName, vote: "upvote" } ], votes: 1, date: myDate })})
         }
-        updateComment()
+        updateComment().then(() => {
         setDetail([firebaseCommunityData[0].posts.find( item => item.id === params.id)])
+    })
         quill.setContents([])
     }
 
@@ -359,8 +360,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
         if (detail[0] !== undefined) {
             setPostAuthor(detail[0].author)
         }
-    }, [detail]) 
-
+    }, [detail])
   
     useEffect(() => {
         if (value.length === 25) {
@@ -466,7 +466,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
             <div className="post-detail-lower">
                 <div className={ isLoggedIn ? "comment-user" : "input-empty" }>
                     <div className="comment-as-user">
-                        Comment as <Link to={isLoggedIn ? `../user/${user.displayName}` : null}>{isLoggedIn ? user.displayName : null}</Link>
+                        Comment as <Link to={ user ? `../user/${user.displayName}` : null }>{ user ? user.displayName : null}</Link>
                     </div>
                     <TextEditor 
                     quillRef={quillRef} quill={quill} html={html} setHtml={setHtml} value={value} setValue={setValue} 
@@ -551,7 +551,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
             <div className="post-detail-lower">
                 <div className={ isLoggedIn ? "comment-user" : "input-empty" }>
                     <div className="comment-as-user">
-                        Comment as <Link to={isLoggedIn ? `../user/${user.displayName}` : null }>{isLoggedIn ? user.displayName : null }</Link>
+                        Comment as <Link to={user ? `../user/${user.displayName}` : null }>{ user ? user.displayName : null }</Link>
                     </div>
                     <TextEditor 
                     quillRef={quillRef} quill={quill} html={html} setHtml={setHtml} value={value} setValue={setValue} 

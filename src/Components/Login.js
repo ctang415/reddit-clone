@@ -11,13 +11,16 @@ import { auth, db } from "../firebase-config";
 import { doc, getDoc, setDoc, } from "firebase/firestore";
 import Profile from  '../Assets/snoo.png'
 import { generateUsername } from 'friendly-username-generator';
+import { useNavigate } from "react-router-dom";
 
-const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, setModalIsTrue, loggedIn, setLoggedIn } ) => {
+const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, setModalIsTrue, loggedIn, setLoggedIn, 
+    isMobile, click, setClick } ) => {
     const [ username, setUsername ] = useState("")
     const [ password, setPassword ] = useState("")
     const [ passwordError, setPasswordError ] = useState(false)
     const [ userError, setUserError ] = useState(false)
     const [ generatedUser, setGeneratedUser] = useState('')
+    const navigate = useNavigate()
 
     useEffect(() => {
         const options = {
@@ -102,7 +105,27 @@ const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, 
       })
     }
     }
-    
+
+    const signInMobile =  async () => {
+        const docRef = doc(db, "users", username)
+        const docSnap = await getDoc(docRef);
+        const data = docSnap.data()
+        if (data === undefined) {
+            setUserError(true)
+        } else {
+            signInWithEmailAndPassword(auth, data.email, password).then( async (userCredential) => {
+                await reload(auth.currentUser)
+
+  }).then(() => {
+    setLoggedIn(true)
+    navigate('/')
+    setClick(false)
+  }).catch((error) => {
+    setPasswordError(true)
+  })
+}
+}
+
       const handleSubmit = (e) => {
         e.preventDefault()
         signIn()
@@ -111,7 +134,19 @@ const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, 
         }
         setUserError(false)
         setPassword(false)
-      }
+    }
+
+    const handleMobileSubmit = (e) => {
+        e.preventDefault()
+        signInMobile()
+        if (auth.currentUser) {
+            setModalIsTrue(false)
+        }
+        setUserError(false)
+        setPassword(false)
+    }
+
+      
 
     if (login) {
         return (
@@ -124,7 +159,7 @@ const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, 
             <div className="modal-divider">
             <span className="modal-divider-text">OR</span>
             </div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={ isMobile ? handleMobileSubmit : handleSubmit }>
                 <input type="text" name="username" placeholder="Username" onInput={(e) => setUsername(e.target.value)} required></input>
                 <span htmlFor="username" className={ userError ? "password-error-true" : "password-error-false"}>Username does not exist</span>
                 <input type="password" name="password" placeholder="Password" onInput={(e) => setPassword(e.target.value)} required></input>
@@ -135,7 +170,7 @@ const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, 
                 <div className="modal-text-buttons">
                 <button type="submit" className="login-button">Log In</button>
                 </div>
-                <span>New to Freddit? <span className="modal-links" onClick={displaySignUp}>Sign up</span></span>
+                <div className="modal-links-signup">New to Freddit? <span className="modal-links" onClick={displaySignUp}>Sign up</span></div>
             </form>
             </div>
         )

@@ -12,7 +12,7 @@ import { doc, setDoc } from "firebase/firestore";
 import Profile from  '../Assets/snoo.png'
 import { generateUsername } from 'friendly-username-generator';
 
-const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue, loggedIn, setLoggedIn } ) => {
+const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue, loggedIn, setLoggedIn, click, setClick } ) => {
     const [ email, setEmail ] = useState("")
     const [ createUser, setCreateUser ] = useState(false)
     const [ generatedUser, setGeneratedUser] = useState('')
@@ -95,7 +95,7 @@ const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue, loggedIn, setLog
                 <form onSubmit={handleEmail}>
                     <input type="email" placeholder="Email" onInput={(e) => setEmail(e.target.value)} required></input>
                     <button type="submit" className={ email ? "login-button" : "login-button-false"}>Continue</button>
-                    <span>Already a fredditor? <span className="modal-links" onClick={displayLogin}>Log In</span></span>
+                    <div className="modal-links-signup">Already a fredditor? <span className="modal-links" onClick={displayLogin}>Log In</span></div>
                 </form>
             </div>
         )

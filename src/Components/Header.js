@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import Modal from "./Modal";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import UserDrop from "./UserDrop";
 import { auth, db } from "../firebase-config";
 import { doc, getDoc } from "firebase/firestore";
 import CommunitiesDrop from "./CommunitiesDrop";
 import CommunityModal from "./CommunityModal";
-import Freddit from "../Assets/freddit.jpeg"
+import Freddit from "../Assets/freddit2.png"
 import Post from "../Assets/plus.png"
 import Message from "../Assets/message.png"
 import Moderation from "../Assets/moderation.png"
@@ -15,10 +15,18 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Searchbar from "./Searchbar";
 import Menu from "../Assets/menu.png"
 import X from "../Assets/x.png"
+import Create from "../Assets/create.png"
 import Back from "../Assets/back.png"
+import Avatar from "../Assets/snoo.png"
+import Inbox from "../Assets/inbox.png"
+import Help from "../Assets/help.png"
+import Terms from "../Assets/terms.png"
+import Communities from "../Assets/communities.png"
+import Settings from "../Assets/settings.png"
 
 const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUserData, communityData, setCommunityData, 
-    communityModal, setCommunityModal, setDrop, drop, setAllJoinedPosts, setIsEmpty, isEmpty, allJoinedPosts, isMobile }) => {
+    communityModal, setCommunityModal, setDrop, drop, setAllJoinedPosts, setIsEmpty, isEmpty, allJoinedPosts, isMobile,
+    click, setClick }) => {
     const [ myUser, setMyUser ] = useState([])
     const [ communityDrop, setCommunityDrop ] = useState(false)
     const [ loggedIn, setLoggedIn ] = useState(false)
@@ -28,7 +36,6 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
     const [ userIsTrue, setUserIsTrue ] = useState(false)
     const [ loaded, setLoaded ] = useState(false)
     const [ searchIsTrue, setSearchIsTrue ] = useState(false)
-    const [ click, setClick] = useState(false)
     const [ register, setRegister ] = useState(false)
     const user = auth.currentUser;
     const location = useLocation()
@@ -75,6 +82,10 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
         }
     }
 
+    const handleMobileLogin = (e) => {
+        navigate('/register')
+    }
+
     const handleRegister = () => {
         if (register) {
             navigate('/')
@@ -82,6 +93,37 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
             setClick(!click)
         }
     }
+
+    const handleLogOut = (e) => {
+        e.preventDefault()
+        signOut(auth).then(() => {
+            setDrop(false)
+            setModalIsTrue(false)
+            setLoggedIn(false)
+            setMyUser([])
+            setAllJoinedPosts([])
+            window.scrollTo({ top:0, behavior:'auto'})
+            // Sign-out successful.
+          }).catch((error) => {
+            // An error happened.
+          })
+    }
+
+    const handleMobileLogOut = (e) => {
+        e.preventDefault()
+        signOut(auth).then(() => {
+            setDrop(false)
+            setModalIsTrue(false)
+            setLoggedIn(false)
+            setMyUser([])
+            setAllJoinedPosts([])
+            setClick(false)
+            window.scrollTo({ top:0, behavior:'auto'})
+            // Sign-out successful.
+          }).catch((error) => {
+            // An error happened.
+          })
+    }    
 
     const getUserInfo = async () => {
         const docRef = doc(db, "users", user.displayName)
@@ -156,6 +198,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
     }, [location.pathname])
 
     if (isMobile) {
+        if (!loggedIn) {
         return (
                 <nav className="nav-bar">
                     <div className="nav-bar-mobile">
@@ -184,11 +227,66 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                             <button className="header-login-button-mobile" onClick={handleMobileClick}>Sign up or Log in</button>
                         </div>
                     <div className="header-button">
-                        <button className="header-login-button" onClick={handleMobileClick}>Log In</button>
+                        <button className="header-login-button" onClick={handleMobileLogin}>Log In</button>
                     </div>
                 </nav>
         )
     } else {
+        return (
+            <nav className="nav-bar">
+                <div className="nav-bar-mobile">
+                    <Link to="/" style={{ textDecoration: 'none' }}>
+                        <div className="logo">
+                            <img id="freddit-logo" src={Freddit} alt="Green snoo Logo"></img>
+                            freddit
+                        </div>
+                    </Link>
+                </div>
+                <div className={click ? "nav-bar-mobile-drop" : "input-empty"}>
+                    <Searchbar communityData={communityData}/>
+                    <ul>
+                        <li onClick={() =>  {setClick(!click); navigate(`/user/${user.displayName}`)}}>
+                            <img src={Avatar} alt="Avatar icon"/>
+                            {user.displayName}
+                        </li>
+                        <li>
+                            <img src={Inbox} alt="Inbox icon"/>
+                            Inbox
+                        </li>
+                        <li>
+                            <img src={Communities} alt="Community icon"/>
+                            My Communities
+                        </li>
+                        <li>
+                            <img src={Settings} alt="Settings icon"/>
+                            Settings
+                        </li>
+                        <li>
+                            <img src={Help} alt="Help icon"/>
+                            Help Center
+                        </li>
+                        <li>
+                            <img src={Terms} alt="Terms icon"/>
+                            Terms & Policies
+                        </li>
+                    </ul>
+                    <button className="header-login-button-mobile" onClick={handleMobileLogOut}>Log out</button>
+                </div>
+                <div className="header-mobile-icons">
+                <div className={register ? "input-empty" : "user-left"}>
+                    <img src={Create} alt="Post icon"></img>
+                </div>
+                <div className={register ? "input-empty" : "user-left"}>
+                    <img src={click ? X : Menu} alt="Menu icon" onClick={handleMobileClick}></img>
+                </div>
+                <div className={register ? "user-left" : "input-empty"}>
+                    <img src={register ? Back : Menu} alt="Back icon" onClick={handleRegister}/>
+                </div>
+                </div>
+        </nav>
+        )
+    } 
+} else {
     if (!user) {
         return (
             <div className="header">
@@ -211,7 +309,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
             </div> 
         )
     } else if (user) { 
-        return ( 
+        return (
                 <div key={user.displayName}>
                     <nav className="nav-bar">
                         <div className="nav-login-left">
@@ -277,23 +375,22 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="user-drop">⌄</div> 
-                                        </div>
-                                        <div className="drop-down-bar">
-                                            <UserDrop userData={userData} setMyUser={setMyUser} drop={drop} setDrop={setDrop} setModalIsTrue={setModalIsTrue}
-                                            communityModal={communityModal} setCommunityModal={setCommunityModal} setLoggedIn={setLoggedIn} 
-                                            setAllJoinedPosts={setAllJoinedPosts}
-                                            />
-                                        </div>
+                                        <div className="user-drop">⌄</div> 
                                     </div>
-                                    </div>
-                                </nav>
-                                <CommunityModal 
-                                communityData={communityData} setCommunityData={setCommunityData} 
-                                communityModal={communityModal} userData={userData} setCommunityModal={setCommunityModal} 
-                                />
+                                <div className="drop-down-bar">
+                                    <UserDrop userData={userData} setMyUser={setMyUser} drop={drop} setDrop={setDrop} setModalIsTrue={setModalIsTrue}
+                                    communityModal={communityModal} setCommunityModal={setCommunityModal} setLoggedIn={setLoggedIn} 
+                                    setAllJoinedPosts={setAllJoinedPosts} handleLogOut={handleLogOut}
+                                    />
+                                </div>
                             </div>
-                            
+                        </div>
+                    </nav>
+                <CommunityModal 
+                communityData={communityData} setCommunityData={setCommunityData} 
+                communityModal={communityModal} userData={userData} setCommunityModal={setCommunityModal} 
+                />
+            </div> 
         )
     } 
 }

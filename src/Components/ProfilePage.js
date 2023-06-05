@@ -120,7 +120,8 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
         } else {
             setMatchingUser(false)
         }
-    }, [user])
+    }, [user, location.pathname])
+
 
     useEffect(() => {
         document.title = `${params.id} (u/${params.id})`
@@ -327,47 +328,47 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
     } else if (!isLoggedIn && !matchingUser && page) {
         return (
             <div className="community-page-logged-out">
-                  <div className={isLoggedIn ? "input-empty" : "side-bar" }>
-                <div className="side-bar-top">
-                    <div className="side-bar-list-top">
-                        <h6>FEEDS</h6>
-                        <div>Home</div>
-                        <div>Popular</div>
+                <div className={isLoggedIn ? "input-empty" : "side-bar" }>
+                    <div className="side-bar-top">
+                        <div className="side-bar-list-top">
+                            <h6>FEEDS</h6>
+                            <div>Home</div>
+                            <div>Popular</div>
+                        </div>
+                        <div className="side-bar-list-top">
+                            <h6>TOPICS</h6>
+                            <ul className="side-bar-list">
+                                {sideBarCommunities.map(item => {
+                                    return (
+                                        <li key={item.header} className={item.header} onClick={handleCommunityDrop}>
+                                            <div className="list-item">
+                                                <div>{item.header}</div>    
+                                                <div>⌄</div>
+                                            </div>
+                                            <div className="side-bar-list-item">
+                                                {item.list.map( x => {
+                                                return (
+                                                    <SidebarDrop key={x} x={x} item={item}/>
+                                                )
+                                                })}
+                                            </div>
+                                        </li>
+                                    )
+                                })}
+                            </ul>
+                        </div>
                     </div>
-                    <div className="side-bar-list-top">
-                        <h6>TOPICS</h6>
-                        <ul className="side-bar-list">
-                            {sideBarCommunities.map(item => {
-                                return (
-                                    <li key={item.header} className={item.header} onClick={handleCommunityDrop}>
-                                        <div className="list-item">
-                                            <div>{item.header}</div>    
-                                            <div>⌄</div>
-                                        </div>
-                                        <div className="side-bar-list-item">
-                                        {item.list.map( x => {
-                                            return (
-                                                <SidebarDrop key={x} x={x} item={item}/>
-                                            )
-                                        })}
-                                        </div>
-                                    </li>
-                                )
-                            })}
-                        </ul>
+                    <div className="side-bar-bottom">
+                        <div className="side-bar-divider"></div>
+                        <div className="side-bar-text">Create an account to follow your favorite communities and start taking part in conversations.</div>
+                        <button className="join-button" onClick={handleClick}>Join Freddit</button>
+                        <Modal 
+                        modalIsTrue={modalIsTrue}
+                        setModalIsTrue={setModalIsTrue}
+                        join={join} setJoin={setJoin} 
+                        />
                     </div>
                 </div>
-                <div className="side-bar-bottom">
-                    <div className="side-bar-divider"></div>
-                    <div className="side-bar-text">Create an account to follow your favorite communities and start taking part in conversations.</div>
-                    <button className="join-button" onClick={handleClick}>Join Freddit</button>
-                    <Modal 
-                    modalIsTrue={modalIsTrue}
-                    setModalIsTrue={setModalIsTrue}
-                    join={join} setJoin={setJoin} 
-                    />
-                </div>
-            </div>
                 <div className="profile-page">
                     <ul>
                         <li onClick={handleOverview}>

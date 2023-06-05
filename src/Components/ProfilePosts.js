@@ -34,15 +34,16 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
         const docRef = doc(db, "users", params.id)
         const docSnap = await getDoc(docRef)
         const data = docSnap.data()
-        if (data !== undefined) {
-            if (data.posts[0] && data.comments) {
+        console.log(data.posts)
+        if (data !== undefined) { 
+            if (data.posts && data.comments) {
                 setComments(data.comments)
                 setPosts(data.posts) 
                 setUserInfo(data.posts.concat(data.comments)) 
                 setOverview(true) 
                 setPostsOnly(false) 
                 setCommentsOnly(false)
-            } else if (data.posts[0] && !data.comments) {
+            } else if (data.posts && !data.comments) {
                 setPosts(data.posts)
                 setPostsOnly(true)
                 setOverview(false)
@@ -303,6 +304,9 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
     }
 
     useEffect(() => {
+        setUserInfo([])
+        setPosts([])
+        setComments([])
         getUserInfo()
     }, [location.pathname])
 
@@ -317,12 +321,12 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
     }, [user])
 
     useEffect(() => {
-        if (userInfo.length === 0) {
-            setEmpty(true)
+        if (comments.length === 0 && posts.length === 0) {
+            setEmpty(true) 
         } else {
             setEmpty(false)
         }
-    }, [userInfo])
+    }, [comments, posts])
 
     useEffect(() => {
         if (comments.length === 0) {
@@ -338,7 +342,7 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
         } else {
             setEmptyPosts(false)
         }
-        console.log(userInfo) 
+        console.log(userInfo)
     }, [posts])
 
     if (isMobile) {
@@ -397,8 +401,10 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                                             <img src={ ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("downvote")) ? Downvoted : WhiteDown} alt="Down arrow" className={data.community} id={data.id} onClick={handleVote}></img>
                                         </li>
                                         <li>
+                                            <Link to={`../f/${data.community}/comments/${data.id}`}>
                                             <img src={WhiteComment} alt="Comment bubble"/> 
                                             { data.poster ? data.comments.length : null }
+                                            </Link>
                                         </li> 
                                     </ul>
                                 </div>
@@ -537,8 +543,10 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                                             <img src={ ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("downvote")) ? Downvoted : WhiteDown} alt="Down arrow" className={data.community} id={data.id} onClick={handleVote}></img>
                                         </li>
                                         <li>
-                                            <img src={WhiteComment} alt="Comment bubble"/> 
+                                        <Link to={`../f/${data.community}/comments/${data.id}`}>
+                                            <img src={WhiteComment} alt="Comment bubble" /> 
                                             { data.poster ? data.comments.length : null }
+                                            </Link>
                                         </li> 
                                     </ul>
                                 </div>
@@ -608,7 +616,11 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                                     </Link>
                                 </div>
                             <ul>
-                                <li><img src={Comment} alt="Comment bubble"/> { data.poster ? data.comments.length : null } Comments</li> 
+                                <li>
+                                    <Link to={`../f/${data.community}/comments/${data.id}`}>
+                                        <img src={Comment} alt="Comment bubble"/> { data.poster ? data.comments.length : null } Comments
+                                    </Link>
+                                </li> 
                                 <li><img src={Share} alt="Share button" /> Share</li>
                                 <li><img src={Save} alt="Save button" /> Save</li>
                                 <li>...</li>
@@ -768,7 +780,11 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                                     </Link>
                                 </div>
                             <ul>
-                                <li><img src={Comment} alt="Comment bubble"/> { data.poster ? data.comments.length : null } Comments</li> 
+                                <li>
+                                    <Link to={`../f/${data.community}/comments/${data.id}`}>
+                                        <img src={Comment} alt="Comment bubble"/> { data.poster ? data.comments.length : null } Comments
+                                    </Link>
+                                    </li> 
                                 <li><img src={Share} alt="Share button" /> Share</li>
                                 <li><img src={Save} alt="Save button" /> Save</li>
                                 <li>...</li>

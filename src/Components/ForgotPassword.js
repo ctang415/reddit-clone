@@ -31,13 +31,13 @@ const ForgotPassword = ( {forgotPassword, setForgotPassword, setLogin, setSignUp
                 <form>
                     <input type="text" placeholder="Username" required></input>
                     <input type="email" placeholder="Email" required></input>
-                    <span>
+                    <div className="modal-links-signup">
                         Forget your <span className="modal-links" onClick={displayForgotUser}>username</span> ?
-                    </span>
+                    </div>
                     <button type="submit" onSubmit={handleReset} className="login-button">Reset password</button>
-                    <span>
+                    <div className="modal-links-signup">
                         Don't have an email or need assistance logging in? <span className="modal-links">Get Help</span>
-                    </span>
+                    </div>
                     <div className="forgot-user-links">
                         <span className="modal-links" onClick={displaySignUp}>Sign up</span>
                         <span id="modal-links-dot">•</span>

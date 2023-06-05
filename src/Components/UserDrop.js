@@ -5,25 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase-config";
 
 const UserDrop = ( {drop, setDrop, setModalIsTrue, setMyUser, userData, setCommunityModal, communityModal, setLoggedIn,
-    setAllJoinedPosts } ) => {
+    setAllJoinedPosts, handleLogOut} ) => {
     const [ userSettings, setUserSettings ] = useState([])
     const navigate = useNavigate()
     const user = auth.currentUser
-
-    const handleLogOut = (e) => {
-        e.preventDefault()
-        signOut(auth).then(() => {
-            setDrop(false)
-            setModalIsTrue(false)
-            setLoggedIn(false)
-            setMyUser([])
-            setAllJoinedPosts([])
-            window.scrollTo({ top:0, behavior:'auto'})
-            // Sign-out successful.
-          }).catch((error) => {
-            // An error happened.
-          })
-    }
 
     const handleCreateCommunity = () => {
         setCommunityModal(!communityModal) 
