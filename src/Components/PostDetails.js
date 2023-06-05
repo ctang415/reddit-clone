@@ -109,15 +109,11 @@ const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunity
             )
         } else if (pageExists) {
             return (
-                        <div className={"community-page-mobile"}>
-                                <div className={"community-body-mobile"}>
-                                    <div className={ isLoggedIn ? "community-post-true" : "community-post-false"}>
-                                        <img id="community-input-img" src={ user ? user.photoURL : null} alt="User Icon"></img>
-                                        <input type="text" placeholder="Create Post" onClick={createNewPost}></input>
-                                    </div>
+                <div className={"community-page-mobile"}>
+                    <div className={"community-body-mobile"}>
                                     <PostDetailsCard firebaseCommunityData={firebaseCommunityData} setDetail={setDetail}
                                     detail={detail} setFirebaseCommunityData={setFirebaseCommunityData} setUserData={setUserData} 
-                                    isMobile={isMobile}
+                                    isMobile={isMobile} createNewPost={createNewPost}
                                     />
                                 </div>
                         </div>

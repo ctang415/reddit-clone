@@ -534,41 +534,31 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                     return (
                         x.map((post) => {
                             return (
-                            <div className="post" key={post.id}>
-                            <div className="post-left">
-                            <div className="post-votes-joined">
-                                <img src={ ( (post.voters[post.voters.findIndex(x=> x.username === currentUser)] ) && post.voters[post.voters.findIndex(voter => voter.username === currentUser)].vote === ("upvote")) ? Upvoted : Up } alt="Up arrow" className={post.community} id={post.id} onClick={handleVoteLoggedIn}></img>
+                                <div className="post" key={post.id}>
+                                <div className="post-right">
+                                    <div className="post-pinned-author">
+                                        <div className="post-all-community">
+                                        <img src={CommunityIcon} alt="Community Icon"></img>
+                                            <Link to={`f/${post.community}`}>
+                                                f/{`${post.community}`} 
+                                            </Link>
+                                        </div>
+                                </div>
+                                <div className="post-mobile">
+                                        <Link to={`f/${post.community}/comments/${post.id}`}>
+                                            {post.title}
+                                        </Link>
+                                            {parse(`${post.content.html}`)}
+                                    </div>
+                                <ul>
+                                    <li>
+                                    <img src={ ( (post.voters[post.voters.findIndex(x=> x.username === currentUser)] ) && post.voters[post.voters.findIndex(voter => voter.username === currentUser)].vote === ("upvote")) ? Upvoted : Up } alt="Up arrow" className={post.community} id={post.id} onClick={handleVoteLoggedIn}></img>
                                         {post.votes}
                                     <img src={ ( (post.voters[post.voters.findIndex(x=> x.username === currentUser)] ) && post.voters[post.voters.findIndex(voter => voter.username === currentUser)].vote === ("downvote")) ? Downvoted : Down} alt="Down arrow" className={post.community} id={post.id} onClick={handleVoteLoggedIn}></img>
-                                </div>
-                            </div>
-                            <div className="post-right">
-                                <div className="post-pinned-author">
-                                <div className="post-all-community">
-                                                <Link to={`f/${post.community}`}>
-                                                    f/{`${post.community}`} 
-                                                </Link>
-                                            </div>
-                                            *
-                                    Posted by 
-                                   <div className="post-all-community-author">
-                                    <Link to={ deleted === post.author ? null : `/user/${post.author}`}>u/{post.author}</Link>
-                                    </div>
-                                </div>
-                                <h3>
-                                    <Link to={`/f/${post.community}/comments/${post.id}`}>{post.title}</Link>
-                                </h3> 
-                                <div className="post-media-true">
-                                <Link to={`/f/${post.community}/comments/${post.id}`}>
-                                    {parse(post.content.html)}
-                                 </Link>
-                                </div>
-                                <ul>
+                                    </li>
                                 <li>
-                                <Link to={`f/${post.community}/comments/${post.id}`}><img src={Comment} alt="Comment bubble"/> {post.comments.length} Comments </Link></li>
-                                    <li><img src={Share} alt="Share button" /> Share</li>
-                                    <li><img src={Save} alt="Save button" /> Save</li>
-                                    <li>...</li>
+                                <Link to={`f/${post.community}/comments/${post.id}`}><img src={Comment} alt="Comment bubble"/> {post.comments.length} </Link></li>
+                             
                                 </ul>
                             </div>
                         </div>

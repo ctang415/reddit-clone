@@ -11,11 +11,13 @@ import { auth, db } from "../firebase-config";
 import { doc, setDoc } from "firebase/firestore";
 import Profile from  '../Assets/snoo.png'
 import { generateUsername } from 'friendly-username-generator';
+import { useNavigate } from "react-router-dom";
 
-const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue, loggedIn, setLoggedIn, click, setClick } ) => {
+const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue, loggedIn, setLoggedIn, click, setClick, isMobile } ) => {
     const [ email, setEmail ] = useState("")
     const [ createUser, setCreateUser ] = useState(false)
     const [ generatedUser, setGeneratedUser] = useState('')
+    const navigate = useNavigate()
 
     useEffect(() => {
         const options = {
@@ -69,6 +71,8 @@ const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue, loggedIn, setLog
         })
       }
 
+      
+
     const displayLogin = (e) => {
         setSignUp(false)
         setLogin(true)
@@ -81,13 +85,42 @@ const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue, loggedIn, setLog
         setCreateUser(true)
     }
 
+    const signInWithGoogleMobile = async () => {
+        // Sign in Firebase using popup auth and Google as the identity provider.
+        var provider = new GoogleAuthProvider();
+        provider.setCustomParameters({
+            prompt: 'select_account'})
+        await signInWithPopup(auth, provider).then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            // const credential = GoogleAuthProvider.credentialFromResult(result);
+            // const token = credential.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+            if (getAdditionalUserInfo(result).isNewUser) {
+                createCollection().then(async () => {
+                    await updateProfile(user, {
+                        displayName: generatedUser, photoURL: Profile
+                    }).then ( async () => {
+                        await reload(auth.currentUser)
+                    }).then ( async () => {
+                        setLoggedIn(true)
+                        setClick(false)
+                        navigate('/')
+                    })
+                })
+            } else {
+                setLoggedIn(true)
+        }
+        })
+      }
+
     if (signUp) {
         return (
             <div className="modal-pop-ups">
                 <div className="modal-text-top">
                     <span id="modal-text-header">Sign Up</span>
                     <span id="modal-text-agreement">By continuing, you agree are setting up a Freddit account and agree to our User Agreement and Privacy Policy.</span>
-                    <button className="modal-sign-in" onClick={signInWithGoogle}>Continue with Google</button>
+                    <button className="modal-sign-in" onClick={ isMobile ? signInWithGoogleMobile : signInWithGoogle}>Continue with Google</button>
                 </div>
                 <div className="modal-divider">
                     <span className="modal-divider-text">OR</span>

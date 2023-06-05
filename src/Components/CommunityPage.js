@@ -207,7 +207,7 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
         } else {
             return (
                 <div className="community-body-mobile">
-                    <div className="community-body-mobile-top">
+                    <div className={ isLoggedIn ? "input-empty" : "community-body-mobile-top" }>
                         Popular
                     </div>
                     <div className="community-body-left">

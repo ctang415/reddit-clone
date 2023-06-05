@@ -28,7 +28,8 @@ import DeletePopup from "./DeletePopup";
 Quill.register('modules/imageCompress', ImageCompress);
 Quill.register('modules/magicUrl', MagicUrl)
 
-const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, detail, setDetail, setUserData, isMobile }  ) => {
+const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, detail, setDetail, setUserData, isMobile,
+    createNewPost}  ) => {
     const [ drop, setDrop ] = useState(false)
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const [ postValue, setPostValue ] = useState('')
@@ -467,6 +468,10 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                 <div className={ isLoggedIn ? "comment-user" : "input-empty" }>
                     <div className="comment-as-user">
                         Comment as <Link to={ user ? `../user/${user.displayName}` : null }>{ user ? user.displayName : null}</Link>
+                    </div>
+                    <div className={ isLoggedIn ? "community-post-true" : "community-post-false"}>
+                            <img id="community-input-img" src={ user ? user.photoURL : null} alt="User Icon"></img>
+                                <input type="text" placeholder="Create Post" onClick={createNewPost}></input>
                     </div>
                     <TextEditor 
                     quillRef={quillRef} quill={quill} html={html} setHtml={setHtml} value={value} setValue={setValue} 

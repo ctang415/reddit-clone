@@ -238,7 +238,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                     <Link to="/" style={{ textDecoration: 'none' }}>
                         <div className="logo">
                             <img id="freddit-logo" src={Freddit} alt="Green snoo Logo"></img>
-                            freddit
+                            <div id="freddit">freddit</div>
                         </div>
                     </Link>
                 </div>
