@@ -914,6 +914,7 @@ label {
   font-weight: bold;
 }
 
+
 .post-right > ul > li > a {
   color: grey;
   font-weight: bold;
@@ -2586,7 +2587,7 @@ body {
   background-color: rgb(89, 91, 96);
   padding-top: 1em;
   padding-bottom: 1em;
-  margin-top: 45vh;
+  margin-top: 42vh;
   justify-content: space-between;
   vertical-align: top;
   position: absolute;
@@ -2645,7 +2646,7 @@ body {
   flex-direction: column;
   max-width: 100vw;
   height: 108vh;
-  background-color: white;
+  background-color: #dfe5eb;
 }
 
 .community-body {
@@ -2669,6 +2670,8 @@ body {
   flex-direction: column;
   width: 100%;
   max-width: 40em;
+  gap: 0.3em;
+  background-color: #dfe5eb;
 }
 
 .community-page-mobile > img {
@@ -2791,7 +2794,7 @@ body {
 }
 
 .post-mobile > a {
-  font-size: 1.5vh;
+  font-size: 0.7em;
   width: 100%;
 }
 
@@ -2809,6 +2812,14 @@ body {
   display: flex;
   flex-direction: column;
   width: 90%;
+  gap: 0.5em;
+}
+
+.post-right-logged {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  gap: 0.5em;
 }
 
 .profile-avatar {
@@ -2862,7 +2873,8 @@ body {
   justify-content: center;
   align-items: center;
   border-top: none;
-  height: 2.5em;
+  padding: 1em;
+  height: 0em;
   background-color: black;
   color: white;
 }
@@ -2923,7 +2935,7 @@ body {
   height: 2vh;
 }
 
-.post-pinned-community-mobile {
+.post-pinned-community-mobile, .post-pinned-community-mobile-logged {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -2935,6 +2947,13 @@ body {
 .post-pinned-community-mobile > a  {
   text-decoration: none;
   color: white;
+  font-weight: bold;
+  font-size: 1.3vh;
+}
+
+.post-pinned-community-mobile-logged > a {
+  text-decoration: none;
+  color: black;
   font-weight: bold;
   font-size: 1.3vh;
 }
@@ -2985,7 +3004,8 @@ body {
   text-decoration: none;
 }
 
-.profile-post-bottom > div > ul > li > img, .profile-post-community-name > img, .post-pinned-community-mobile > img {
+.profile-post-bottom > div > ul > li > img, .profile-post-community-name > img, .post-pinned-community-mobile > img,
+.post-pinned-community-mobile-logged > img, .profile-post-community-name-logged > img {
   height: 1.7vh;
 }
 
@@ -3023,6 +3043,12 @@ body {
 
 .post-detail-pinned-author, .post-pinned-header-mobile-title > a {
   color: white;
+}
+
+.post-pinned-header-mobile-title-logged > a {
+  color: black;
+  text-decoration: none;
+  font-size: 0.8em;
 }
 
 .post-pinned-header-mobile-title > a {
@@ -3167,5 +3193,129 @@ body {
   font-weight: bold;
   color: white;
 }
+
+.profile-post-mobile-logged {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0em;
+  border: none;
+  cursor: pointer;
+  max-width: 40em;
+  padding: 0.7em;
+  border: 0.5px solid grey;
+}
+
+.profile-post-logged-mobile-logged {
+  display: flex;
+  flex-direction: column;
+  border: 0;
+  border-radius: 0em;
+  max-width: 40em;
+  padding: 1em;
+  gap: 0.3em;
+  background-color: black;
+}
+
+.profile-post-logged-mobile {
+  display: flex;
+  flex-direction: column;
+  border: 0.3px solid grey;
+  border-radius: 0em;
+  max-width: 40em;
+  padding: 1em;
+  gap: 0.3em;
+  background-color: white;
+}
+
+.profile-post-community-name-logged > a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+.profile-post-community-name-logged {
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  gap: 1vh;
+  font-size: 1.3vh;
+  color: grey;
+  font-weight: 100;
+}
+
+.profile-post-bottom-logged > div {
+  background-color: white;
+  margin: 0;
+  padding: 0.4em;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.profile-post-bottom-logged > div > ul > li {
+  font-weight: bold;
+  color: grey;
+}
+
+.profile-post-bottom-logged {
+  text-decoration: none;
+  color: black;
+}
+
+.profile-post-bottom-logged > div > a > div {
+  font-size: 0.9em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+.profile-post-bottom-logged > div > a {
+  text-decoration: none;
+}
+
+.profile-post-bottom-logged  > div > ul {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  gap: 1em;
+  font-size: 0.8em;
+}
+
+.profile-post-text-logged {
+  overflow: hidden;
+  word-wrap: break-word;
+  color: black;
+}
+
+.profile-post-title-logged > a {
+  text-decoration: none;
+  color: grey;
+}
+
+.post-right-mobile > ul > li {
+  border: 1px solid gainsboro;
+}
+
+.post-right > ul {
+  gap: 0.5em;
+}
+
+.post-right > ul > li {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5em;
+  list-style-type: none;
+  font-size: 0.7em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  color: grey;
+  font-weight: bold;
+  border: 1px solid gainsboro;
+  border-radius: 2em;
+}
+
 
 }

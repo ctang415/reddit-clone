@@ -180,7 +180,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                         </ul>
                     </div>
                     <div className="community-body">
-                        <div className="community-body-left-mobile">
+                        <div className="community-body-left-mobile" style={ isLoggedIn ? { backgroundColor: "#dfe5eb" } : {backgroundColor: "black"} }>
                             <ProfilePosts matchingUser={matchingUser} overview={overview} commentsOnly={commentsOnly} postsOnly={postsOnly}
                             setOverview={setOverview} setCommentsOnly={setCommentsOnly} setPostsOnly={setPostsOnly} setUserData={setUserData}
                             profileData={profileData} isMobile={isMobile}
@@ -194,8 +194,8 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                 <div className="community-page-mobile">
                     <div className="community-body-mobile">
                             <div className="community-info-bar">
-                                <div className="community-info">
-                                    <div className="profile-avatar">
+                                <div className="community-info" style={{ backgroundColor: "white",  color: "black" }}>
+                                    <div className="profile-avatar" style={ {backgroundColor: "white" }}>
                                         <img src={userData[0].avatar} alt="Avatar"></img>
                                     </div>
                                     <div className="profile-info-text">
@@ -212,7 +212,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                                 </div>
                             </div>
                         </div>
-                        <div className="profile-page">
+                        <div className="profile-page" style={{  color: "black", backgroundColor: "white" }}>
                         <ul>
                             <li onClick={handleOverview}>
                                 Overview
@@ -248,8 +248,8 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                 <div className="community-page-mobile">
                         <div className="community-body-mobile">
                             <div className="community-info-bar">
-                                <div className="community-info">
-                                    <div className="profile-avatar">
+                                <div className="community-info" style={ isLoggedIn ? { backgroundColor: "white", color: "black" } : {backgroundColor: "black", color: "white"} }>
+                                    <div className="profile-avatar" style={ isLoggedIn ? { backgroundColor: "white" } : {backgroundColor: "black"} }>
                                         <img src={profileData[0].avatar} alt="Avatar"></img>
                                     </div>
                                     <div className="profile-info-text">
@@ -270,7 +270,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                                
                             </div>
                         </div>
-                        <div className="profile-page">
+                        <div className="profile-page" style={ isLoggedIn ? { backgroundColor: "white", color: "black" } : {backgroundColor: "black", color: "white"} }>
                         <ul>
                             <li onClick={handleOverview}>
                                 Overview

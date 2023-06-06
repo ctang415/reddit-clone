@@ -375,16 +375,14 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                 userInfo.map(data => {
                     return (
                         <div className="post-width">
-                            <div className={ data.poster ? "profile-post-mobile" : "input-empty"}>
+                            <div className={ !isLoggedIn ? data.poster ? "profile-post-mobile" : "input-empty" : data.poster ? "profile-post-mobile-logged" : "input-empty" }>
                                 <div className="post-right-mobile">
-
-                                        <div className="post-pinned-community-mobile">
+                                        <div className={ isLoggedIn ? "post-pinned-community-mobile-logged" : "post-pinned-community-mobile" }>
                                             <img src={CommunityIcon} alt="Community icon"></img>
                                             <Link to={`../f/${data.community}`}>f/{data.community}</Link>
                                             {data.date}
                                         </div>
-                                  
-                                        <div className="post-pinned-header-mobile-title"> 
+                                        <div className={ isLoggedIn ? "post-pinned-header-mobile-title-logged" : "post-pinned-header-mobile-title"}> 
                                             <Link to={`../f/${data.community}/comments/${data.id}`}>
                                                 {data.title}
                                             </Link>
@@ -395,63 +393,54 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                                             </Link>
                                         </div>
                                     <ul>
-                                        <li>
-                                            <img src={ ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("upvote")) ? Upvoted : WhiteUp} alt="Up arrow" className={data.community} id={data.id} onClick={handleVote}></img>
+                                        <li style={ isLoggedIn ? { color: "grey" } : {color: "white"}}>
+                                            <img src={ isLoggedIn ? ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("upvote")) ? Upvoted : Up :
+                                            ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("upvote")) ? Upvoted : WhiteUp} alt="Up arrow" className={data.community} id={data.id} onClick={handleVote}></img>
                                                 {data.votes}
-                                            <img src={ ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("downvote")) ? Downvoted : WhiteDown} alt="Down arrow" className={data.community} id={data.id} onClick={handleVote}></img>
+                                            <img src={ isLoggedIn ? 
+                                            ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("downvote")) ? Downvoted : Down :
+                                                ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("downvote")) ? Downvoted : WhiteDown } alt="Down arrow" className={data.community} id={data.id} onClick={handleVote}></img>
                                         </li>
                                         <li>
-                                            <Link to={`../f/${data.community}/comments/${data.id}`}>
-                                            <img src={WhiteComment} alt="Comment bubble"/> 
+                                            <Link to={`../f/${data.community}/comments/${data.id}`} style={ isLoggedIn ? { color: "grey" } : {color: "white"}}>
+                                            <img src={isLoggedIn ? Comment : WhiteComment} alt="Comment bubble"/> 
                                             { data.poster ? data.comments.length : null }
                                             </Link>
                                         </li> 
                                     </ul>
                                 </div>
                             </div>
-
-                            <div className={data.poster ? "input-empty" : "profile-post" }>
-                                <div className="profile-post-community-name">
+                            <div className={ isLoggedIn ?
+                                data.poster ? "input-empty" : "profile-post-logged-mobile" :
+                                data.poster ? "input-empty" : "profile-post-logged-mobile-logged"}>
+                                <div className={ isLoggedIn ? "profile-post-community-name-logged" : "profile-post-community-name"}>
                                     <img src={CommunityIcon} alt="Community icon"/>
                                     <Link to={`../f/${data.community}`}>
                                         f/{data.community}
                                     </Link>
                                     {data.date}
                                 </div> 
-            
-                            <div className="profile-post-bottom">
+                            <div className={ isLoggedIn ? "profile-post-bottom-logged" : "profile-post-bottom"}>
                                     <div>
-                                        <div className="profile-post-title">
+                                        <div className={isLoggedIn ? "profile-post-title-logged" : "profile-post-title"}>
                                             <Link to={`../f/${data.community}/comments/${data.id}`}>
                                                 {data.title}
                                             </Link>
                                         </div> 
                                         <Link to={`../f/${data.community}/comments/${data.id}`}>
-                                                <div className="profile-post-text">
+                                                <div className={isLoggedIn ? "profile-post-text-logged" : "profile-post-text" }>
                                                     {parse(`${data.content.html}`)}
                                                 </div>
                                         </Link>
-                                        <div className="post-right-mobile">
+                                        <div className={isLoggedIn ? "post-right" : "post-right-mobile"} style={{ paddingLeft: "0em"}}>
                                         <ul>
                                             <li>
-                                            <img src={WhiteUp} alt="Up arrow" className={data.community} id={data.id} onClick={handleVote}></img>
+                                            <img src={isLoggedIn ? Up : WhiteUp} alt="Up arrow" className={data.community} id={data.id} onClick={handleVote}></img>
                                                 {data.votes}
-                                            <img src={WhiteDown} alt="Down arrow" className={data.community} id={data.id} onClick={handleVote}></img>
+                                            <img src={ isLoggedIn ? Down : WhiteDown} alt="Down arrow" className={data.community} id={data.id} onClick={handleVote}></img>
                                             </li>
                                             </ul>
                                             </div>
-                                        <ul> 
-                                        <div className={ isLoggedIn && matchingUser ? "post-detail-dropbar" : "input-empty"}>
-                                            <ul className={data.community}>
-                                                <li>Save</li>
-                                                <li className={data.id} id={data.commentid} 
-                                                onClick={() => navigate(`../f/${data.community}/comments/${data.id}`, { state: data.commentid})}>
-                                                    Edit
-                                                </li>
-                                                <li className={data.id} id={data.commentid} onClick={handleDelete}>Delete</li>
-                                            </ul>
-                                        </div>
-                                        </ul>
                                     </div>
                             </div>
                         </div>
@@ -464,8 +453,8 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                 comments.map((data) => {
                     return (
                         <div className="post-width">
-                           <div className={data.poster ? "input-empty" : "profile-post" }>
-                                <div className="profile-post-community-name">
+                            <div className={ !isLoggedIn ? data.poster ? "profile-post-mobile" : "input-empty" : data.poster ? "input-empty" : "profile-post-mobile-logged" }>
+                                <div className={ isLoggedIn ? "profile-post-community-name-logged" : "profile-post-community-name"}>
                                     <img src={CommunityIcon} alt="Community icon"/>
                                     <Link to={`../f/${data.community}`}>
                                         f/{data.community}
@@ -473,39 +462,27 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                                     {data.date}
                                 </div> 
             
-                            <div className="profile-post-bottom">
+                            <div className={ isLoggedIn ? "profile-post-bottom-logged" : "profile-post-bottom"}>
                                     <div>
-                                        <div className="profile-post-title">
+                                        <div className={isLoggedIn ? "profile-post-title-logged" : "profile-post-title"}>
                                             <Link to={`../f/${data.community}/comments/${data.id}`}>
                                                 {data.title}
                                             </Link>
                                         </div> 
                                         <Link to={`../f/${data.community}/comments/${data.id}`}>
-                                                <div className="profile-post-text">
+                                                <div className={isLoggedIn ? "profile-post-text-logged" : "profile-post-text"}>
                                                     {parse(`${data.content.html}`)}
                                                 </div>
                                         </Link>
-                                        <div className="post-right-mobile">
+                                        <div className={isLoggedIn ? "post-right" : "post-right-mobile"} style={{ paddingLeft: "0em"}}>
                                         <ul>
-                                            <li>
-                                            <img src={WhiteUp} alt="Up arrow" className={data.community} id={data.id} onClick={handleVote}></img>
+                                            <li style={ isLoggedIn ? { color: "grey" } : {color: "white"}}>
+                                            <img src={ isLoggedIn ? Up : WhiteUp} alt="Up arrow" className={data.community} id={data.id} onClick={handleVote}></img>
                                                 {data.votes}
-                                            <img src={WhiteDown} alt="Down arrow" className={data.community} id={data.id} onClick={handleVote}></img>
+                                            <img src={ isLoggedIn ? Down : WhiteDown} alt="Down arrow" className={data.community} id={data.id} onClick={handleVote}></img>
                                             </li>
                                             </ul>
                                             </div>
-                                        <ul> 
-                                        <div className={ isLoggedIn && matchingUser ? "post-detail-dropbar" : "input-empty"}>
-                                            <ul className={data.community}>
-                                                <li>Save</li>
-                                                <li className={data.id} id={data.commentid} 
-                                                onClick={() => navigate(`../f/${data.community}/comments/${data.id}`, { state: data.commentid})}>
-                                                    Edit
-                                                </li>
-                                                <li className={data.id} id={data.commentid} onClick={handleDelete}>Delete</li>
-                                            </ul>
-                                        </div>
-                                        </ul>
                                     </div>
                             </div>
                         </div>
@@ -518,15 +495,15 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                 posts.map((data) => {
                     return (
                         <div className="post-width">
-                        <div className={ data.poster ? "profile-post-mobile" : "input-empty"}>
+                        <div className={ data.poster ? "profile-post-mobile-logged" : "input-empty"}>
                                 <div className="post-right-mobile">
-                                        <div className="post-pinned-community-mobile">
+                                        <div className={ isLoggedIn ? "post-pinned-community-mobile-logged" : "post-pinned-community-mobile"}>
                                             <img src={CommunityIcon} alt="Community icon"></img>
                                             <Link to={`../f/${data.community}`}>f/{data.community}</Link>
                                             {data.date}
                                         </div>
                                   
-                                        <div className="post-pinned-header-mobile-title"> 
+                                        <div className={ isLoggedIn ? "post-pinned-header-mobile-title-logged": "post-pinned-header-mobile-title"}> 
                                             <Link to={`../f/${data.community}/comments/${data.id}`}>
                                                 {data.title}
                                             </Link>
@@ -537,14 +514,16 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                                             </Link>
                                         </div>
                                     <ul>
-                                        <li>
-                                            <img src={ ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("upvote")) ? Upvoted : WhiteUp} alt="Up arrow" className={data.community} id={data.id} onClick={handleVote}></img>
+                                        <li style={ isLoggedIn ? { color: "grey" } : {color: "white"}}>
+                                            <img src={ isLoggedIn ? ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("upvote")) ? Upvoted : Up
+                                               : ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("upvote")) ? Upvoted : WhiteUp} alt="Up arrow" className={data.community} id={data.id} onClick={handleVote}></img>
                                                 {data.votes}
-                                            <img src={ ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("downvote")) ? Downvoted : WhiteDown} alt="Down arrow" className={data.community} id={data.id} onClick={handleVote}></img>
+                                            <img src={ isLoggedIn ?    ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("downvote")) ? Downvoted : Down :
+                                                ( (data.voters[data.voters.findIndex(x=> x.username === currentUser)] ) && data.voters[data.voters.findIndex(voter => voter.username === currentUser)].vote === ("downvote")) ? Downvoted : WhiteDown} alt="Down arrow" className={data.community} id={data.id} onClick={handleVote}></img>
                                         </li>
-                                        <li>
-                                        <Link to={`../f/${data.community}/comments/${data.id}`}>
-                                            <img src={WhiteComment} alt="Comment bubble" /> 
+                                        <li >
+                                        <Link to={`../f/${data.community}/comments/${data.id}`} style={ isLoggedIn ? { color: "grey" } : {color: "white"}}>
+                                            <img src={ isLoggedIn ? Comment : WhiteComment} alt="Comment bubble" /> 
                                             { data.poster ? data.comments.length : null }
                                             </Link>
                                         </li> 
