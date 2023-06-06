@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import ForgotPassword from "./ForgotPassword";
 import ForgotUser from "./ForgotUser";
 import Login from "./Login";
@@ -9,6 +10,7 @@ const ModalMobile = ( {modalIsTrue, setModalIsTrue, setLoggedIn, loggedIn, join,
     const [ signUp, setSignUp ] = useState(false)
     const [ forgotUser, setForgotUser ] = useState(false)
     const [ forgotPassword, setForgotPassword ] = useState(false)
+    const location = useLocation()
 
     useEffect(() => {
         document.title = 'Freddit - Jump into Anything'
@@ -22,8 +24,9 @@ const ModalMobile = ( {modalIsTrue, setModalIsTrue, setLoggedIn, loggedIn, join,
         }
     }, [join])
 
+
         return (
-            <div className="community-page-mobile">
+            <div className="community-page-mobile" style={ location.pathname === "/register" ? {backgroundColor: "white"} : {}}>
                     <Login 
                     setSignUp={setSignUp} setLogin={setLogin} login={login}
                     setForgotUser={setForgotUser} setForgotPassword={setForgotPassword}

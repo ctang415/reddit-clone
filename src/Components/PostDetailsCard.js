@@ -25,6 +25,7 @@ import Delete from "../Assets/delete.png"
 import Edit from "../Assets/edit.png"
 import ImageCompress from 'quill-image-compress';
 import DeletePopup from "./DeletePopup"; 
+import Avatar from "../Assets/avatar.png"
 Quill.register('modules/imageCompress', ImageCompress);
 Quill.register('modules/magicUrl', MagicUrl)
 
@@ -410,19 +411,22 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
         return (
         detail.map( data => {
             return (
-        <div className="post-detail" key={data.id}>
+        <div className="post-detail" style={ isLoggedIn ? { gap: "1em"} : {gap: "0em"}} key={data.id}>
             <DeletePopup popup={popup} setPopup={setPopup}/>
-            <div className="post-detail-upper">
+            <div className="post-detail-upper" style=
+            { isLoggedIn ? { backgroundColor: "white", color: "black" } : { backgroundColor: "black", color: "white" }}>
                 <div className="post-detail-right">
-                    <div className="post-detail-right-header">
-                        <img src={CommunityIcon} alt="Community icon"></img>
+                    <div className="post-detail-right-header" style={ isLoggedIn ? { alignItems: "center", gap: "0em" } : { alignItems: "none" }}>
+                        <img src={ isLoggedIn ? Avatar : CommunityIcon} alt="Community icon"></img>
                         <div>
-                        <div className="post-detail-right-community">
+                        <div className={ isLoggedIn ? "input-empty" : "post-detail-right-community"}>
                             f/{data.community}
                         </div>
                         <div className="post-detail-pinned-author"> 
                             by
-                            <Link to={ deleted === data.author ? null : `../user/${data.author}`}> u/{data.author} </Link>
+                            <Link to={ deleted === data.author ? null : `../user/${data.author}`} style={isLoggedIn ? {color: "black" } : {color: "rgb(204, 202, 202)"}}> 
+                                u/{data.author} 
+                            </Link>
                         </div>
                         </div>
                     </div>
@@ -439,39 +443,22 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                         </div>
                     </div> 
                     <ul>
-                        <li>
-                            <img src={WhiteUp} id={data.id} alt="Up arrow" onClick={handleVote}></img>
+                        <li style={isLoggedIn ? { backgroundColor: "white", color: "grey"} : { backgroundColor: "rgb(89, 91, 96)", color: "white"}}>
+                            <img src={ isLoggedIn ? Up : WhiteUp} id={data.id} alt="Up arrow" onClick={handleVote}></img>
                                 {data.votes}
-                            <img src={WhiteDown} id={data.id} alt="Down arrow" onClick={handleVote}></img>
+                            <img src={ isLoggedIn ? Down : WhiteDown} id={data.id} alt="Down arrow" onClick={handleVote}></img>
                         </li>
-                        <li>
-                            <img src={WhiteComment} alt="Comment bubble"/> { data.comments.length }
+                        <li style={isLoggedIn ? { backgroundColor: "white", color: "grey"} : { backgroundColor: "rgb(89, 91, 96)", color: "white"}}>
+                            <img src={ isLoggedIn ? CommentIcon : WhiteComment} alt="Comment bubble"/> { data.comments.length }
                         </li>
-                        <div className={ data.author === currentUser ? "post-detail-dropbar-user" : "input-empty"}>
-                            <ul> 
-                                <li id={data.id} className={ data.author === currentUser ? "user-left" : 'input-empty'} 
-                                onClick={handleEdit}
-                                >
-                                    <img src={Edit} alt="Edit icon" ></img>Edit Post
-                                </li>
-                                <li id={data.id} className={ data.author === currentUser ? "user-left" : 'input-empty'}
-                                onClick={handleDelete}>
-                                    <img src={Delete} alt="Delete icon"></img>
-                                    Delete
-                                </li>
-                            </ul>
-                        </div>
                     </ul>
                 </div>
             </div>
-            <div className="post-detail-lower">
+            <div className="post-detail-lower" style={isLoggedIn ? { color: "black", backgroundColor: "white"} : { color: "white", backgroundColor: "black"}}>
                 <div className={ isLoggedIn ? "comment-user" : "input-empty" }>
-                    <div className="comment-as-user">
-                        Comment as <Link to={ user ? `../user/${user.displayName}` : null }>{ user ? user.displayName : null}</Link>
-                    </div>
                     <div className={ isLoggedIn ? "community-post-true" : "community-post-false"}>
                             <img id="community-input-img" src={ user ? user.photoURL : null} alt="User Icon"></img>
-                                <input type="text" placeholder="Create Post" onClick={createNewPost}></input>
+                                <input type="text" placeholder="Leave a comment" onClick={createNewPost}></input>
                     </div>
                     <TextEditor 
                     quillRef={quillRef} quill={quill} html={html} setHtml={setHtml} value={value} setValue={setValue} 

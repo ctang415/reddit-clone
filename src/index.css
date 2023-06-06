@@ -1003,8 +1003,10 @@ label {
 }
 
 .post-detail-pinned-author {
+  display: flex;
   font-size: 0.7em;
   color: grey;
+  gap: 0.5em;
 }
 
 .post-pinned-author > a , 
@@ -2762,7 +2764,7 @@ body {
   border-left: none;
   border-right: none;
   cursor: pointer;
-  max-height: 18vh;
+  max-height: 25vh;
   width: 100%;
   overflow: hidden;
 }
@@ -2788,8 +2790,7 @@ body {
 .post-mobile {
   display: flex;
   flex-direction: row;
-  max-height: 8vh;
-  overflow: hidden;
+ overflow: hidden;
   justify-content: space-between;
 }
 

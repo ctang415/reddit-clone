@@ -316,37 +316,23 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
                                 </div>
                                 <div className="comment-right">
                                     <div className="comment-left-username">
-                                        <Link to={`../user/${comment.username}`}>{comment.username}</Link>
+                                        <Link to={`../user/${comment.username}`} style={ isLoggedIn ? {color: "black"} : {color: "white"}}>{comment.username}</Link>
                                     </div>
                                     <div>
                                         {parse(comment.content.html)}
                                     </div>
                                     <ul>
-                                        <div className="comment-votes">
-                                            <img src={WhiteUp} alt="Up arrow"></img>
+                                        <div className="comment-votes" style={ isLoggedIn ? {color: "grey"} : {color: "white"}}>
+                                            <img src={isLoggedIn ? Up : WhiteUp} alt="Up arrow"></img>
                                                 {comment.votes}
-                                            <img src={WhiteDown} alt="Down arrow"></img>
+                                            <img src={ isLoggedIn ? Down : WhiteDown} alt="Down arrow"></img>
                                         </div>
                                         <li>
-                                            <div>
-                                                <img src={WhiteComment} alt="Comment bubble"/> 
+                                            <div style={ isLoggedIn ? {color: "grey"} : {color: "rgb(204, 202, 202)"} }>
+                                                <img src={ isLoggedIn ? CommentIcon : WhiteComment} alt="Comment bubble"/> 
                                                     Reply
                                             </div>
                                         </li>
-                                        <li>
-                                            <div>
-                                                Share
-                                            </div>
-                                        </li>
-                                            <div className={ comment.username === currentUser ? "post-detail-dropbar-comment" : "input-empty"}>
-                                            <ul> 
-                                            <li>Save</li>
-                                            <li id={comment.commentid} onClick={handleEdit}>
-                                                Edit
-                                            </li>
-                                            <li id={comment.commentid} onClick={handleDelete}>Delete</li>
-                                            </ul>
-                                            </div>
                                     </ul>
                                 </div>
                             </div>
