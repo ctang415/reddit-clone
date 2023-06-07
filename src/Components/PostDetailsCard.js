@@ -16,7 +16,7 @@ import { Quill } from "react-quill";
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import * as sanitizeHtml from 'sanitize-html';
 import { useQuill } from "react-quilljs";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import { arrayUnion, collection, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import parse from 'html-react-parser';
@@ -26,6 +26,7 @@ import Edit from "../Assets/edit.png"
 import ImageCompress from 'quill-image-compress';
 import DeletePopup from "./DeletePopup"; 
 import Avatar from "../Assets/avatar.png"
+import MobileEditor from "./MobileEditor";
 Quill.register('modules/imageCompress', ImageCompress);
 Quill.register('modules/magicUrl', MagicUrl)
 
@@ -47,8 +48,10 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
     const [ editId, setEditId ] = useState('')
     const [ postAuthor, setPostAuthor ] = useState('')
     const [ deleted, setDeleted ] = useState('[deleted]') 
+    const [ textDrop, setTextDrop ] = useState(false)
     const location = useLocation()
     const params = useParams()
+    const navigate = useNavigate()
     const user = auth.currentUser
     const id = location.state
 
@@ -411,12 +414,20 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
         return (
         detail.map( data => {
             return (
-        <div className="post-detail" style={ isLoggedIn ? { gap: "1em"} : {gap: "0em"}} key={data.id}>
-            <DeletePopup popup={popup} setPopup={setPopup}/>
+        <div className="post-detail" style={ isLoggedIn ? { gap: "1em", paddingTop: "3em"} : {gap: "0em"}} key={data.id}>
+            <img src={CommunityIcon} alt="Community Icon" onClick={() => navigate(`../../f/${data.community}`)}></img>
+            <div className="post-detail-mobile-logged" onClick={() => navigate(`../../f/${data.community}`)}>
+                        f/{data.community}
+                    </div>
             <div className="post-detail-upper" style=
             { isLoggedIn ? { backgroundColor: "white", color: "black" } : { backgroundColor: "black", color: "white" }}>
                 <div className="post-detail-right">
-                    <div className="post-detail-right-header" style={ isLoggedIn ? { alignItems: "center", gap: "0em" } : { alignItems: "none" }}>
+                <div style={ isLoggedIn ? 
+                    { display: "flex", flexDirection: "row", alignSelf: "flex-end", borderRadius: "2em", backgroundColor: "gainsboro", paddingTop: "0.1em", paddingBottom: "0.1em", paddingLeft: "0.4em", paddingRight: "0.4em"} 
+                    : {}} onClick={() => navigate(-1)}>
+                    X
+                </div>
+                    <div className="post-detail-right-header" style={ isLoggedIn ? { alignItems: "center", gap: "0em", paddingTop: "1.5em" } : { alignItems: "none" }}>
                         <img src={ isLoggedIn ? Avatar : CommunityIcon} alt="Community icon"></img>
                         <div>
                         <div className={ isLoggedIn ? "input-empty" : "post-detail-right-community"}>
@@ -433,7 +444,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                     <h3>
                         {data.title}
                     </h3>
-                    <div className="post-detail-media-true">
+                    <div className="post-detail-media-true" style={isLoggedIn ? {color: "black"} : {color: "rgb(204, 202, 202)"}}>
                         { postEdit ? null : parse(data.content.html)}
                         <div className={ postEdit ? "user-left" : "input-empty"}>
                         <PostEditor postHtml={postHtml} setPostHtml={setPostHtml} setDetail={setDetail} setPostEdit={setPostEdit}
@@ -454,28 +465,30 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                     </ul>
                 </div>
             </div>
-            <div className="post-detail-lower" style={isLoggedIn ? { color: "black", backgroundColor: "white"} : { color: "white", backgroundColor: "black"}}>
-                <div className={ isLoggedIn ? "comment-user" : "input-empty" }>
-                    <div className={ isLoggedIn ? "community-post-true" : "community-post-false"}>
-                            <img id="community-input-img" src={ user ? user.photoURL : null} alt="User Icon"></img>
-                                <input type="text" placeholder="Leave a comment" onClick={createNewPost}></input>
-                    </div>
-                    <TextEditor 
-                    quillRef={quillRef} quill={quill} html={html} setHtml={setHtml} value={value} setValue={setValue} 
-                    handleSubmit={handleSubmit} empty={empty} setEmpty={setEmpty}
-                    />
-                </div>
-                    <div>
+            <div className="post-detail-lower" style={isLoggedIn ? { color: "black", backgroundColor: "white" } : { color: "white", backgroundColor: "black"}}>
+            <div>
                         <div className="post-drop-left" onClick={handleDrop}> Sort By: Top (Suggested) ⌄</div>
-                        <ul className={ drop ? "post-detail-drop": "input-empty"} onClick={handleDrop}>
+                        <ul className={ drop ? "post-detail-drop": "input-empty"} onClick={handleDrop} style={isLoggedIn ? {backgroundColor: "white", color:"black"} : {backgroundColor: "black", color: "grey"}}>
                             <li>Best</li>
-                            <li id="post-detail-selected" >Top</li>
+                            <li id="post-detail-selected" style={isLoggedIn ? {color: "rgb(0, 123, 255)"} : {}} >Top</li>
                             <li>New</li>
                             <li>Controversial</li>
                             <li>Old</li>
                             <li>Q&a</li>
                         </ul>
                     </div>
+                <div className={ isLoggedIn ? "comment-user" : "input-empty" }>
+                    <div className={ isLoggedIn && !textDrop ? "community-post-true" : "community-post-false"}>
+                            <img id="community-input-img" src={ user ? user.photoURL : null} alt="User Icon"></img>
+                                <input type="text" style={ { borderRadius: "2em" }} placeholder="Leave a comment" onClick={() => setTextDrop(true)}></input>
+                    </div>
+                    <div className={ textDrop ? "mobile-editor" : "input-empty"} >
+                    <MobileEditor 
+                    html={html} setHtml={setHtml} value={value} setValue={setValue} 
+                    handleSubmit={handleSubmit} empty={empty} setEmpty={setEmpty} setTextDrop={setTextDrop}
+                    />
+                    </div>
+                </div>
                 <Comment 
                 setEdit={setEdit} isLoggedIn={isLoggedIn} setDetail={setDetail} firebaseCommunityData={firebaseCommunityData}
                 setFirebaseCommunityData={setFirebaseCommunityData} detail={detail} edit={edit} id={id} isEmpty={isEmpty} 

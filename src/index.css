@@ -3318,5 +3318,22 @@ body {
   border-radius: 2em;
 }
 
+.mobile-editor {
+  padding: 1em;
+}
+
+.post-detail-mobile-logged {
+  align-self: center;
+  position: absolute;
+  margin: 2em;
+  font-weight: bold;
+}
+
+.post-detail > img {
+  height: 3em;
+  align-self: center;
+  position: absolute;
+  margin: -1.5em;
+}
 
 }

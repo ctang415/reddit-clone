@@ -307,7 +307,7 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
                 return (
                     data.comments.map(comment => {
                         return (
-                            <div className="comment" key={comment.id}>
+                            <div className="comment" style={ isLoggedIn ? { paddingTop: "0em"} : {}} key={comment.id}>
                                 <div className="comment-left">
                                     <Link to={`../user/${comment.username}`}>
                                         <img src={Avatar} alt="Avatar" />
