@@ -3,7 +3,7 @@ import CommunityPage from "./CommunityPage";
 
 const Home = ({communityData, setCommunityData, modalIsTrue, userData, setUserData,
     setModalIsTrue, communityModal, setCommunityModal, setDrop, drop, setJoin, join,
-    allJoinedPosts, isEmpty, setAllJoinedPosts, setIsEmpty, isMobile }) => {
+    allJoinedPosts, isEmpty, setAllJoinedPosts, setIsEmpty, isMobile, isLoggedIn }) => {
 
     useEffect(() => {
         document.title = 'Freddit - Jump into Anything'

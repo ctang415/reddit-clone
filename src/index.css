@@ -2494,7 +2494,7 @@ hr.vertical:hover {
 @media screen and (max-width: 1000px) {
 
 body {
-  background-color: black;
+  background-color: white;
   padding-top: 3.5em;
   max-width: 100vw;
 }
@@ -2672,7 +2672,7 @@ body {
   flex-direction: column;
   width: 100%;
   max-width: 40em;
-  gap: 0.3em;
+  gap: 0.7em;
   background-color: #dfe5eb;
 }
 
@@ -3204,7 +3204,8 @@ body {
   cursor: pointer;
   max-width: 40em;
   padding: 0.7em;
-  border: 0.5px solid grey;
+  border-top: 0.5px solid gainsboro;
+  border-bottom: 0.5px solid gainsboro;
 }
 
 .profile-post-logged-mobile-logged {
@@ -3334,6 +3335,27 @@ body {
   align-self: center;
   position: absolute;
   margin: -1.5em;
+}
+
+.empty-post > div {
+  background-color: white;
+  width: 100%;
+  height: 50vh;
+  margin: 0;
+  display: flex;
+}
+
+.empty-post > div > img {
+  height: 5em;
+  margin: 35%;
+}
+
+.user-error-page {
+  text-align: center;
+}
+
+.community-error-page {
+  margin: 25% auto;
 }
 
 }

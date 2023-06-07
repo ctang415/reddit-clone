@@ -24,6 +24,11 @@ const ModalMobile = ( {modalIsTrue, setModalIsTrue, setLoggedIn, loggedIn, join,
         }
     }, [join])
 
+    useEffect(() => {
+        if (isMobile) {
+            setClick(false)
+        }
+    }, [])
 
         return (
             <div className="community-page-mobile" style={ location.pathname === "/register" ? {backgroundColor: "white"} : {}}>

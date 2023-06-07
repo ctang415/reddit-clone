@@ -453,7 +453,8 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                 comments.map((data) => {
                     return (
                         <div className="post-width">
-                            <div className={ !isLoggedIn ? data.poster ? "profile-post-mobile" : "input-empty" : data.poster ? "input-empty" : "profile-post-mobile-logged" }>
+                            <div style={ isLoggedIn ? { backgroundColor: "white", flexDirection: "column", borderTop: "0.5px solid gainsboro", borderBottom: "0.5px solid gainsboro"} : {backgroundColor: "black", border: "none"}} 
+                            className={ isLoggedIn ? data.poster ? "input-empty" : "profile-post-mobile" : data.poster ? "input-empty" : "profile-post-mobile-logged" }>
                                 <div className={ isLoggedIn ? "profile-post-community-name-logged" : "profile-post-community-name"}>
                                     <img src={CommunityIcon} alt="Community icon"/>
                                     <Link to={`../f/${data.community}`}>
@@ -470,7 +471,8 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                                             </Link>
                                         </div> 
                                         <Link to={`../f/${data.community}/comments/${data.id}`}>
-                                                <div className={isLoggedIn ? "profile-post-text-logged" : "profile-post-text"}>
+                                                <div style={ isLoggedIn ? {} : {paddingTop: "1em", paddingBottom: "1em"}}
+                                                className={isLoggedIn ? "profile-post-text-logged" : "profile-post-text"}>
                                                     {parse(`${data.content.html}`)}
                                                 </div>
                                         </Link>
@@ -495,7 +497,7 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                 posts.map((data) => {
                     return (
                         <div className="post-width">
-                        <div className={ data.poster ? "profile-post-mobile-logged" : "input-empty"}>
+                        <div  style={ isLoggedIn ? { backgroundColor: "white"} : {backgroundColor: "black", border: "none", flexDirection: "row"}} className={ data.poster ? "profile-post-mobile-logged" : "input-empty"}>
                                 <div className="post-right-mobile">
                                         <div className={ isLoggedIn ? "post-pinned-community-mobile-logged" : "post-pinned-community-mobile"}>
                                             <img src={CommunityIcon} alt="Community icon"></img>
@@ -530,7 +532,6 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                                     </ul>
                                 </div>
                             </div>
-
                     </div>
                 )
             })

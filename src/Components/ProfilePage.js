@@ -141,7 +141,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                         <div className="community-body-mobile" key={item}>
                             <div className="community-info-bar">
                                 <div className="community-info">
-                                    <div className="profile-avatar">
+                                    <div className="profile-avatar" style={ isLoggedIn ? {backgroundColor: "white"} : {backgroundColor: "#292626"}}>
                                         <img src={item.avatar} alt="Avatar"></img>
                                     </div>
                                     <div className="profile-info-text">
@@ -172,7 +172,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                                 Overview
                             </li>
                             <li onClick={handlePosts}>
-                                Post
+                                Posts
                             </li>
                             <li onClick={handleComments}>
                                 Comments
@@ -180,7 +180,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                         </ul>
                     </div>
                     <div className="community-body">
-                        <div className="community-body-left-mobile" style={ isLoggedIn ? { backgroundColor: "#dfe5eb" } : {backgroundColor: "black"} }>
+                        <div className="community-body-left-mobile" style={ isLoggedIn ? { backgroundColor: "#dfe5eb" } : {backgroundColor: "#292626"} }>
                             <ProfilePosts matchingUser={matchingUser} overview={overview} commentsOnly={commentsOnly} postsOnly={postsOnly}
                             setOverview={setOverview} setCommentsOnly={setCommentsOnly} setPostsOnly={setPostsOnly} setUserData={setUserData}
                             profileData={profileData} isMobile={isMobile}
@@ -218,7 +218,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                                 Overview
                             </li>
                             <li onClick={handlePosts}>
-                                Post
+                                Posts
                             </li>
                             <li onClick={handleComments}>
                                 Comments
@@ -276,7 +276,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                                 Overview
                             </li>
                             <li onClick={handlePosts}>
-                                Post
+                                Posts
                             </li>
                             <li onClick={handleComments}>
                                 Comments

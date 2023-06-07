@@ -163,13 +163,13 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
     if (isMobile) {
         if (params.id && !page) {
             return (
-                <Error/>
+                <Error isMobile={isMobile}/>
             )
         } else if (params.id) {
             return (
                 firebaseCommunityData.map(data => {
                     return (
-                        <div className="community-page-mobile" key={data.name}>
+                        <div className="community-page-mobile" style={isLoggedIn ? {height: "auto"} : {}} key={data.name}>
                             <div className="community-header-top"></div>
                             <img src={CommunityIcon} alt="Community Icon"></img>
                             <div className="community-mobile-info">
@@ -185,7 +185,9 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
                                         {data.about}
                                     </div>
                                     <div className="community-header-mobile-button">
-                                    <button onClick={handleMobileJoin} className="community-button-true">Join</button>
+                                        <button onClick={handleMobileJoin} className={!isLoggedIn ? "community-button-true" : "input-empty" }> Join</button>
+                                        <button onClick={handleMobileJoin} className={ (isLoggedIn && !subscribed) ? "community-button-true" : "community-button-false" }>Join</button>
+                                        <button onClick={handleLeave} onMouseLeave={setButtonText} className={ isLoggedIn && subscribed ? "community-button-true-joined" : "community-button-false" }>{text}</button>
                                     </div>
                                 </div>
                                 </div>

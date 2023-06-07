@@ -215,7 +215,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                         </Link>
                     </div>
                     <div className={click ? "nav-bar-mobile-drop" : "input-empty"}>
-                            <Searchbar communityData={communityData}/>
+                            <Searchbar setClick={setClick} isMobile={isMobile} click={click} communityData={communityData}/>
                             <ul>
                                 <li>Explore</li>
                                 <li>Popular Posts</li>
@@ -243,7 +243,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                     </Link>
                 </div>
                 <div className={click ? "nav-bar-mobile-drop" : "input-empty"}>
-                    <Searchbar communityData={communityData}/>
+                    <Searchbar setClick={setClick} isMobile={isMobile} click={click}  communityData={communityData}/>
                     <ul>
                         <li onClick={() =>  {setClick(!click); navigate(`/user/${user.displayName}`)}}>
                             <img src={Avatar} alt="Avatar icon"/>

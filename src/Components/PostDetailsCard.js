@@ -415,7 +415,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
         detail.map( data => {
             return (
         <div className="post-detail" style={ isLoggedIn ? { gap: "1em", paddingTop: "3em"} : {gap: "0em"}} key={data.id}>
-            <img src={CommunityIcon} alt="Community Icon" onClick={() => navigate(`../../f/${data.community}`)}></img>
+            <img src={ isLoggedIn ? CommunityIcon : null} alt="Community Icon" onClick={() => navigate(`../../f/${data.community}`)}></img>
             <div className="post-detail-mobile-logged" onClick={() => navigate(`../../f/${data.community}`)}>
                         f/{data.community}
                     </div>
@@ -425,7 +425,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                 <div style={ isLoggedIn ? 
                     { display: "flex", flexDirection: "row", alignSelf: "flex-end", borderRadius: "2em", backgroundColor: "gainsboro", paddingTop: "0.1em", paddingBottom: "0.1em", paddingLeft: "0.4em", paddingRight: "0.4em"} 
                     : {}} onClick={() => navigate(-1)}>
-                    X
+                    {isLoggedIn ? "X" : null}
                 </div>
                     <div className="post-detail-right-header" style={ isLoggedIn ? { alignItems: "center", gap: "0em", paddingTop: "1.5em" } : { alignItems: "none" }}>
                         <img src={ isLoggedIn ? Avatar : CommunityIcon} alt="Community icon"></img>

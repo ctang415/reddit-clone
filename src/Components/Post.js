@@ -10,6 +10,7 @@ import Save from "../Assets/save.png"
 import Discover from "../Assets/discover.png"
 import Avatar from "../Assets/avatar.png"
 import CommunityIcon from "../Assets/communityicon.png"
+import Freddit from "../Assets/freddit2.png"
 import { auth, db } from "../firebase-config";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
@@ -535,7 +536,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                         x.map((post) => {
                             return (
                                 <div className="post" key={post.id}>
-                                <div className="post-right">
+                                <div className="post-right" style={{paddingBottom: "0.5em"}}>
                                     <div className="post-pinned-author">
                                         <div className="post-all-community">
                                         <img src={CommunityIcon} alt="Community Icon"></img>
@@ -545,7 +546,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                                         </div>
                                 </div>
                                 <div className="post-mobile">
-                                        <Link to={`f/${post.community}/comments/${post.id}`}>
+                                        <Link to={`f/${post.community}/comments/${post.id}`} style={{paddingBottom: "1em"}}>
                                             {post.title}
                                         </Link>
                                             {parse(`${post.content.html}`)}
@@ -582,7 +583,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                     allPosts.map((post) => {
                         return ( 
                             <div className="post" key={post.id}>
-                                <div className="post-right">
+                                <div className="post-right"  style={{paddingBottom: "0.5em"}}>
                                     <div className="post-pinned-author">
                                         <div className="post-all-community">
                                         <img src={CommunityIcon} alt="Community Icon"></img>
@@ -597,7 +598,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                                         </Link>
                                             {parse(`${post.content.html}`)}
                                     </div>
-                                    <ul>
+                                    <ul  style={{paddingTop: "0.5em"}}>
                                         <li>
                                             <img src={ Up } alt="Up arrow"></img>
                                                 {post.votes}
@@ -616,11 +617,9 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                 )
             } else if (location.pathname.indexOf('/f/') === 0 && post.length === 0 ) {
                 return (
-                    <div className="empty-post">
+                    <div className="empty-post" style={ {height: "auto"}}>
                         <div>
-                            <h4>There are no posts in this subfreddit</h4>
-                            <p>Be the first to till this fertile land.</p>
-                            <button className="empty-post-add" onClick={ isLoggedIn ? createNewPost : null}> Add a post </button>
+                            <img src={Freddit} alt="Freddit icon"></img>
                         </div>
                     </div>
                 )
@@ -629,18 +628,18 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                         post.map((post) => {
                             return ( 
                                     <div className="post" key={post.id}>
-                                    <div className="post-right">    
+                                    <div className="post-right" style={{paddingBottom: "0.5em"}}>    
                                         <div className="post-pinned-author">
                                             <img src={Avatar} alt="Avatar icon"/>
                                             <Link to={ deleted === post.author ? null : `../user/${post.author}`}>{post.author}</Link>
                                         </div>
-                                        <div className="post-mobile">
+                                        <div className="post-mobile" >
                                         <Link to={`./comments/${post.id}`}>
                                             {post.title}
                                             </Link>
                                             {parse(post.content.html)}
                                         </div>
-                                        <ul>
+                                        <ul style={{paddingTop: "0.5em"}}>
                                             <li>
                                             <img src={ ( isLoggedIn &&  (post.voters[post.voters.findIndex(x=> x.username === currentUser)] ) && post.voters[post.voters.findIndex(x=> x.username === currentUser)].vote === ("upvote")) ? Upvoted : Up } alt="Up arrow" id={post.id} onClick={handleVote}></img>
                                                     {post.votes} 

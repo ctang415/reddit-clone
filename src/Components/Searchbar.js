@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import CommunityIcon from "../Assets/communityicon.png"
 
-const Searchbar = ( { communityData } ) => {
+const Searchbar = ( { communityData, setClick, isMobile, click } ) => {
     const [ searchInput, setSearchInput ] = useState("");
     const [ filtered, setFiltered ] = useState([])
     const [ drop, setDrop] = useState(false)
@@ -12,6 +12,11 @@ const Searchbar = ( { communityData } ) => {
     const params = useParams()
 
     const handleClick = (e) => {
+        setDrop(!drop)
+    }
+
+    const handleMobileClick = () => {
+        setClick(!click)
         setDrop(!drop)
     }
 
@@ -61,8 +66,8 @@ const Searchbar = ( { communityData } ) => {
                 <div>Communities</div>
                 {filtered.map((community) => {
                     return (
-                        <div className="search-bar-items">
-                            <Link to={`f/${community}`} style={{ textDecoration: 'none', color: 'black'}} onClick={handleClick}>
+                        <div className="search-bar-items" onClick={ isMobile ? handleMobileClick : handleClick}>
+                            <Link to={`f/${community}`} style={{ textDecoration: 'none', color: 'black'}} >
                                 <img src={CommunityIcon} alt="Community icon"></img>
                                 f/{community}
                             </Link>
