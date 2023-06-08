@@ -2583,13 +2583,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 32vh;
   width: 100vw;
   z-index: 1;
   background-color: rgb(89, 91, 96);
   padding-top: 1em;
   padding-bottom: 1em;
-  margin-top: 42vh;
+  margin-top: 41vh;
   justify-content: space-between;
   vertical-align: top;
   position: absolute;
@@ -3356,6 +3355,89 @@ body {
 
 .community-error-page {
   margin: 25% auto;
+}
+
+.header-user-profile-login-true {
+  display: flex;
+  flex-direction: row;
+  padding-right: 0.5em;
+  justify-content: space-between;
+  border: none;
+  border-radius: 0.2em;
+  cursor: pointer;
+}
+
+.drop-down-bar-community {
+  position: fixed;
+  width: 15em;
+}
+
+.nav-drop-community {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: none;
+  border-radius: none;
+  font-size: 0.9em;
+}
+
+.nav-drop-community > div {
+  font-size: 0em;
+  color: grey;
+  padding: 1em;
+}
+
+.nav-drop-community > ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(89, 91, 96);
+  width: 31em;
+  /*max-height: 10.5vh;
+  overflow: scroll;*/
+}
+
+.nav-drop-community > ul > div {
+  cursor: pointer;
+  color: white;
+  padding: 0.5em;
+}
+
+.nav-drop-community > ul > div > a {
+  color: white;
+}
+
+.header-item {
+  font-size: 1.3vh;
+}
+
+.header-item > img {
+  height: 2vh;
+}
+
+.community-post-section {
+  padding-left: 0em;
+  padding-right: 0em;
+}
+
+.community-post-title {
+  width: 100%;
+}
+
+#community-post-inputs {
+  width: 95%;
+  height: 3em;
+  border-radius: 0.3em;
+}
+
+.editor-container {
+  width: 100%;
+}
+
+#editor-container-two {
+  height: 100%;
+  width: 100%;
+  padding-bottom: 1em;
 }
 
 }

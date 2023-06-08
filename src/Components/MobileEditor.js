@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import ImageCompress from 'quill-image-compress';
 import { Quill } from "react-quill";
 import MagicUrl from 'quill-magic-url'
@@ -11,7 +11,9 @@ import { auth, db } from '../firebase-config';
 Quill.register('modules/imageCompress', ImageCompress);
 Quill.register('modules/magicUrl', MagicUrl)
 
-const MobileEditor = ( {setValue, value, setHtml, html, handleSubmit, empty, setEmpty, setTextDrop} ) => {
+const MobileEditor = ( {setValue, value, setHtml, html, handleSubmit, empty, setEmpty, setTextDrop } ) => {
+    const [ isSubmit, setIsSubmit ] = useState(false)
+    const location = useLocation()
 
     const modules = {
         toolbar: '#editor-container-two',
@@ -30,6 +32,12 @@ const MobileEditor = ( {setValue, value, setHtml, html, handleSubmit, empty, set
     const theme =  'snow'
     const { quill, quillRef } = useQuill({theme, modules, formats});
 
+    const handleClose = () => {
+        setTextDrop(false) 
+        setValue('')
+        quill.setContents('')
+    }
+
     useEffect(() => {
         if (quill) {
             quill.on('text-change', (delta, oldDelta, source) => {
@@ -42,12 +50,20 @@ const MobileEditor = ( {setValue, value, setHtml, html, handleSubmit, empty, set
         } 
     }, [quill]);
 
+    useEffect(() => {
+        if (location.pathname === "/submit") {
+            setIsSubmit(true)
+        }
+    }, [isSubmit])
+
         return (
             <div id='editor-container-two'>
             <div ref={quillRef} />
-            <div className='editor-container-two-button' style={ {justifyContent: "center"}}>
-            <button id={"custom-button"} style={ {backgroundColor: "white", color: "grey", border: "none"}} onClick={() => setTextDrop(false)}>X</button>
+            <div className={'editor-container-two-button'} style={ {justifyContent: "center"}}>
+                <div className={ isSubmit ? "input-empty" : 'user-left' }>
+            <button id={"custom-button"} style={ {backgroundColor: "white", color: "grey", border: "none"}} onClick={handleClose}>X</button>
             <button id={ empty ? "custom-button-black" : "custom-button"} style={ {width: "100%" }} onClick={handleSubmit}> Add Comment</button>
+            </div>
             </div>
         </div>
         )

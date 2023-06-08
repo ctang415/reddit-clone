@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-const TextEditor = ( {setValue, value, setHtml, html, quill, quillRef, handleSubmit, empty, setEmpty} ) => {
+const TextEditor = ( {setValue, value, setHtml, html, quill, quillRef, handleSubmit, empty, setEmpty } ) => {
     const location = useLocation()
  
     useEffect(() => {

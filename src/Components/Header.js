@@ -54,7 +54,17 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
     const handleCommunityClick = (e) => {
          if (communityDrop) {
             if (e.target.className === "header-user-profile-login" || e.target.className === "header-user-profile-login-true"
-            || e.target.className === "header-item" || e.target.className === "user-left" ) {
+            || e.target.className === "header-item" || e.target.className === "user-left" || e.target.className === "my-communities" ) {
+                setCommunityDrop(false)
+            }
+        } else {
+            setCommunityDrop(true)
+        }
+    }
+    
+    const handleMobileCommunityClick = (e) => {
+        if (communityDrop) {
+            if ( e.target.className === "my-communities" ) {
                 setCommunityDrop(false)
             }
         } else {
@@ -130,6 +140,16 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
         const docSnap = await getDoc(docRef)
         const data = docSnap.data()
         setUserData([data]) 
+    }
+
+    const handlePost = (e) => {
+         if (location.pathname !== ('/')  && location.pathname.indexOf('/comments/') !== -1) {
+            navigate(`f/${location.pathname.split('/comments')[0].split('f/')[1]}/submit`)
+        } else if (location.pathname === ('/') || location.pathname.indexOf('/user/') > -1) {
+            navigate('/submit')
+        } else if (location.pathname.indexOf('/f/') !== -1 && location.pathname.indexOf('/submit') === -1) {            
+            navigate(`${location.pathname}/submit`)
+        }
     }
 
     useEffect(() => {
@@ -253,9 +273,15 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                             <img src={Inbox} alt="Inbox icon"/>
                             Inbox
                         </li>
-                        <li>
+                        <li className="my-communities" onClick={handleMobileCommunityClick}>
                             <img src={Communities} alt="Community icon"/>
                             My Communities
+                        </li>        
+                        <li className={communityDrop ? "header-user-profile-login-true" : "header-user-profile-login" } style={{ border: "none", width: "100%"}} >
+                            <CommunitiesDrop
+                               userData={userData} communityDrop={communityDrop} setCommunityDrop={setCommunityDrop} setClick={setClick}
+                               handleCommunityClick={handleCommunityClick} isMobile={isMobile}  handleMobileCommunityClick={handleMobileCommunityClick}
+                            />
                         </li>
                         <li>
                             <img src={Settings} alt="Settings icon"/>
@@ -274,7 +300,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                 </div>
                 <div className="header-mobile-icons">
                 <div className={register ? "input-empty" : "user-left"}>
-                    <img src={Create} alt="Post icon"></img>
+                    <img src={Create} alt="Post icon" onClick={handlePost}></img>
                 </div>
                 <div className={register ? "input-empty" : "user-left"}>
                     <img src={click ? X : Menu} alt="Menu icon" onClick={handleMobileClick}></img>

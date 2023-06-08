@@ -12,10 +12,11 @@ import * as sanitizeHtml from 'sanitize-html';
 import { nanoid } from 'nanoid'
 import ImageCompress from 'quill-image-compress';
 import CommunitySearch from "./CommunitySearch";
+import MobileEditor from "./MobileEditor";
 Quill.register('modules/magicUrl', MagicUrl)
 Quill.register('modules/imageCompress', ImageCompress);
 
-const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communityData }) => {
+const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communityData, isMobile, setClick }) => {
     const [ firebaseCommunityData, setFirebaseCommunityData] = useState([])
     const [ value, setValue ] = useState('')
     const [ html, setHtml ] = useState('')
@@ -25,6 +26,7 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
     const [ imageSelect, setImageSelect ] = useState(false)
     const [ linkSelect, setLinkSelect ] = useState(false)
     const [ pollSelect, setPollSelect ] = useState(false)
+    const [ empty, setEmpty ] = useState(false)
     const params = useParams()
     const navigate = useNavigate()
     const location = useLocation()
@@ -148,6 +150,59 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
         } 
     }, [user])
 
+    useEffect(() => {
+        if (isMobile) {
+            setClick(false)
+        }
+    }, [])
+
+    useEffect(() => {
+        if (title.length !== 0) {
+            setEmpty(false)
+        } else {
+            setEmpty(true)
+        }
+        console.log(isUndefined)
+        console.log(empty)
+        console.log(title.length) 
+    }, [title.length])
+
+    if (isMobile) {
+        if (user) {
+            return (
+            <div className="community-page">
+            <div className="community-body-submit" style={{paddingTop: "0em"}}>
+                <div className="community-body-left">
+                <form style={{ gap: "0em", margin: "0"}} onSubmit={handleSubmit}>
+                    <div className="community-post-header" style={{alignItems: "center", color: "grey", padding: "0.5em"}}>
+                        <span>
+                            <span onClick={() => navigate('/')}>X</span> Text
+                        </span>
+                            <button id={ (empty || isUndefined) ? "custom-button-black" : "custom-button"}>Post</button>
+                    </div>
+                    <div className="community-post-divider"></div>
+                    <div className="community-search">
+                        <CommunitySearch isMobile={isMobile} communityData={communityData} />
+                    </div>
+                    <div className="community-post">
+                        <div className="community-post-section">
+                        <div className="community-post-title">
+                            <input type="text" id="community-post-inputs" maxLength="300" placeholder="Title" onChange={ (e) => setTitle(e.target.value)} required></input>
+                            <div className={ postSelect || pollSelect ? "editor-container" : "input-empty"}>
+                            <MobileEditor 
+                            quillRef={quillRef}
+                            quill={quill} html={html} setHtml={setHtml} value={value} setValue={setValue} />
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        )
+        }
+    } else {
     if (user) {
         return (
         <div className="community-page">
@@ -249,6 +304,7 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
     </div>
     )
     }
+}
 }
 
 export default CreatePost

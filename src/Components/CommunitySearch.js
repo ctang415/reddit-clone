@@ -2,13 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import CommunityIcon from "../Assets/communityicon.png"
 
-const CommunitySearch = ( { communityData } ) => {
+const CommunitySearch = ( { communityData, isMobile } ) => {
     const [ searchInput, setSearchInput ] = useState("");
     const [ filtered, setFiltered ] = useState([])
     const [ drop, setDrop] = useState(false)
     const catMenu = useRef(null)
     const [ data, setData ] = useState([])
-    const [ undefined, setUndefined ] = useState(false)
+    const [ asUndefined, setAsUndefined ] = useState(false)
     const params = useParams()
     const location = useLocation()
 
@@ -46,24 +46,26 @@ const CommunitySearch = ( { communityData } ) => {
     }, [handleDrop])
 
     useEffect(() => {
-        if (params.id === undefined) {
-            setUndefined(true)
+        if (params.id !== undefined) {
+            setAsUndefined(false)
         } else {
-            setUndefined(false)
+            setAsUndefined(true)
         }
+        console.log(params.id)
+        console.log(asUndefined)
     }, [location.pathname])
 
     return (
         <div className="search-bar-drop-post">
             <input
-             id="nav-bar-input-post"
+             id="nav-bar-input-post" style={ isMobile ? {border: "white"} : {}}
                 type="text"
-                placeholder="Search communities"
-                defaultValue={ undefined ? `f/${params.id}` : 'Choose a community'}
+                placeholder={ !asUndefined ? `f/${params.id}` : "Search communities"}
                 onChange={handleChange}
                 onClick={handleClick}
                 />
-            <div className={ drop ? "input-search-box-post": "input-empty"} ref={catMenu}>
+            <div className={ drop ? "input-search-box-post": "input-empty"} ref={catMenu}
+            style={ isMobile ? {width: "30em"} : {}}>
                 <div className="input-search-box-header">COMMUNITIES</div>
                 {filtered.map((community) => {
                     return (
