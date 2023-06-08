@@ -65,7 +65,7 @@ const CommunitySearch = ( { communityData, isMobile } ) => {
                 onClick={handleClick}
                 />
             <div className={ drop ? "input-search-box-post": "input-empty"} ref={catMenu}
-            style={ isMobile ? {width: "30em"} : {}}>
+            style={ isMobile ? {width: "100vw", border: "0.5px solid rgb(204, 202, 202)"} : {}}>
                 <div className="input-search-box-header">COMMUNITIES</div>
                 {filtered.map((community) => {
                     return (

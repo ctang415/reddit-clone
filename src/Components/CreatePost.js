@@ -162,9 +162,6 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
         } else {
             setEmpty(true)
         }
-        console.log(isUndefined)
-        console.log(empty)
-        console.log(title.length) 
     }, [title.length])
 
     if (isMobile) {
@@ -176,12 +173,12 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
                 <form style={{ gap: "0em", margin: "0"}} onSubmit={handleSubmit}>
                     <div className="community-post-header" style={{alignItems: "center", color: "grey", padding: "0.5em"}}>
                         <span>
-                            <span onClick={() => navigate('/')}>X</span> Text
+                            <span onClick={() => navigate(-1)}>X</span> Text
                         </span>
                             <button id={ (empty || isUndefined) ? "custom-button-black" : "custom-button"}>Post</button>
                     </div>
                     <div className="community-post-divider"></div>
-                    <div className="community-search">
+                    <div className="community-search" style={{ paddingTop: "1em", paddingBottom: "1em"}}>
                         <CommunitySearch isMobile={isMobile} communityData={communityData} />
                     </div>
                     <div className="community-post">

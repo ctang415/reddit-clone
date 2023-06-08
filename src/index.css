@@ -2588,7 +2588,7 @@ body {
   background-color: rgb(89, 91, 96);
   padding-top: 1em;
   padding-bottom: 1em;
-  margin-top: 41vh;
+  top: 3.5em;
   justify-content: space-between;
   vertical-align: top;
   position: absolute;
