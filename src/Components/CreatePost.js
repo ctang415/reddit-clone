@@ -13,8 +13,10 @@ import { nanoid } from 'nanoid'
 import ImageCompress from 'quill-image-compress';
 import CommunitySearch from "./CommunitySearch";
 import MobileEditor from "./MobileEditor";
+import { onAuthStateChanged } from "firebase/auth";
 Quill.register('modules/magicUrl', MagicUrl)
 Quill.register('modules/imageCompress', ImageCompress);
+
 
 const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communityData, isMobile, setClick }) => {
     const [ firebaseCommunityData, setFirebaseCommunityData] = useState([])
@@ -27,6 +29,7 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
     const [ linkSelect, setLinkSelect ] = useState(false)
     const [ pollSelect, setPollSelect ] = useState(false)
     const [ empty, setEmpty ] = useState(false)
+    const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const params = useParams()
     const navigate = useNavigate()
     const location = useLocation()
@@ -100,6 +103,14 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
         uploadPost()
     }
     }
+
+    const checkUser = async () => {
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                navigate('/')
+            }
+        })
+    }
     
     const handlePost = () => {
         setPostSelect(true)
@@ -145,16 +156,18 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
     }, [location.pathname])
 
     useEffect(() => {
-        if (!user) {
-            navigate('/')
-        } 
-    }, [user])
-
-    useEffect(() => {
         if (isMobile) {
             setClick(false)
         }
     }, [])
+
+    useEffect(() => {
+        if (user) {
+            setIsLoggedIn(true)
+        } else {
+            setIsLoggedIn(false)
+        }
+    }, [user])
 
     useEffect(() => {
         if (title.length !== 0) {
@@ -163,6 +176,10 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
             setEmpty(true)
         }
     }, [title.length])
+
+    useEffect(() => {
+        checkUser()
+    }, [user])
 
     if (isMobile) {
         if (user) {

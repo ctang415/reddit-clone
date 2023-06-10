@@ -414,8 +414,10 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
         return (
         detail.map( data => {
             return (
-        <div className="post-detail" style={ isLoggedIn ? { gap: "1em", paddingTop: "3em"} : {gap: "0em"}} key={data.id}>
-            <img src={ isLoggedIn ? CommunityIcon : null} alt="Community Icon" onClick={() => navigate(`../../f/${data.community}`)}></img>
+        <div className="post-detail" style={ isLoggedIn ? { gap: "1em", paddingTop: "2em"} : {gap: "0em"}} key={data.id}>
+            <div className={isLoggedIn ? "post-detail-icon" : "input-empty"}>
+                <img src={CommunityIcon} alt={"Community Icon"} onClick={() => navigate(`../../f/${data.community}`)}></img>
+            </div>
             <div className="post-detail-mobile-logged" onClick={() => navigate(`../../f/${data.community}`)}>
                         f/{data.community}
                     </div>

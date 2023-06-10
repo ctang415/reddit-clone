@@ -499,24 +499,17 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
 
     useEffect(() => {
         if (location.pathname === '/') {
-            if (user) {
+            if (isLoggedIn) {
                 getJoinedPosts()
             }
         }
-    }, [user])
+    }, [isLoggedIn])
 
     useEffect(() => {
-        if (user) {
+        if (isLoggedIn) {
             setCurrentUser((user.displayName))
         }
-    }, [user])
-
-    useEffect(() => {
-        console.log(post)
-        console.log(allJoinedPosts)
-        console.log(allJoinedPosts.map(x => x.map(y=> y.voters.findIndex(z=> z.username === currentUser)))) 
-    }, [])
-
+    }, [isLoggedIn])
 
     if (isMobile) {
         if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {

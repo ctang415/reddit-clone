@@ -86,6 +86,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                 setClick(false)
             } else {
                 setClick(false)
+                setCommunityDrop(false)
             }
         } else {
             setClick(true)
@@ -180,6 +181,13 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
             setRegister(true)
         } else {
             setRegister(false)
+        }
+    }, [location.pathname])
+
+    useEffect(() =>{
+        if (isMobile) {
+            setCommunityDrop(false)
+            setClick(false)
         }
     }, [location.pathname])
 

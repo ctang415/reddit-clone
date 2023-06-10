@@ -348,25 +348,31 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
     if (isMobile) {
         if (empty && overview) {
             return (
-                <div className="post-width">
-                    <div className="post-width-empty">
-                        <div>hmm... u/{params.id} hasn't posted yet</div>
+                <div className="post-width" >
+                    <div className="post-width-empty" style={isLoggedIn ? {height: "60vh", backgroundColor: "white"} : {height: "60vh"}}>
+                        <div className={ isLoggedIn ? "input-empty" : "user-left"} style={{fontSize: "1em"}}>
+                            hmm... u/{params.id} hasn't posted yet
+                        </div>
                     </div>
                 </div>
             )
         } else if (commentsOnly && emptyComments) {
             return (
                 <div className="post-width">
-                    <div className="post-width-empty">
-                        <div>hmm... u/{params.id} hasn't commented yet</div>
+                    <div className="post-width-empty" style={isLoggedIn ? {height: "60vh", backgroundColor: "white"} : {height: "60vh"}}>
+                        <div className={ isLoggedIn ? "input-empty" : "user-left"} style={{fontSize: "1em"}}>
+                            hmm... u/{params.id} hasn't commented yet
+                        </div>
                     </div>
                 </div>
             )
         } else if (postsOnly && emptyPosts) {
             return (
                 <div className="post-width">
-                    <div className="post-width-empty">
-                        <div>hmm... u/{params.id} hasn't posted yet</div>
+                    <div className="post-width-empty" style={isLoggedIn ? {height: "60vh", backgroundColor: "white"} : {height: "60vh"}}>
+                        <div className={ isLoggedIn ? "input-empty" : "user-left"} style={{fontSize: "1em"}}>
+                            hmm... u/{params.id} hasn't posted yet
+                        </div>
                     </div>
                 </div>
             )
@@ -453,7 +459,8 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                 comments.map((data) => {
                     return (
                         <div className="post-width">
-                            <div style={ isLoggedIn ? { backgroundColor: "white", flexDirection: "column", borderTop: "0.5px solid gainsboro", borderBottom: "0.5px solid gainsboro"} : {backgroundColor: "black", border: "none"}} 
+                            <div style={ isLoggedIn ? { backgroundColor: "white", flexDirection: "column", borderTop: "0.5px solid gainsboro", borderBottom: "0.5px solid gainsboro"} : 
+                            {backgroundColor: "black", border: "none", gap: "0.3em", padding: "1em"}} 
                             className={ isLoggedIn ? data.poster ? "input-empty" : "profile-post-mobile" : data.poster ? "input-empty" : "profile-post-mobile-logged" }>
                                 <div className={ isLoggedIn ? "profile-post-community-name-logged" : "profile-post-community-name"}>
                                     <img src={CommunityIcon} alt="Community icon"/>
