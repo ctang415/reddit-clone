@@ -365,6 +365,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
         if (detail[0] !== undefined) {
             setPostAuthor(detail[0].author)
         }
+        console.log(postAuthor)
     }, [detail])
   
     useEffect(() => {
@@ -487,7 +488,8 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                     <div className={ textDrop ? "mobile-editor" : "input-empty"} >
                     <MobileEditor 
                     html={html} setHtml={setHtml} value={value} setValue={setValue} 
-                    handleSubmit={handleSubmit} empty={empty} setEmpty={setEmpty} setTextDrop={setTextDrop}
+                    empty={empty} setEmpty={setEmpty} setTextDrop={setTextDrop} postAuthor={postAuthor}
+                    firebaseCommunityData={firebaseCommunityData} detail={detail} setDetail={setDetail}
                     />
                     </div>
                 </div>

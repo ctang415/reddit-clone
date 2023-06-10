@@ -35,6 +35,7 @@ const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue, loggedIn, setLog
             email: auth.currentUser.email,
             username: generatedUser,
             id: auth.currentUser.uid,
+            avatar: Profile,
             karma: 1,
             created: today.toLocaleDateString("en-US", options),
             posts: [],
@@ -104,12 +105,12 @@ const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue, loggedIn, setLog
                         await reload(auth.currentUser)
                     }).then ( async () => {
                         setLoggedIn(true)
-                        setClick(false)
                         navigate('/')
                     })
                 })
             } else {
                 setLoggedIn(true)
+                navigate('/')
         }
         })
       }

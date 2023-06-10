@@ -52,6 +52,7 @@ const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, 
             email: auth.currentUser.email,
             username: generatedUser,
             id: auth.currentUser.uid,
+            avatar: Profile,
             karma: 1,
             created: today.toLocaleDateString("en-US", options),
             posts: [],
@@ -119,7 +120,6 @@ const Login = ( { setSignUp, login, setLogin, setForgotUser, setForgotPassword, 
   }).then(() => {
     setLoggedIn(true)
     navigate('/')
-    setClick(false)
   }).catch((error) => {
     setPasswordError(true)
   })
@@ -146,11 +146,11 @@ const signInWithGoogleMobile = async () => {
                 }).then (() => {
                     setLoggedIn(true)
                     navigate('/')
-                    setClick(false)
                 })
             })
         } else {
                 setLoggedIn(true)
+                navigate('/')
         }
     })
   }
