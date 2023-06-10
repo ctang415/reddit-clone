@@ -6,7 +6,7 @@ import { auth, db } from "../firebase-config";
 import Modal from "./Modal";
 import SidebarDrop from "./SidebarDrop";
 
-const Search = ( {communityData, setUserData, drop, setDrop, setJoin, modalIsTrue, setModalIsTrue, join } ) => {
+const Search = ( {communityData, setUserData, drop, setDrop, setJoin, modalIsTrue, setModalIsTrue, join, isMobile } ) => {
     const [ isLoggedIn, setIsLoggedIn ] = useState(false)
     const [ sideBarCommunities, setSideBarCommunities] = useState([])
     const user = auth.currentUser
@@ -69,6 +69,69 @@ const Search = ( {communityData, setUserData, drop, setDrop, setJoin, modalIsTru
     }, [user])
 
 
+    if (isMobile) {
+        if (isLoggedIn) {
+        return (
+            <div className={isLoggedIn ? "community-page" : "community-page-logged-out"}>
+                <span style={{ padding: "0.7em", color: "grey", borderBottom: "1px solid gainsboro"}}>
+                    Communities
+                </span>
+            <div className={ isLoggedIn ? "search-page" : "search-page-logged-out" }>
+            {communityData.map(community => {
+                return (
+                    <div className="community-card">
+                        <Link to={`../f/${community.name}`}>
+                        <div className="community-card-left">
+                            <div className="community-card-logo">
+                                <img src={CommunityIcon} alt="Community icon"></img>
+                            </div>
+                                <div className="community-card-title">
+                                    f/{community.name}
+                                </div>
+                        </div>
+                        </Link>
+                        <div className="community-card-join">
+                            <button onClick={ isLoggedIn ? handleJoin : handleClick} id={community.name}>+</button>
+                        </div>
+                    </div>
+                )
+            })}
+        </div>
+    </div>
+        )
+        } else {
+            return (
+                <div className={"community-page"}>
+                    <span style={{ padding: "0.7em", backgroundColor: "black", color: "gainsboro", borderBottom: "1px solid gainsboro"}}>
+                        Communities
+                    </span>
+                    <div className={"search-page"} style={{backgroundColor: "black", paddingTop: "1em", gap: "0.5em"}}>
+                    {communityData.map(community => {
+                        return (
+                            <div className="community-card-logged-out" style={{ backgroundColor: "black"}}>
+                                <Link to={`../f/${community.name}`}>
+                                <div className="community-card-left">
+                                    <div className="community-card-logo">
+                                        <img src={CommunityIcon} alt="Community icon" style={{height: "2em"}}></img>
+                                    </div>
+                                    <div className="community-card-information-logged-out">
+                                        <div className="community-card-title" style={{ color: "white", fontWeight: "bold"}}>
+                                            f/{community.name}
+                                        </div>
+                                        <div className="community-card-about" style={{color: "gainsboro"}}>
+                                            {community.about}
+                                        </div>
+                                    </div>
+                                </div>
+                                </Link>
+                            </div>
+                        )
+                    })}
+                        </div>
+                </div>
+            )
+        }
+    } else {
     return (
         <div className={isLoggedIn ? "community-page" : "community-page-logged-out"}>
             <div className={ isLoggedIn ? "search-page" : "search-page-logged-out" }>
@@ -140,5 +203,6 @@ const Search = ( {communityData, setUserData, drop, setDrop, setJoin, modalIsTru
                 </div>
         </div>
     )
+    }
 }
 export default Search

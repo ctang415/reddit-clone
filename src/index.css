@@ -3446,5 +3446,52 @@ body {
   padding-bottom: 1em;
 }
 
+.search-page {
+  padding-top: 0vh;
+  padding-left: 1em;
+  padding-right: 1em;
+  gap: 0.0em;
+}
+
+.community-card-left {
+  gap: 0.5em;
+}
+
+.community-card {
+  width: 100%;
+  border: none;
+  padding: 0.3em;
+  font-size: 2vh;
+}
+
+.community-card-logo > img {
+  height: 3vh;
+}
+
+.community-card-join > button {
+  color:#f5f6f7;
+  background-color: #2286d2;
+  border: none;
+  height: 2em;
+  width: 2em;
+  border-radius: 2em;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.community-card-title {
+  color: black;
+  font-weight: 100;
+  font-size: 1.7vh;
+}
+
+.community-card-logged-out > a  {
+  text-decoration: none;
+}
+
+.community-card-logged-out {
+  width: 100%;
+  font-size: 2vh;
+}
 
 }

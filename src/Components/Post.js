@@ -12,7 +12,7 @@ import Avatar from "../Assets/avatar.png"
 import CommunityIcon from "../Assets/communityicon.png"
 import Freddit from "../Assets/freddit2.png"
 import { auth, db } from "../firebase-config";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, isLoggedIn, communityData, allJoinedPosts, 
@@ -24,6 +24,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
     const params = useParams()
     const user = auth.currentUser
     const location = useLocation()
+    const navigate = useNavigate()
 
     const getJoinedPosts = async () => {
         setAllJoinedPosts([])
@@ -518,7 +519,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
                     <div className="empty-post-discover">
                         <img src={Discover} alt="Snoo avatar looking through telescope"/>
                         <p>Freddit gets better when you join communities, so find some that you'll love!</p>
-                        <button className="empty-post-discover-add">BROWSE POPULAR COMMUNITIES</button>
+                        <button className="empty-post-discover-add" onClick={() => navigate('/search')}>BROWSE POPULAR COMMUNITIES</button>
                     </div>
                 </div>
             )
@@ -659,7 +660,7 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
             <div className="empty-post-discover">
                 <img src={Discover} alt="Snoo avatar looking through telescope"/>
                 <p>Freddit gets better when you join communities, so find some that you'll love!</p>
-                <button className="empty-post-discover-add">BROWSE POPULAR COMMUNITIES</button>
+                <button className="empty-post-discover-add" onClick={() => navigate('/search')}>BROWSE POPULAR COMMUNITIES</button>
             </div>
         </div>
     )
