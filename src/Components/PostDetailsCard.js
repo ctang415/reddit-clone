@@ -3,6 +3,8 @@ import Up from "../Assets/up.png"
 import Down from "../Assets/down.png"
 import WhiteUp from "../Assets/upwhite.png"
 import WhiteDown from "../Assets/downwhite.png"
+import Upvoted from "../Assets/upvoted.png"
+import Downvoted from "../Assets/downvoted.png"
 import WhiteComment from "../Assets/whitechat.png"
 import CommunityIcon from "../Assets/communityicon.png"
 import CommentIcon from "../Assets/comment.png"
@@ -365,7 +367,6 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
         if (detail[0] !== undefined) {
             setPostAuthor(detail[0].author)
         }
-        console.log(postAuthor)
     }, [detail])
   
     useEffect(() => {
@@ -456,16 +457,30 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                         />
                         </div>
                     </div> 
-                    <ul>
-                        <li style={isLoggedIn ? { backgroundColor: "white", color: "grey"} : { backgroundColor: "rgb(89, 91, 96)", color: "white"}}>
+                    <div className={ ( isLoggedIn &&  (data.voters[data.voters.findIndex(data => data.username === currentUser)]) ) ? "input-empty" : "post-detail-votes-logged"}>
+                        <ul>
+                        <li style={isLoggedIn ? { backgroundColor: "white", color: "grey"} : { backgroundColor: "rgb(89, 91, 96)", color: "white", paddingTop: "0.5em", paddingBottom: "0.5em"}}>
                             <img src={ isLoggedIn ? Up : WhiteUp} id={data.id} alt="Up arrow" onClick={handleVote}></img>
                                 {data.votes}
                             <img src={ isLoggedIn ? Down : WhiteDown} id={data.id} alt="Down arrow" onClick={handleVote}></img>
+                        </li>
+                        <li style={isLoggedIn ? { backgroundColor: "white", color: "grey"} : { backgroundColor: "rgb(89, 91, 96)", color: "white", paddingTop: "0.5em", paddingBottom: "0.5em"}}>
+                            <img src={ isLoggedIn ? CommentIcon : WhiteComment} alt="Comment bubble"/> { data.comments.length }
+                        </li>
+                        </ul>
+                    </div>
+                    <div className={ ( isLoggedIn &&  (data.voters[data.voters.findIndex(data => data.username === currentUser)] ) ) ? "post-detail-votes-logged" : "input-empty"}>
+                    <ul>
+                        <li style={isLoggedIn ? { backgroundColor: "white", color: "grey"} : { backgroundColor: "rgb(89, 91, 96)", color: "white"}}>
+                            <img src={ ( isLoggedIn &&  (data.voters[data.voters.findIndex(data => data.username === currentUser)] ) && data.voters[data.voters.findIndex(data => data.username === currentUser)].vote === ("upvote")) ? Upvoted : Up } id={data.id} alt="Up arrow" onClick={handleVote}></img>
+                                {data.votes}
+                            <img src={ ( isLoggedIn &&  (data.voters[data.voters.findIndex(data => data.username === currentUser)] ) && data.voters[data.voters.findIndex(data => data.username === currentUser)].vote === ("downvote")) ? Downvoted : Down} id={data.id} alt="Down arrow" onClick={handleVote}></img>
                         </li>
                         <li style={isLoggedIn ? { backgroundColor: "white", color: "grey"} : { backgroundColor: "rgb(89, 91, 96)", color: "white"}}>
                             <img src={ isLoggedIn ? CommentIcon : WhiteComment} alt="Comment bubble"/> { data.comments.length }
                         </li>
                     </ul>
+                    </div>
                 </div>
             </div>
             <div className="post-detail-lower" style={isLoggedIn ? { color: "black", backgroundColor: "white" } : { color: "white", backgroundColor: "black"}}>

@@ -32,22 +32,22 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
         const docSnap = await getDoc(docRef)
         const data = docSnap.data()
         if (data !== undefined) {
-        if (data.joined.length !== 0) {
-            let joinedArray = [data.joined]
-            joinedArray.map( async item => {
-                item.map( async x => {
-                    const docRef = doc(db, 'communities', x.toString() )
-                    const docSnap = await getDoc(docRef)
-                    const data = docSnap.data() 
-                    setAllJoinedPosts(prev => [...prev, data.posts ])
-                    setIsEmpty(false)
+            if (data.joined.length !== 0) {
+                let joinedArray = [data.joined]
+                joinedArray.map( async item => {
+                    item.map( async x => {
+                        const docRef = doc(db, 'communities', x.toString() )
+                        const docSnap = await getDoc(docRef)
+                        const data = docSnap.data() 
+                        setAllJoinedPosts(prev => [...prev, data.posts ])
+                        setIsEmpty(false)
+                    })
                 })
-            })
-        } else {
-            setAllJoinedPosts([])
-            setIsEmpty(true) 
+            } else {
+                setAllJoinedPosts([])
+                setIsEmpty(true) 
+            }
         }
-    }
     }
 
     const handleVote = (e) => {

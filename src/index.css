@@ -899,7 +899,7 @@ label {
   text-decoration: none;
 }
 
-.post-right > ul > li, .post-detail-right > ul > li {
+.post-right > ul > li, .post-detail-right > ul > li, .post-detail-votes-logged > ul > li {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -924,7 +924,7 @@ label {
   gap: 0.5em;
 }
 
-.post-detail-right > ul {
+.post-detail-right > ul, .post-detail-votes-logged > ul {
   gap: 0.3em;
 }
 
@@ -1239,7 +1239,7 @@ label {
 
 .community-filters > ul > li > img, .post-detail-right > ul > div > img, .post-right > ul > li > img, 
 .post-detail-right > ul > li > img, .post-right > ul > li > a > img,  .search-bar-items > a > img, 
-.post-detail-dropbar-user > ul > li > img  {
+.post-detail-dropbar-user > ul > li > img, .post-detail-votes-logged > ul > li > img {
   height: 1.5em;
 }
 
@@ -2280,7 +2280,7 @@ hr.vertical:hover {
   background-color: #dfe5eb;
 } 
 
-.post-detail-right > ul {
+.post-detail-right > ul, .post-detail-votes-logged > ul {
   display: flex;
   flex-direction: row;
   font-weight: bold;
@@ -3073,7 +3073,7 @@ body {
   padding: 1em;
 }
 
-.post-detail-right > ul > li {
+.post-detail-right > ul > li, .post-detail-votes-logged > ul > li {
   background-color: rgb(89, 91, 96);
   border-radius: 1.5em;
 }
