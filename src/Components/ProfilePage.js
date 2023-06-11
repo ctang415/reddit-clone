@@ -1,6 +1,6 @@
 import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { useLoaderData, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import Modal from "./Modal";
 import ProfilePosts from "./ProfilePosts";
@@ -145,7 +145,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                                         <img src={item.avatar} alt="Avatar"></img>
                                     </div>
                                     <div className="profile-info-text">
-                                        <h3>u/{params.id}</h3>
+                                        <h3>{params.id}</h3>
                                         <h6>u/{params.id}</h6>
                                         <div className="profile-info-subtext">
                                             <div>

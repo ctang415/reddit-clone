@@ -7,11 +7,13 @@ import {
 import { setDoc, doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../firebase-config";
 import Profile from  '../Assets/snoo.png'
+import { Navigate, useNavigate } from "react-router-dom";
 
-const CreateUser = ( {createUser, setSignUp, setCreateUser, email, setLogin, setModalIsTrue }) => {
+const CreateUser = ( {createUser, setSignUp, setCreateUser, email, setLogin, setModalIsTrue, click, setClick, isMobile }) => {
     const [ username, setUsername ] = useState("")
     const [ password, setPassword ] = useState("")
     const [ alreadyExists, setAlreadyExists ] = useState(false)
+    const navigate = useNavigate()
     
     const createCollection = async () => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -31,6 +33,36 @@ const CreateUser = ( {createUser, setSignUp, setCreateUser, email, setLogin, set
     }
 
     const createAccount = async (e) => {
+        if (isMobile) {
+            e.preventDefault()
+            const docRef = doc(db, "users", username)
+            const docSnap = await getDoc(docRef);
+            const data = docSnap.data()
+            if (data === undefined) {
+            createUserWithEmailAndPassword(auth, email, password).then(async (userCredential) => {       
+                const user = userCredential.user;     
+                await updateProfile(user, {
+                displayName: username, photoURL: Profile
+            }).then( async () => {
+                 await reload(auth.currentUser)
+        })
+                setCreateUser(false)
+                setModalIsTrue(false)
+                setLogin(true)
+                createCollection()
+                navigate('/')
+                // ...
+              })
+              .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // ..
+              })
+            }
+            else {
+                setAlreadyExists(true)
+            }
+        } else {
         e.preventDefault()
         const docRef = doc(db, "users", username)
         const docSnap = await getDoc(docRef);
@@ -58,6 +90,7 @@ const CreateUser = ( {createUser, setSignUp, setCreateUser, email, setLogin, set
         else {
             setAlreadyExists(true)
         }
+    }
     }
 
     const returnToPage = (e) => {

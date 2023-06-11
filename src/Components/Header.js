@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import UserDrop from "./UserDrop";
@@ -150,6 +150,8 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
             navigate('/submit')
         } else if (location.pathname.indexOf('/f/') !== -1 && location.pathname.indexOf('/submit') === -1) {            
             navigate(`${location.pathname}/submit`)
+        } else {
+            navigate('../submit')
         }
     }
 
@@ -168,13 +170,13 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
     }, [user])
  
     useEffect( () => { 
-        if (user) {
+        if (loggedIn) {
             getUserInfo().then( () => {
                 setLoaded(true)
                 window.scrollTo({ top:0, behavior:'auto'})
             })
         }
-    }, [user]); 
+    }, [loggedIn]); 
 
     useEffect(() => {
         if (isMobile && location.pathname === "/register") {

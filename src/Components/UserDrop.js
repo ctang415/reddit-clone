@@ -1,5 +1,4 @@
 import { Switch } from "@mui/material";
-import { signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase-config";

@@ -31,6 +31,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
         const docRef = doc(db, "users", user.displayName)
         const docSnap = await getDoc(docRef)
         const data = docSnap.data()
+        if (data !== undefined) {
         if (data.joined.length !== 0) {
             let joinedArray = [data.joined]
             joinedArray.map( async item => {
@@ -46,6 +47,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
             setAllJoinedPosts([])
             setIsEmpty(true) 
         }
+    }
     }
 
     const handleVote = (e) => {

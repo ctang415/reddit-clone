@@ -49,18 +49,18 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
 
     const handleMobileJoin = async () => {
         if (isLoggedIn) {
-        const userRef = doc(db, 'users', user.displayName)
-        await updateDoc(userRef, { joined: arrayUnion(params.id) } )
-        const getUserInfo = async () => {
-            const docSnap = await getDoc(userRef)
-            const data = docSnap.data()
-            setUserData([data])
-            setSubscribed(true) 
-        } 
-        getUserInfo()
-    } else {
-        navigate('/register')
-    }
+            const userRef = doc(db, 'users', user.displayName)
+            await updateDoc(userRef, { joined: arrayUnion(params.id) } )
+            const getUserInfo = async () => {
+                const docSnap = await getDoc(userRef)
+                const data = docSnap.data()
+                setUserData([data])
+                setSubscribed(true) 
+            } 
+            getUserInfo()
+        } else {
+            navigate('/register')
+        }
     }
 
 
@@ -151,7 +151,7 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
     }, [user])
 
     useEffect(() => {
-        if (user) {
+        if (isLoggedIn && userData[0].joined) {
             if (userData[0].joined.includes(params.id) === true) {
                 setSubscribed(true) 
             } else { 

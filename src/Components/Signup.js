@@ -72,8 +72,6 @@ const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue, loggedIn, setLog
         })
       }
 
-      
-
     const displayLogin = (e) => {
         setSignUp(false)
         setLogin(true)
@@ -138,6 +136,7 @@ const Signup = ( { setSignUp, signUp, setLogin, setModalIsTrue, loggedIn, setLog
         return (
             <CreateUser email={email} createUser={createUser} setCreateUser={setCreateUser}
             setModalIsTrue={setModalIsTrue} setSignUp={setSignUp} setLogin={setLogin}
+            click={click} setClick={setClick} isMobile={isMobile}
             />
         )
     }
