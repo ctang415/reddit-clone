@@ -3446,6 +3446,10 @@ body {
   padding-bottom: 1em;
 }
 
+#editor-container-three {
+  width: 98%;
+}
+
 .search-page {
   padding-top: 0vh;
   padding-left: 1em;

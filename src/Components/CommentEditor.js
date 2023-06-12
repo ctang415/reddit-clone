@@ -16,21 +16,21 @@ const CommentEditor = ( {setValue, value, setHtml, html, quill, quillRef, handle
         }
     }, [quill]);
 
-        return ( 
-            <div id='editor-container-comment-edit'>
-                <div>
-                    <button className="ql-bold"></button>
-                    <button className="ql-italic"></button>
-                    <button className="ql-link"></button>
-                    <button className="ql-strike"></button>
-                    <button className="ql-script" value="super"></button>
-                    <button className="ql-header" value="2"></button>
-                    <button className="ql-list" value="bullet"></button>
-                    <button className="ql-list" value="ordered"></button>
-                    <button className="ql-blockquote"></button>
-                    <button className="ql-code"></button>
-                    <button id={ empty ? "custom-button-black" : "custom-button"} onClick={handleSubmit}>Save Edits</button>
-                </div> 
+    return ( 
+        <div id='editor-container-comment-edit'>
+            <div>
+                <button className="ql-bold"></button>
+                <button className="ql-italic"></button>
+                <button className="ql-link"></button>
+                <button className="ql-strike"></button>
+                <button className="ql-script" value="super"></button>
+                <button className="ql-header" value="2"></button>
+                <button className="ql-list" value="bullet"></button>
+                <button className="ql-list" value="ordered"></button>
+                <button className="ql-blockquote"></button>
+                <button className="ql-code"></button>
+                <button id={ empty ? "custom-button-black" : "custom-button"} onClick={handleSubmit}>Save Edits</button>
+            </div> 
                 <div ref={quillRef} />
             </div>
         )

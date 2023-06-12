@@ -18,8 +18,7 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../firebase-config";
 import ModalEdit from "./ModalEdit";
 import DeletePopupComment from "./DeletePopupComment";
-
-
+import CommentEditorMobile from "./CommentEditorMobile";
 Quill.register('modules/magicUrl', MagicUrl)
 
 const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, setDetail, 
@@ -30,7 +29,6 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
     const [ html, setHtml ] = useState('')
     const [ empty, setEmpty ] = useState(true)
     const [ currentComment, setCurrentComment ] = useState('')
-
     const [ dropbar, setDropbar ] = useState(false)
     const [ popup, setPopup ] = useState(false)
     const [ commentId, setCommentId ] = useState('')
@@ -48,6 +46,7 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
     const { quill, quillRef } = useQuill({theme, modules, formats, placeholder});
 
     const handleSubmit = () => {
+        if (!isMobile) {
         let parsedValue = JSON.parse(value)
         let cfg = {};
         let converter = new QuillDeltaToHtmlConverter(parsedValue.ops, cfg);
@@ -130,6 +129,40 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
         setIsEmpty(false)
     }
 
+    const updateAuthor = async () => {
+        let authorArray;
+        const authorRef = doc(db, "users", postAuthor)
+        const authorSnap = await getDoc(authorRef)
+        const data = authorSnap.data()
+        if (id !== null) {
+        const updatePost = data.posts.map(item => {
+            return {...item, comments: item.comments.map((x) => {
+                if (x.commentid === id) {
+                    x.content.delta = value
+                    x.content.html = newHtml
+                    return x
+                } 
+                return x
+            })}
+        })
+        authorArray = updatePost
+    } else {
+        const updatePost = data.posts.map(item => {
+            return {...item, comments: item.comments.map((x) => {
+                if (x.commentid === currentComment) {
+                    x.content.delta = value
+                    x.content.html = newHtml
+                    return x
+                } 
+                return x
+            })}
+        })
+        authorArray = updatePost
+    }
+        await updateDoc(authorRef, {posts: authorArray})
+    }
+    updateAuthor()
+
     const getFirebaseComment = async () => {
         if (id !== null) {
             const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
@@ -152,6 +185,146 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
     updateComment().then(() => {
         getFirebaseComment()
     })
+} else {
+    let parsedValue = JSON.parse(value)
+    let cfg = {};
+    let converter = new QuillDeltaToHtmlConverter(parsedValue.ops, cfg);
+    let info = converter.convert(); 
+    let newHtml = sanitizeHtml(info, {
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img', 'link', 'a' ]), 
+        allowedAttributes: {'img': ['src'], 'a' : ['href', 'name', 'target'], 'link': [ 'href','rel','type' ]},
+        allowedSchemes: [ 'data', 'http', 'https', 'ftp', 'mailto', 'tel'],
+        allowedSchemesByTag: {},
+        allowedSchemesAppliedToAttributes: [ 'href', 'src', 'cite' ],
+    })
+
+    const updateComment = async () => {
+        const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
+        const userRef = doc(db, "users", user.displayName)
+        const docSnap = await getDoc(docRef)
+        const data = docSnap.data()
+        const userSnap = await getDoc(userRef)
+        const userData = userSnap.data()
+        let newArray;
+        
+        const editPost = () => {
+            if (id !== null) {
+            const updatePost = data.posts.map(item => {
+                return {...item, comments: item.comments.map((x) => {
+                    if (x.commentid === id) {
+                        x.content.delta = value
+                        x.content.html = newHtml
+                        return x
+                    } 
+                    return x
+                })}
+            })
+        newArray = updatePost
+    } else {
+        const updatePost = data.posts.map(item => {
+            return {...item, comments: item.comments.map((x) => {
+                if (x.commentid === commentId) {
+                    x.content.delta = value
+                    x.content.html = newHtml
+                    return x
+                } 
+                return x
+            })}
+        })
+        newArray = updatePost
+    }
+}
+    editPost()
+
+    let array;
+    const editComment = () => {
+        if (id !== null) {
+        const update = userData.comments.map( item => {
+            if (item.commentid === id) {
+                item.content.delta = value
+                item.content.html = newHtml
+                return item
+            }
+            return item
+        })
+        array = update
+    } else {
+        const update = userData.comments.map( item => {
+            if (item.commentid === commentId) {
+                item.content.delta = value
+                item.content.html = newHtml
+                return item
+            }
+            return item
+        })
+        array = update
+    }
+}
+    editComment()
+    await updateDoc(docRef, {posts: newArray })
+    await updateDoc(userRef, {comments: array} )
+    setUpdate(true)
+    setEdit(true)
+    setIsEmpty(false)
+}
+
+    const updateAuthor = async () => {
+        let authorArray;
+        const authorRef = doc(db, "users", postAuthor)
+        const authorSnap = await getDoc(authorRef)
+        const data = authorSnap.data()
+        if (id !== null) {
+            const updatePost = data.posts.map(item => {
+                return {...item, comments: item.comments.map((x) => {
+                    if (x.commentid === id) {
+                        x.content.delta = value
+                        x.content.html = newHtml
+                        return x
+                    } 
+                    return x
+                })}
+            })
+            authorArray = updatePost
+        } else {
+        const updatePost = data.posts.map(item => {
+            return {...item, comments: item.comments.map((x) => {
+                if (x.commentid === commentId) {
+                    x.content.delta = value
+                    x.content.html = newHtml
+                    return x
+                } 
+                return x
+            })}
+        })
+        authorArray = updatePost
+    }
+        await updateDoc(authorRef, {posts: authorArray})
+    }
+    updateAuthor()
+
+    const getFirebaseComment = async () => {
+    if (id !== null) {
+        const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
+        const docSnap = await getDoc(docRef)
+        const data = docSnap.data()
+        setFirebaseCommunityData([data])
+        let myPost = data.posts.find( item => item.id === params.id )
+        let myComment = myPost.comments.find(item => item.commentid === id)
+        setNewPost([myComment])
+    } else {
+        const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
+        const docSnap = await getDoc(docRef)
+        const data = docSnap.data()
+        setFirebaseCommunityData([data])
+        let myPost = data.posts.find( item => item.id === params.id )
+        let myComment = myPost.comments.find(item => item.commentid === commentId)
+        setNewPost([myComment])
+    }
+}
+    updateComment().then(() => {
+        getFirebaseComment()
+    })
+    }
 }
 
     const handleDelete = async (e) => {
@@ -184,6 +357,21 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
         await updateDoc(docRef, { posts: filteredArray })
         await updateDoc(userRef, { comments: newArray })
 
+        const updateAuthor = async () => {
+            const authorRef = doc(db, "users", postAuthor)
+            const userSnap = await getDoc(authorRef)
+            const data = userSnap.data()
+            let authorArray;
+            const deleteComment = () => {
+                const updateAuthor = data.posts.map(item => {
+                    return {...item, comments: item.comments.filter((x => x.commentid !== e.target.id))}
+                })
+                authorArray = updateAuthor
+            }
+            deleteComment()
+            await updateDoc(authorRef, {posts: authorArray})
+        }
+
         const getPost = async () => {
             const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
             const docSnap = await getDoc(docRef)
@@ -192,7 +380,9 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
             let myPost = data.posts.find( item => item.id === params.id )
             setNewPost(myPost.comments)
         }
-        getPost()
+        updateAuthor().then(() => {
+            getPost()
+        })
     }
 
     const handleMobileDelete = async () => {
@@ -257,7 +447,9 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
     const handleEdit = async (e) => {
         setUpdate(false)
         setEdit(false)
+        setDropbar(false)
         setCurrentComment(e.target.id)
+        console.log(e.target.id)
     }
 
     const handleDrop = (e) => {
@@ -315,6 +507,10 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
 }
     }, [quill])
 
+    useEffect(() => {
+
+    }, [update])
+
     if (isMobile) {
         if (isEmpty) {
             return (
@@ -336,32 +532,26 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
                                 </div>
                                 <div className="comment-right">
                                     <div className="comment-left-username">
-                                        <Link to={`../user/${comment.username}`}>{comment.username}</Link>
+                                        <Link to={`../user/${comment.username}`} style={ isLoggedIn ? {color: "black"} : {color: "white"}}>{comment.username}</Link>
                                     </div>
                                     <div className="comment-right-text">{parse(comment.content.html)}</div>
                                     <ul>
                                         <div className="comment-votes">
-                                            <img src={WhiteUp} alt="Up arrow"></img>
+                                            <img src={isLoggedIn ? Up : WhiteUp} alt="Up arrow"></img>
                                                 {comment.votes}
-                                            <img src={WhiteDown} alt="Down arrow"></img>
+                                            <img src={isLoggedIn ? Down : WhiteDown} alt="Down arrow"></img>
                                         </div>
                                         <li>
-                                            <div>
-                                                <img src={WhiteComment} alt="Comment bubble"/> 
+                                            <div style={isLoggedIn ? {color: "grey"} : {color: "rgb(204, 202, 202)"}}>
+                                                <img src={isLoggedIn ? CommentIcon : WhiteComment} alt="Comment bubble"/> 
                                                     Reply
                                             </div>
                                         </li>
                                         <li>
-                                            <div>
+                                            <div style={isLoggedIn ? {color: "grey"} : {color: "rgb(204, 202, 202)"}}>
                                                 Share
                                             </div>
                                         </li>
-                                        <div className={ comment.username === currentUser ? "post-detail-dropbar-comment" : "input-empty"}>
-                                            <ul> 
-                                            <li>Save</li>
-                                            <li id={comment.commentid} onClick={handleDelete}>Delete</li>
-                                        </ul>
-                                    </div>
                                     </ul>
                                 </div>
                             </div>
@@ -372,8 +562,10 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
         } else if (!isEmpty && !edit && !update && isLoggedIn ) {
             return (
                 <div className="comment">
-                    <CommentEditor quillRef={quillRef} quill={quill} html={html} setHtml={setHtml} value={value} setValue={setValue} 
-                        handleSubmit={handleSubmit} empty={empty} setEmpty={setEmpty} edit={edit} setEdit={setEdit} />
+                    <CommentEditorMobile html={html} setHtml={setHtml} value={value} setValue={setValue} id={id}
+                        handleSubmit={handleSubmit} empty={empty} setEmpty={setEmpty} edit={edit} setEdit={setEdit} 
+                        currentComment={currentComment} setUpdate={setUpdate} commentId={commentId} update={update}
+                        />
                 </div>
             ) 
         } else {
@@ -384,7 +576,6 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
                         return (
                             <div className="comment" style={ isLoggedIn ? { paddingTop: "0em"} : {}} key={comment.id}>
                                 <DeletePopupComment popup={popup} setPopup={setPopup} isMobile={isMobile} handleMobileDelete={handleMobileDelete} 
-                                
                                 />
                                 <div className="comment-left">
                                     <Link to={`../user/${comment.username}`}>
@@ -397,12 +588,13 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
                                     <div className="comment-left-username">
                                         <Link to={`../user/${comment.username}`} style={ isLoggedIn ? {color: "black"} : {color: "white"}}>{comment.username}</Link>
                                     </div>
-                                    <div className={ comment.username === currentUser  ? "user-left" : "input-empty"} id={comment.commentid} onClick={handleDrop}>
+                                    <div className={ comment.username === currentUser  ? "user-left" : "input-empty"} id={comment.commentid} 
+                                    onClick={handleDrop}>
                                         ...
-                                        <ModalEdit dropbar={dropbar} setDropbar={setDropbar} comment={comment} data={data} commentId={commentId} 
+                                </div>
+                                <ModalEdit dropbar={dropbar} setDropbar={setDropbar} comment={comment} data={data} commentId={commentId} 
                                         setCommentId={setCommentId} handleEdit={handleEdit} currentUser={currentUser} 
                                         setPopup={setPopup} popup={popup} />
-                                </div>
                                 </div>
                                     <div>
                                         {parse(comment.content.html)}

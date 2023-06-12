@@ -98,6 +98,7 @@ const MobileEditor = ( {setValue, value, setHtml, html, empty, setEmpty, setText
         updateComment().then(() => {
         setDetail([firebaseCommunityData[0].posts.find( item => item.id === params.id)])
     })
+        setTextDrop(false) 
         quill.setContents([])
     }
 
@@ -114,7 +115,7 @@ const MobileEditor = ( {setValue, value, setHtml, html, empty, setEmpty, setText
     }, [quill]);
 
     useEffect(() => {
-        if (location.pathname === "/submit") {
+        if (location.pathname.includes("/submit")) {
             setIsSubmit(true)
         }
     }, [isSubmit]) 
