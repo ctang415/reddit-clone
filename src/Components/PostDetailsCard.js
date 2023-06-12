@@ -511,7 +511,8 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                 <Comment 
                 setEdit={setEdit} isLoggedIn={isLoggedIn} setDetail={setDetail} firebaseCommunityData={firebaseCommunityData}
                 setFirebaseCommunityData={setFirebaseCommunityData} detail={detail} edit={edit} id={id} isEmpty={isEmpty} 
-                setIsEmpty={setIsEmpty} currentUser={currentUser} isMobile={isMobile}
+                setIsEmpty={setIsEmpty} currentUser={currentUser} isMobile={isMobile} postAuthor={postAuthor} 
+                setPostAuthor={setPostAuthor}
                 />
             </div>
         </div>

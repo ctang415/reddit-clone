@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../firebase-config";
 
-const DeletePopup = ( {popup, setPopup} ) => {
+const DeletePopup = ( {popup, setPopup, isMobile} ) => {
     const params = useParams()
     const user = auth.currentUser
     const location = useLocation()
@@ -64,7 +64,7 @@ const DeletePopup = ( {popup, setPopup} ) => {
     return (
         <div className="modal-community">
         <div>
-            <div className="delete-popup">
+            <div className="delete-popup" style={ isMobile ? {width: "80%"} : {width: "30.5em"}}>
                 <div>
                     <div className="modal-close-community-div">
                         <div className="delete-header">

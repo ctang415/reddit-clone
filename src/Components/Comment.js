@@ -16,17 +16,24 @@ import MagicUrl from 'quill-magic-url'
 import { Quill } from "react-quill";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../firebase-config";
+import ModalEdit from "./ModalEdit";
+import DeletePopupComment from "./DeletePopupComment";
+
 
 Quill.register('modules/magicUrl', MagicUrl)
 
 const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, setDetail, 
-    setFirebaseCommunityData, firebaseCommunityData, currentUser, isMobile } ) => {
+    setFirebaseCommunityData, firebaseCommunityData, currentUser, isMobile, postAuthor, setPostAuthor} ) => {
     const [ update, setUpdate ] = useState(false)
     const [ newPost, setNewPost ] = useState([])
     const [ value, setValue ] = useState('')
     const [ html, setHtml ] = useState('')
     const [ empty, setEmpty ] = useState(true)
     const [ currentComment, setCurrentComment ] = useState('')
+
+    const [ dropbar, setDropbar ] = useState(false)
+    const [ popup, setPopup ] = useState(false)
+    const [ commentId, setCommentId ] = useState('')
     const location = useLocation()
     const params = useParams()
     const user = auth.currentUser
@@ -188,10 +195,78 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
         getPost()
     }
 
+    const handleMobileDelete = async () => {
+        const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
+        const docSnap = await getDoc(docRef)
+        const data = docSnap.data()
+
+        const userRef = doc(db, "users", user.displayName)
+        const userSnap = await getDoc(userRef)
+        const userData = userSnap.data()
+
+        let newArray;
+        const deleteComment = () => {
+            const updatePost = userData.comments.filter(item => {
+                if (item.commentid !== commentId) {
+                    return item
+                }
+            })
+            newArray = updatePost
+        }
+        let filteredArray;
+        const deleteFromFirebase = () => {
+            const updateComment = data.posts.map(item => {
+                return {...item, comments: item.comments.filter((x) => x.commentid !== commentId)}
+            })
+            filteredArray = updateComment
+        }
+        deleteComment()
+        deleteFromFirebase()
+        await updateDoc(docRef, { posts: filteredArray })
+        await updateDoc(userRef, { comments: newArray })
+
+        const updateAuthor = async () => {
+            const authorRef = doc(db, "users", postAuthor)
+            const userSnap = await getDoc(authorRef)
+            const data = userSnap.data()
+            let authorArray;
+            const deleteComment = () => {
+                const updateAuthor = data.posts.map(item => {
+                    return {...item, comments: item.comments.filter((x => x.commentid !== commentId))}
+                })
+                authorArray = updateAuthor
+            }
+            deleteComment()
+            await updateDoc(authorRef, {posts: authorArray})
+        }
+        
+        const getPost = async () => {
+            const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
+            const docSnap = await getDoc(docRef)
+            const data = docSnap.data()
+            setFirebaseCommunityData([data])
+            let myPost = data.posts.find( item => item.id === params.id )
+            setNewPost(myPost.comments)
+        }
+        updateAuthor().then(() => {
+            getPost()
+        })
+        setPopup(false)
+    }
+
     const handleEdit = async (e) => {
         setUpdate(false)
         setEdit(false)
         setCurrentComment(e.target.id)
+    }
+
+    const handleDrop = (e) => {
+        if (dropbar) {
+            setDropbar(false)
+        } else {
+            setDropbar(true)
+            setCommentId(e.target.id)
+        }
     }
 
     useEffect(() => {
@@ -308,16 +383,27 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
                     data.comments.map(comment => {
                         return (
                             <div className="comment" style={ isLoggedIn ? { paddingTop: "0em"} : {}} key={comment.id}>
+                                <DeletePopupComment popup={popup} setPopup={setPopup} isMobile={isMobile} handleMobileDelete={handleMobileDelete} 
+                                
+                                />
                                 <div className="comment-left">
                                     <Link to={`../user/${comment.username}`}>
                                         <img src={Avatar} alt="Avatar" />
                                     </Link>
                                     <hr className="vertical"></hr>
                                 </div>
-                                <div className="comment-right">
+                                <div className="comment-right" style={{width: "80%"}}>
+                                    <div style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
                                     <div className="comment-left-username">
                                         <Link to={`../user/${comment.username}`} style={ isLoggedIn ? {color: "black"} : {color: "white"}}>{comment.username}</Link>
                                     </div>
+                                    <div className={ comment.username === currentUser  ? "user-left" : "input-empty"} id={comment.commentid} onClick={handleDrop}>
+                                        ...
+                                        <ModalEdit dropbar={dropbar} setDropbar={setDropbar} comment={comment} data={data} commentId={commentId} 
+                                        setCommentId={setCommentId} handleEdit={handleEdit} currentUser={currentUser} 
+                                        setPopup={setPopup} popup={popup} />
+                                </div>
+                                </div>
                                     <div>
                                         {parse(comment.content.html)}
                                     </div>
