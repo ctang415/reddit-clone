@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useQuill } from 'react-quilljs';
 import { useLocation, useParams } from 'react-router-dom';
 import { Quill } from "react-quill";
@@ -8,7 +8,7 @@ import { doc, getDoc } from 'firebase/firestore';
 Quill.register('modules/magicUrl', MagicUrl)
 
 const CommentEditorMobile = ( {setValue, value, setHtml, html, handleSubmit, empty, setEmpty, edit, setEdit, id, 
-    currentComment, commentId, setUpdate, update } ) => {
+    commentId, } ) => {
     const location = useLocation()
     const params = useParams()
 

@@ -9,7 +9,7 @@ import {
   } from 'firebase/auth';
 import { auth, db } from "../firebase-config";
 import { doc, getDoc, setDoc, } from "firebase/firestore";
-import Profile from  '../Assets/snoo.png'
+import Profile from '../Assets/snoo.png'
 import { generateUsername } from 'friendly-username-generator';
 import { useNavigate } from "react-router-dom";
 

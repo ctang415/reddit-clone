@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
     createUserWithEmailAndPassword,
     reload,
@@ -7,7 +7,7 @@ import {
 import { setDoc, doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../firebase-config";
 import Profile from  '../Assets/snoo.png'
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CreateUser = ( {createUser, setSignUp, setCreateUser, email, setLogin, setModalIsTrue, click, setClick, isMobile }) => {
     const [ username, setUsername ] = useState("")

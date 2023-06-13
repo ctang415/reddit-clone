@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import ImageCompress from 'quill-image-compress';
 import { Quill } from "react-quill";

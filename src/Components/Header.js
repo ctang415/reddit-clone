@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import UserDrop from "./UserDrop";
 import { auth, db } from "../firebase-config";
 import { doc, getDoc } from "firebase/firestore";

@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
 
 const CommentEditor = ( {setValue, value, setHtml, html, quill, quillRef, handleSubmit, empty, setEmpty, edit, setEdit} ) => {
-    const location = useLocation()
 
     useEffect(() => {
         if (quill) {
