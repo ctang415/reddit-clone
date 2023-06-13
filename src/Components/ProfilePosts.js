@@ -380,7 +380,7 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
             return (
                 userInfo.map(data => {
                     return (
-                        <div className="post-width">
+                        <div className={ data.author !== "[deleted]" ? "post-width" : "input-empty"}>
                             <div className={ !isLoggedIn ? data.poster ? "profile-post-mobile" : "input-empty" : data.poster ? "profile-post-mobile-logged" : "input-empty" }>
                                 <div className="post-right-mobile">
                                         <div className={ isLoggedIn ? "post-pinned-community-mobile-logged" : "post-pinned-community-mobile" }>
@@ -504,7 +504,7 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
                 posts.map((data) => {
                     return (
                         <div className="post-width">
-                        <div  style={ isLoggedIn ? { backgroundColor: "white"} : {backgroundColor: "black", border: "none", flexDirection: "row"}} className={ data.poster ? "profile-post-mobile-logged" : "input-empty"}>
+                        <div style={ isLoggedIn ? { backgroundColor: "white"} : {backgroundColor: "black", border: "none", flexDirection: "row"}} className={ data.poster && data.author === params.id ? "profile-post-mobile-logged" : "input-empty"}>
                                 <div className="post-right-mobile">
                                         <div className={ isLoggedIn ? "post-pinned-community-mobile-logged" : "post-pinned-community-mobile"}>
                                             <img src={CommunityIcon} alt="Community icon"></img>

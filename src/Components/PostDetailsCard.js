@@ -48,7 +48,6 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
     const [ postEdit, setPostEdit ] = useState(false)
     const [ dropbar, setDropbar ] = useState(false)
     const [ popup, setPopup ] = useState(false)
-    const [ modalPopup, setModalPopup ] = useState(false)
     const [ currentUser, setCurrentUser ] = useState(null)
     const [ editId, setEditId ] = useState('')
     const [ postAuthor, setPostAuthor ] = useState('')
@@ -428,7 +427,11 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
         } else {
             setEdit(true)
         }
-    }, []) 
+    }, [])
+
+    useEffect(() => {
+        console.log(edit) 
+    }, [edit])
 
     if (isMobile) {
         return (

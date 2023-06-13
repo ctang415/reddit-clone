@@ -480,36 +480,38 @@ const Comment = ( {detail, edit, id, setEdit, isLoggedIn, isEmpty, setIsEmpty, s
     }, [detail])
 
     useEffect(() => {
-        if (!edit) {
-            if (id !== null) {
-            const getComment = async () => {
-                const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
-                const docSnap = await getDoc(docRef)
-                const data = docSnap.data()
-                let myPost = data.posts.find( item => item.id === params.id )
-                let myComment = myPost.comments.find(item => item.commentid === id)
-                const delta = quill.clipboard.convert((myComment.content.html))
-                quill.setContents(delta, 'silent')
+        if (!isMobile) {
+            if (!edit) {
+                if (id !== null) {
+                const getComment = async () => {
+                    const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
+                    const docSnap = await getDoc(docRef)
+                    const data = docSnap.data()
+                    let myPost = data.posts.find( item => item.id === params.id )
+                    let myComment = myPost.comments.find(item => item.commentid === id)
+                    const delta = quill.clipboard.convert((myComment.content.html))
+                    quill.setContents(delta, 'silent')
+                }
+                getComment()
+            } else {
+                const getComment = async () => {
+                    const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
+                    const docSnap = await getDoc(docRef)
+                    const data = docSnap.data()
+                    let myPost = data.posts.find( item => item.id === params.id )
+                    let myComment = myPost.comments.find(item => item.commentid === currentComment)
+                    const delta = quill.clipboard.convert((myComment.content.html))
+                    quill.setContents(delta, 'silent')
+                }
+                getComment()
             }
-            getComment()
-        } else {
-            const getComment = async () => {
-            const docRef = doc(db, "communities", location.pathname.split('/comments')[0].split('f/')[1])
-            const docSnap = await getDoc(docRef)
-            const data = docSnap.data()
-            let myPost = data.posts.find( item => item.id === params.id )
-            let myComment = myPost.comments.find(item => item.commentid === currentComment)
-            const delta = quill.clipboard.convert((myComment.content.html))
-            quill.setContents(delta, 'silent')
+            }
         }
-        getComment()
-    }
-}
     }, [quill])
 
     useEffect(() => {
-
-    }, [update])
+        console.log(isEmpty)
+    }, [])
 
     if (isMobile) {
         if (isEmpty) {

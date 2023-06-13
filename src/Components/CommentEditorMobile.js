@@ -30,7 +30,6 @@ const CommentEditorMobile = ( {setValue, value, setHtml, html, handleSubmit, emp
     const { quill, quillRef } = useQuill({theme, modules, formats});
 
     const handleClose = () => {
-        setUpdate(true)
         setEdit(true)
         setValue('')
         quill.setContents('')
