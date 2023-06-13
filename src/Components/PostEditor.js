@@ -12,7 +12,7 @@ Quill.register('modules/imageCompress', ImageCompress);
 Quill.register('modules/magicUrl', MagicUrl)
 
 const PostEditor = ( {postEdit, setPostValue, postValue, setPostHtml, postHtml, postEmpty, setDetail,
-    setPostEmpty, editId, setFirebaseCommunityData, setPostEdit} ) => {
+    setPostEmpty, editId, setFirebaseCommunityData, setPostEdit, isMobile} ) => {
     const location = useLocation()
     const user = auth.currentUser
 
@@ -32,6 +32,13 @@ const PostEditor = ( {postEdit, setPostValue, postValue, setPostHtml, postHtml, 
     const formats = ['bold', 'italic', 'strike', 'list', 'header', 'link', 'image', 'video', 'script', 'blockquote', 'code']
     const theme =  'snow'
     const { quill, quillRef } = useQuill({theme, modules, formats});
+
+    const handleClose = () => {
+        setPostEdit(false)
+        setPostValue('')
+        quill.setContents('')
+        console.log(editId)
+    }
 
     const handleSubmit = () => {
         let parsedValue = JSON.parse(postValue)
@@ -121,6 +128,17 @@ const PostEditor = ( {postEdit, setPostValue, postValue, setPostHtml, postHtml, 
     }
     }, [postEdit])
 
+    if (isMobile) {
+        return (
+            <div id='editor-container-two'>
+            <div ref={quillRef} />
+            <div className='editor-container-two-button'>
+                <button id="custom-button" style={ {backgroundColor: "white", color: "grey", border: "none"}} onClick={handleClose}>Cancel</button>
+                <button id={ postEmpty ? "custom-button-black" : "custom-button"} onClick={handleSubmit}>Update</button>
+            </div>
+        </div>
+        )
+    } else {
         return (
             <div id='editor-container-two'>
                 <div>
@@ -143,5 +161,6 @@ const PostEditor = ( {postEdit, setPostValue, postValue, setPostHtml, postHtml, 
         </div>
         )
     }
+}
 
 export default PostEditor

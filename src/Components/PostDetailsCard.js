@@ -20,7 +20,7 @@ import * as sanitizeHtml from 'sanitize-html';
 import { useQuill } from "react-quilljs";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
-import { arrayUnion, collection, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
+import { arrayUnion, collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import parse from 'html-react-parser';
 import { nanoid } from 'nanoid'
 import Delete from "../Assets/delete.png"
@@ -29,6 +29,7 @@ import ImageCompress from 'quill-image-compress';
 import DeletePopup from "./DeletePopup"; 
 import Avatar from "../Assets/avatar.png"
 import MobileEditor from "./MobileEditor";
+import ModalPostEdit from "./ModalPostEdit";
 Quill.register('modules/imageCompress', ImageCompress);
 Quill.register('modules/magicUrl', MagicUrl)
 
@@ -45,7 +46,9 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
     const [ isEmpty, setIsEmpty ] = useState(false)
     const [ edit, setEdit ] = useState(true)
     const [ postEdit, setPostEdit ] = useState(false)
+    const [ dropbar, setDropbar ] = useState(false)
     const [ popup, setPopup ] = useState(false)
+    const [ modalPopup, setModalPopup ] = useState(false)
     const [ currentUser, setCurrentUser ] = useState(null)
     const [ editId, setEditId ] = useState('')
     const [ postAuthor, setPostAuthor ] = useState('')
@@ -74,8 +77,23 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
         }
     }
 
+    const handleMobileDrop = (e) => {
+        setEditId(e.target.id)
+        if (dropbar) {
+            setDropbar(false)
+        } else {
+            setDropbar(true)
+        }
+        console.log(editId)
+    }
+
     const handleEdit = (e) => {
         setEditId(e.target.id)
+        setPostEdit(true)
+    }
+
+    const handleMobileEdit = (e) => {
+        setDropbar(false)
         setPostEdit(true)
     }
 
@@ -417,6 +435,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
         detail.map( data => {
             return (
         <div className="post-detail" style={ isLoggedIn ? { gap: "1em", paddingTop: "2em"} : {gap: "0em"}} key={data.id}>
+            <DeletePopup popup={popup}  setPopup={setPopup} isMobile={isMobile} />
             <div className={isLoggedIn ? "post-detail-icon" : "input-empty"}>
                 <img src={CommunityIcon} alt={"Community Icon"} onClick={() => navigate(`../../f/${data.community}`)}></img>
             </div>
@@ -438,11 +457,18 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                             f/{data.community}
                         </div>
                         <div className="post-detail-pinned-author"> 
-                            by
-                            <Link to={ deleted === data.author ? null : `../user/${data.author}`} style={isLoggedIn ? {color: "black" } : {color: "rgb(204, 202, 202)"}}> 
+                            <Link to={ deleted === data.author ? null : `../user/${data.author}`} style={isLoggedIn ? {color: "black", padding: "1em" } : {color: "rgb(204, 202, 202)"}}> 
                                 u/{data.author} 
                             </Link>
+                            <span className={ data.author === currentUser ? "user-left" : "input-empty" } style={{alignSelf: "center", marginLeft: "20em", color: "black"}} id={data.id} 
+                            onClick={handleMobileDrop}>
+                                ...
+                            </span>
                         </div>
+                        <ModalPostEdit
+                        dropbar={dropbar} setDropbar={setDropbar} setPopup={setPopup} data={data} currentUser={currentUser}
+                        handleMobileEdit={handleMobileEdit} editId={editId} 
+                        />
                         </div>
                     </div>
                     <h3>
@@ -451,9 +477,11 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                     <div className="post-detail-media-true" style={isLoggedIn ? {color: "black"} : {color: "rgb(204, 202, 202)"}}>
                         { postEdit ? null : parse(data.content.html)}
                         <div className={ postEdit ? "user-left" : "input-empty"}>
-                        <PostEditor postHtml={postHtml} setPostHtml={setPostHtml} setDetail={setDetail} setPostEdit={setPostEdit}
+                        <PostEditor 
+                        postHtml={postHtml} setPostHtml={setPostHtml} setDetail={setDetail} setPostEdit={setPostEdit}
                         postValue={postValue} setPostValue={setPostValue} postEdit={postEdit} editId={editId}
                         postEmpty={postEmpty} setPostEmpty={setPostEmpty} setFirebaseCommunityData={setFirebaseCommunityData}
+                        isMobile={isMobile}
                         />
                         </div>
                     </div> 
@@ -545,7 +573,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                         { postEdit ? null : parse(data.content.html)}
                         <div className={ postEdit ? "user-left" : "input-empty"}>
                         <PostEditor postHtml={postHtml} setPostHtml={setPostHtml} setDetail={setDetail} setPostEdit={setPostEdit}
-                        postValue={postValue} setPostValue={setPostValue} postEdit={postEdit} editId={editId}
+                        postValue={postValue} setPostValue={setPostValue} postEdit={postEdit} editId={editId} isMobile={isMobile}
                         postEmpty={postEmpty} setPostEmpty={setPostEmpty} setFirebaseCommunityData={setFirebaseCommunityData}
                         />
                         </div>
