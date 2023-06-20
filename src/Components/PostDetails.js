@@ -77,7 +77,7 @@ const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunity
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
-            if (user) {
+            if (user && !user.isAnonymous) {
                 setIsLoggedIn(true)
             } else {
                 setIsLoggedIn(false)

@@ -109,6 +109,7 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
             if (!user) {
                 navigate('/')
             }
+            navigate('/')
         })
     }
     
@@ -162,7 +163,7 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
     }, [])
 
     useEffect(() => {
-        if (user) {
+        if (user && !user.isAnonymous) {
             setIsLoggedIn(true)
         } else {
             setIsLoggedIn(false)
@@ -182,7 +183,7 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
     }, [user])
 
     if (isMobile) {
-        if (user) {
+        if (user && !user.isAnonymous) {
             return (
             <div className="community-page">
             <div className="community-body-submit" style={{paddingTop: "0em"}}>
@@ -217,7 +218,7 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
         )
         }
     } else {
-    if (user) {
+    if (user && !user.isAnonymous) {
         return (
         <div className="community-page">
         <div className="community-body-submit">
