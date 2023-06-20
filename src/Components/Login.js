@@ -186,9 +186,10 @@ const signInWithGoogleMobile = async () => {
             <div className="modal-divider">
             <span className="modal-divider-text">OR</span>
             </div>
-            <form onSubmit={ isMobile ? handleMobileSubmit : handleSubmit }>
+            <form onSubmit={ isMobile ? handleMobileSubmit : handleSubmit } style={{gap: "1.5em"}}>
                 <input type="text" name="username" placeholder="Username" onInput={(e) => setUsername(e.target.value)} required></input>
                 <span htmlFor="username" className={ userError ? "password-error-true" : "password-error-false"}>Username does not exist</span>
+                <span style={{fontSize: "0.5em", color: "grey"}}>*Usernames are case-sensitive</span>
                 <input type="password" name="password" placeholder="Password" onInput={(e) => setPassword(e.target.value)} required></input>
                 <span htmlFor="password" className={ passwordError ? "password-error-true" : "password-error-false"}>Password is incorrect</span>
                 <span className="modal-text-box">

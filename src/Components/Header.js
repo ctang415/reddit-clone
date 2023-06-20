@@ -156,13 +156,13 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
     }
 
     useEffect(() => {
-        if (user && !user.isAnonymous) {
+        if (user) {
             getUserInfo()
         }
     }, [setUserData])
 
     useEffect(() => {
-        if (user && !user.isAnonymous) {
+        if (user) {
             setLoggedIn(true)
         } else {
             setLoggedIn(false)
@@ -344,7 +344,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                 </nav>
             </div> 
         )
-    } else if (user && !user.isAnonymous) { 
+    } else if (user) { 
         return (
                 <div key={user.displayName}>
                     <nav className="nav-bar">

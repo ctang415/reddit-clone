@@ -103,7 +103,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
 
 
     useEffect(() => {
-        if (user && !user.isAnonymous) {
+        if (user) {
             setIsLoggedIn(true)
         } else {
             setIsLoggedIn(false)
@@ -111,7 +111,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
     }, [user]) 
 
     useEffect(() => {
-        if (user && !user.isAnonymous) {
+        if (user) {
             if (user.displayName === params.id) {
                 setMatchingUser(true)
             } else {

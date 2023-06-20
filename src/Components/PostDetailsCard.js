@@ -20,7 +20,7 @@ import * as sanitizeHtml from 'sanitize-html';
 import { useQuill } from "react-quilljs";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
-import { arrayUnion, collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 import parse from 'html-react-parser';
 import { nanoid } from 'nanoid'
 import Delete from "../Assets/delete.png"
@@ -407,7 +407,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
     }, [postValue])
 
     useEffect(() => {
-        if (user && !user.isAnonymous) {
+        if (user) {
             setIsLoggedIn(true)
             setCurrentUser(user.displayName)
         } else {
@@ -528,7 +528,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                     </div>
                 <div className={ isLoggedIn ? "comment-user" : "input-empty" }>
                     <div className={ isLoggedIn && !textDrop ? "community-post-true" : "community-post-false"}>
-                            <img id="community-input-img" src={ user && !user.isAnonymous ? user.photoURL : null} alt="User Icon"></img>
+                            <img id="community-input-img" src={ user ? user.photoURL : null} alt="User Icon"></img>
                                 <input type="text" style={ { borderRadius: "2em" }} placeholder="Leave a comment" onClick={() => setTextDrop(true)}></input>
                     </div>
                     <div className={ textDrop ? "mobile-editor" : "input-empty"} >
@@ -607,7 +607,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
             <div className="post-detail-lower">
                 <div className={ isLoggedIn ? "comment-user" : "input-empty" }>
                     <div className="comment-as-user">
-                        Comment as <Link to={user && !user.isAnonymous ? `../user/${user.displayName}` : null }>{ user && !user.isAnonymous ? user.displayName : null }</Link>
+                        Comment as <Link to={user ? `../user/${user.displayName}` : null }>{ user ? user.displayName : null }</Link>
                     </div>
                     <TextEditor 
                     quillRef={quillRef} quill={quill} html={html} setHtml={setHtml} value={value} setValue={setValue} 

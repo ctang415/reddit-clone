@@ -142,7 +142,7 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
-            if (user && !user.isAnonymous) {
+            if (user) {
                 setIsLoggedIn(true)
             } else {
                 setIsLoggedIn(false)
