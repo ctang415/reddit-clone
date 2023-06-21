@@ -159,7 +159,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
         if (user) {
             getUserInfo()
         }
-    }, [setUserData])
+    }, [setUserData, location.pathname])
 
     useEffect(() => {
         if (user) {

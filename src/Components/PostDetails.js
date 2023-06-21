@@ -145,7 +145,7 @@ const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunity
         return (
             <Error/>
         )
-    } else if (pageExists) {
+    } else {
         return (
                     <div className={ isLoggedIn ? "community-page" : "community-page-logged-out"}>
                         <Link to={`../f/${location.pathname.split('f/')[1].split('/comments')[0]}`}>
@@ -205,10 +205,6 @@ const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunity
             </div>
                         <div className={isLoggedIn ? "community-body" : "community-body-logged-out"}>
                             <div className={ isLoggedIn ? "community-body-left" : "community-body-left-logged-out"}>
-                                <div className={ isLoggedIn ? "community-post-true" : "community-post-false"}>
-                                    <img id="community-input-img" src={ user ? user.photoURL : null} alt="User Icon"></img>
-                                    <input type="text" placeholder="Create Post" onClick={createNewPost}></input>
-                                </div>
                                 <PostDetailsCard firebaseCommunityData={firebaseCommunityData} setDetail={setDetail}
                                 detail={detail} setFirebaseCommunityData={setFirebaseCommunityData} setUserData={setUserData} />
                             </div>
@@ -222,63 +218,7 @@ const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunity
                         </div>
                     </div>
         ) 
-    } else {
-        return (
-        <div className="community-page-logged-out">
-            <div className={isLoggedIn ? "input-empty" : "side-bar" }>
-                <div className="side-bar-top">
-                    <div className="side-bar-list-top">
-                        <h6>FEEDS</h6>
-                        <div>Home</div>
-                        <div>Popular</div>
-                    </div>
-                    <div className="side-bar-list-top">
-                        <h6>TOPICS</h6>
-                        <ul className="side-bar-list">
-                            {sideBarCommunities.map(item => {
-                                return (
-                                    <li key={item.header} className={item.header} onClick={handleCommunityDrop}>
-                                        <div className="list-item">
-                                            <div>{item.header}</div>    
-                                            <div>⌄</div>
-                                        </div>
-                                        <div className="side-bar-list-item">
-                                        {item.list.map( x => {
-                                            return (
-                                                <SidebarDrop key={x} x={x} item={item}/>
-                                            )
-                                        })}
-                                        </div>
-                                    </li>
-                                )
-                            })}
-                        </ul>
-                    </div>
-                </div>
-                <div className="side-bar-bottom">
-                    <div className="side-bar-divider"></div>
-                    <div className="side-bar-text">Create an account to follow your favorite communities and start taking part in conversations.</div>
-                    <button className="join-button" onClick={handleClick}>Join Freddit</button>
-       
-                </div>
-            </div>
-            <div className={ isLoggedIn ? "community-body" : "community-body-logged-out"}>
-                <div className={isLoggedIn ? "community-body-left" : "community-body-left-logged-out"}>
-                <div className={ isLoggedIn ? "community-post-true" : "community-post-false"}>
-                    <img id="community-input-img" src={user ? user.photoURL : null} alt="User Icon"></img>
-                        <input type="text" placeholder="Create Post" onClick={createNewPost}></input>
-                    </div>
-            </div>
-            <div className={ isLoggedIn ? "community-body-right" : "community-body-right-logged-out"}>
-                <CommunityInformation 
-                communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
-                firebaseCommunityData={firebaseCommunityData} setFirebaseCommunityData={setFirebaseCommunityData} 
-                />
-            </div>
-        </div>
-    </div>
-    )
-}
+    } 
 }
 }
 
