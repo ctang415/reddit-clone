@@ -488,7 +488,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
                         </div>
                     </div>
                     <div className="create-button">
-                        <button className="community-post-button" onClick={createNewPost}>New Post</button>
+                        <button className="profile-post-button" onClick={createNewPost}>New Post</button>
                     </div>
                 </div>
                 <div className="top-button">

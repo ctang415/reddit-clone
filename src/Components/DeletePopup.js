@@ -64,7 +64,7 @@ const DeletePopup = ( {popup, setPopup, isMobile} ) => {
     return (
         <div className="modal-community">
         <div>
-            <div className="delete-popup" style={ isMobile ? {width: "80%"} : {width: "30.5em"}}>
+            <div className="delete-popup" style={ isMobile ? {width: "80%"} : {}}>
                 <div>
                     <div className="modal-close-community-div">
                         <div className="delete-header">
@@ -80,11 +80,11 @@ const DeletePopup = ( {popup, setPopup, isMobile} ) => {
                 Are you sure you want to delete your post? You can't undo this.
                 </div>
                 <div className="popup-buttons">
-                        <button className="community-cancel-button" onClick={handleModal}>
+                        <button className="delete-cancel-button" onClick={handleModal}>
                             Cancel
                         </button>
-                        <button className="community-create-button" onClick={handleDelete}>
-                            Delete post
+                        <button className="delete-create-button" onClick={handleDelete}>
+                            Delete Post
                         </button>
                 </div>
             </div>

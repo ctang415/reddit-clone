@@ -6,7 +6,6 @@
 
 body {
   background-color: #DAE0E6;
-  height: auto;
   padding-top: 3.5em;
   max-width: 100vw;
 }
@@ -18,7 +17,7 @@ body {
   background-color: white;
   display: flex;
   flex-direction: row;
-  height: 3.5em;
+  min-height: 3.5em;
   width: 100%;
   align-items: center;
   justify-content: space-between;
@@ -28,10 +27,12 @@ body {
   padding-left: 1em;
 }
 
+/*
 #nav-bar-input-login {
   padding: 1em;
   width: 35%;
 }
+*/
 
 .modal {  
   position: fixed; /* Stay in place */
@@ -51,8 +52,8 @@ body {
   background-color: white;
   color: black;
   margin: 2.7% auto; /* 15% from the top and centered */
-  height: 90vh;
-  width: 30vw; /* Could be more or less, depending on screen size */
+  max-height: 90vh;
+  max-width: 30vw; /* Could be more or less, depending on screen size */
   font-size: 1.5vh;
   gap: 1vh;
   box-shadow: 2px 8px 16px 0 rgba(0, 0, 0, 0.5);
@@ -122,7 +123,6 @@ body {
 
 .modal-sign-in {
   cursor: pointer;
-  width: 100%;
   padding: 2vh;
   border-radius: 2em;
   border: solid;
@@ -247,7 +247,7 @@ body {
   padding-right: 1em;
   display: inline-block;
   vertical-align: top;
-  width: 15em;
+  min-width: 15em;
 }
 
 .nav-login-left {
@@ -265,7 +265,7 @@ body {
 
 .drop-down-bar-community {
   position: fixed;
-  width: 15em;
+  min-width: 15em;
 }
 
 .nav-drop-community {
@@ -289,7 +289,6 @@ body {
   list-style: none;
   display: flex;
   flex-direction: column;
-  width: 100%;
   max-height: 57.5vh;
   overflow: scroll;
 }
@@ -314,7 +313,7 @@ body {
   flex-direction: column;
   font-size: 0.8em;
   justify-content: center;
-  width: 12em;
+  min-width: 12em;
 }
 
 .user-drop, .user-drop-left, .community-rules > ol > li > div > p, #adult {
@@ -324,7 +323,6 @@ body {
 .user-info-name {
   display: flex;
   font-weight: bold;
-  width: 80%;
 }
 
 .user-info-name > span {
@@ -333,12 +331,13 @@ body {
   text-overflow: ellipsis;
 }
 
-.user-avatar {
-  height: 2.4em;
+#nav-bar-image, #community-input-img, .community-info-header-area > img {
+  max-width: 2em;
+  height: auto;
 }
 
-#nav-bar-image, .profile-avatar > img, #community-input-img, .community-info-header-area > img  {
-  height: 100%;
+ .profile-avatar > img {
+  height: auto;
 }
 
 .drop {
@@ -354,14 +353,13 @@ body {
   border: 0.08em solid #cdd9e3;
   border-radius: 0.2em;
   font-size: 0.9em;
-  width: 15em;
+  min-width: 15em;
 }
 
 .nav-drop > ul {
   list-style: none;
   display: flex;
   flex-direction: column;
-  width: 100%;
 }
 
 .nav-drop > ul > li {
@@ -391,7 +389,6 @@ form > input {
   color: black;
   padding: 0.9em;
   border-radius: 2em;
-  width: 90%;
   border: none;
   background-color: #f5f6f7;
   border: solid;
@@ -400,9 +397,9 @@ form > input {
 
 .header-login-button {
   color: white;
+  padding: 0.5em;
   background-color:#2286d2;
-  height: 70%;
-  width: 8.5em;
+  min-width: 10em;
   border-radius: 2em;
   border: none;
   font-weight: bold;
@@ -412,8 +409,19 @@ form > input {
 .community-post-button {
   color: white;
   background-color:#2286d2;
-  height: 2.5em;
-  width: 90%;
+  padding: 0.7em;
+  min-width: 21.5em;
+  border-radius: 2em;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.profile-post-button {
+  color: white;
+  background-color:#2286d2;
+  padding: 0.7em;
+  min-width: 16em;
   border-radius: 2em;
   border: none;
   font-weight: bold;
@@ -424,13 +432,12 @@ form > input {
   display: flex;
   align-items: center;
   padding-right: 1em;
-  height: 100%;
 }
 
 .login-button {
   color: white;
   background-color: #e23c00;
-  width: 100%;
+  min-width: 22.5em;
   padding: 0.9em;
   border-radius: 2em;
   border: none;
@@ -442,7 +449,7 @@ form > input {
   color: white;
   opacity: 0.5;
   background-color: #e23c00;
-  width: 100%;
+  min-width: 22.5em;
   padding: 0.9em;
   border-radius: 2em;
   border: none;
@@ -490,8 +497,7 @@ form > input {
   background-color: white;
   color: black;
   margin: 8.5% auto; 
-  height: 45.5em;
-  width: 44.5em;
+  max-width: 44.5em;
   font-size: 0.7em;
   gap: 1.5em;
   box-shadow: 2px 8px 16px 0 rgba(0, 0, 0, 0.5);
@@ -509,8 +515,7 @@ form > input {
   background-color: white;
   color: black;
   margin: 18.5% auto; 
-  height: 10.5em;
-  width: 30.5em;
+  max-width: 30.5em;
   gap: 1.5em;
   box-shadow: 2px 8px 16px 0 rgba(0, 0, 0, 0.5);
   padding-left: 1.5em;
@@ -564,8 +569,8 @@ form > input {
 
 .my-input {
   border: solid rgb(225, 233, 241);
-  width: 100%;
-  margin-left:-0.75em;
+  min-width: 36em;
+  margin-left: -0.75em;
   border-radius: 0.5em;
   padding-top: 1em;
   padding-left: 2em;
@@ -596,16 +601,7 @@ form > input {
   border-color:#DAE0E6;
 }
 
-.community-buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  height: 10%;
-  gap: 1em;
-}
-
-.popup-buttons {
+.community-buttons, .popup-buttons {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -616,10 +612,30 @@ form > input {
 .community-create-button {
   color: white;
   background-color:rgb(35, 109, 244);
-  height: 70%;
-  width: 12.5em;
+  padding: 0.5em;
+  min-width: 12.5em;
   border-radius: 2em;
   border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.delete-create-button {
+  color: white;
+  background-color:rgb(35, 109, 244);
+  min-width: 12.5em;
+  border-radius: 2em;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.delete-cancel-button {
+  border: solid rgb(35, 109, 244);
+  color: rgb(35, 109, 244);
+  background-color: #f5f6f7;
+  min-width: 6.5em;
+  border-radius: 2em;
   font-weight: bold;
   cursor: pointer;
 }
@@ -632,8 +648,8 @@ form > input {
   border: solid rgb(35, 109, 244);
   color: rgb(35, 109, 244);
   background-color: #f5f6f7;
-  height: 70%;
-  width: 6.5em;
+  padding: 0.5em;
+  min-width: 6.5em;
   border-radius: 2em;
   font-weight: bold;
   cursor: pointer;
@@ -693,22 +709,21 @@ label {
 }
 
 .user-error-page > img {
-  height: 20vh;
+  max-width: 10em;
 }
 
 #error-image {
-  width: 50%;
-  height: 50%;
+  max-width: 35em;
 }
 
 .community-header-top {
   cursor: pointer;
-  height: 4.9em;
+  min-height: 4.9em;
   background-color: #33a8ff;
 }
 
 .community-header-bottom {
-  height: 6.25em;
+  min-height: 6.25em;
   background-color: white;
 }
 
@@ -731,7 +746,7 @@ label {
 }
 
 .community-header-info-title > img {
-  height: 4em;
+  max-width: 4em;
 }
 
 .community-header-buttons {
@@ -739,7 +754,10 @@ label {
   gap: 0.5em;
   display: flex;
   flex-direction: row;
-  height: 2em;
+}
+
+.community-header-buttons > button {
+  padding: 0.5em;
 }
 
 .community-header-info-subtitle {
@@ -768,7 +786,6 @@ label {
   display: flex;
   flex-direction: column;
   gap: 1em;
-  width: 100%;
   max-width: 40em;
 }
 
@@ -779,7 +796,6 @@ label {
 .empty-post {
   display: flex;
   flex-direction: column;
-  height: 94em;
   text-align: center;
   background-color: #eceeef;
 }
@@ -787,7 +803,6 @@ label {
 .empty-post-logged-in, .post-width-empty {
   display: flex;
   flex-direction: column;
-  height: 94em;
   text-align: center;
   background-color: #eceeef;
 }
@@ -865,7 +880,7 @@ label {
   padding-left: 0.5em;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  min-width: 36em;
 }
 
 .post-right {
@@ -914,7 +929,6 @@ label {
   font-weight: bold;
 }
 
-
 .post-right > ul > li > a {
   color: grey;
   font-weight: bold;
@@ -937,7 +951,7 @@ label {
 }
 
 .post-right > h3, .post-detail-right > h3 {
-  width: 90%;
+  max-width: 38em;
   font-size: 1em;
 }
 
@@ -947,7 +961,7 @@ label {
 
 .post-votes > div > img, .post-detail-votes > img, .post-votes-user > img, .post-votes-joined > img, 
 .post-votes-all > img, .post-votes-only > img {
-  height: 1.5em;
+  max-width: 1.5em;
   cursor: pointer;
 }
 
@@ -971,8 +985,7 @@ label {
   padding-bottom: 0.2em;
   padding-top: 1em;
   overflow: hidden;
-  width: 50vw;
-  max-width: 85%;
+  max-width: 40em;
 }
 
 .post-detail-media-true {
@@ -980,7 +993,7 @@ label {
   font-size: 0.85em;
   padding-top: 1em;
   padding-bottom: 1em;
-  width: 95%;
+  max-width: 40em;
   word-wrap: break-word;
 }
 
@@ -1019,7 +1032,6 @@ label {
   font-size: 1em;
   font-weight: bold;
   padding-bottom: 0.5em;
-  width: 90%;
 }
 
 .community-info, .community-mod, .community-rules {
@@ -1107,7 +1119,7 @@ label {
 }
 
 .community-info-header-area {
-  height: 4em;
+  min-height: 4em;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -1154,7 +1166,6 @@ label {
   cursor: pointer;
 }
 
-
 .community-divider-text {
   display: flex;
   flex-direction: row;
@@ -1172,13 +1183,13 @@ label {
   border-bottom: 0.1em solid;
   border-color:#DAE0E6;
   padding-top: 0.7em;
-  width: 85%;
+  min-width: 36em;
 }
 
 .community-divider-text-info {
   display: flex;
   flex-direction: row;
-  width: 90%;
+  min-width: 18em;
   content: "";
   border-bottom: 0.1em solid;
   border-color:#DAE0E6;
@@ -1197,7 +1208,6 @@ label {
 .community-post-divider {
   display: flex;
   flex-direction: row;
-  width: 100%;
   content: "";
   border-bottom: 0.08em solid;
   border-color: rgb(213, 213, 213);
@@ -1240,20 +1250,19 @@ label {
 .community-filters > ul > li > img, .post-detail-right > ul > div > img, .post-right > ul > li > img, 
 .post-detail-right > ul > li > img, .post-right > ul > li > a > img,  .search-bar-items > a > img, 
 .post-detail-dropbar-user > ul > li > img, .post-detail-votes-logged > ul > li > img {
-  height: 1.5em;
+  max-height: 1.5em;
 }
 
 .community-post-true {
   background-color: white;
-  padding: 0.5em;
+  padding: 0.7em;
   display: flex;
   justify-content: center;
-  height: 2.5em;
 }
 
 .community-post-true > input {
   padding: 0.5em;
-  width: 90%;
+  min-width: 42em;
   border:solid gainsboro;
 }
 
@@ -1264,9 +1273,8 @@ label {
 .community-button-true {
   color:white;
   background-color: #2286d2;
-  height: 100%;
   border: none;
-  width: 8.5em;
+  min-width: 8.5em;
   border-radius: 2em;
   font-weight: bold;
   cursor: pointer;
@@ -1275,9 +1283,8 @@ label {
 .empty-post-add {
   color:white;
   background-color: #2286d2;
-  height: 2.5em;
+  padding: 1em 1.5em 1em 1.5em;
   border: none;
-  width: 15em;
   border-radius: 2em;
   font-weight: bold;
   cursor: pointer;
@@ -1291,15 +1298,14 @@ label {
 .empty-post-discover-add {
   color:white;
   background-color: #2286d2;
-  height: 3em;
   border: none;
-  width: 22em;
+  padding: 1em 1.5em 1em 1.5em;
   font-weight: bold;
   cursor: pointer;
 }
 
 .empty-post-discover > img {
-  height: 15em;
+  max-height: 15em;
 }
 
 .community-button-true-joined:hover {
@@ -1310,8 +1316,7 @@ label {
   color:#2286d2;
   border: solid #2286d2;
   background-color: white;
-  height: 100%;
-  width: 8.5em;
+  min-width: 8.5em;
   border-radius: 2em;
   font-weight: bold;
   cursor: pointer;
@@ -1344,8 +1349,7 @@ label {
 .back-to-top {
   color: white;
   background-color:#2286d2;
-  height: 3em;
-  width: 9em;
+  padding: 1em 1.5em 1em 1.5em;
   border-radius: 2em;
   border: none;
   font-weight: bold;
@@ -1389,7 +1393,6 @@ label {
 
 .community-post {
   background-color: white;
-  width: 100%;
 }
 
 .community-post > form, .community-post-section > form  {
@@ -1427,30 +1430,22 @@ label {
 .community-post-title {
   display: flex;
   flex-direction: column;
-  width: 38em;
+  min-width: 38em;
   align-items: center;
   gap: 0.5em;
 }
 
 .community-post-title > input {
-  width: 100%;
   border: solid rgb(213, 213, 213);
-  height: 1em;
 }
 
 #community-post-inputs {
-  width: 98%;
-  height: 3em;
+  min-width: 43.5em;
+  padding: 1em;
   border-radius: 0.3em;
-  padding-left: 1em;
-}
-
-.community-search > input {
-  width: 40%;
 }
 
 #community-post-inputs:focus {
-  outline: none !important;
   border-color: rgb(63, 63, 63);
 }
 
@@ -1471,8 +1466,7 @@ label {
 #community-save-button {
   color:#2286d2;
   background-color: white;
-  height: 2.5em;
-  width: 8em;
+  padding: 0.5em 1.5em 0.5em 1.5em;
   border-radius: 2em;
   border: solid #2286d2;
   font-weight: bold;
@@ -1490,8 +1484,7 @@ label {
 #community-post-button {
   color: white;
   background-color: #2286d2;
-  height: 2.5em;
-  width: 8em;
+  padding: 0.5em 3em 0.5em 3em;
   border-radius: 2em;
   border: none;
   font-weight: bold;
@@ -1502,8 +1495,7 @@ label {
   color: white;
   background-color: #666;
   border: 1px solid #666;
-  height: 2.5em;
-  width: 8em;
+  padding: 0.5em 3em 0.5em 3em;
   border-radius: 2em;
   border: none;
   font-weight: bold;
@@ -1514,8 +1506,7 @@ label {
   color:#2286d2;
   background-color: white;
   border: solid #2286d2;
-  height: 2.5em;
-  width: 90%;
+  padding: 0.5em 5.5em 0.5em 5.5em;
   border-radius: 2em;
   font-weight: bold;
   cursor: pointer;
@@ -1534,15 +1525,8 @@ label {
   align-items: center;
 }
 
-.community-info-buttons > a {
-  display: flex;
-  text-decoration: none;
-  justify-content: center;
-  width: 100%;
-}
-
 .community-post-bottom {
-  height: 3.5em;
+  min-height: 3.5em;
   background-color: #eceeef;
 }
 
@@ -1557,22 +1541,22 @@ label {
 }
 
 #freddit-logo {
-  height: 80%;
+  max-width: 2em;
 }
 
 .side-bar {
   position:fixed;
   display: flex;
   flex-direction: column;
-  height: 92%;
-  width: 18.5%;
+  min-height: 100vh;
+  max-width: 16em;
   background-color: white;
   border-top: solid #eceeef;
 }
 
 .side-bar-top {
   display: flex;
-  height: 28em;
+  max-height: 28em;
   flex-direction: column;
   overflow: scroll;
 }
@@ -1594,13 +1578,11 @@ label {
 .community-body-left-logged-out {
   display: flex;
   flex-direction: column;
-  width: 43vw;
-  max-width: 50vw;
+  max-width: 43vw;
   gap: 1em;
 }
 
 .community-body-right-logged-out {
-  width: 100%;
   max-width: 21.5vw;
 }
 
@@ -1617,8 +1599,7 @@ label {
 .join-button {
   color: white;
   background-color:#2286d2;
-  height: 3.5em;
-  width: 90%;
+  padding: 1em 5em 1em 5em;
   border-radius: 2em;
   border: none;
   font-weight: bold;
@@ -1667,7 +1648,7 @@ label {
   color: grey;
   list-style: none;
   border: solid gainsboro;
-  width: 8em;
+  min-width: 10em;
   padding: 0.5em;
   gap: 0.75em;
   background-color: white;
@@ -1698,7 +1679,6 @@ label {
   color: grey;
 }
 
-
 #post-detail-selected {
   color: rgb(0, 123, 255);
 }
@@ -1714,7 +1694,6 @@ label {
 #editor-container {
   height: 10em;
   padding-bottom: 2em;
-  width: 100%;
 }
 
 .editor-container-two-button {
@@ -1724,7 +1703,7 @@ label {
 
 #editor-container-two {
   height: 100%;
-  width: 95%;
+  min-width: 42em;
   padding-bottom: 1em;
 }
 
@@ -1743,18 +1722,17 @@ label {
 #editor-container-comment {
   display: flex;
   flex-direction: column-reverse; 
-  height: 10em;
+  min-height: 10em;
   margin: auto;
-  width: 100%;
+  min-width: 35em;
   border-top: solid rgb(213, 213, 213);
 }
 
 #editor-container-comment-edit {
   display: flex;
   flex-direction: column-reverse; 
-  height: 15em;
   margin: auto;
-  width: 85%;
+  min-width: 35em;
   border-top: solid rgb(213, 213, 213);
 }
 
@@ -1772,8 +1750,8 @@ label {
 
 .editor-container-image {
   border: dotted rgb(191, 191, 191);
-  width: 100%;
-  height: 10em;
+  min-width: 38em;
+  min-height: 10em;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1785,16 +1763,14 @@ label {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 2em;
 }
 
 .editor-container-link > input {
   padding-left: 1em;
   border-radius: 0.3em;
   border: solid rgb(213, 213, 213);
-  width: 98%;
-  height: 100%;
+  min-width: 44.5em;
+  min-height: 2em;
 }
 
 .btn {
@@ -1815,12 +1791,12 @@ label {
 .inputs-poll {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  min-width: 30em;
   gap: 1em;
 }
 
 .inputs-poll > input {
-  width: 90%;
+  max-width: 32em;
   padding: 0.5em;
 }
 
@@ -1915,7 +1891,7 @@ label {
   justify-content: center;
   align-items: center;
   border-top: solid 0.1px rgb(191, 191, 191);
-  height: 2.5em;
+  min-height: 2.5em;
   background-color: white;
 }
 
@@ -1930,7 +1906,7 @@ label {
 
 .profile-info-top {
   padding: 1em;
-  height: 3.5em;
+  min-height: 3.5em;
   background-color: #33a8ff;
   color: white;
   display: flex;
@@ -1957,8 +1933,7 @@ label {
 .avatar-button {
   color: white;
   background-color:#FF4300;
-  height: 2.5em;
-  width: 100%;
+  padding: 0.75em 0.5em;
   border-radius: 2em;
   border: none;
   font-weight: bold;
@@ -1984,8 +1959,7 @@ label {
 .community-user-button {
   color: white;
   background-color:#2286d2;
-  height: 2.5em;
-  width: 40%;
+  padding: 0.75em 2em;
   border-radius: 2em;
   border: none;
   font-weight: bold;
@@ -2004,8 +1978,10 @@ label {
   position: relative;
   display: flex;
   justify-content: center;
-  height: 12em;
-  width: auto;
+}
+
+.profile-avatar > img {
+  max-width: 10em;
 }
 
 blockquote {
@@ -2134,8 +2110,6 @@ code {
 .post-detail {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  width: 100%;
   gap: 1em;
 }
 
@@ -2176,7 +2150,7 @@ code {
   background-color: #2286d2;
   border-radius: 1em;
   border: 1px solid #2286d2;
-  width: 8em;
+  min-width: 8em;
 }
 
 #custom-button-black {
@@ -2185,7 +2159,7 @@ code {
   background-color: #666;
   border-radius: 1em;
   border: 1px solid #666;
-  width: 8em;
+  min-width: 8em;
   pointer-events: none;
 }
 
@@ -2254,8 +2228,8 @@ hr.vertical:hover {
   gap: 0.3em;
 }
 
-.comment-right > ul > li > div > img{
-  height: 1.3em;
+.comment-right > ul > li > div > img {
+  max-height: 1.3em;
 }
 
 .comment-votes {
@@ -2269,7 +2243,7 @@ hr.vertical:hover {
 }
 
 .comment-votes > img {
-  height: 1.5em;
+  max-height: 1.5em;
   cursor: pointer;
   padding: 0.1em;
 }
@@ -2306,7 +2280,7 @@ hr.vertical:hover {
 
 .comment-left > a > img {
   cursor: pointer;
-  height: 2em;
+  max-height: 2em;
 }
 
 .post-detail-media-true > ul, .post-detail-media-true > ol,
@@ -2317,7 +2291,7 @@ hr.vertical:hover {
 } 
 
 .empty-comment {
-  height: 15em;
+  min-height: 15em;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -2332,15 +2306,14 @@ hr.vertical:hover {
 .input-search-box {
   position: absolute;
   background-color: white;
-  width: 22vw;
+  min-width: 27vw;
   max-height: 60vh;
   overflow: scroll;
 }
 
 #nav-bar-input {
   border-radius: 2em;
-  height: 70%;
-  width: 20vw;
+  min-width: 25vw;
   background-color:#f5f6f7;
   border: solid rgb(240, 239, 239);
   padding: 1em;
@@ -2362,14 +2335,14 @@ hr.vertical:hover {
 #nav-bar-input-post {
   border: solid rgb(240, 239, 239);
   padding: 0.75em;
-  width: 20em;
+  min-width: 20em;
 }
 
 .input-search-box-post {
   position: absolute;
   z-index: 1;
   background-color: white;
-  width: 20vw;
+  min-width: 20vw;
   max-height: 40vh;
   overflow: scroll;
 }
@@ -2444,8 +2417,8 @@ hr.vertical:hover {
   align-items: center;
   background-color: white;
   border-radius: 0.3em;
-  height: 5vh;
-  width: 65.5vw;
+  min-height: 5vh;
+  min-width: 65.5vw;
   border: solid rgb(191, 191, 191) 1px;
   padding: 1em;
   font-size: 2vh;
@@ -2454,22 +2427,21 @@ hr.vertical:hover {
 }
 
 .community-card-information {
-  height: 5vh;
-  width: 53.5vw;
+  min-height: 5vh;
+  max-width: 53.5vw;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .community-card-logo > img {
-  height: 4.5vh;
+  max-height: 4.5vh;
 }
 
 .community-card-join > button {
   color:#2286d2;
   background-color: #f5f6f7;
   border: solid #f5f6f7;
-  height: 5vh;
-  width: 7vw;
+  padding: 0.5em 2em;
   border-radius: 2em;
   font-weight: bold;
   cursor: pointer;
@@ -2488,7 +2460,7 @@ hr.vertical:hover {
 }
 
 .header-item > img {
-  height: 1.7vw;
+  max-height: 1.7vw;
 }
 
 @media screen and (max-width: 1000px) {
@@ -2532,16 +2504,15 @@ body {
   display: flex;
   align-items: center;
   padding-right: 1vh;
-  height: 100%;
 }
 
 .header-login-button {
+  padding: 0.8em;
   font-size: 1.2vh;
   color: white;
   background-color:#e23c00;
-  height: 45%;
-  width: 15vw;
-  border-radius: 2vh;
+  max-width: 15vw;
+  border-radius: 2em;
   border: none;
   font-weight: bold;
   cursor: pointer;
@@ -2552,7 +2523,6 @@ body {
   color: white;
   background-color:#2286d2;
   height: 7vw;
-  width: 90%;
   border-radius: 2vh;
   border: none;
   font-weight: bold;

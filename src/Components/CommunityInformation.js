@@ -189,7 +189,7 @@ if (params.id) {
                             <div className={ baseSubmit ? "input-empty" : null }>
                             <div className="community-info-home-logged">
                                 <h4>Home</h4>
-                                <p className="community-info-home-logged-text">Your personal Reddit frontpage. Come here to check in with your favorite communities.</p>
+                                <p className="community-info-home-logged-text">Your personal Freddit frontpage. Come here to check in with your favorite communities.</p>
                             </div>
                             <span className="community-divider-text"></span>
                             <div className="community-info-buttons">
