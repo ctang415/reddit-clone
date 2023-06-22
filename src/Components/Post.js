@@ -672,7 +672,7 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
             return (
                 x.map((post) => {
                     return (
-                    <div className="post" key={post.id}>
+                    <div className={ post.author !== "[deleted]" ? "post" : "input-empty" } key={post.id}>
                     <div className="post-left">
                     <div className="post-votes-joined">
                         <img src={ ( (post.voters[post.voters.findIndex(x=> x.username === currentUser)] ) && post.voters[post.voters.findIndex(voter => voter.username === currentUser)].vote === ("upvote")) ? Upvoted : Up } alt="Up arrow" className={post.community} id={post.id} onClick={handleVoteLoggedIn}></img>
@@ -729,7 +729,7 @@ if (location.pathname === '/' && isLoggedIn && allJoinedPosts.length === 0 ) {
         return (
             allPosts.map((post) => {
                 return ( 
-                    <div className="post" key={post.id}>
+                    <div className={ post.author !== "[deleted]" ? "post" : "input-empty"} key={post.id}>
                         <div className="post-left">
                             <div className="post-votes-all">
                                 <img src={ Up } alt="Up arrow"></img>

@@ -204,7 +204,7 @@ body {
 }
 
 .popup-buttons > button {
-  height: 2em;
+  min-height: 2vw;
 }
 
 .header-user-profile-icons > ul > li > img {
