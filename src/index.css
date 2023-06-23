@@ -17,7 +17,7 @@ body {
   background-color: white;
   display: flex;
   flex-direction: row;
-  padding: 0.2em;
+  padding: 0.25em;
   width: 100%;
   align-items: center;
   justify-content: space-between;
@@ -785,11 +785,12 @@ label {
   display: flex;
   flex-direction: column;
   gap: 1em;
-  max-width: 40em;
+  min-width: 40vw;
 }
 
 .community-body-right {
-  max-width: 20em;
+  max-width: 21.5vw;
+  width: 100%;
 }
 
 .empty-post {
@@ -838,14 +839,14 @@ label {
   border-radius: 0.2em;
   border: 1px solid #cdd9e3;
   cursor: pointer;
-  max-height:18em;
-  max-width: 40em;
+  max-height:50vh;
+  max-width: 100vw;
 }
 
 .post-width {
   display: flex;
   flex-direction: column;
-  max-width: 40em;
+  max-width: 45vw;
 }
 
 .post:hover {
@@ -949,13 +950,15 @@ label {
   padding-bottom: 0.5em;
 }
 
-.post-right > h3, .post-detail-right > h3 {
+.post-right > h3 {
   max-width: 38em;
   font-size: 1em;
 }
 
 .post-detail-right > h3 {
   padding-top: 0.5em;
+  min-width: 38vw;
+  font-size: 1em;
 }
 
 .post-votes > div > img, .post-detail-votes > img, .post-votes-user > img, .post-votes-joined > img, 
@@ -1544,11 +1547,11 @@ label {
 }
 
 .side-bar {
-  position:fixed;
+  position: fixed;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  max-width: 16em;
+  max-width: 18vw;
   background-color: white;
   border-top: solid #eceeef;
 }
@@ -1578,11 +1581,13 @@ label {
   display: flex;
   flex-direction: column;
   max-width: 43vw;
+  width: 100%;
   gap: 1em;
 }
 
 .community-body-right-logged-out {
   max-width: 21.5vw;
+  width: 100%;
 }
 
 .side-bar-divider {
@@ -1925,7 +1930,7 @@ label {
 .profile-info-subtext {
   display: flex;
   font-size: 0.8em;
-  gap: 5.5em;
+  gap: 6.5vw;
   text-align: start;
 }
 
@@ -2418,9 +2423,9 @@ hr.vertical:hover {
   background-color: white;
   border-radius: 0.3em;
   min-height: 5vh;
-  min-width: 65.5vw;
+  width: 65.5vw;
   border: solid rgb(191, 191, 191) 1px;
-  padding: 1em;
+  padding: 1vw;
   font-size: 2vh;
   gap: 0.5em;
   justify-content: space-between;
@@ -2473,6 +2478,7 @@ body {
 
 .body {
   background-color: #DAE0E6;
+  min-height: 100vh;
 }
 
 .nav-bar {
@@ -2610,6 +2616,7 @@ body {
   display: flex;
   flex-direction: column;
   max-width: 100vw;
+  min-height: 100vh;
   background-color: #dfe5eb;
 }
 
@@ -2764,8 +2771,7 @@ body {
 }
 
 .post-mobile > p > img {
-  max-height: 10vh;
-  max-width: 25vw;
+  max-width: 10vw;
 }
 
 .post-right {
@@ -3008,6 +3014,12 @@ body {
   color: white;
 }
 
+.post-detail-pinned-author {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .post-pinned-header-mobile-title-logged > a {
   color: black;
   text-decoration: none;
@@ -3057,6 +3069,7 @@ body {
   border: none;
   padding-top: 1.5em;
   padding-bottom: 1.5em;
+  min-height: 60vh;
 }
 
 .comment-left-username > a {
@@ -3411,7 +3424,7 @@ body {
 
 #editor-container-two {
   min-height: 10vh;
-  min-width: 97vw;
+  min-width: 50vw;
   padding-bottom: 1em;
 }
 

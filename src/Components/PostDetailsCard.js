@@ -463,7 +463,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
                             <Link to={ deleted === data.author ? null : `../user/${data.author}`} style={isLoggedIn ? {color: "black", padding: "1em" } : {color: "rgb(204, 202, 202)"}}> 
                                 u/{data.author} 
                             </Link>
-                            <span className={ data.author === currentUser ? "user-left" : "input-empty" } style={{alignSelf: "center", marginLeft: "20em", color: "black"}} id={data.id} 
+                            <span className={ data.author === currentUser ? "user-left" : "input-empty" } style={{alignSelf: "center", color: "black"}} id={data.id} 
                             onClick={handleMobileDrop}>
                                 ...
                             </span>

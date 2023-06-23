@@ -73,7 +73,7 @@ const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunity
             }
             getCommunity()
         console.log(firebaseCommunityData)
-    }, [])
+    }, [detail])
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
