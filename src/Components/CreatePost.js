@@ -106,7 +106,7 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
 
     const checkUser = async () => {
         onAuthStateChanged(auth, (user) => {
-            if (!user) {
+            if (user.isAnonymous) {
                 navigate('/')
             }
         })
@@ -162,7 +162,7 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
     }, [])
 
     useEffect(() => {
-        if (user) {
+        if (user && !user.isAnonymous) {
             setIsLoggedIn(true)
         } else {
             setIsLoggedIn(false)
@@ -182,7 +182,7 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
     }, [user])
 
     if (isMobile) {
-        if (user) {
+        if (isLoggedIn) {
             return (
             <div className="community-page">
             <div className="community-body-submit" style={{paddingTop: "0em"}}>
@@ -217,7 +217,7 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
         )
         }
     } else {
-    if (user) {
+    if (isLoggedIn) {
         return (
         <div className="community-page">
         <div className="community-body-submit">

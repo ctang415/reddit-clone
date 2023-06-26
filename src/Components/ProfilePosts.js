@@ -311,7 +311,7 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
     }, [location.pathname])
 
     useEffect(() => {
-        if (user) {
+        if (user && !user.isAnonymous) {
             setIsLoggedIn(true)
             setCurrentUser(user.displayName)
         } else {

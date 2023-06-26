@@ -79,7 +79,7 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
 
     const handleClick = (e) => {
         e.preventDefault()
-        if (!user) {
+        if (user.isAnonymous) {
             setModalIsTrue(!modalIsTrue)
             setJoin(true)
             } else {
@@ -142,7 +142,7 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
-            if (user) {
+            if (user && !user.isAnonymous) {
                 setIsLoggedIn(true)
             } else {
                 setIsLoggedIn(false)
@@ -296,7 +296,7 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
                         <div className={isLoggedIn ? "community-body" : "community-body-logged-out"}>
                             <div className={ isLoggedIn ? "community-body-left" : "community-body-left-logged-out"}>
                                 <div className={ isLoggedIn ? "community-post-true" : "community-post-false"}>
-                                    <img id="community-input-img" src={ user ? user.photoURL : null} alt="User Icon"></img>
+                                    <img id="community-input-img" src={ isLoggedIn ? user.photoURL : null} alt="User Icon"></img>
                                     <input type="text" placeholder="Create Post" onClick={createNewPost}></input>
                                 </div>
                                 <div className="community-filters">
@@ -381,7 +381,7 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
             <div className={ isLoggedIn ? "community-body" : "community-body-logged-out"}>
                 <div className={isLoggedIn ? "community-body-left" : "community-body-left-logged-out"}>
                 <div className={ isLoggedIn ? "community-post-true" : "community-post-false"}>
-                    <img id="community-input-img" src={user ? user.photoURL : null} alt="User Icon"></img>
+                    <img id="community-input-img" src={ isLoggedIn ? user.photoURL : null} alt="User Icon"></img>
                         <input type="text" placeholder="Create Post" onClick={createNewPost}></input>
                     </div>
                     <div className="community-filters">

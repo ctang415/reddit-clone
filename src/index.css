@@ -2515,7 +2515,7 @@ body {
   font-size: 1.2vh;
   color: white;
   background-color:#e23c00;
-  padding: 0.8em em;
+  padding: 0.8em 2em;
   border-radius: 2em;
   border: none;
   font-weight: bold;
@@ -2526,7 +2526,7 @@ body {
   font-size: 1.2vh;
   color: white;
   background-color:#2286d2;
-  padding: 0.7em 16em 0.7em 16em;
+  padding: 0.7em 16em;
   border-radius: 2vh;
   border: none;
   font-weight: bold;
@@ -2542,10 +2542,9 @@ body {
 
 #nav-bar-input {
   border-radius: 2em;
-  padding: 1vw 4.5vw;
+  padding: 1vh 25.5vw;
   background-color:#a5acb9;
   border: none;
-  min-width: 85vw;
 }
 
 .nav-bar-mobile-drop {

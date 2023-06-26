@@ -97,7 +97,7 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
     }, [])
 
     useEffect(() => {
-        if (user) {
+        if (user && !user.isAnonymous) {
             setCurrentUser(user.displayName)
             setEdit(true)
         } else {
@@ -168,7 +168,7 @@ if (params.id) {
             <div className="community-info-bar">
                 <div className="community-info-home">
                     <div className="community-info-top-home">
-                        <div className={ user ? null : "input-empty"}>
+                        <div className={ isLoggedIn ? null : "input-empty"}>
                         <div className={ baseSubmit ? "community-info-home-logged" : "input-empty" }>
                             <h4>Posting to Freddit</h4>
                             <span className="community-divider-text"></span>
@@ -185,7 +185,7 @@ if (params.id) {
                             </ol>
                         </div>
                         </div>
-                        <div className={ user ? null : "input-empty"}>
+                        <div className={ isLoggedIn ? null : "input-empty"}>
                             <div className={ baseSubmit ? "input-empty" : null }>
                             <div className="community-info-home-logged">
                                 <h4>Home</h4>
@@ -201,7 +201,7 @@ if (params.id) {
                             <CommunityModal communityModal={communityModal} setCommunityModal={setCommunityModal}/>
                             </div>
                         </div>
-                        <ul className={ user ? "input-empty" : "community-header" }>
+                        <ul className={ isLoggedIn ? "input-empty" : "community-header" }>
                             {popularCommunities.map(item => {
                                 return (
                                     <li className={item.header} key={item.header} onClick={handleCommunityDrop}>

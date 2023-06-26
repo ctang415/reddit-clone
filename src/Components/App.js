@@ -11,6 +11,7 @@ import Error from './Error';
 import PostDetails from './PostDetails';
 import Search from './Search'
 import ModalMobile from './ModalMobile';
+import { signInAnonymously } from 'firebase/auth';
 
 const App = () => {
   const [ userData, setUserData ] = useState([{ avatar: null, created: 'unknown', karma: 'unknown', joined: [] }])
@@ -44,8 +45,15 @@ const App = () => {
     }
   }
 
+ useEffect(() => {
+  if (!user) {
+    signInAnonymously(auth)
+  }
+ }, [])
+
+
   useEffect(() => {
-    if (user) {
+    if (user && !user.isAnonymous) {
           setLoggedIn(true)
     } else {
           setLoggedIn(false)

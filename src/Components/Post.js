@@ -51,7 +51,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
     }
 
     const handleVote = (e) => {
-        if (user) {
+        if (isLoggedIn) {
             if (e.target.alt === "Up arrow") {
                 const updateVote = async () => {
                     const docRef = doc(db, "communities", params.id)
@@ -272,7 +272,7 @@ const Post = ( {firebaseCommunityData, setFirebaseCommunityData, createNewPost, 
     }
 
     const handleVoteLoggedIn = (e) => {
-        if (user) {
+        if (isLoggedIn) {
             if (e.target.alt === "Up arrow") {
                 const updateVote = async () => {
                     const docRef = doc(db, "communities", e.target.className)

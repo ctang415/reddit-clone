@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
-import { signOut } from "firebase/auth";
+import { signInAnonymously, signOut } from "firebase/auth";
 import UserDrop from "./UserDrop";
 import { auth, db } from "../firebase-config";
 import { doc, getDoc } from "firebase/firestore";
@@ -44,7 +44,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
 
     const handleClick = (e) => { 
         e.preventDefault()
-        if (!user) {
+        if (user.isAnonymous) {
             setModalIsTrue(!modalIsTrue)
             } else {
             setDrop(!drop)
@@ -113,6 +113,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
             setLoggedIn(false)
             setMyUser([])
             setAllJoinedPosts([])
+            signInAnonymously(auth)
             window.scrollTo({ top:0, behavior:'auto'})
             // Sign-out successful.
           }).catch((error) => {
@@ -129,6 +130,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
             setMyUser([])
             setAllJoinedPosts([])
             setClick(false)
+            signInAnonymously(auth)
             window.scrollTo({ top:0, behavior:'auto'})
             // Sign-out successful.
           }).catch((error) => {
@@ -156,13 +158,13 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
     }
 
     useEffect(() => {
-        if (user) {
+        if (user && !user.isAnonymous) {
             getUserInfo()
         }
     }, [setUserData, location.pathname])
 
     useEffect(() => {
-        if (user) {
+        if (user && !user.isAnonymous) {
             setLoggedIn(true)
         } else {
             setLoggedIn(false)
@@ -323,7 +325,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
         )
     } 
 } else {
-    if (!user) {
+    if (!loggedIn) {
         return (
             <div className="header">
                 <nav className="nav-bar">
@@ -344,7 +346,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                 </nav>
             </div> 
         )
-    } else if (user) { 
+    } else if (loggedIn) { 
         return (
                 <div key={user.displayName}>
                     <nav className="nav-bar">

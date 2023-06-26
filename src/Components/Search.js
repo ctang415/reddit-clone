@@ -25,7 +25,7 @@ const Search = ( {communityData, setUserData, drop, setDrop, setJoin, modalIsTru
 
     const handleClick = (e) => {
         e.preventDefault()
-        if (!user) {
+        if (user.isAnonymous) {
             setModalIsTrue(!modalIsTrue)
             setJoin(true)
             } else {
@@ -61,7 +61,7 @@ const Search = ( {communityData, setUserData, drop, setDrop, setJoin, modalIsTru
       }, [])
 
     useEffect(() => {
-        if (user) {
+        if (user && !user.isAnonymous) {
             setIsLoggedIn(true)
         } else {
             setIsLoggedIn(false)
