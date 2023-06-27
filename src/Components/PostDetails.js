@@ -82,8 +82,6 @@ const PostDetails = ( {modalIsTrue, setModalIsTrue, communityModal, setCommunity
                 setIsLoggedIn(false)
             }
         })
-        console.log(location.pathname.split('f/')[1].split('/comments')[0])
-        console.log(firebaseCommunityData)
     }, [user])
 
     useEffect(() => {

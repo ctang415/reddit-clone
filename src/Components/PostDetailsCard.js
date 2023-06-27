@@ -30,6 +30,7 @@ import DeletePopup from "./DeletePopup";
 import Avatar from "../Assets/avatar.png"
 import MobileEditor from "./MobileEditor";
 import ModalPostEdit from "./ModalPostEdit";
+import { onAuthStateChanged } from "firebase/auth";
 Quill.register('modules/imageCompress', ImageCompress);
 Quill.register('modules/magicUrl', MagicUrl)
 
@@ -407,6 +408,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
     }, [postValue])
 
     useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
         if (user && !user.isAnonymous) {
             setIsLoggedIn(true)
             setCurrentUser(user.displayName)
@@ -414,6 +416,7 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
             setIsLoggedIn(false)
             setCurrentUser('')
         }
+    })
     }, [user])
 
     useEffect(() => {
@@ -428,10 +431,6 @@ const PostDetailsCard = ( {firebaseCommunityData, setFirebaseCommunityData, deta
             setEdit(true)
         }
     }, [])
-
-    useEffect(() => {
-        console.log(edit) 
-    }, [edit])
 
     if (isMobile) {
         return (

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
-import { signInAnonymously, signOut } from "firebase/auth";
+import { onAuthStateChanged, reload, signInAnonymously, signOut } from "firebase/auth";
 import UserDrop from "./UserDrop";
 import { auth, db } from "../firebase-config";
 import { doc, getDoc } from "firebase/firestore";
@@ -44,7 +44,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
 
     const handleClick = (e) => { 
         e.preventDefault()
-        if (user.isAnonymous) {
+        if (!loggedIn) {
             setModalIsTrue(!modalIsTrue)
             } else {
             setDrop(!drop)
@@ -113,7 +113,6 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
             setLoggedIn(false)
             setMyUser([])
             setAllJoinedPosts([])
-            signInAnonymously(auth)
             window.scrollTo({ top:0, behavior:'auto'})
             // Sign-out successful.
           }).catch((error) => {
@@ -130,7 +129,6 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
             setMyUser([])
             setAllJoinedPosts([])
             setClick(false)
-            signInAnonymously(auth)
             window.scrollTo({ top:0, behavior:'auto'})
             // Sign-out successful.
           }).catch((error) => {
@@ -172,13 +170,13 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
     }, [user])
  
     useEffect( () => { 
-        if (loggedIn) {
+        if (user && !user.isAnonymous) {
             getUserInfo().then( () => {
                 setLoaded(true)
                 window.scrollTo({ top:0, behavior:'auto'})
             })
         }
-    }, [loggedIn]); 
+    }, [user]); 
 
     useEffect(() => {
         if (isMobile && location.pathname === "/register") {
@@ -325,28 +323,7 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
         )
     } 
 } else {
-    if (!loggedIn) {
-        return (
-            <div className="header">
-                <nav className="nav-bar">
-                    <Link to="/" style={{ textDecoration: 'none' }}>
-                        <div className="logo">
-                            <img id="freddit-logo" src={Freddit} alt="Green snoo Logo"></img>
-                            <div>freddit</div>
-                        </div>
-                    </Link>
-                    <Searchbar communityData={communityData}/>
-                    <Modal 
-                    modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} loggedIn={loggedIn} setLoggedIn={setLoggedIn}
-                    join={join} setJoin={setJoin}
-                    />
-                    <div className="header-button">
-                        <button className="header-login-button" onClick={handleClick}>Log In</button>
-                    </div>
-                </nav>
-            </div> 
-        )
-    } else if (loggedIn) { 
+    if (user && !user.isAnonymous) { 
         return (
                 <div key={user.displayName}>
                     <nav className="nav-bar">
@@ -430,7 +407,28 @@ const Header = ( { join, setJoin, modalIsTrue, setModalIsTrue, userData, setUser
                 />
             </div> 
         )
-    } 
+    }  else {
+            return (
+                <div className="header">
+                    <nav className="nav-bar">
+                        <Link to="/" style={{ textDecoration: 'none' }}>
+                            <div className="logo">
+                                <img id="freddit-logo" src={Freddit} alt="Green snoo Logo"></img>
+                                <div>freddit</div>
+                            </div>
+                        </Link>
+                        <Searchbar communityData={communityData}/>
+                        <Modal 
+                        modalIsTrue={modalIsTrue} setModalIsTrue={setModalIsTrue} loggedIn={loggedIn} setLoggedIn={setLoggedIn}
+                        join={join} setJoin={setJoin}
+                        />
+                        <div className="header-button">
+                            <button className="header-login-button" onClick={handleClick}>Log In</button>
+                        </div>
+                    </nav>
+                </div> 
+            )
+        } 
 }
 }
 

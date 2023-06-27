@@ -145,12 +145,10 @@ const signInWithGoogleMobile = async () => {
                     await reload(auth.currentUser)
                 }).then (() => {
                     setLoggedIn(true)
-                    navigate('/')
                 })
             })
         } else {
                 setLoggedIn(true)
-                navigate('/')
         }
     })
   }

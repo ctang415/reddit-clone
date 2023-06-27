@@ -11,7 +11,7 @@ import Error from './Error';
 import PostDetails from './PostDetails';
 import Search from './Search'
 import ModalMobile from './ModalMobile';
-import { signInAnonymously } from 'firebase/auth';
+import { onAuthStateChanged, reload, signInAnonymously } from 'firebase/auth';
 
 const App = () => {
   const [ userData, setUserData ] = useState([{ avatar: null, created: 'unknown', karma: 'unknown', joined: [] }])
@@ -45,12 +45,13 @@ const App = () => {
     }
   }
 
- useEffect(() => {
+ useEffect( () => {
+  onAuthStateChanged(auth, user => {
   if (!user) {
     signInAnonymously(auth)
   }
- }, [])
-
+})
+ }, [loggedIn])
 
   useEffect(() => {
     if (user && !user.isAnonymous) {
@@ -62,7 +63,6 @@ const App = () => {
 
   useEffect(() => {
     handleResize()
-    console.log(isMobile)
   }, []) 
 
   useEffect(() => {

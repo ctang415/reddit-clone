@@ -14,6 +14,7 @@ import Comment from "../Assets/comment.png"
 import Share from "../Assets/share.png"
 import Save from "../Assets/save.png"
 import CommunityIcon from "../Assets/communityicon.png"
+import { onAuthStateChanged } from "firebase/auth";
 
 const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOverview, setCommentsOnly, setPostsOnly, 
     setUserData,  profileData, isMobile } ) => {
@@ -34,7 +35,6 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
         const docRef = doc(db, "users", params.id)
         const docSnap = await getDoc(docRef)
         const data = docSnap.data()
-        console.log(data.posts)
         if (data !== undefined) { 
             if (data.posts && data.comments) {
                 setComments(data.comments)
@@ -304,11 +304,15 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
     }
 
     useEffect(() => {
+    onAuthStateChanged(auth, user => {
+        if (user) {
         setUserInfo([])
         setPosts([])
         setComments([])
         getUserInfo()
-    }, [location.pathname])
+        }
+    })
+    }, [location.pathname, user])
 
     useEffect(() => {
         if (user && !user.isAnonymous) {
@@ -342,7 +346,6 @@ const ProfilePosts = ( { overview, commentsOnly, postsOnly, matchingUser, setOve
         } else {
             setEmptyPosts(false)
         }
-        console.log(userInfo)
     }, [posts])
 
     if (isMobile) {

@@ -1,3 +1,4 @@
+import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -52,7 +53,7 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
 
     const handleClick = (e) => {
         e.preventDefault()
-        if (user.isAnonymous) {
+        if ( user && user.isAnonymous) {
             setModalIsTrue(!modalIsTrue)
             setJoin(true)
             } else {
@@ -304,8 +305,6 @@ const ProfilePage = ( { userData, setDrop, drop, modalIsTrue, setModalIsTrue, jo
             )
         }
     } else {
-
-
     if (!page) {
         return (
             <UserError/>
