@@ -58,14 +58,14 @@ const CommunitySearch = ( { communityData, isMobile } ) => {
     return (
         <div className="search-bar-drop-post">
             <input
-             id="nav-bar-input-post" style={ isMobile ? {border: "white"} : {}}
+             id="nav-bar-input-post"
                 type="text"
                 placeholder={ !asUndefined ? `f/${params.id}` : "Search communities"}
                 onChange={handleChange}
                 onClick={handleClick}
                 />
             <div className={ drop ? "input-search-box-post": "input-empty"} ref={catMenu}
-            style={ isMobile ? {width: "100vw", border: "0.5px solid rgb(204, 202, 202)"} : {}}>
+            style={ isMobile ? {width: "60%", border: "0.5px solid rgb(204, 202, 202)"} : {}}>
                 <div className="input-search-box-header">COMMUNITIES</div>
                 {filtered.map((community) => {
                     return (

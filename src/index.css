@@ -436,7 +436,7 @@ form > input {
 .login-button {
   color: white;
   background-color: #e23c00;
-  min-width: 22.5em;
+  width: 100%;
   padding: 0.9em;
   border-radius: 2em;
   border: none;
@@ -995,7 +995,7 @@ label {
   font-size: 0.85em;
   padding-top: 1em;
   padding-bottom: 1em;
-  max-width: 40em;
+  max-width: 70vh;
   word-wrap: break-word;
 }
 
@@ -2188,6 +2188,7 @@ code {
   padding-top: 2em;
   gap: 0.5em;
   padding-left: 0.5em;
+  max-width: 40vw;
   word-break: break-word;
 }
 
@@ -2305,6 +2306,7 @@ hr.vertical:hover {
 
 .empty-comment > h3, .empty-comment > div {
   color: rgb(193, 191, 191);
+  text-align: center;
 }
 
 .input-search-box {
@@ -2526,11 +2528,12 @@ body {
   font-size: 1.2vh;
   color: white;
   background-color:#2286d2;
-  padding: 0.7em 16em;
+  padding: 1em;
   border-radius: 2vh;
   border: none;
   font-weight: bold;
   cursor: pointer;
+  width: 90%;
 }
 
 .nav-bar-mobile {
@@ -2542,7 +2545,10 @@ body {
 
 #nav-bar-input {
   border-radius: 2em;
-  padding: 1vh 25.5vw;
+  padding: 0em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  width: 100%;
   background-color:#a5acb9;
   border: none;
 }
@@ -2570,7 +2576,7 @@ body {
 .input-search-box {
   position: absolute;
   background-color: lightgrey;
-  min-width: 94.5vw;
+  width: 90%;
   max-height: 15vh;
   overflow: scroll;
   border-radius: 1vw;
@@ -3417,7 +3423,7 @@ body {
 }
 
 .editor-container {
-  max-width: 0vw;
+  width: 100%;
   align-self: flex-start;
 }
 
@@ -3486,6 +3492,14 @@ body {
 
 .community-card-about {
   font-size: 0.8em;
+}
+
+.comment {
+  max-width: 100vw;
+}
+
+.nav-bar-search-bar {
+  width: 90%;
 }
 
 }

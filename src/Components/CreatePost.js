@@ -185,7 +185,7 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
         if (isLoggedIn) {
             return (
             <div className="community-page">
-            <div className="community-body-submit" style={{paddingTop: "0em"}}>
+            <div className="community-body-submit">
                 <div className="community-body-left">
                 <form style={{ gap: "0em", margin: "0"}} onSubmit={handleSubmit}>
                     <div className="community-post-header" style={{alignItems: "center", color: "grey", padding: "0.5em"}}>
