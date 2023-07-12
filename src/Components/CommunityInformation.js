@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import CommunityModal from "./CommunityModal";
 import Dropdown from "./Dropdown";
@@ -18,6 +18,7 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
     const [ text, setText ] = useState('')
     const params = useParams();
     const user = auth.currentUser;
+    const location = useLocation()
 
     const handleCommunityDrop = (e) => {
         const newCom = popularCommunities.map(x => {
@@ -89,12 +90,12 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
     }, [])
 
     useEffect(() => {
-        if ( !(window.location.pathname.match('/submit')) || !(window.location.pathname.match(`${params.id}/submit`))) {
-            setBaseSubmit(false)
-        } else {
+        if ( (location.pathname === '/submit') || (location.pathname === (`/f/${params.id}/submit`))) {
             setBaseSubmit(true)
+        } else {
+            setBaseSubmit(false)
         }
-    }, [])
+    }, [location.pathname])
 
     useEffect(() => {
         if (user && !user.isAnonymous) {
@@ -107,7 +108,8 @@ const CommunityInformation = ( {firebaseCommunityData, isLoggedIn, createNewPost
         setEdit(false)
     }, [user])
 
-if (params.id) {
+
+if (params.id && !baseSubmit) {
     return (
         firebaseCommunityData.map(data => {
             return (
@@ -179,7 +181,6 @@ if (params.id) {
                                             {rule.rule}
                                             <span className="community-divider-text"></span>
                                         </li>
-                                   
                                     )
                                 })}
                             </ol>

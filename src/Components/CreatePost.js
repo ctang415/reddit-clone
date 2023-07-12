@@ -312,6 +312,7 @@ const CreatePost = ( {communityModal, setCommunityModal, setDrop, drop, communit
             <CommunityInformation 
             firebaseCommunityData={firebaseCommunityData} setFirebaseCommunityData={setFirebaseCommunityData} 
             communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
+            isLoggedIn={isLoggedIn}
             />
             </div>
         </div>

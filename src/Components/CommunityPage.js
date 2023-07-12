@@ -413,7 +413,8 @@ const CommunityPage = ( {userData, setUserData, communityData, communityModal, s
             <div className={ isLoggedIn ? "community-body-right" : "community-body-right-logged-out"}>
                 <CommunityInformation 
                 communityModal={communityModal} setCommunityModal={setCommunityModal} setDrop={setDrop} drop={drop}
-                firebaseCommunityData={firebaseCommunityData} setFirebaseCommunityData={setFirebaseCommunityData} 
+                firebaseCommunityData={firebaseCommunityData} setFirebaseCommunityData={setFirebaseCommunityData}
+                isLoggedIn={isLoggedIn}
                 />
             </div>
         </div>

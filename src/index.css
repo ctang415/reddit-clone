@@ -1116,10 +1116,6 @@ label {
   font-size: 0.85em;
 }
 
-.community-info {
-  word-break: break-all;
-}
-
 .community-info-header-area {
   min-height: 4em;
   display: flex;
@@ -2809,6 +2805,7 @@ body {
   border-radius: 0;
   background-color: black;
   color: white;
+  word-break: break-all;
 }
 
 .profile-info-text {
