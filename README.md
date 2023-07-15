@@ -1,70 +1,7 @@
-# Getting Started with Create React App
+Making a Reddit Clone was one of the most fun and challenging projects I've ever created thus far in my self-taught developer journey. I had to utilize everything that I learned from React and Firebase to recreate the social media website, and I have to say that I'm pretty proud of the result. Because this was the first time I would be building such a large application with multiple components, I really had to sit down and plan accordingly so the project wouldn't overwhelm me.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+One of the struggles that I faced during development was getting Firebase to create new user accounts through email/Google and then being able to seamlessly log in once the account was created while making sure that the navigation bar would be updated with the correct information. It was my first time using Firebase authentication for a project, so I had to spend some time learning the available functions and properties in order to create a smooth login experience which I eventually succeeded in.
 
-## Available Scripts
+Another struggle that I faced while working on the project was implementing a rich-text editor, QuillJS, into the website. I wanted to be able to provide more styling options for posts and comments, but I had to make sure that the content would display properly once it went through sanitizing to ensure that nothing malicious would get sent through to the database. I needed to convert the Delta format of the editor content into HTML (quill-delta-to-html npm package) and then sanitize that HTML (sanitize-html npm package) before storing both the Delta and HTML into Firebase. With the right packages, I was able to send and retrieve the text content from Firebase with its rich formatting intact.
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Overall, I'm happy with the final product which I feel resembles much of Reddit and the website's basic functionalities. Freddit is capable of CRUD operations through Firebase in which users can create, read, update, and delete posts, comments, and communities. Accounts for the application are managed and authenticated by Firebase so users can keep track of their posts and comments. Mobile-responsiveness is also a feature I decided to account for in this project, which required me to make changes to the user interface because the web version and mobile version of Reddit don't exactly look the same. I found it easiest to just use the State Hook and test whether the device was being viewed on mobile or web and create two different layouts with the reusable components. 
